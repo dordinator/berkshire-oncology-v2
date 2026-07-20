@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo \"=== Berkshire-Clinic-1 contents ===\" && ls -la /Users/harryemes/Desktop/Berkshire-Clinic-1 2>/dev/null; echo \"=== Desktop contents ===\" && ls -la /Users/harryemes/Desktop 2>/dev/null | head -50)",
+      "Bash(find /Users/harryemes -maxdepth 4 -iname \"*valinor*\" 2>/dev/null | head -20; echo \"=== git remotes check ===\"; ls -la /Users/harryemes/Desktop/framer-downloader /Users/harryemes/Desktop/pagani-clone 2>/dev/null | head -40)",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)",
+      "Bash(gh search *)",
+      "Bash(python3 -c \"import json,sys; [print\\(r['nameWithOwner'],'|',r['visibility'],'|',\\(r['description'] or ''\\)[:60]\\) for r in json.load\\(sys.stdin\\)]\")",
+      "Bash(gh api *)",
+      "Bash(rsync -a --exclude=.git /private/tmp/claude-501/-Users-harryemes-Desktop-Berkshire-Clinic-1/f9f2e57a-272d-4362-a827-367aeeb8c26d/scratchpad/valinor/ /Users/harryemes/Desktop/Berkshire-Clinic-1/)",
+      "Bash(npm install *)"
+    ]
+  }
+}

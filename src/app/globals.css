@@ -1,0 +1,378 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #fafbfc;
+  --fg: #061c46;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background-color: #1a4d8f;
+  color: #ffffff;
+}
+
+/* Hide default cursor when custom cursor active (desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* Custom thin scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+@layer components {
+  .container-wide {
+    @apply mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-16;
+  }
+  .container-narrow {
+    @apply mx-auto w-full max-w-4xl px-6 md:px-10;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted;
+  }
+  .heading-xl {
+    @apply font-display font-medium text-5xl leading-[1.05] tracking-tight text-ink md:text-7xl lg:text-8xl;
+  }
+  .heading-lg {
+    @apply font-display font-medium text-4xl leading-[1.12] tracking-tight text-ink md:text-6xl;
+  }
+  .heading-md {
+    @apply font-display font-medium text-3xl leading-[1.14] tracking-tight text-ink md:text-4xl;
+  }
+  .body-lg {
+    @apply text-lg leading-relaxed text-ink-muted md:text-xl;
+  }
+  .glass {
+    @apply border border-white/60 bg-white/50 backdrop-blur-xl;
+  }
+  .card-soft {
+    @apply rounded-3xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_40px_-12px_rgba(0,0,0,0.08)];
+  }
+  /* Form fields (contact page) */
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+  .field {
+    @apply w-full rounded-2xl border border-black/[0.08] bg-white/70 px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-muted/60 focus:border-accent/50 focus:bg-white focus:ring-2 focus:ring-accent/15;
+  }
+  /* Long-form legal / policy copy */
+  .legal-prose {
+    @apply text-[15px] leading-relaxed text-ink/80;
+  }
+  .legal-prose h2 {
+    @apply mt-10 font-display text-2xl text-ink;
+  }
+  .legal-prose h3 {
+    @apply mt-7 font-display text-xl text-ink;
+  }
+  .legal-prose p {
+    @apply mt-4;
+  }
+  .legal-prose ul {
+    @apply mt-4 list-disc space-y-2 pl-6;
+  }
+  .legal-prose a {
+    @apply text-accent underline-offset-2 hover:underline;
+  }
+  .legal-prose strong {
+    @apply font-semibold text-ink;
+  }
+  .legal-prose table {
+    @apply mt-6 block w-full border-collapse overflow-x-auto text-sm;
+  }
+  .legal-prose th,
+  .legal-prose td {
+    @apply border border-black/[0.08] px-3 py-2 text-left align-top;
+  }
+  .legal-prose th {
+    @apply bg-canvas-soft font-medium text-ink;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-br from-accent via-accent-soft to-lilac bg-clip-text text-transparent;
+  }
+  /* Higher-contrast gradient for use over the pale hero bubble */
+  .text-gradient-strong {
+    @apply bg-gradient-to-br from-[#0a2b5c] via-[#1a4d8f] to-[#3f74b8] bg-clip-text text-transparent;
+  }
+  /* Brand metallic sweep — silver (left) into gold (right), matches the logo.
+     Kept mid-dark so it stays legible over the pale hero. */
+  .text-metal {
+    @apply bg-gradient-to-r from-[#4c545d] via-[#aab2ba] to-[#a9791a] bg-clip-text text-transparent;
+  }
+  /*
+   * background-clip: text only paints the gradient inside the inline box, so the
+   * tall ascenders / deep descenders / italic overhang of the display serif get
+   * left transparent and look "cut off". Extend the paint area with vertical
+   * padding (inline padding doesn't affect line layout) and clone it per line
+   * fragment so wrapped gradient text is covered too.
+   */
+  .text-gradient,
+  .text-gradient-strong,
+  .text-metal {
+    padding-block: 0.16em 0.3em;
+    /* Italic glyphs overhang sideways past the inline box; extend the paint area
+       horizontally and cancel it with a matching negative margin so word spacing
+       and layout stay put. */
+    padding-inline: 0.18em;
+    margin-inline: -0.18em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .mesh-bg {
+    background-image:
+      radial-gradient(at 18% 22%, rgba(6, 28, 70, 0.1) 0px, transparent 50%),
+      radial-gradient(at 82% 18%, rgba(30, 79, 146, 0.12) 0px, transparent 50%),
+      radial-gradient(at 70% 80%, rgba(120, 150, 195, 0.14) 0px, transparent 50%),
+      radial-gradient(at 25% 75%, rgba(150, 175, 210, 0.16) 0px, transparent 50%);
+  }
+  .noise {
+    position: relative;
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ── Valinor sketch: strokes draw themselves in, then the whole city floats ── */
+.sketch-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sketch-draw 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  /* base delay clears the brief page loader (~0.65s) so every stroke draws on screen */
+  animation-delay: calc(var(--i) * 0.12s + 0.55s);
+}
+@keyframes sketch-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── Metallic logo glint sweep ── */
+@keyframes glintSweep {
+  0% {
+    background-position: -80% 0;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  46% {
+    background-position: 180% 0;
+    opacity: 1;
+  }
+  56% {
+    background-position: 180% 0;
+    opacity: 0;
+  }
+  100% {
+    background-position: 180% 0;
+    opacity: 0;
+  }
+}
+.metallic-glint {
+  animation: glintSweep 5s ease-in-out infinite;
+}
+
+@keyframes sketch-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* ── Hero swoosh: soft glow behind sharp hairlines ── */
+.swoosh-glow {
+  filter: blur(6px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* first paint: draw left→right (hidden until the stroke runs) */
+.swoosh-draw-in {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: swoosh-draw-in 2.4s cubic-bezier(0.4, 0.05, 0.2, 1) forwards;
+  animation-delay: calc(var(--swoosh-in-delay, 0s) + 0.7s);
+}
+@keyframes swoosh-draw-in {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/*
+  Pulse from scratch: short dash + gap longer than the path.
+  Travels fully off the left → fully off the right, then rests invisible.
+  One timing for every strand (no stagger).
+*/
+.swoosh-pulse {
+  stroke-dasharray: 0.22 2;
+  stroke-dashoffset: 2.2;
+  animation: swoosh-pulse 22s linear infinite;
+  animation-delay: 3.2s; /* after intro draw-in */
+}
+@keyframes swoosh-pulse {
+  0% {
+    stroke-dashoffset: 2.2; /* off left */
+  }
+  35% {
+    stroke-dashoffset: -1.2; /* off right — slower travel */
+  }
+  100% {
+    stroke-dashoffset: -1.2; /* longer rest before next pulse */
+  }
+}
+
+/* ── Useful-links illustration: the cradled figures gently lift ── */
+@keyframes people-lift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.people-lift {
+  animation: people-lift 4.5s ease-in-out infinite;
+}
+
+/* ── Speciality orbit: the dotted ellipse slowly drifts around ── */
+@keyframes orbit-flow {
+  to {
+    stroke-dashoffset: -600;
+  }
+}
+.orbit-flow {
+  animation: orbit-flow 32s linear infinite;
+}
+
+/* ── Consultant trail: a soft light travels down the care pathway ── */
+@keyframes trail-comet {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.trail-comet {
+  offset-rotate: 0deg;
+  animation: trail-comet 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* ── Speciality hero: gold marble veins shimmer & gently breathe ── */
+@keyframes vein-shimmer {
+  to {
+    stroke-dashoffset: -340;
+  }
+}
+.vein-shimmer {
+  animation: vein-shimmer 11s linear infinite;
+}
+@keyframes vein-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.vein-breathe {
+  animation: vein-breathe 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  /* show the finished drawing, static */
+  .sketch-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .swoosh-draw-in {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .swoosh-pulse {
+    animation: none;
+    opacity: 0;
+  }
+  .swoosh-glow {
+    filter: blur(2px);
+    opacity: 0.4;
+  }
+  .sketch-float,
+  .metallic-glint {
+    animation: none;
+  }
+}
