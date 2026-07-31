@@ -67,11 +67,22 @@ export default function RootLayout({
   return (
     <html lang="en-GB" className={`${inter.variable} ${displaySerif.variable}`}>
       <body className="bg-canvas font-sans text-ink antialiased">
+        {/* The mega-menu opens each panel on focus, so tabbing across the bar
+            walks a keyboard user through every link in the site before they
+            reach the page. This is the way past it. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-sm focus:font-medium focus:text-white"
+        >
+          Skip to content
+        </a>
         <MotionProvider>
           <PageLoader />
           <SmoothScroll />
           <Navbar />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
           <Footer />
         </MotionProvider>
       </body>

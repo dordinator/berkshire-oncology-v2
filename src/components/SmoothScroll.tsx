@@ -4,6 +4,18 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import Snap from "lenis/snap";
 
+// The live instance, exposed so overlays can genuinely stop the page behind
+// them. Adding `overflow: hidden` to <html> is not enough on its own: Lenis
+// preventDefaults the wheel event and scrolls the document programmatically,
+// which `overflow: hidden` does not block. Null when reduced motion is on (no
+// instance is created) or before the effect has run.
+let instance: Lenis | null = null;
+
+/** The running Lenis instance, if there is one. */
+export function getLenis(): Lenis | null {
+  return instance;
+}
+
 export default function SmoothScroll() {
   useEffect(() => {
     const prefersReduced = window.matchMedia(
@@ -17,6 +29,7 @@ export default function SmoothScroll() {
       smoothWheel: true,
       touchMultiplier: 1.5,
     });
+    instance = lenis;
 
     // Soft, Apple-style section settling. Proximity (not mandatory) keeps
     // sections taller than the viewport fully scrollable and never locks the
@@ -62,6 +75,18 @@ export default function SmoothScroll() {
       if (el) {
         e.preventDefault();
         lenis.scrollTo(el as HTMLElement, { offset: -80 });
+
+        // preventDefault also suppresses what the browser would otherwise do
+        // for an in-page link: move focus to the target and restart sequential
+        // navigation from there. Without this a keyboard user who activates
+        // "Breast" in a jump list, or the skip link, sees the page move while
+        // Tab carries on from where they were. Put both back by hand.
+        const target = el as HTMLElement;
+        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
+        if (window.location.hash !== id) {
+          window.history.pushState(null, "", id);
+        }
       }
     };
     document.addEventListener("click", handleAnchor);
@@ -71,6 +96,7 @@ export default function SmoothScroll() {
       document.removeEventListener("click", handleAnchor);
       snap.destroy();
       lenis.destroy();
+      instance = null;
     };
   }, []);
 

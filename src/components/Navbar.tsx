@@ -1,27 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "./ui/Button";
 import BrandLogo from "./site/BrandLogo";
-import { getAllSpecialities } from "@/content/queries";
+import DesktopNav from "./nav/DesktopNav";
+import MobileNav from "./nav/MobileNav";
+import SearchBar from "./nav/SearchBar";
 
-const specialities = getAllSpecialities();
-
-const mainLinks: { label: string; href: string; dropdown?: boolean }[] = [
-  { label: "Home", href: "/" },
-  { label: "Consultants", href: "/consultants" },
-  { label: "Specialities", href: "/specialities", dropdown: true },
-  { label: "Tariffs", href: "/tariffs" },
-  { label: "Links", href: "/links" },
-];
+// ─────────────────────────────────────────────────────────────────────────────
+// The floating navbar pill. It owns three pieces of state — whether the page
+// has scrolled, whether the drawer is open and whether search is open — and
+// hands them to the three navigation components.
+//
+// Breakpoints: the horizontal section bar appears at xl and the drawer covers
+// everything below it, so exactly one navigation is visible at every width.
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [specOpen, setSpecOpen] = useState(false);
-  const [mobileSpecOpen, setMobileSpecOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  /** A desktop mega-menu panel is open — the page behind it dims. */
+  const [megaOpen, setMegaOpen] = useState(false);
+  /** Focus goes back here when the drawer is dismissed with Escape. */
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -30,212 +34,236 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-[100] flex justify-center px-4 pt-4"
-    >
-      <nav
-        className={`flex w-full max-w-[1400px] items-center justify-between rounded-full px-5 py-3 transition-all duration-500 ${
-          scrolled
-            ? "border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
-            : "border border-transparent bg-transparent"
-        }`}
-      >
-        <Link href="/" aria-label="Berkshire Oncology Partnership — home">
-          <BrandLogo />
-        </Link>
+  // If the viewport grows past the drawer's breakpoint the drawer would be
+  // hidden by CSS while still holding the page-scroll lock — close it instead.
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1280px)");
+    const onChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setMenuOpen(false);
+    };
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
 
-        <div className="hidden items-center gap-1 lg:flex">
-          {mainLinks.map((l) =>
-            l.dropdown ? (
-              <div
-                key={l.href}
-                className="relative"
-                onMouseEnter={() => setSpecOpen(true)}
-                onMouseLeave={() => setSpecOpen(false)}
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+
+  // Search takes over the bar, so the drawer has to give way to it.
+  const openSearch = useCallback(() => {
+    setMenuOpen(false);
+    setSearchOpen(true);
+  }, []);
+
+  // ⌘K / Ctrl+K toggles search; "/" opens it unless the visitor is already
+  // typing. These live here rather than in SearchBar so they keep working while
+  // that component is unmounted.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const typing =
+        !!target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable);
+
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSearchOpen((open) => {
+          if (!open) setMenuOpen(false);
+          return !open;
+        });
+        return;
+      }
+      if (
+        event.key === "/" &&
+        !typing &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.altKey
+      ) {
+        event.preventDefault();
+        setMenuOpen(false);
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  // Closing hands focus back to whichever search button is on screen, so the
+  // keyboard doesn't get dropped at the top of the document.
+  const dismissSearch = useCallback(() => {
+    setSearchOpen(false);
+    requestAnimationFrame(() => {
+      const triggers = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-search-trigger]"),
+      );
+      triggers.find((el) => el.offsetParent !== null)?.focus();
+    });
+  }, []);
+
+  /** Either sheet is hanging off the pill, so it squares its bottom edge. */
+  const sheetOpen = megaOpen || searchOpen;
+
+
+  return (
+    <>
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed inset-x-0 top-0 z-[100] flex justify-center px-4 pt-4"
+      >
+        {/* Dims the page while a mega-menu is open. It sits inside the header
+            but below the pill's `relative z-10`, so the navbar and the open
+            panel stay at full strength while everything behind them recedes. */}
+        <AnimatePresence>
+          {sheetOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              onClick={searchOpen ? dismissSearch : undefined}
+              aria-hidden
+              className={`fixed inset-0 bg-ink/40 ${megaOpen && !searchOpen ? "hidden xl:block" : ""}`}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* relative z-10 keeps the pill — and the hamburger that closes the
+            drawer — above the drawer's backdrop. */}
+        <nav
+          aria-label="Primary"
+          // Below sm the wordmark, the gap and the two 44px buttons have to fit
+          // inside a 320px viewport, so the padding and gap step down with it.
+          // A one-cell grid, not a flex row: the bar content and the search
+          // field are stacked in the same cell so swapping between them is a
+          // pure crossfade with nothing reflowing.
+          // Only colour and shadow ease. The radius and the bottom border must
+          // change on the same frame the sheet appears — easing them over half
+          // a second left the pill still rounded underneath an already-square
+          // sheet, which is the gap that showed during the transition.
+          className={`relative z-10 grid w-full max-w-[1400px] grid-cols-1 grid-rows-1 items-center px-3 py-3 transition-[background-color,box-shadow,border-color] duration-500 sm:px-5 ${
+            // With a panel or the search results open the pill squares off its
+            // bottom edge and drops its bottom border so the sheet beneath
+            // continues the same surface, and goes solid regardless of scroll —
+            // a white sheet hanging off a transparent bar would look detached.
+            sheetOpen
+              ? "rounded-t-[2.25rem] rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
+              : scrolled || menuOpen
+                ? "rounded-full border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
+                : "rounded-full border border-transparent bg-transparent"
+          }`}
+        >
+          {/* Searching takes the whole bar over: the wordmark, the sections and
+              the actions step aside so the field can run the full width. */}
+          <SearchBar open={searchOpen} onClose={dismissSearch} />
+
+          <AnimatePresence initial={false}>
+            {!searchOpen && (
+              <motion.div
+                key="bar"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+                className="col-start-1 row-start-1 flex min-w-0 items-center justify-between gap-2 sm:gap-4"
               >
                 <Link
-                  href={l.href}
-                  className="flex items-center gap-1 rounded-full px-4 py-2 text-sm text-ink/70 transition-colors hover:bg-ink/[0.04] hover:text-ink"
+                  href="/"
+                  aria-label="Berkshire Oncology Partnership — home"
+                  className="shrink-0"
+                  onClick={closeMenu}
                 >
-                  {l.label}
-                  <svg
-                    className={`h-3.5 w-3.5 transition-transform ${specOpen ? "rotate-180" : ""}`}
-                    viewBox="0 0 16 16"
-                    fill="none"
-                  >
-                    <path
-                      d="M4 6l4 4 4-4"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <BrandLogo context="nav" />
                 </Link>
-                <AnimatePresence>
-                  {specOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute left-1/2 top-full w-[560px] -translate-x-1/2 pt-3"
-                    >
-                      <div className="grid grid-cols-2 gap-1 rounded-3xl border border-black/[0.06] bg-white/90 p-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.25)] backdrop-blur-xl">
-                        {specialities.map((s) => (
-                          <Link
-                            key={s.slug}
-                            href={`/specialities/${s.slug}`}
-                            className="rounded-2xl px-4 py-2.5 text-sm text-ink/75 transition-colors hover:bg-accent/[0.06] hover:text-ink"
-                          >
-                            {s.title}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="rounded-full px-4 py-2 text-sm text-ink/70 transition-colors hover:bg-ink/[0.04] hover:text-ink"
-              >
-                {l.label}
-              </Link>
-            ),
-          )}
-        </div>
 
-        <div className="hidden lg:block">
-          <Button href="/contact" variant="primary" arrow>
-            Contact us
-          </Button>
-        </div>
+                <DesktopNav onOpenChange={setMegaOpen} />
 
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/60 lg:hidden"
-        >
-          <div className="flex flex-col gap-1.5">
-            <span
-              className={`h-0.5 w-5 bg-ink transition-transform ${open ? "translate-y-2 rotate-45" : ""}`}
-            />
-            <span
-              className={`h-0.5 w-5 bg-ink transition-opacity ${open ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`h-0.5 w-5 bg-ink transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`}
-            />
+          {/* Search sits with the contact CTA rather than at the end of the
+              section list, and matches its 48px height so the two read as one
+              cluster of actions. */}
+          <div className="hidden shrink-0 items-center gap-2 xl:flex">
+            <button
+              type="button"
+              onClick={openSearch}
+              aria-label="Search this site"
+              data-search-trigger
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white/60 text-ink transition-colors hover:border-black/20 hover:bg-white"
+            >
+              <svg viewBox="0 0 16 16" fill="none" className="h-[18px] w-[18px]" aria-hidden="true">
+                <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="M10.5 10.5L14 14"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+
+            <Button href="/contact" variant="primary" arrow>
+              Contact us
+            </Button>
           </div>
-        </button>
-      </nav>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute inset-x-4 top-20 max-h-[80vh] overflow-y-auto rounded-3xl border border-black/[0.06] bg-white/95 p-4 shadow-xl backdrop-blur-xl lg:hidden"
-          >
-            <div className="flex flex-col">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-3 text-base text-ink/80 hover:bg-ink/[0.04]"
-              >
-                Home
-              </Link>
-              <Link
-                href="/consultants"
-                onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-3 text-base text-ink/80 hover:bg-ink/[0.04]"
-              >
-                Consultants
-              </Link>
+          <div className="flex shrink-0 items-center gap-2 xl:hidden">
+            <button
+              type="button"
+              onClick={openSearch}
+              aria-label="Search this site"
+              // Marks this as a place the search overlay can hand focus back to
+              // when whatever opened it has since unmounted.
+              data-search-trigger
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/60 text-ink transition-colors hover:bg-white"
+            >
+              <svg viewBox="0 0 16 16" fill="none" className="h-[18px] w-[18px]" aria-hidden="true">
+                <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="M10.5 10.5L14 14"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
 
-              <button
-                onClick={() => setMobileSpecOpen((v) => !v)}
-                className="flex items-center justify-between rounded-2xl px-4 py-3 text-left text-base text-ink/80 hover:bg-ink/[0.04]"
-              >
-                Specialities
-                <svg
-                  className={`h-4 w-4 transition-transform ${mobileSpecOpen ? "rotate-180" : ""}`}
-                  viewBox="0 0 16 16"
-                  fill="none"
-                >
-                  <path
-                    d="M4 6l4 4 4-4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <AnimatePresence>
-                {mobileSpecOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="grid grid-cols-2 gap-0.5 px-2 pb-2">
-                      <Link
-                        href="/specialities"
-                        onClick={() => setOpen(false)}
-                        className="col-span-2 rounded-xl px-3 py-2 text-sm font-medium text-accent hover:bg-accent/[0.06]"
-                      >
-                        All specialities
-                      </Link>
-                      {specialities.map((s) => (
-                        <Link
-                          key={s.slug}
-                          href={`/specialities/${s.slug}`}
-                          onClick={() => setOpen(false)}
-                          className="rounded-xl px-3 py-2 text-sm text-ink/70 hover:bg-ink/[0.04]"
-                        >
-                          {s.title}
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="site-mobile-menu"
+              onClick={() => setMenuOpen((v) => !v)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/60"
+            >
+              <span className="flex flex-col gap-1.5">
+                <span
+                  className={`h-0.5 w-5 bg-ink transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
+                />
+                <span
+                  className={`h-0.5 w-5 bg-ink transition-opacity ${menuOpen ? "opacity-0" : ""}`}
+                />
+                <span
+                  className={`h-0.5 w-5 bg-ink transition-transform ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+                />
+              </span>
+            </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </nav>
 
-              <Link
-                href="/tariffs"
-                onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-3 text-base text-ink/80 hover:bg-ink/[0.04]"
-              >
-                Tariffs
-              </Link>
-              <Link
-                href="/links"
-                onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-3 text-base text-ink/80 hover:bg-ink/[0.04]"
-              >
-                Links
-              </Link>
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
-                className="mt-2 rounded-full bg-ink px-4 py-3 text-center text-base font-medium text-white"
-              >
-                Contact us
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+        <MobileNav
+          open={menuOpen}
+          onClose={closeMenu}
+          onOpenSearch={openSearch}
+          triggerRef={menuButtonRef}
+        />
+      </motion.header>
+    </>
   );
 }

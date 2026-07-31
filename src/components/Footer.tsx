@@ -3,15 +3,15 @@
 import Link from "next/link";
 import BrandLogo from "./site/BrandLogo";
 import { site, policyLinks } from "@/content/site";
+import { navSections } from "@/content/navigation";
 
-const practice = [
-  { label: "Home", href: "/" },
-  { label: "Our Consultants", href: "/consultants" },
-  { label: "Specialities", href: "/specialities" },
-  { label: "Tariffs", href: "/tariffs" },
-  { label: "Contact", href: "/contact" },
-  { label: "Useful Links", href: "/links" },
-];
+// The eight sections of the information architecture, split across two columns
+// so the footer stays readable. Labels and hrefs come from navigation.ts, so a
+// rename there flows through here — the children stay in the navbar only.
+const sectionLinks = navSections.map((s) => ({ label: s.label, href: s.href }));
+
+const exploreLinks = [{ label: "Home", href: "/" }, ...sectionLinks.slice(0, 4)];
+const practiceLinks = [...sectionLinks.slice(4), { label: "Contact", href: "/contact" }];
 
 function tel(n: string) {
   return `tel:${n.replace(/\s+/g, "")}`;
@@ -25,7 +25,10 @@ export default function Footer() {
     <footer className="relative overflow-hidden bg-ink text-white">
       <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[120%] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-accent/25 via-lilac/10 to-transparent blur-3xl" />
       <div className="container-wide relative py-20 md:py-28">
-        <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        {/* Five blocks now the link list is split in two, so the grid steps up
+            gradually — one column on a phone, two, three, then all five once
+            there is room for the contact pill to sit on a single line. */}
+        <div className="grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.3fr_1fr_1fr_1fr_1.15fr]">
           <div>
             <BrandLogo tone="light" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
@@ -42,11 +45,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/40">
-              Practice
+            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+              Explore
             </h4>
             <ul className="mt-5 space-y-3">
-              {practice.map((l) => (
+              {exploreLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
@@ -60,7 +63,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/40">
+            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+              Practice
+            </h4>
+            <ul className="mt-5 space-y-3">
+              {practiceLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-sm text-white/65 transition-colors hover:text-white"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
               Policies
             </h4>
             <ul className="mt-5 space-y-3">
@@ -78,7 +99,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/40">
+            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
               Get in touch
             </h4>
             <address className="mt-5 space-y-3 text-sm not-italic text-white/65">
@@ -103,12 +124,12 @@ export default function Footer() {
                   {c.email}
                 </a>
               </p>
-              <p className="text-white/40">Practice Manager: {c.practiceManager}</p>
+              <p className="text-white/60">Practice Manager: {c.practiceManager}</p>
             </address>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/45 md:flex-row md:items-center">
+        <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center">
           <p>© {year} Berkshire Oncology Partnership. All Rights Reserved.</p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-white">

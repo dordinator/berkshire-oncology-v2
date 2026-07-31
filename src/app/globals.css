@@ -37,6 +37,14 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* Programmatic focus targets — the skip link's <main>, and the section headings
+   that in-page anchors focus. They are not interactive controls, so they should
+   not paint a focus ring around a whole region when script moves focus to them.
+   Every real control keeps its own indicator. */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 ::selection {
   background-color: #1a4d8f;
   color: #ffffff;
