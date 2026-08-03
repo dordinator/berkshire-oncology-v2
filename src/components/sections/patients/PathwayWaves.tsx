@@ -15,7 +15,7 @@
 // pages read as one system.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import ParticleField from "@/components/sections/tariffs/ParticleField";
+import ParticleField from "@/components/graphic/ParticleField";
 import { useGraphicMode } from "@/components/graphic/GraphicMode";
 
 const ACCENT = "#1a4d8f";

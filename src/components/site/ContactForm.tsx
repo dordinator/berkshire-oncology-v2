@@ -3,11 +3,16 @@
 import { useState } from "react";
 import { IconCheck } from "@/components/ui/Icons";
 
+// The old list ("Admission Query", "Facilities", "Family and Friends Visiting")
+// was inpatient-unit language inherited from elsewhere. This is a partnership of
+// consultant oncologists — there are no admissions, no wards and no visiting
+// hours to ask about. These options match what the site actually offers.
 const subjects = [
-  "General Enquiry",
-  "Admission Query",
-  "Facilities",
-  "Family and Friends Visiting",
+  "General enquiry",
+  "New patient enquiry",
+  "I'm already a patient",
+  "Tariffs and insurance",
+  "Referral from a GP or consultant",
 ];
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -52,7 +57,9 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="card-soft flex flex-col items-center p-10 text-center">
+      // Matches the form's h-full so the column doesn't collapse on submit;
+      // centred because the thank-you is much shorter than the form it replaces.
+      <div className="card-soft flex h-full flex-col items-center justify-center p-10 text-center">
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent">
           <IconCheck className="h-7 w-7" />
         </span>
@@ -70,7 +77,9 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="card-soft p-6 md:p-8">
+    // h-full so the card fills its grid column and its bottom edge lines up
+    // with the map opposite, whichever of the two columns is taller.
+    <form onSubmit={onSubmit} className="card-soft h-full p-6 md:p-8">
       {/* honeypot */}
       <div className="absolute -left-[9999px]" aria-hidden>
         <label>
@@ -84,13 +93,25 @@ export default function ContactForm() {
           <label htmlFor="firstName" className="field-label">
             First name
           </label>
-          <input id="firstName" name="firstName" required className="field" />
+          <input
+            id="firstName"
+            name="firstName"
+            required
+            autoComplete="given-name"
+            className="field"
+          />
         </div>
         <div>
           <label htmlFor="lastName" className="field-label">
             Last name
           </label>
-          <input id="lastName" name="lastName" required className="field" />
+          <input
+            id="lastName"
+            name="lastName"
+            required
+            autoComplete="family-name"
+            className="field"
+          />
         </div>
       </div>
 
@@ -98,7 +119,30 @@ export default function ContactForm() {
         <label htmlFor="email" className="field-label">
           Email address
         </label>
-        <input id="email" name="email" type="email" required className="field" />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          className="field"
+        />
+      </div>
+
+      {/* Optional, but offered: for most enquiries the practice would rather
+          ring back than start an email thread. */}
+      <div className="mt-5">
+        <label htmlFor="phone" className="field-label">
+          Telephone{" "}
+          <span className="font-normal text-ink-muted">(optional)</span>
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          className="field"
+        />
       </div>
 
       <div className="mt-5">

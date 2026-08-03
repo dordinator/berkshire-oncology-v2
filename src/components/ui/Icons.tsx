@@ -92,3 +92,37 @@ export const IconCheck = (p: SVGProps<SVGSVGElement>) => (
     <path d="m5 13 4 4 10-12" />
   </svg>
 );
+
+export const IconPhone = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3 6.2 2 2 0 0 1 5 4h1.5Z" />
+  </svg>
+);
+
+export const IconMail = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <rect x="3" y="5" width="18" height="14" rx="2.5" />
+    <path d="m3.5 7 7.4 5.2a2 2 0 0 0 2.2 0L20.5 7" />
+  </svg>
+);
+
+export const IconPin = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" />
+    <circle cx="12" cy="10" r="2.5" />
+  </svg>
+);
+
+export const IconUser = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="8" r="3.5" />
+    <path d="M5 20a7 7 0 0 1 14 0" />
+  </svg>
+);
+
+export const IconAlert = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7.5v5M12 16.2v.3" />
+  </svg>
+);

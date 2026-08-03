@@ -22,7 +22,7 @@
 */
 
 import Link from "next/link";
-import ParticleField from "@/components/sections/tariffs/ParticleField";
+import ParticleField from "@/components/graphic/ParticleField";
 import HairlineWaves from "./HairlineWaves";
 import PathwayDiagram, { type PathwayStop } from "./PathwayDiagram";
 import { useTreatmentMode } from "./TreatmentMode";

@@ -12,6 +12,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
   }
 
+  // `phone` is optional — offered so the practice can ring back rather than
+  // start an email thread. Everything else is required.
   const { firstName, lastName, email, subject, message, company } = data as Record<
     string,
     string

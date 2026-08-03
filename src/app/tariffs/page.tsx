@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
 import JsonLd from "@/components/site/JsonLd";
-import ParticleField from "@/components/sections/tariffs/ParticleField";
+import ParticleField from "@/components/graphic/ParticleField";
 
 export const metadata: Metadata = pageMeta({
   title: "Tariffs & Fees",
