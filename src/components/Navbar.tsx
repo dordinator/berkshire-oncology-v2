@@ -28,11 +28,17 @@ export default function Navbar() {
   /** Focus goes back here when the drawer is dismissed with Escape. */
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  // The home hero is a dark photograph, and the transparent top state puts an
-  // ink wordmark and ink icons straight onto it — invisible until you scroll.
-  // There the pill is solid from the first pixel. Everywhere else the
-  // transparent-until-scrolled behaviour is exactly as it was.
-  const overDarkHero = usePathname() === "/";
+  // The home hero is a dark photograph and the legal pages open on a navy
+  // title band, and the transparent top state puts an ink wordmark and ink
+  // icons straight onto them — invisible until you scroll. There the pill is
+  // solid from the first pixel. Everywhere else the transparent-until-scrolled
+  // behaviour is exactly as it was.
+  const pathname = usePathname();
+  const overDarkHero =
+    pathname === "/" ||
+    ["/privacy", "/website-privacy", "/cookies", "/terms", "/accessibility"].includes(
+      pathname,
+    );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
