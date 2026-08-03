@@ -74,7 +74,7 @@ export default function HomeHero() {
               on the pale chair or the bright window; the shadow guarantees
               contrast there without darkening the whole room to insure against
               it. */}
-          <h1 className="font-display text-4xl font-medium leading-[1.06] tracking-tight text-white [text-shadow:0_1px_20px_rgba(6,28,70,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display text-4xl font-semibold leading-[1.06] tracking-tight text-white [text-shadow:0_1px_20px_rgba(6,28,70,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
             Exceptional care,
             <br />
             personal to you.

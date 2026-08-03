@@ -17,6 +17,19 @@ import { hospitals } from "@/content/hospitals";
 
 const specialities = getAllSpecialities();
 
+/**
+ * "Spire Dunedin Hospital (Reading), … and Royal Berkshire Hospital (Reading)".
+ * Built from the data rather than typed out, so adding or losing a site changes
+ * this sentence and the count above it together.
+ */
+const hospitalSentence = hospitals
+  .map((h) => `${h.name} (${h.location.replace(" (NHS)", "")})`)
+  .reduce(
+    (acc, name, i, arr) =>
+      i === 0 ? name : i === arr.length - 1 ? `${acc} and ${name}` : `${acc}, ${name}`,
+    "",
+  );
+
 function Row({
   title,
   children,
@@ -25,7 +38,14 @@ function Row({
   children: React.ReactNode;
 }) {
   return (
-    <details className="group rounded-2xl bg-canvas-soft/70 transition-colors open:bg-canvas-soft">
+    // A shared `name` makes these an exclusive accordion: opening one closes
+    // the rest, handled by the browser rather than by state. Browsers without
+    // support (pre-Chrome 120 / Safari 17.2) simply allow several open at once,
+    // which is the old behaviour rather than a broken one.
+    <details
+      name="partnership-detail"
+      className="group rounded-2xl bg-canvas-soft/70 transition-colors open:bg-canvas-soft"
+    >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-display text-lg leading-snug text-ink marker:content-none [&::-webkit-details-marker]:hidden md:text-xl">
         {title}
         <span
@@ -74,67 +94,80 @@ export default function PartnershipIntro() {
             <h2
               id="partnership"
               tabIndex={-1}
-              className="mt-6 scroll-mt-28 font-display text-[2.1rem] font-medium leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
+              className="mt-6 scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
             >
-              Ten consultants, and one who is yours.
+              Who treats you is your choice.
             </h2>
           </Reveal>
 
           <Reveal delay={2}>
             <p className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
-              Berkshire Oncology Partnership is a group of ten independent
-              consultant oncologists who treat cancer in and around Reading.
-              Each is a practitioner in their own right, responsible for their
-              own patients and their own practice.
+              You can choose which oncologist treats you. Not everyone realises
+              that, and it is a choice worth making carefully: cancer care is
+              sub-specialised, and the consultant who treats prostate cancer
+              week in, week out is rarely the one who treats lymphoma.
             </p>
           </Reveal>
 
           <Reveal delay={2}>
             <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
-              Cancer care is sub-specialised — the consultant who manages
-              prostate cancer week in, week out is rarely the one who manages
-              lymphoma. A partnership covers that ground, while still giving
-              every patient one named doctor who knows their case and stays with
-              it.
+              Berkshire Oncology Partnership is ten consultant oncologists
+              practising together in Reading. Each keeps their own patients and
+              their own clinical judgement; what they share is one office, one
+              route in, and colleagues who cover the cancers they do not. You
+              get a named consultant who stays with your case, and the range of
+              a far larger unit behind them.
             </p>
           </Reveal>
 
           <Reveal delay={3}>
             <div className="mt-10 space-y-2.5">
-              <Row title="Independent practitioners, one practice">
-                The partnership does not employ its consultants and does not
-                direct their clinical decisions. What it provides is everything
-                around the medicine: a shared administrative office, one point of
-                contact for patients and referrers, and colleagues whose
-                sub-specialist knowledge sits alongside their own.
-              </Row>
-
-              <Row title="Expertise across every common cancer">
-                Between them our consultants treat {specialities.length} cancer
-                types, with both halves of non-surgical cancer care covered —
-                radiotherapy and the drug treatments.{" "}
+              <Row title="One named consultant, start to finish">
+                The consultant you meet at your first appointment explains the
+                diagnosis, sets out the options and stays responsible for your
+                treatment. You are not handed between clinicians as the case
+                moves on, and you always know whose name is on it.{" "}
                 <Link
-                  href="/specialities"
+                  href="/about/our-approach"
                   className="text-accent underline-offset-2 hover:underline"
                 >
-                  See the full range
-                </Link>
-                , or{" "}
-                <Link
-                  href="/consultants/by-cancer-type"
-                  className="text-accent underline-offset-2 hover:underline"
-                >
-                  find a consultant by cancer type
+                  How we work
                 </Link>
                 .
               </Row>
 
-              <Row title="Where we practise">
-                Our administrative office is at {site.contact.addressLines[0]},{" "}
-                {site.contact.addressLines[1]}. Consultations and treatment take
-                place at {hospitals.length} hospitals and cancer centres across
-                Berkshire and into Oxfordshire, each providing the facilities,
-                nursing and pharmacy for the treatment given there.{" "}
+              <Row title={`${specialities.length} cancer types, each sub-specialised`}>
+                Nobody here treats everything. Each consultant concentrates on a
+                few cancers, and between them the partnership covers{" "}
+                {specialities.length} — with both halves of non-surgical care,
+                radiotherapy and the drug treatments.{" "}
+                <Link
+                  href="/consultants/by-cancer-type"
+                  className="text-accent underline-offset-2 hover:underline"
+                >
+                  Find a consultant by cancer type
+                </Link>
+                .
+              </Row>
+
+              <Row title="The same specialists you would meet on the NHS">
+                Most of our consultants hold NHS posts at the Royal Berkshire
+                Hospital, where the Berkshire Cancer Centre is based. Private
+                care does not jump an NHS queue and does not put NHS treatment at
+                risk — patients move between the two and are entitled to.{" "}
+                <Link
+                  href="/about/nhs-and-private-practice"
+                  className="text-accent underline-offset-2 hover:underline"
+                >
+                  NHS and private practice
+                </Link>
+                .
+              </Row>
+
+              <Row title={`${hospitals.length} hospitals and cancer centres`}>
+                Consultations and treatment take place across Berkshire and into
+                Oxfordshire — {hospitalSentence}. The practice office is at{" "}
+                {site.contact.addressLines[0]}, {site.contact.addressLines[1]}.{" "}
                 <Link
                   href="/locations"
                   className="text-accent underline-offset-2 hover:underline"

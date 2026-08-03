@@ -82,14 +82,17 @@ html.lenis body {
   .eyebrow {
     @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted;
   }
+  /* 600, not 500: the display face is Outfit, a geometric sans. A serif holds
+     a title at 400–500, but a sans at those weights reads as body copy that
+     happens to be large. */
   .heading-xl {
-    @apply font-display font-medium text-5xl leading-[1.05] tracking-tight text-ink md:text-7xl lg:text-8xl;
+    @apply font-display font-semibold text-5xl leading-[1.05] tracking-tight text-ink md:text-7xl lg:text-8xl;
   }
   .heading-lg {
-    @apply font-display font-medium text-4xl leading-[1.12] tracking-tight text-ink md:text-6xl;
+    @apply font-display font-semibold text-4xl leading-[1.12] tracking-tight text-ink md:text-6xl;
   }
   .heading-md {
-    @apply font-display font-medium text-3xl leading-[1.14] tracking-tight text-ink md:text-4xl;
+    @apply font-display font-semibold text-3xl leading-[1.14] tracking-tight text-ink md:text-4xl;
   }
   .body-lg {
     @apply text-lg leading-relaxed text-ink-muted md:text-xl;
@@ -142,6 +145,17 @@ html.lenis body {
 }
 
 @layer utilities {
+  /* Anything set in the display face gets the same weight as the heading
+     utilities above. Outfit is geometric, and at 400 a "display" line just
+     looks like large body copy — this catches the consultant names, card
+     titles and section headings that set font-display directly rather than
+     going through .heading-*. In the utilities layer so it wins over the
+     component-layer weights, and any deliberate font-* on the element itself
+     still overrides it. */
+  .font-display {
+    font-weight: 600;
+  }
+
   .text-gradient {
     @apply bg-gradient-to-br from-accent via-accent-soft to-lilac bg-clip-text text-transparent;
   }

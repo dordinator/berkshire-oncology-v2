@@ -108,36 +108,19 @@ export const metadata: Metadata = pageMeta({
 // ── local building blocks ────────────────────────────────────────────────────
 
 /**
- * Numbered section heading. The numeral is decorative — it gives a long page a
- * sense of progress without a sticky rail — so it is hidden from screen readers
- * and the heading itself carries the whole meaning.
+ * Section heading: a rule, then the title.
+ *
+ * There was a numeral and a category label on either end of that rule. Both
+ * were decorative — the numeral counted sections nobody is counting, and the
+ * label restated the heading a line below it in different words. The rule does
+ * the only job that was actually needed, which is to mark where one section
+ * stops and the next begins.
  */
-function SectionHeading({
-  n,
-  eyebrow,
-  title,
-  id,
-}: {
-  n: string;
-  eyebrow: string;
-  title: string;
-  id: string;
-}) {
+function SectionHeading({ title, id }: { title: string; id: string }) {
   return (
     <div className="max-w-3xl">
       <Reveal>
-        <div className="flex items-baseline gap-4">
-          <span
-            aria-hidden
-            className="font-display text-sm tabular-nums text-ink-muted/60"
-          >
-            {n}
-          </span>
-          <span aria-hidden className="h-px flex-1 bg-ink/10" />
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted">
-            {eyebrow}
-          </span>
-        </div>
+        <div aria-hidden className="h-px w-full bg-ink/10" />
       </Reveal>
       <Reveal delay={1}>
         <h2
@@ -173,31 +156,6 @@ function Body({ children }: { children: React.ReactNode }) {
       <p className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink/75">
         {children}
       </p>
-    </Reveal>
-  );
-}
-
-/**
- * Points the practice still has to supply. Naming them is more useful to a
- * reader than silence, and more honest than inventing an answer.
- */
-function ToCover({ items }: { items: string[] }) {
-  return (
-    <Reveal>
-      <ul className="mt-8 grid max-w-3xl gap-x-10 gap-y-3 sm:grid-cols-2">
-        {items.map((item) => (
-          <li
-            key={item}
-            className="flex gap-3 text-[15px] leading-relaxed text-ink/70"
-          >
-            <span
-              aria-hidden
-              className="mt-[0.62em] h-px w-4 shrink-0 bg-ink-muted/50"
-            />
-            {item}
-          </li>
-        ))}
-      </ul>
     </Reveal>
   );
 }
@@ -244,15 +202,14 @@ export default function Home() {
       <div className="container-wide pb-28 md:pb-40">
         {/* ── 02 · Our approach to care ─────────────────────────────────────── */}
         <Section>
-          <SectionHeading
-            n="02"
-            eyebrow="How we work"
-            id="approach"
-            title="Our approach to care"
-          />
-
-          <div className="mt-10 grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16 xl:gap-24">
+          {/* Heading inside the left column, as in section 03, so the
+              photograph starts level with it rather than a grid gap below. */}
+          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16 xl:gap-24">
             <div>
+              <SectionHeading
+                id="approach"
+                title="Our approach to care"
+              />
               <Lede>
                 In private practice every patient is under the care of a named
                 consultant. That consultant sees you at your first appointment,
@@ -269,14 +226,6 @@ export default function Home() {
                 help, a case is discussed with colleagues in the partnership or
                 at a multidisciplinary team meeting.
               </Body>
-              <ToCover
-                items={[
-                  "What happens at a first appointment",
-                  "How treatment decisions are made with you",
-                  "Working alongside your GP and NHS team",
-                  "Reaching us between appointments",
-                ]}
-              />
               <Reveal>
                 <div className="mt-9 flex flex-wrap gap-3">
                   <Button href="/about/our-approach" variant="ghost">
@@ -311,8 +260,6 @@ export default function Home() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1fr)] lg:gap-16 xl:gap-20">
             <div>
               <SectionHeading
-                n="03"
-                eyebrow="The people"
                 id="consultants"
                 title="Our consultants"
               />
@@ -366,8 +313,6 @@ export default function Home() {
           <PartnershipField className="-z-10 opacity-75" />
           <Section>
             <SectionHeading
-              n="04"
-              eyebrow="How it fits together"
               id="nhs-and-private"
               title="NHS and private practice"
             />
@@ -394,14 +339,6 @@ export default function Home() {
             including the Royal Marsden and University College Hospital — where
             that is the better option.
           </Body>
-          <ToCover
-            items={[
-              "Moving between NHS and private care",
-              "How information is shared with your NHS team",
-              "What private care does and does not change",
-              "Access to clinical trials",
-            ]}
-          />
             <Reveal>
               <div className="mt-9">
                 <Button href="/about/nhs-and-private-practice" variant="ghost">
@@ -415,8 +352,6 @@ export default function Home() {
         {/* ── 05 · Quality and governance ───────────────────────────────────── */}
         <Section>
           <SectionHeading
-            n="05"
-            eyebrow="Standards"
             id="governance"
             title="Quality and governance"
           />
@@ -452,8 +387,6 @@ export default function Home() {
         {/* ── 06 · Patient feedback ─────────────────────────────────────────── */}
         <Section>
           <SectionHeading
-            n="06"
-            eyebrow="What patients tell us"
             id="feedback"
             title="Patient feedback"
           />
@@ -475,14 +408,6 @@ export default function Home() {
             If something has gone wrong, please do not leave it to a review. Tell{" "}
             {site.contact.practiceManager} directly and it will be looked into.
           </Body>
-          <ToCover
-            items={[
-              "Where to leave feedback about your care",
-              "How feedback is reviewed and acted on",
-              "How to raise a concern or complaint",
-              "Independent review platforms",
-            ]}
-          />
           <Reveal>
             <div className="mt-9">
               <Button href="/about/patient-feedback" variant="ghost">
@@ -495,8 +420,6 @@ export default function Home() {
         {/* ── 07 · Referring professionals ──────────────────────────────────── */}
         <Section>
           <SectionHeading
-            n="07"
-            eyebrow="For professionals"
             id="referrals"
             title="Referring professionals"
           />
@@ -551,14 +474,6 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <ToCover
-            items={[
-              "What to include in a referral letter",
-              "Where to send written referrals",
-              "Urgent referrals and how they are handled",
-              "Direct contact details for clinicians",
-            ]}
-          />
           <Reveal>
             <div className="mt-9">
               <Button href="/about/referring-professionals" variant="ghost">
@@ -571,8 +486,6 @@ export default function Home() {
         {/* ── 08 · Careers or professional enquiries ────────────────────────── */}
         <Section>
           <SectionHeading
-            n="08"
-            eyebrow="Working with us"
             id="careers"
             title="Careers or professional enquiries"
           />
@@ -589,14 +502,6 @@ export default function Home() {
             practice vacancies, when there are any, are handled by the practice
             office.
           </Body>
-          <ToCover
-            items={[
-              "Current opportunities",
-              "Enquiries from consultants interested in joining",
-              "Administrative and practice roles",
-              "Who to contact",
-            ]}
-          />
           <Reveal>
             <div className="mt-9 flex flex-wrap gap-3">
               <Button href="/about/careers" variant="ghost">
