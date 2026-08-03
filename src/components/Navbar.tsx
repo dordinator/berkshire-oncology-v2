@@ -198,7 +198,10 @@ export default function Navbar() {
               onClick={openSearch}
               aria-label="Search this site"
               data-search-trigger
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white/60 text-ink transition-colors hover:border-black/20 hover:bg-white"
+              // No focus ring on this site, so keyboard focus is shown by the
+              // control itself: the same fill as hover, with a stronger border
+              // so it still reads as focus rather than as a stray hover.
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white/60 text-ink transition-colors hover:border-black/20 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
             >
               <svg viewBox="0 0 16 16" fill="none" className="h-[18px] w-[18px]" aria-hidden="true">
                 <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
@@ -224,7 +227,7 @@ export default function Navbar() {
               // Marks this as a place the search overlay can hand focus back to
               // when whatever opened it has since unmounted.
               data-search-trigger
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/60 text-ink transition-colors hover:bg-white"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/60 text-ink transition-colors hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
             >
               <svg viewBox="0 0 16 16" fill="none" className="h-[18px] w-[18px]" aria-hidden="true">
                 <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
@@ -244,7 +247,7 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="site-mobile-menu"
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/60"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/60 transition-colors focus-visible:border-ink/45 focus-visible:bg-white"
             >
               <span className="flex flex-col gap-1.5">
                 <span

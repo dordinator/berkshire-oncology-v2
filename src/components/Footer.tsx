@@ -45,9 +45,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+            <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
               Explore
-            </h4>
+            </h2>
             <ul className="mt-5 space-y-3">
               {exploreLinks.map((l) => (
                 <li key={l.href}>
@@ -63,9 +63,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+            <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
               Practice
-            </h4>
+            </h2>
             <ul className="mt-5 space-y-3">
               {practiceLinks.map((l) => (
                 <li key={l.href}>
@@ -81,9 +81,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+            <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
               Policies
-            </h4>
+            </h2>
             <ul className="mt-5 space-y-3">
               {policyLinks.map((l) => (
                 <li key={l.href}>
@@ -99,9 +99,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+            <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
               Get in touch
-            </h4>
+            </h2>
             <address className="mt-5 space-y-3 text-sm not-italic text-white/65">
               <p>{c.addressLines.join(", ")}</p>
               <p>

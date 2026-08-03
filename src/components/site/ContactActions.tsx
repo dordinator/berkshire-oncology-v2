@@ -8,13 +8,14 @@ import { site } from "@/content/site";
 //
 // These are plain <a> rather than the shared <Button>: tel: and mailto: aren't
 // route transitions, and the label needs an icon in front of it instead of the
-// trailing arrow. The wipe-on-hover fill is copied deliberately so they read as
-// the same family of control.
+// trailing arrow.
+//
+// They don't react to hover. They used to carry the same wipe-across fill as
+// <Button>, which on a phone number reads as decoration for its own sake. What
+// remains is a focus-visible state — not a flourish but the only thing marking
+// where a keyboard user is, since the site draws no focus ring.
 const base =
-  "group relative isolate inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full px-7 py-4 text-[15px] font-medium transition-colors duration-300 sm:w-auto";
-
-const wipe =
-  "absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 motion-reduce:transition-none";
+  "inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-[15px] font-medium transition-colors duration-200 sm:w-auto";
 
 export default function ContactActions({
   className = "",
@@ -32,10 +33,12 @@ export default function ContactActions({
         align === "center" ? "sm:justify-center" : "sm:justify-start"
       } ${className}`}
     >
-      <a href={tel} className={`${base} bg-ink text-white`}>
-        <span aria-hidden className={`${wipe} bg-accent`} />
-        <IconPhone className="relative h-[18px] w-[18px]" aria-hidden />
-        <span className="relative">
+      <a
+        href={tel}
+        className={`${base} bg-ink text-white focus-visible:bg-accent`}
+      >
+        <IconPhone className="h-[18px] w-[18px]" aria-hidden />
+        <span>
           <span className="sr-only">Call the practice on </span>
           {c.phone}
         </span>
@@ -43,11 +46,10 @@ export default function ContactActions({
 
       <a
         href={`mailto:${c.email}`}
-        className={`${base} border border-ink/15 bg-white/70 text-ink backdrop-blur-sm hover:border-ink/40`}
+        className={`${base} border border-ink/15 bg-white/70 text-ink backdrop-blur-sm focus-visible:border-ink/45 focus-visible:bg-white`}
       >
-        <span aria-hidden className={`${wipe} bg-ink/[0.05]`} />
-        <IconMail className="relative h-[18px] w-[18px]" aria-hidden />
-        <span className="relative">Email the practice</span>
+        <IconMail className="h-[18px] w-[18px]" aria-hidden />
+        <span>Email the practice</span>
       </a>
     </div>
   );

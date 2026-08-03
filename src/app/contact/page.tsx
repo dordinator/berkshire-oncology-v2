@@ -75,6 +75,12 @@ export default function ContactPage() {
             side happens to be longer. */}
         <div className="container-wide relative z-10 grid gap-12 pb-16 pt-16 md:pb-24 md:pt-20 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col">
+            {/* The page's two halves are obvious by sight and unmarked to a
+                screen reader — without these there is no heading between the h1
+                and the footer, so heading navigation skips the whole page. Not
+                shown, because the cards already read as what they are. */}
+            <h2 className="sr-only">Practice details</h2>
+
             {/* min-w-0 on every value cell is what stops the long practice email
                 from forcing the card wider than the grid column. */}
             <dl className="card-soft divide-y divide-black/[0.05] overflow-hidden">
@@ -105,15 +111,20 @@ export default function ContactPage() {
                     Telephone
                   </dt>
                   <dd className="mt-1.5 text-ink">
+                    {/* py-2.5 rather than py-1: at py-1 these were 32px tall,
+                        under the 44px minimum, and on the page where ringing is
+                        the point they are the last links that should be fiddly
+                        to hit. The negative margin absorbs the extra padding at
+                        the ends so the row spacing is unchanged. */}
                     <a
                       href={tel(c.phone)}
-                      className="block py-1 transition-colors hover:text-accent"
+                      className="-my-1 block py-2.5 transition-colors hover:text-accent"
                     >
                       {c.phone}
                     </a>
                     <a
                       href={tel(c.phoneMobile)}
-                      className="block py-1 transition-colors hover:text-accent"
+                      className="-my-1 block py-2.5 transition-colors hover:text-accent"
                     >
                       {c.phoneMobile}{" "}
                       <span className="text-ink-muted">(mobile)</span>
@@ -133,7 +144,7 @@ export default function ContactPage() {
                   <dd className="mt-1.5">
                     <a
                       href={`mailto:${c.email}`}
-                      className="block py-1 text-accent [overflow-wrap:anywhere] hover:underline"
+                      className="-my-1 block py-2.5 text-accent [overflow-wrap:anywhere] hover:underline"
                     >
                       {c.email}
                     </a>
@@ -168,6 +179,7 @@ export default function ContactPage() {
           </div>
 
           <div className="flex flex-col">
+            <h2 className="sr-only">Send the practice a message</h2>
             <ContactForm />
           </div>
         </div>

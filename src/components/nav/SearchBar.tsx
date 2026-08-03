@@ -64,6 +64,21 @@ export default function SearchBar({
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // The full placeholder needs 357px and a 375px phone leaves the field 221px,
+  // so it was being clipped mid-word ("…cancer ty") — which reads as a broken
+  // render rather than as truncation. text-overflow can't fix it: Chrome doesn't
+  // apply it to ::placeholder. So the hint is shortened where it doesn't fit;
+  // the Popular list directly below already shows the full breadth of what's
+  // searchable. Measured, not guessed: the short form is 159px, clear even at
+  // 320px.
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const update = () => setCompact(window.innerWidth < 640);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
@@ -167,8 +182,13 @@ export default function SearchBar({
           id="site-search-input"
           type="text"
           role="combobox"
-          aria-expanded={flat.length > 0}
-          aria-controls="site-search-results"
+          // Tracks whether the popup is on screen, not whether it found
+          // anything. These used to be driven by flat.length, so with no
+          // matches a screen reader was told the combobox was collapsed and
+          // aria-controls pointed at an id that wasn't rendered — while the
+          // panel was visibly open saying "No matches for …".
+          aria-expanded={open}
+          aria-controls={flat.length ? "site-search-results" : undefined}
           aria-autocomplete="list"
           aria-activedescendant={flat.length ? `search-option-${activeIndex}` : undefined}
           autoComplete="off"
@@ -176,7 +196,11 @@ export default function SearchBar({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={onInputKeyDown}
-          placeholder="Search consultants, cancer types, treatments…"
+          placeholder={
+            compact
+              ? "Search consultants…"
+              : "Search consultants, cancer types, treatments…"
+          }
           // 16px keeps iOS from zooming the page on focus. The placeholder runs
           // at full ink-muted — it is the only instruction on screen.
           className="min-w-0 flex-1 bg-transparent py-1 text-[16px] text-ink outline-none placeholder:text-ink-muted"
@@ -186,7 +210,7 @@ export default function SearchBar({
           type="button"
           onClick={onClose}
           aria-label="Close search"
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-ink/[0.05] hover:text-ink"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-ink/[0.05] hover:text-ink focus-visible:bg-ink/[0.08] focus-visible:text-ink"
         >
           <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
             <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

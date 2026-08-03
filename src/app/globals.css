@@ -45,6 +45,28 @@ html.lenis body {
   outline: none;
 }
 
+/* No focus ring anywhere: the browser default (`outline: auto`, painted in the
+   visitor's OS accent colour, which is why it arrived blue on one machine and
+   amber on another) is switched off by request.
+
+   Focus is still shown, just by the control changing rather than by a ring
+   drawn around it — the pill controls in the bar shift to their hover state via
+   focus-visible: utilities, and text links underline below. Keyboard users keep
+   an indicator, which the accessibility statement commits to, and mouse users
+   never see anything. */
+:focus-visible {
+  outline: none;
+}
+
+/* Pill-shaped controls (the buttons, the CTA) carry their own focus-visible
+   styles, so they're excluded here — an underline inside a filled pill reads as
+   a mistake rather than as focus. */
+a:not([class*="rounded-full"]):focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
 ::selection {
   background-color: #1a4d8f;
   color: #ffffff;

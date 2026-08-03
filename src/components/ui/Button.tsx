@@ -15,6 +15,10 @@ import type { ReactNode } from "react";
 // fill, timing and easing are shared with every other button on the site.
 type Variant = "primary" | "ghost" | "light" | "onPhoto" | "onPhotoGhost";
 
+// There is no focus ring on this site, so keyboard focus has to come from the
+// button itself. focus-visible runs the same fill that hover wipes in — the
+// difference being it arrives at once rather than wiping across, which reads as
+// "landed here" rather than "pointer passing over".
 const base =
   "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
 
@@ -54,7 +58,7 @@ export default function Button({
     <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
       <span
         aria-hidden
-        className={`absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 motion-reduce:transition-none ${fills[variant]}`}
+        className={`absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 group-focus-visible:scale-x-100 group-focus-visible:duration-150 motion-reduce:transition-none ${fills[variant]}`}
       />
       <span className="relative">{children}</span>
       {arrow && (
