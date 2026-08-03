@@ -87,18 +87,24 @@ const cancerKeywords: Record<string, string[]> = {
   sarcoma: ["soft tissue"],
 };
 
-/** Everyday words for each treatment, keyed by therapy slug. */
+/** Everyday words for each treatment, keyed by therapy slug.
+ *
+ *  Three treatments stopped being pages of their own in the treatment-hub
+ *  rebuild, but people still search for them, so their words are redistributed
+ *  rather than dropped: "sact"/"systemic" to each of the four drug treatments it
+ *  covers, "palliative" to radiotherapy (where that section now lives), and the
+ *  trial words to the hub entry below — which carries the honest "ask your
+ *  consultant" note. */
+const sact = ["sact", "systemic", "systemic anti-cancer treatment"];
+
 const treatmentKeywords: Record<string, string[]> = {
-  chemotherapy: ["chemo"],
-  immunotherapy: ["immuno"],
-  "targeted-therapies": ["targeted therapy", "biological"],
-  "hormone-therapy": ["hormonal", "endocrine"],
-  "systemic-anti-cancer-treatment": ["sact", "systemic"],
-  radiotherapy: ["radiation"],
-  brachytherapy: ["internal radiotherapy"],
-  "radioisotope-therapy": ["radionuclide"],
-  "palliative-radiotherapy": ["palliative", "symptom control"],
-  "clinical-trials": ["trial", "trials", "research", "study"],
+  chemotherapy: ["chemo", ...sact],
+  immunotherapy: ["immuno", ...sact],
+  "targeted-therapies": ["targeted therapy", "biological", ...sact],
+  "hormone-therapy": ["hormonal", "endocrine", ...sact],
+  radiotherapy: ["radiation", "palliative", "symptom control", "palliative radiotherapy"],
+  brachytherapy: ["internal radiotherapy", "seeds", "implant"],
+  "radioisotope-therapy": ["radionuclide", "radioiodine", "isotope"],
 };
 
 /** What people type when they mean money, wherever it sits under /tariffs. */
@@ -172,14 +178,27 @@ const cancerEntries: SearchEntry[] = specialities.map((s) => ({
   keywords: [s.name, ...(cancerKeywords[s.slug] ?? [])],
 }));
 
-const treatmentEntries: SearchEntry[] = therapies.map((t) => ({
-  id: `treatment:${t.slug}`,
-  title: t.title,
-  subtitle: t.summary,
-  href: `/treatments/${t.slug}`,
-  kind: "treatment",
-  keywords: treatmentKeywords[t.slug] ?? [],
-}));
+const treatmentEntries: SearchEntry[] = [
+  ...therapies.map((t) => ({
+    id: `treatment:${t.slug}`,
+    title: t.title,
+    subtitle: t.summary,
+    href: `/treatments/${t.slug}`,
+    kind: "treatment" as const,
+    keywords: treatmentKeywords[t.slug] ?? [],
+  })),
+  // Trials have no page of their own — the practice's own material evidences no
+  // research activity. Searching for one still needs to land somewhere honest,
+  // so it goes to the hub, which carries the "ask your consultant" note.
+  {
+    id: "treatment:clinical-trials",
+    title: "Clinical trials",
+    subtitle: "Ask your consultant whether a trial may be suitable for you.",
+    href: "/treatments#clinical-trials",
+    kind: "treatment" as const,
+    keywords: ["trial", "trials", "research", "study", "clinical trial"],
+  },
+];
 
 const locationEntries: SearchEntry[] = locations.map((l) => ({
   id: `location:${l.slug}`,

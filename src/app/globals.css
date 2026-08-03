@@ -332,6 +332,37 @@ html.lenis body {
   animation: trail-comet 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
+/* ── Expressive graphic mode: light travels inward along each strand ──
+   Short dash, long gap, so a single point of light runs the length of the
+   path and then rests. Paths set pathLength="1", so the numbers below are
+   fractions of the strand regardless of its real length. */
+.care-flow {
+  stroke-dasharray: 0.06 1;
+  stroke-dashoffset: 1.06;
+  animation-name: care-flow;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  animation-iteration-count: infinite;
+}
+@keyframes care-flow {
+  0% {
+    stroke-dashoffset: 1.06;
+  }
+  55% {
+    stroke-dashoffset: -0.06;
+  }
+  100% {
+    stroke-dashoffset: -0.06;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Don't leave a frozen dash sitting mid-strand — hide the travelling light
+     entirely and keep the static network underneath. */
+  .care-flow {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 /* ── Speciality hero: gold marble veins shimmer & gently breathe ── */
 @keyframes vein-shimmer {
   to {

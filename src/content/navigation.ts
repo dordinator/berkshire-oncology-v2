@@ -169,15 +169,11 @@ const cancerTypes: NavSection = {
 };
 
 // ── 3. Treatments ────────────────────────────────────────────────────────────
-const treatmentCovers = [
-  "What the treatment is",
-  "When it may be recommended",
-  "Which of our consultants provide it",
-  "Where it takes place",
-  "What to expect, appointment by appointment",
-  "Possible side effects and who to contact",
-];
-
+// These pages are written (see content/therapies.ts), so they carry `built`
+// rather than a `covers` outline. The section deliberately holds seven
+// treatments, not eleven: SACT is an umbrella term explained on the hub,
+// palliative radiotherapy is a section within radiotherapy, and clinical trials
+// is not published because nothing in the practice's own material evidences it.
 const treatments: NavSection = {
   id: "treatments",
   label: "Treatments",
@@ -193,31 +189,25 @@ const treatments: NavSection = {
           label: "Chemotherapy",
           href: "/treatments/chemotherapy",
           description: "Drug treatment that targets rapidly dividing cells.",
-          covers: treatmentCovers,
+          built: true,
         },
         {
           label: "Immunotherapy",
           href: "/treatments/immunotherapy",
           description: "Treatment that helps the immune system recognise cancer.",
-          covers: treatmentCovers,
+          built: true,
         },
         {
           label: "Targeted therapies",
           href: "/treatments/targeted-therapies",
           description: "Drugs aimed at specific features of a cancer cell.",
-          covers: treatmentCovers,
+          built: true,
         },
         {
           label: "Hormone therapy",
           href: "/treatments/hormone-therapy",
           description: "Treatment that blocks hormones a cancer depends on.",
-          covers: treatmentCovers,
-        },
-        {
-          label: "Systemic anti-cancer treatment",
-          href: "/treatments/systemic-anti-cancer-treatment",
-          description: "The umbrella term (SACT) for drug treatments given across the body.",
-          covers: treatmentCovers,
+          built: true,
         },
       ],
     },
@@ -228,41 +218,28 @@ const treatments: NavSection = {
           label: "Radiotherapy",
           href: "/treatments/radiotherapy",
           description: "Precisely targeted radiation to treat a tumour.",
-          covers: treatmentCovers,
+          built: true,
         },
         {
           label: "Brachytherapy",
           href: "/treatments/brachytherapy",
           description: "Radiation delivered from a source placed inside the body.",
-          covers: treatmentCovers,
+          built: true,
         },
         {
           label: "Radioisotope therapy",
           href: "/treatments/radioisotope-therapy",
           description: "A radioactive medicine given to treat cancer from within.",
-          covers: treatmentCovers,
+          built: true,
         },
         {
+          // Not a page of its own: no consultant lists it as separate wording,
+          // so it is a section within radiotherapy rather than a page with an
+          // empty consultant list. See therapies.ts.
           label: "Palliative radiotherapy",
-          href: "/treatments/palliative-radiotherapy",
+          href: "/treatments/radiotherapy#palliative-radiotherapy",
           description: "Radiotherapy given to control symptoms rather than cure.",
-          covers: treatmentCovers,
-        },
-      ],
-    },
-    {
-      title: "Research",
-      links: [
-        {
-          label: "Clinical trials and research",
-          href: "/treatments/clinical-trials",
-          description: "How trials work and how our consultants are involved in research.",
-          covers: [
-            "What a clinical trial is and what taking part involves",
-            "How to ask whether a trial is suitable for you",
-            "Research our consultants are involved in",
-            "Where trials run locally",
-          ],
+          built: true,
         },
       ],
     },

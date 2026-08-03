@@ -38,9 +38,19 @@ const consultants = [
 
 const nextConfig = {
   reactStrictMode: true,
+  // Two dev servers in the same checkout will otherwise both compile into .next
+  // and tear each other's chunks out from underneath ("Cannot find module
+  // ./vendor-chunks/..."). Setting NEXT_DIST_DIR gives a second server its own
+  // build directory. Unset in normal use, so .next stays the default.
+  ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
   async redirects() {
     return [
       { source: "/index.htm", destination: "/", permanent: true },
+      // Home and About are one page. On a practice this size they were always
+      // going to say the same thing twice, so the root *is* the About page and
+      // /about redirects into it. This matches `source` exactly — the children
+      // (/about/the-partnership and the rest) are untouched and still resolve.
+      { source: "/about", destination: "/", permanent: true },
       { source: "/our-consultants.htm", destination: "/consultants", permanent: true },
       { source: "/contact.htm", destination: "/contact", permanent: true },
       { source: "/contacts", destination: "/contact", permanent: true },
@@ -67,6 +77,25 @@ const nextConfig = {
         destination: `/consultants/${s}`,
         permanent: true,
       })),
+      // Treatment pages that were folded into others during the treatment-hub
+      // rebuild. SACT is an umbrella term (explained on the hub), palliative
+      // radiotherapy is a section within radiotherapy, and clinical trials is
+      // unpublished — see src/content/therapies.ts for the reasoning.
+      {
+        source: "/treatments/systemic-anti-cancer-treatment",
+        destination: "/treatments",
+        permanent: true,
+      },
+      {
+        source: "/treatments/palliative-radiotherapy",
+        destination: "/treatments/radiotherapy#palliative-radiotherapy",
+        permanent: true,
+      },
+      {
+        source: "/treatments/clinical-trials",
+        destination: "/treatments",
+        permanent: true,
+      },
       // Former consultants no longer on the site
       {
         source: "/consultant-dr-james-gildersleve.htm",

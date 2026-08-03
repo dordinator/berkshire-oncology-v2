@@ -69,6 +69,7 @@ export default function SectionPage({
   title,
   intro,
   children,
+  headerAside,
   showOutline = true,
   omitCovers,
   urgent = false,
@@ -77,6 +78,9 @@ export default function SectionPage({
   title?: ReactNode;
   intro?: ReactNode;
   children?: ReactNode;
+  /** Rendered inside the page header, under the intro. Used by the treatment
+   *  pages for the visual-density control. */
+  headerAside?: ReactNode;
   showOutline?: boolean;
   /** Outline bullets this page already answers in `children` — listing them
    *  under "what this page will cover" reads as if nobody checked the page. */
@@ -109,7 +113,9 @@ export default function SectionPage({
         title={heading}
         intro={intro ?? link?.description}
         breadcrumbs={breadcrumbs}
-      />
+      >
+        {headerAside}
+      </PageHeader>
 
       <section className="container-wide pb-24 pt-14 md:pb-32 md:pt-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">

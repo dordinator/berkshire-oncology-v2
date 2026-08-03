@@ -10,7 +10,10 @@ import type { ReactNode } from "react";
 // button box stays exactly where it is; only the fill and the arrow move.
 // ─────────────────────────────────────────────────────────────────────────────
 
-type Variant = "primary" | "ghost" | "light";
+// `onPhoto` and `onPhotoGhost` are the pair used over the home hero. They are
+// here rather than local to the hero so the wipe is one implementation: the
+// fill, timing and easing are shared with every other button on the site.
+type Variant = "primary" | "ghost" | "light" | "onPhoto" | "onPhotoGhost";
 
 const base =
   "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
@@ -19,6 +22,10 @@ const variants: Record<Variant, string> = {
   primary: "bg-ink text-white",
   ghost: "border border-ink/15 text-ink hover:border-ink/40",
   light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
+  onPhoto:
+    "bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white",
+  onPhotoGhost:
+    "border border-white/45 text-white hover:border-white/80",
 };
 
 /** The colour that wipes in behind the label on hover. */
@@ -26,6 +33,8 @@ const fills: Record<Variant, string> = {
   primary: "bg-accent",
   ghost: "bg-ink/[0.05]",
   light: "bg-canvas-soft",
+  onPhoto: "bg-accent",
+  onPhotoGhost: "bg-white/15",
 };
 
 export default function Button({

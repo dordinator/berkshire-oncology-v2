@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "./ui/Button";
@@ -26,6 +27,12 @@ export default function Navbar() {
   const [megaOpen, setMegaOpen] = useState(false);
   /** Focus goes back here when the drawer is dismissed with Escape. */
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  // The home hero is a dark photograph, and the transparent top state puts an
+  // ink wordmark and ink icons straight onto it — invisible until you scroll.
+  // There the pill is solid from the first pixel. Everywhere else the
+  // transparent-until-scrolled behaviour is exactly as it was.
+  const overDarkHero = usePathname() === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -152,7 +159,7 @@ export default function Navbar() {
             // a white sheet hanging off a transparent bar would look detached.
             sheetOpen
               ? "rounded-t-[2.25rem] rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
-              : scrolled || menuOpen
+              : scrolled || menuOpen || overDarkHero
                 ? "rounded-full border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
                 : "rounded-full border border-transparent bg-transparent"
           }`}

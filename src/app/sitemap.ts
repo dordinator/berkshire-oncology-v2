@@ -29,10 +29,15 @@ const consultantBrowsePaths = [
 // The eight section landing pages rank above their children. Not all of them
 // appear in allNavRoutes() — /specialities, for instance, is a section root
 // whose menu links all point at its children — so they are added explicitly.
+// Paths that 301 elsewhere and so must not be advertised as destinations. A
+// sitemap that lists a redirect asks a crawler to follow a hop for no reason,
+// and dilutes the target it lands on. /about is the merged home page now.
+const redirectedPaths = new Set(["/about"]);
+
 const sectionRootPaths = [
   ...navSections.map((s) => s.href),
   ...scaffoldedSectionRoots,
-];
+].filter((p) => !redirectedPaths.has(p));
 const sectionRoots = new Set<string>(sectionRootPaths);
 
 function priorityFor(path: string): number {
@@ -52,14 +57,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // These lists overlap heavily — allNavRoutes() already contains /consultants,
   // /tariffs, /links and the browse pages — so the Set does the deduplication.
-  const paths = new Set<string>([
-    ...standalonePaths,
-    ...sectionRootPaths,
-    ...allNavRoutes(),
-    ...consultantBrowsePaths,
-    ...consultantPaths,
-    ...specialityPaths,
-  ]);
+  //
+  // Fragments are stripped first. Some navigation links point at a section
+  // within a page rather than a page of its own (palliative radiotherapy lives
+  // under /treatments/radiotherapy), and a sitemap entry carrying a #fragment
+  // is not a distinct URL — it would just duplicate its parent. Stripping
+  // before the Set means the parent is listed exactly once.
+  const paths = new Set<string>(
+    [
+      ...standalonePaths,
+      ...sectionRootPaths,
+      ...allNavRoutes(),
+      ...consultantBrowsePaths,
+      ...consultantPaths,
+      ...specialityPaths,
+    ]
+      .map((path) => path.split("#")[0])
+      .filter((path) => !redirectedPaths.has(path)),
+  );
 
   // Array.from rather than a spread: tsconfig sets no `target`, so tsc defaults
   // to ES5 and rejects spreading a Set without downlevelIteration.
