@@ -38,7 +38,10 @@ export default function TestimonialCards({ intro }: { intro: React.ReactNode }) 
               reason and by the same means — see the note there. The two chapters
               mirror each other on a desktop and should not diverge on a phone. */}
           <div
-            data-lenis-prevent
+            // No data-lenis-prevent — see the note in CancerCards. It is only a
+            // scroller below md, and leaving the attribute on made the wheel
+            // dead across the card area on a desktop.
+            //
             // Focusable, unlike the cancers strip, which gets keyboard access
             // for free from the links inside its cards. These cards are
             // quotations — <figure>, no link, nothing to tab to — so without a
@@ -49,7 +52,7 @@ export default function TestimonialCards({ intro }: { intro: React.ReactNode }) 
             tabIndex={0}
             role="group"
             aria-label="Patient feedback, scrollable"
-            className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-transparent [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0"
+            className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-transparent [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0"
           >
             {columns.map((col, i) => (
               // Mirrored from the cancers chapter: there the offset column is
