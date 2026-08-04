@@ -19,7 +19,28 @@ html {
 body {
   background-color: var(--bg);
   color: var(--fg);
-  overflow-x: hidden;
+  /* clip, not hidden. `overflow-x: hidden` forces the other axis to `auto`,
+     which silently makes <body> a scroll container — one that never actually
+     scrolls, since the document scroller is <html>. Anything that resolves
+     against the nearest scrollport then binds to that dead container: the
+     chapter-tint view() timeline attached to it and stayed permanently
+     inactive, so the tint never appeared. `clip` clips overflow without
+     creating a scroll container, so the timeline reaches the real scroller. */
+  overflow-x: clip;
+}
+
+/* The home page's closing band is the same navy as the footer and runs straight
+   into it, so the two read as one block. Their paddings were stacking, though:
+   the band's foot plus the footer's head put 168px of empty navy between the
+   last pill and the first footer link. This pulls the footer's top padding in,
+   and only where that band is present — every other page keeps the footer's
+   normal breathing room, since there the footer's top edge is a real edge.
+
+   :has() rather than a prop on Footer: the footer is rendered by the layout,
+   two levels away from the page that knows about the band, and threading a flag
+   through the layout for one page's spacing is worse than one selector. */
+main:has(.close-merged) + footer > .container-wide {
+  padding-top: 5rem;
 }
 
 /* Lenis smooth scroll */
@@ -166,6 +187,61 @@ a:not([class*="rounded-full"]):focus-visible {
   }
 }
 
+/* ── Chapter tint ────────────────────────────────────────────────────────────
+   The "Cancers we treat" band washes its colour in as it enters the viewport
+   and back out as it leaves, so the section reads as a chapter you move into
+   rather than a block with a hard edge.
+
+   Toggled by an IntersectionObserver (see ChapterTint.tsx), not a scroll
+   listener: the site runs Lenis, which preventDefaults the wheel and scrolls
+   the document itself, so anything keyed off scroll events lags the smoothing
+   and stutters. The observer fires off the main thread and only at the
+   boundary, so there is no per-frame work at all.
+
+   A CSS scroll-progress timeline (`animation-timeline: view()`) would have been
+   the more elegant answer and was tried first. `CSS.supports` reports it
+   available, but the ViewTimeline never activates — `currentTime` stays null
+   with a valid source and subject, so the tint was pinned at 0 and never
+   appeared. This is verifiable and behaves identically to a reader. */
+/* A fixed, viewport-sized sheet behind everything, not a band inside the
+   section — so the colour fills the whole page rather than arriving as a block
+   with edges. This is what the reference does: one page-wide wrapper whose
+   background-color is transitioned, swapped as you scroll.
+
+   Opacity rather than background-color because nothing sits behind this layer
+   but the canvas, so gold at opacity α over white paints identically to
+   interpolating white → gold — and opacity is a compositor-only property, so it
+   costs nothing per frame where a background-color interpolation repaints.
+
+   Animating a property rather than running keyframes means the exit is the
+   entrance played backwards for free: no separate out rule to drift out of step,
+   and interrupting it mid-flight reverses from wherever it had got to.
+
+   The curve is near-symmetric rather than the easeOutQuint used elsewhere. Over
+   a long run a front-loaded curve puts most of the change in the first moment
+   and then crawls, which reads as a quick fade followed by nothing. */
+.chapter-tint {
+  /* Matched to the reference, which transitions its wrapper over 0.8s.
+     ChapterTint.tsx can override this per-element via ?speed= for comparison. */
+  --tint-ms: 0.8s;
+
+  opacity: 0;
+  transition: opacity var(--tint-ms) cubic-bezier(0.33, 0, 0.67, 1);
+}
+
+.chapter-tint[data-lit="true"] {
+  opacity: 1;
+}
+
+/* Reduced motion keeps the colour and drops the arrival: the tint is what tells
+   you the section changed, so removing it entirely would lose information. */
+@media (prefers-reduced-motion: reduce) {
+  .chapter-tint {
+    opacity: 1;
+    transition: none;
+  }
+}
+
 @layer utilities {
   /* Anything set in the display face gets the same weight as the heading
      utilities above. Outfit is geometric, and at 400 a "display" line just
@@ -178,28 +254,24 @@ a:not([class*="rounded-full"]):focus-visible {
     font-weight: 600;
   }
 
+  /* Still live on /contact, /tariffs, /consultants and /links, which set their
+     page headings in it. The home page deliberately uses none of it — solid ink
+     throughout — so if those four pages are ever brought into line with it,
+     this goes too.
+     .text-gradient-strong and .text-metal used to sit here alongside it and
+     have been removed: the first was referenced only by the old home hero,
+     which is no longer imported anywhere, and the second by nothing at all. */
   .text-gradient {
     @apply bg-gradient-to-br from-accent via-accent-soft to-lilac bg-clip-text text-transparent;
   }
-  /* Higher-contrast gradient for use over the pale hero bubble */
-  .text-gradient-strong {
-    @apply bg-gradient-to-br from-[#0a2b5c] via-[#1a4d8f] to-[#3f74b8] bg-clip-text text-transparent;
-  }
-  /* Brand metallic sweep — silver (left) into gold (right), matches the logo.
-     Kept mid-dark so it stays legible over the pale hero. */
-  .text-metal {
-    @apply bg-gradient-to-r from-[#4c545d] via-[#aab2ba] to-[#a9791a] bg-clip-text text-transparent;
-  }
   /*
-   * background-clip: text only paints the gradient inside the inline box, so the
-   * tall ascenders / deep descenders / italic overhang of the display serif get
-   * left transparent and look "cut off". Extend the paint area with vertical
-   * padding (inline padding doesn't affect line layout) and clone it per line
-   * fragment so wrapped gradient text is covered too.
+   * background-clip: text only paints the gradient inside the inline box, so
+   * tall ascenders and deep descenders get left transparent and look "cut off".
+   * Extend the paint area with vertical padding (inline padding doesn't affect
+   * line layout) and clone it per line fragment so wrapped gradient text is
+   * covered too.
    */
-  .text-gradient,
-  .text-gradient-strong,
-  .text-metal {
+  .text-gradient {
     padding-block: 0.16em 0.3em;
     /* Italic glyphs overhang sideways past the inline box; extend the paint area
        horizontally and cancel it with a matching negative margin so word spacing

@@ -6,12 +6,20 @@ import Reveal from "@/components/ui/Reveal";
 import HomeHero from "@/components/sections/home/HomeHero";
 import PartnershipIntro from "@/components/sections/home/PartnershipIntro";
 import ProofImage from "@/components/sections/home/ProofImage";
-import PartnershipField from "@/components/sections/about/PartnershipField";
+import WaveField from "@/components/graphic/WaveField";
+import RegionMap from "@/components/site/RegionMap";
 import { pageMeta, organizationLd } from "@/content/seo";
 import { site } from "@/content/site";
+import { hospitals } from "@/content/hospitals";
 import ConsultantScroller from "@/components/sections/home/ConsultantScroller";
+import CancerCards from "@/components/sections/home/CancerCards";
+import HospitalStrip from "@/components/sections/home/HospitalStrip";
+import TestimonialCards from "@/components/sections/home/TestimonialCards";
+import ProfessionalRoutes from "@/components/sections/home/ProfessionalRoutes";
+import CloseBand from "@/components/sections/home/CloseBand";
 import {
   getAllConsultants,
+  getAllSpecialities,
   getSpecialitiesForConsultant,
 } from "@/content/queries";
 
@@ -23,8 +31,12 @@ import {
 // voice. /about now 301s here (see next.config.mjs) and this is the canonical
 // URL. The navigation still offers "About Us"; it lands here.
 //
-// The eight sections mirror the About group in src/content/navigation.ts
-// exactly, so the page and the menu describe the same thing in the same order.
+// The sections follow the About group in src/content/navigation.ts, in the same
+// order, so the page and the menu describe the same thing. It is no longer a
+// one-to-one mirror: quality and governance is six checkable facts, which is a
+// page rather than something to scroll past, so it lives only at
+// /about/quality-and-governance now — the menu still reaches it, and the home
+// page keeps the headline fact of it on the GMC card in "Our approach to care".
 // Two earlier sections — the cancer-type list and the treatment locations —
 // are folded into the opening section's disclosure rows rather than dropped,
 // since both still matter to a patient arriving cold.
@@ -47,6 +59,22 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const consultants = getAllConsultants();
+const specialities = getAllSpecialities();
+
+/**
+ * The six cards in "Cancers we treat", ordered by how common the cancer is in
+ * the UK rather than by how many of our consultants list it. Ranking by
+ * internal coverage put bladder and kidney above bowel and lung, which is not
+ * what a newly diagnosed reader is scanning for — they arrive already knowing
+ * the name of their own diagnosis. Labels come from the speciality data so they
+ * cannot drift; only the order and the selection are set here.
+ */
+const CARD_ORDER = ["breast", "prostate", "lung", "colorectal", "skin", "lymphoma"];
+
+const topCancers = CARD_ORDER.map((slug) => {
+  const s = specialities.find((x) => x.slug === slug);
+  return s ? { slug: s.slug, label: s.title ?? s.name } : null;
+}).filter((c): c is { slug: string; label: string } => c !== null);
 
 /** Sub-speciality names per consultant, resolved once for the client list. */
 const specialitiesBySlug: Record<string, string[]> = Object.fromEntries(
@@ -71,9 +99,6 @@ const establishedYear = Math.min(
 );
 
 const withGmc = consultants.filter((c) => c.gmc).length;
-const withDisclosures = consultants.filter(
-  (c) => c.disclosures && c.disclosures.length > 0,
-).length;
 
 /**
  * Small counts read better spelled out in running prose — "Seven consultant
@@ -160,33 +185,6 @@ function Body({ children }: { children: React.ReactNode }) {
   );
 }
 
-const governance = [
-  {
-    t: "GMC registration",
-    d: `All ${words(withGmc)} of our consultants hold full registration with a licence to practise and are on the GMC's Specialist Register. Every GMC number is published on this page and on the consultant's own profile, so the register can be searched independently.`,
-  },
-  {
-    t: "Appraisal and revalidation",
-    d: "Every licensed doctor in the UK is appraised annually against the GMC's Good Medical Practice and revalidates every five years on the recommendation of a Responsible Officer. Revalidation covers the whole of a doctor's practice, NHS and private alike.",
-  },
-  {
-    t: "Multidisciplinary review",
-    d: "Cancer treatment decisions are made in multidisciplinary team meetings, where surgeons, oncologists, radiologists, pathologists and specialist nurses review a case together. Our consultants take part in these MDTs through their NHS posts.",
-  },
-  {
-    t: "Declarations of interest",
-    d: `${words(withDisclosures).replace(/^./, (c) => c.toUpperCase())} of our ${words(consultants.length)} consultants publish their professional and financial interests in full on their own profile — including industry relationships and investments. We would rather you read them than wonder about them.`,
-  },
-  {
-    t: "Regulated premises",
-    d: "Treatment is given at independent hospitals and cancer centres registered with and inspected by the Care Quality Commission, and at the Royal Berkshire Hospital. Every site's inspection reports are published by the CQC.",
-  },
-  {
-    t: "Concerns and complaints",
-    d: `A concern about your care should reach us directly and quickly. Our practice manager, ${site.contact.practiceManager}, is the first point of contact and will tell you how a complaint will be handled and by whom.`,
-  },
-];
-
 export default function Home() {
   const tel = site.contact.phone.replace(/\s+/g, "");
 
@@ -199,7 +197,13 @@ export default function Home() {
       {/* ── 01 · About the partnership ─────────────────────────────────────── */}
       <PartnershipIntro />
 
-      <div className="container-wide pb-28 md:pb-40">
+      {/* The bottom padding is what keeps the photograph above off the gold.
+          Sections are spaced by their own top margins (see Section), so the
+          last one before the band contributed nothing below itself and the
+          image's lower edge landed within a few pixels of the colour — it read
+          as sitting on the band rather than above it. This mirrors the same
+          rhythm on the other side. */}
+      <div className="container-wide pb-24 md:pb-36">
         {/* ── 02 · Our approach to care ─────────────────────────────────────── */}
         <Section>
           {/* Heading inside the left column, as in section 03, so the
@@ -251,6 +255,51 @@ export default function Home() {
           </div>
         </Section>
 
+      </div>
+
+      {/* ── Cancers we treat ────────────────────────────────────────────────
+          A full-bleed coloured band with its own sticky behaviour — the one
+          place on the page where the background changes. It carries its own
+          container and vertical rhythm, and sits outside the page container so
+          the colour reaches both edges without a 100vw trick. */}
+      <CancerCards
+          cards={topCancers}
+          intro={
+            <>
+              <Reveal>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                  What we treat
+                </p>
+              </Reveal>
+              <Reveal delay={1}>
+                <h2
+                  id="cancers"
+                  tabIndex={-1}
+                  className="mt-6 scroll-mt-28 font-display text-[2.1rem] leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.2rem]"
+                >
+                  Cancers we treat
+                </h2>
+              </Reveal>
+              <Reveal delay={2}>
+                <p className="mt-7 max-w-md text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
+                  Our consultants treat {specialities.length} cancer types
+                  between them, each concentrating on a few rather than covering
+                  everything. Start from your own diagnosis and it will take you
+                  to the consultants who treat it.
+                </p>
+              </Reveal>
+              <Reveal>
+                <div className="mt-9 flex flex-wrap gap-3">
+                  <Button href="/specialities" variant="ghost">
+                    All {specialities.length} cancer types
+                  </Button>
+                </div>
+              </Reveal>
+          </>
+        }
+      />
+
+      <div className="container-wide pb-28 md:pb-40">
         {/* ── 03 · Our consultants ──────────────────────────────────────────── */}
         <Section>
           {/* The heading sits inside the left column rather than above the
@@ -307,238 +356,162 @@ export default function Home() {
         </Section>
 
         {/* ── 04 · NHS and private practice ─────────────────────────────────── */}
-        {/* The motif lives behind this section: the opening two now carry
-            photographs, and this one is the longest run of unbroken text. */}
+        {/* Was three stacked paragraphs — the longest unbroken run of text on
+            the page, and the reason the node motif was put behind it. The
+            argument is now carried by the row of hospitals rather than by prose:
+            four private sites and the NHS trust, side by side, which is what
+            "NHS and private practice" actually means here. The copy is cut to
+            the two things that row cannot say by itself. */}
         <div className="relative isolate">
-          <PartnershipField className="-z-10 opacity-75" />
+          <WaveField className="-z-10" />
           <Section>
-            <SectionHeading
-              id="nhs-and-private"
-              title="NHS and private practice"
-            />
-          <Lede>
-            Our consultants are NHS cancer specialists who also see patients
-            privately. Most hold substantive posts at the Royal Berkshire
-            Hospital in Reading, where the Berkshire Cancer Centre is based, and
-            several hold clinical leadership roles there — acute oncology,
-            clinical governance, chemotherapy leadership, and the supervision of
-            oncology trainees.
-          </Lede>
-          <Body>
-            This is the ordinary arrangement in British cancer care, and it is
-            worth being plain about what it does and does not mean. It means the
-            consultant you see privately is the same specialist, working to the
-            same national standards, who would treat you in the NHS. It does not
-            mean private care jumps an NHS queue, and it does not put NHS
-            treatment at risk: patients move between the two, sometimes more than
-            once, and are entitled to do so.
-          </Body>
-          <Body>
-            Many of our consultants are principal investigators on national
-            clinical trials, and will refer patients to trials elsewhere —
-            including the Royal Marsden and University College Hospital — where
-            that is the better option.
-          </Body>
-            <Reveal>
-              <div className="mt-9">
-                <Button href="/about/nhs-and-private-practice" variant="ghost">
-                  NHS and private practice
-                </Button>
+            {/* Copy on the left, the region on the right. The heading sits
+                inside the left column rather than above both, so the map starts
+                level with the rule instead of a hundred pixels below it — the
+                dead space beside the heading was the only thing keeping the two
+                halves from reading as one block. The map is desaturated because
+                at this size a full-colour one is the loudest thing on a page
+                that is otherwise navy on off-white, and the point of it is the
+                shape of the area, not its cartography. */}
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-start lg:gap-16">
+              <div>
+                <SectionHeading
+                  id="nhs-and-private"
+                  title="NHS and private practice"
+                />
+                <Lede>
+                  Our consultants are NHS cancer specialists who also see
+                  patients privately, most of them from posts at the Royal
+                  Berkshire Hospital in Reading, where the Berkshire Cancer
+                  Centre is based.
+                </Lede>
+                <Body>
+                  Private care does not jump an NHS queue, and it does not put
+                  NHS treatment at risk — patients move between the two,
+                  sometimes more than once, and are entitled to.
+                </Body>
+
+                <Reveal>
+                  <div className="mt-9 flex flex-wrap gap-3">
+                    <Button href="/locations" variant="ghost">
+                      All locations
+                    </Button>
+                    <Button
+                      href="/about/nhs-and-private-practice"
+                      variant="ghost"
+                    >
+                      NHS and private practice
+                    </Button>
+                  </div>
+                </Reveal>
               </div>
-            </Reveal>
+
+              <Reveal delay={2}>
+                {/* No top margin, unlike the copy beside it: the rule that opens
+                    the heading has none either, so this starts level with it. */}
+                <div className="relative overflow-hidden rounded-3xl border border-ink/[0.08] shadow-[0_12px_40px_-16px_rgba(6,28,70,0.18)]">
+                  <RegionMap className="h-[280px] grayscale md:h-[360px]" />
+
+                  {/* Counted from hospitals.ts, so it cannot drift from the row
+                      of sites directly beneath it. */}
+                  <div className="pointer-events-none absolute bottom-4 left-4 rounded-2xl bg-white/95 px-5 py-3.5 shadow-lg backdrop-blur">
+                    <p className="font-display text-2xl leading-none text-ink">
+                      {hospitals.length}
+                    </p>
+                    <p className="mt-1.5 text-[13px] leading-tight text-ink-muted">
+                      hospitals and cancer centres
+                      <br />
+                      across Berkshire &amp; Oxford
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            <div className="mt-11">
+              <HospitalStrip />
+            </div>
           </Section>
         </div>
 
-        {/* ── 05 · Quality and governance ───────────────────────────────────── */}
-        <Section>
-          <SectionHeading
-            id="governance"
-            title="Quality and governance"
-          />
-          <Lede>
-            Trust in a medical organisation should rest on things a patient can
-            check. The following can be checked.
-          </Lede>
+        {/* Quality and governance used to sit here, as section 05. It moved to
+            /about/quality-and-governance whole — six checkable facts is a page,
+            not a scroll-past, and this page already carries the headline one
+            (the GMC card in "Our approach to care"). The route above it in the
+            menu still reaches it; only the home page stopped restating it. */}
 
-          <Reveal>
-            <dl className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
-              {governance.map((item) => (
-                <div key={item.t}>
-                  <dt className="font-display text-xl leading-snug text-ink">
-                    {item.t}
-                  </dt>
-                  <dd className="mt-3 max-w-lg text-[15px] leading-relaxed text-ink/75">
-                    {item.d}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-
-          <Reveal>
-            <div className="mt-11">
-              <Button href="/about/quality-and-governance" variant="ghost">
-                Quality and governance in full
-              </Button>
-            </div>
-          </Reveal>
-        </Section>
-
-        {/* ── 06 · Patient feedback ─────────────────────────────────────────── */}
-        <Section>
-          <SectionHeading
-            id="feedback"
-            title="Patient feedback"
-          />
-          <Lede>
-            We would rather publish nothing here than publish a selected
-            quotation. Testimonials chosen by a practice tell you about the
-            practice&rsquo;s choices, not about its care — so this page carries
-            none.
-          </Lede>
-          <Body>
-            What we can tell you is where independent feedback lives and how to
-            add yours. Individual consultants are reviewed on the hospital and
-            provider platforms where they practise, and those reviews are not
-            ours to edit. If you have been treated by one of our consultants,
-            feedback of any kind — through the practice, through your hospital,
-            or on a public platform — is read and acted on.
-          </Body>
-          <Body>
-            If something has gone wrong, please do not leave it to a review. Tell{" "}
-            {site.contact.practiceManager} directly and it will be looked into.
-          </Body>
-          <Reveal>
-            <div className="mt-9">
-              <Button href="/about/patient-feedback" variant="ghost">
-                Patient feedback
-              </Button>
-            </div>
-          </Reveal>
-        </Section>
-
-        {/* ── 07 · Referring professionals ──────────────────────────────────── */}
-        <Section>
-          <SectionHeading
-            id="referrals"
-            title="Referring professionals"
-          />
-          <Lede>
-            Referrals come through the practice office, which will match the
-            referral to the consultant whose sub-specialty fits — or tell you
-            promptly if the partnership is not the right destination.
-          </Lede>
-          <Body>
-            If you know which consultant you want, name them and the referral
-            goes straight to them. If you do not, a line describing the
-            presentation and the working diagnosis is enough for us to route it.
-            For anything urgent, please telephone rather than write.
-          </Body>
-
-          <Reveal>
-            <div className="mt-11 grid gap-px overflow-hidden rounded-3xl border border-ink/10 bg-ink/10 sm:grid-cols-3">
-              {[
-                {
-                  label: "Referrals and enquiries",
-                  value: site.contact.phone,
-                  href: `tel:${tel}`,
-                },
-                {
-                  label: "By email",
-                  value: site.contact.email,
-                  href: `mailto:${site.contact.email}`,
-                },
-                {
-                  label: "Practice manager",
-                  value: site.contact.practiceManager,
-                },
-              ].map((c) => (
-                <div key={c.label} className="bg-canvas px-6 py-7">
-                  <div className="text-xs font-medium uppercase tracking-[0.16em] text-ink-muted">
-                    {c.label}
-                  </div>
-                  {c.href ? (
-                    <a
-                      href={c.href}
-                      className="mt-3 block break-words font-display text-lg text-ink transition-colors hover:text-accent"
-                    >
-                      {c.value}
-                    </a>
-                  ) : (
-                    <div className="mt-3 font-display text-lg text-ink">
-                      {c.value}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <div className="mt-9">
-              <Button href="/about/referring-professionals" variant="ghost">
-                Information for referring professionals
-              </Button>
-            </div>
-          </Reveal>
-        </Section>
-
-        {/* ── 08 · Careers or professional enquiries ────────────────────────── */}
-        <Section>
-          <SectionHeading
-            id="careers"
-            title="Careers or professional enquiries"
-          />
-          <Lede>
-            The partnership is a group of independent practitioners rather than
-            an employer, so enquiries take two forms: consultants interested in
-            joining, and people interested in the practice roles that support
-            them.
-          </Lede>
-          <Body>
-            A consultant oncologist considering private practice in Berkshire is
-            welcome to get in touch, whether or not anything is advertised —
-            those conversations usually begin informally. Administrative and
-            practice vacancies, when there are any, are handled by the practice
-            office.
-          </Body>
-          <Reveal>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button href="/about/careers" variant="ghost">
-                Careers and professional enquiries
-              </Button>
-              <Button href="/contact" variant="ghost">
-                Contact the practice
-              </Button>
-            </div>
-          </Reveal>
-        </Section>
-
-        {/* ── Close ─────────────────────────────────────────────────────────── */}
-        <Reveal>
-          <div className="mt-24 border-t border-ink/10 pt-14 md:mt-36 md:pt-20">
-            <h2 className="max-w-2xl font-display text-3xl leading-tight tracking-tight text-ink md:text-4xl">
-              Speak to the practice.
-            </h2>
-            <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/75">
-              Enquiries about the partnership, appointments and referrals all
-              come through {site.contact.practiceManager}, who can point you to
-              the right consultant.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button href="/contact" variant="primary">
-                Contact the practice
-              </Button>
-              <a
-                href={`tel:${tel}`}
-                className="rounded-full border border-ink/15 px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-ink/[0.03]"
-              >
-                {site.contact.phone}
-              </a>
-            </div>
-          </div>
-        </Reveal>
       </div>
+
+      {/* ── 06 · Patient feedback ───────────────────────────────────────────
+          Mirrors the cancers chapter — text right, cards left — so it sits
+          outside the page container for the same reason that one does: the card
+          column runs close to the edge, and a 100vw trick would overflow by the
+          scrollbar's width.
+
+          Note this replaced copy that argued the opposite case: the section used
+          to say the practice would rather publish nothing than publish a
+          selected quotation, on the grounds that testimonials chosen by a
+          practice describe its choices rather than its care. Publishing
+          testimonials is a perfectly normal decision, but it is a different
+          editorial position from the one the page held, so the old paragraphs
+          could not simply sit above the new cards. */}
+      <TestimonialCards
+        intro={
+          <>
+            <Reveal>
+              <div aria-hidden className="h-px w-full bg-ink/10" />
+            </Reveal>
+            <Reveal delay={1}>
+              <h2
+                id="feedback"
+                tabIndex={-1}
+                className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
+              >
+                Patient feedback
+              </h2>
+            </Reveal>
+            <Reveal delay={2}>
+              <p className="mt-7 text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
+                Individual consultants are reviewed on the hospital and provider
+                platforms where they practise, and those reviews are not ours to
+                edit. Feedback of any kind — through the practice, through your
+                hospital, or on a public platform — is read and acted on.
+              </p>
+            </Reveal>
+            <Reveal delay={2}>
+              <p className="mt-5 text-[17px] leading-relaxed text-ink/80">
+                If something has gone wrong, please do not leave it to a review.
+                Tell {site.contact.practiceManager} directly and it will be
+                looked into.
+              </p>
+            </Reveal>
+            <Reveal delay={3}>
+              <div className="mt-9">
+                <Button href="/about/patient-feedback" variant="ghost">
+                  Patient feedback
+                </Button>
+              </div>
+            </Reveal>
+          </>
+        }
+      />
+
+      {/* ── 07 · Referrals, careers and professional enquiries ─────────────
+          Was two sections, back to back, in the same shape: "Referring
+          professionals" and "Careers or professional enquiries". One audience
+          really — people contacting the practice who are not patients — so the
+          three things they might want are the structure now, one card each.
+
+          Outside the page container because it carries its own, slightly wider
+          one — three cards side by side want more room than a column of prose.
+          See ProfessionalRoutes for the rest. */}
+      <ProfessionalRoutes />
+
+      {/* ── Close ─────────────────────────────────────────────────────────
+          The band and the site footer are both bg-ink, so how they meet is a
+          real decision rather than a detail. CloseBand carries three answers
+          behind a temporary toggle. */}
+      <CloseBand />
     </>
   );
 }

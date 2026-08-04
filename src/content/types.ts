@@ -48,6 +48,13 @@ export interface Hospital {
   name: string;
   location: string;
   url?: string;
+  /**
+   * Building-level coordinates, for plotting the site on the region map.
+   * Optional on purpose: a site without them is simply not plotted, which is
+   * the correct behaviour when nobody has confirmed where it is. Never fill
+   * this in from memory — see the note in hospitals.ts.
+   */
+  geo?: { lat: number; lng: number };
 }
 
 export interface UsefulLink {

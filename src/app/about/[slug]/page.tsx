@@ -8,12 +8,19 @@ import { allNavLinks, getNavLink } from "@/content/navigation";
 // (e.g. "Our consultants" → /consultants) are filtered out by the href prefix.
 const PREFIX = "/about/";
 
+/**
+ * Slugs that have their own static route because they carry real content, and
+ * so must not also be generated here — two routes claiming one path is a build
+ * error, and the static one is the one that should win.
+ */
+const HAS_OWN_ROUTE = new Set(["quality-and-governance"]);
+
 function slugs(): string[] {
   const found = new Set<string>();
   for (const link of allNavLinks) {
     if (!link.href.startsWith(PREFIX)) continue;
     const slug = link.href.slice(PREFIX.length);
-    if (slug && !slug.includes("/")) found.add(slug);
+    if (slug && !slug.includes("/") && !HAS_OWN_ROUTE.has(slug)) found.add(slug);
   }
   return Array.from(found);
 }
