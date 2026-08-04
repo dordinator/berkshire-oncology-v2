@@ -102,7 +102,20 @@ export default function CancerCards({
               nothing to scroll — so the wheel did nothing at all there. Lenis
               runs smoothWheel only and leaves touch native, so the strip still
               swipes properly on a phone without it. */}
-          <div className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0">
+          <div
+            // Horizontal only. The plain data-lenis-prevent stood off every
+            // gesture, so from md — where this is a grid with nothing to scroll
+            // — the wheel died over the whole card area. This variant hands
+            // sideways gestures to the strip and leaves vertical ones to the
+            // page, which is right at every width.
+            data-lenis-prevent-horizontal
+            // scroll-pl-6, not just px-6. `snap-start` aligns a card to the
+            // scrollport edge, which sits inside the padding — so on load the
+            // browser scrolled the left padding away and the first card sat
+            // flush against the screen. scroll-padding moves the snap line in
+            // to match.
+            className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0"
+          >
             {columns.map((col, i) => (
               // The first column is placed on the *right* and the second drops
               // down the page, so the topmost card is top-right as in the
@@ -121,7 +134,7 @@ export default function CancerCards({
                   return (
                     <li
                       key={c.slug}
-                      className="w-[68vw] shrink-0 snap-start sm:w-[44vw] md:w-auto"
+                      className="w-[56vw] shrink-0 snap-start sm:w-[38vw] md:w-auto"
                     >
                       <Link
                         href={`/specialities/${c.slug}`}

@@ -59,7 +59,10 @@ export default function ConsultantScroller({
         // text beside it, so the list starts level with the heading and ends
         // level with the buttons. min-height keeps at least three rows in view
         // if that text column is ever short.
-        className="-mx-6 snap-x snap-mandatory overflow-x-auto overscroll-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:h-[29rem] md:snap-y md:snap-proximity md:overflow-x-visible md:overflow-y-auto md:scroll-smooth md:px-0 md:pb-0 md:pr-1 md:[scrollbar-color:rgba(6,28,70,0.18)_transparent] md:[scrollbar-width:thin] lg:h-full lg:min-h-[24rem]"
+        // scroll-pl-6 so the first card keeps its left margin: snap-start aligns
+        // to the scrollport edge, which sits inside the padding, so without it
+        // the browser scrolls the padding away on load.
+        className="-mx-6 snap-x snap-mandatory scroll-pl-6 overflow-x-auto overscroll-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:h-[29rem] md:snap-y md:snap-proximity md:scroll-pl-0 md:overflow-x-visible md:overflow-y-auto md:scroll-smooth md:px-0 md:pb-0 md:pr-1 md:[scrollbar-color:rgba(6,28,70,0.18)_transparent] md:[scrollbar-width:thin] lg:h-full lg:min-h-[24rem]"
       >
         <ul className="flex gap-3 md:flex-col">
           {consultants.map((c) => (
