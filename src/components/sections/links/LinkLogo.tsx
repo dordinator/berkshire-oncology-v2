@@ -31,18 +31,22 @@ export default function LinkLogo({
   name,
   logo,
   i,
+  compact = false,
+  large = false,
 }: {
   name: string;
   logo?: string;
   i: number;
+  compact?: boolean;
+  large?: boolean;
 }) {
   if (logo) {
     // the GenesisCare wordmark is wide and reads small at the default size
-    const big = /genesiscare/i.test(logo);
+    const big = !compact && /genesiscare/i.test(logo);
     return (
       <span
         className={`flex shrink-0 items-center justify-center ${
-          big ? "h-[92px] w-[112px]" : "h-14 w-[86px]"
+          compact ? "h-10 w-20" : large ? "h-20 w-36" : big ? "h-[92px] w-[112px]" : "h-14 w-[86px]"
         }`}
       >
         <Image
@@ -51,7 +55,7 @@ export default function LinkLogo({
           width={150}
           height={92}
           className={`h-auto w-auto max-w-full object-contain ${
-            big ? "max-h-[92px]" : "max-h-12"
+            compact ? "max-h-8" : large ? "max-h-16" : big ? "max-h-[92px]" : "max-h-12"
           }`}
         />
       </span>
@@ -61,7 +65,7 @@ export default function LinkLogo({
   const t = TINTS[i % TINTS.length];
   return (
     <span
-      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold"
+      className={`flex shrink-0 items-center justify-center rounded-xl text-sm font-semibold ${compact ? "h-10 w-10" : large ? "h-16 w-16" : "h-12 w-12"}`}
       style={{ backgroundColor: t.bg, color: t.fg }}
     >
       {initials(name)}
