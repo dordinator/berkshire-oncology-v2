@@ -46,16 +46,16 @@ export default function LinkLogo({
     return (
       <span
         className={`flex shrink-0 items-center justify-center ${
-          compact ? "h-10 w-20" : large ? "h-20 w-36" : big ? "h-[92px] w-[112px]" : "h-14 w-[86px]"
+          compact ? "h-12 w-24" : large ? "h-28 w-52" : big ? "h-[92px] w-[112px]" : "h-14 w-[86px]"
         }`}
       >
         <Image
           src={logo}
           alt={`${name} logo`}
-          width={150}
-          height={92}
+          width={220}
+          height={140}
           className={`h-auto w-auto max-w-full object-contain ${
-            compact ? "max-h-8" : large ? "max-h-16" : big ? "max-h-[92px]" : "max-h-12"
+            compact ? "max-h-10" : large ? "max-h-24" : big ? "max-h-[92px]" : "max-h-12"
           }`}
         />
       </span>

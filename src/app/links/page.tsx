@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { usefulLinks } from "@/content/usefulLinks";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
 import JsonLd from "@/components/site/JsonLd";
@@ -94,32 +94,119 @@ export default function LinksPage() {
           <ResourceWave className="absolute inset-x-0 bottom-0 h-[300px] md:h-[360px]" />
         </section>
 
-        <section id="resource-index" className="relative z-10 -mt-16 rounded-t-[2rem] bg-[#eaf2fb] py-12 shadow-[0_-12px_40px_rgba(16,46,92,0.04)] md:-mt-24 md:rounded-t-[3rem] md:py-16">
+        {/* ── Recommended organisations ── a chapter-break band in the site's
+            darkest colour, after the logo walls the big product sites run
+            (granola.ai's "Trusted by teams we admire"): a quiet body-size
+            label, then the marks themselves rendered monochrome white and left
+            to float on the ink with no tiles around them.
+
+            The whitening is one CSS recipe rather than nine edited files:
+            grayscale + invert turns any dark mark light, and mix-blend-screen
+            drops everything darker than the band — which is exactly the baked-in
+            white rectangles of the JPEG/flattened logos (white → inverted to
+            black → screened to invisible). Internal white detail (the NHS
+            letters) inverts to black and screens to knocked-out navy, which is
+            the correct mono treatment for that mark. */}
+        <section id="resource-index" className="relative z-10 -mt-16 rounded-t-[2rem] bg-ink py-16 md:-mt-24 md:rounded-t-[3rem] md:py-24">
           <div className="container-wide">
             <Reveal>
-              <h2 className="mx-auto max-w-3xl text-center font-display text-3xl leading-tight text-ink md:text-5xl">
+              <h2 className="mx-auto max-w-2xl text-center text-lg leading-relaxed text-white/80 md:text-xl">
                 Organisations and services we often recommend.
               </h2>
             </Reveal>
-            <div className="mt-12" aria-label="Recommended organisations and services">
-              {[usefulLinks.slice(0, 5), usefulLinks.slice(5)].map((row, rowIndex) => (
-                <div key={rowIndex} className="flex items-center justify-center gap-3 md:gap-8">
-                  {row.map((link, i) => (
-                    <Fragment key={link.url}>
+
+            <div
+              aria-label="Recommended organisations and services"
+              // One arbitrary filter rather than Tailwind's filter utilities:
+              // Tailwind composes those in a fixed order with brightness BEFORE
+              // invert, which brightens the original artwork and so darkens it
+              // after inversion — the opposite of what this wall needs. Written
+              // out longhand the order is explicit: grayscale, invert (dark
+              // marks go light, baked white boxes go black), then brightness
+              // 2.5 clips every mark to solid white while the boxes stay black
+              // for mix-blend-screen to swallow. Marks sit at full strength and
+              // dim under the pointer — the affordance is never the resting
+              // state. The GenesisCare file is a small mark inside a large
+              // baked-in margin, so it alone is scaled up to match optical
+              // size.
+              className="mt-12 md:mt-14 [&_img]:[filter:grayscale(1)_invert(1)_brightness(2.5)_contrast(1.05)] [&_img]:transition-opacity [&_img]:duration-300 [&_img]:mix-blend-screen [&_a:hover_img]:opacity-70 [&_a:focus-visible_img]:opacity-70 [&_img[src*='genesiscare']]:scale-[1.4]"
+            >
+              {/* md+: the first five across the full width, the remaining four
+                  offset to sit under the gaps — the stagger is what keeps it
+                  from reading as a table. The crosses live on the midline at
+                  the top row's column boundaries, so each one marks where a
+                  bottom-row mark sits below. */}
+              <div className="hidden md:block">
+                <Reveal>
+                  <div className="flex items-center justify-center gap-8">
+                    {usefulLinks.slice(0, 5).map((link, i) => (
                       <a
+                        key={link.url}
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         title={link.name}
-                        className="group flex h-24 min-w-0 flex-1 items-center justify-center transition-opacity hover:opacity-65 md:h-28"
+                        className="flex h-28 min-w-0 flex-1 items-center justify-center md:h-36"
                       >
-                        <LinkLogo name={link.name} logo={link.logo} i={i + rowIndex * 5} large />
+                        <LinkLogo name={link.name} logo={link.logo} i={i} large />
                       </a>
-                      {i < row.length - 1 && <span aria-hidden className="shrink-0 text-2xl font-light text-ink/35 md:text-3xl">+</span>}
-                    </Fragment>
+                    ))}
+                  </div>
+                </Reveal>
+
+                {/* the midline crosses, at the boundaries between the five
+                    columns above */}
+                <div aria-hidden className="relative my-6 h-3">
+                  {["20%", "40%", "60%", "80%"].map((left) => (
+                    <span
+                      key={left}
+                      style={{ left }}
+                      className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2"
+                    >
+                      <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white/25" />
+                      <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-white/25" />
+                    </span>
                   ))}
                 </div>
-              ))}
+
+                <Reveal>
+                  {/* inset by one half-column each side, so these four centre
+                      under the crosses */}
+                  <div className="flex items-center justify-center gap-8 px-[10%]">
+                    {usefulLinks.slice(5).map((link, i) => (
+                      <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={link.name}
+                        className="flex h-28 min-w-0 flex-1 items-center justify-center md:h-36"
+                      >
+                        <LinkLogo name={link.name} logo={link.logo} i={i + 5} large />
+                      </a>
+                    ))}
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* phones: a three-column grid, no crosses — nine marks in three
+                  clean rows beats two cramped ones. */}
+              <Reveal>
+                <div className="grid grid-cols-3 gap-x-3 gap-y-8 md:hidden">
+                  {usefulLinks.map((link, i) => (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={link.name}
+                      className="flex h-20 items-center justify-center"
+                    >
+                      <LinkLogo name={link.name} logo={link.logo} i={i} compact />
+                    </a>
+                  ))}
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
