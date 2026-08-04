@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import { site } from "@/content/site";
-import { getAllSpecialities } from "@/content/queries";
 import { hospitals } from "@/content/hospitals";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,8 +13,6 @@ import { hospitals } from "@/content/hospitals";
 // and screen-reader support for free, and they still open if the bundle never
 // arrives — worth more here than a bespoke accordion would be.
 // ─────────────────────────────────────────────────────────────────────────────
-
-const specialities = getAllSpecialities();
 
 /**
  * "Spire Dunedin Hospital (Reading), … and Royal Berkshire Hospital (Reading)".
@@ -67,12 +64,15 @@ function Row({
 export default function PartnershipIntro() {
   return (
     <section className="container-wide pt-20 md:pt-28">
-      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
+      {/* The image column takes a slightly larger share of the row and a
+          taller frame from lg — 3/4 rather than 4/5 — so the photograph reads
+          as the section's equal half rather than its thumbnail. */}
+      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
         <Reveal>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-canvas-soft sm:aspect-[4/3] lg:aspect-[4/5]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-canvas-soft sm:aspect-[4/3] lg:aspect-[3/4]">
             <Image
               src="/home/partnership.jpg"
-              alt="Two clinicians in discussion in a hospital corridor"
+              alt="A consultation in progress — a clinician talking a patient through her care in a clinic room"
               fill
               sizes="(max-width: 1024px) 100vw, 42vw"
               className="object-cover"
@@ -136,20 +136,10 @@ export default function PartnershipIntro() {
                 .
               </Row>
 
-              <Row title={`${specialities.length} cancer types, each sub-specialised`}>
-                Nobody here treats everything. Each consultant concentrates on a
-                few cancers, and between them the partnership covers{" "}
-                {specialities.length} — with both halves of non-surgical care,
-                radiotherapy and the drug treatments.{" "}
-                <Link
-                  href="/consultants/by-cancer-type"
-                  className="text-accent underline-offset-2 hover:underline"
-                >
-                  Find a consultant by cancer type
-                </Link>
-                .
-              </Row>
-
+              {/* Three rows, not four: the sub-specialisation point this list
+                  used to make is already made twice on this page — in the
+                  paragraph above and by the whole "Cancers we treat" section
+                  below it. */}
               <Row title="The same specialists you would meet on the NHS">
                 Most of our consultants hold NHS posts at the Royal Berkshire
                 Hospital, where the Berkshire Cancer Centre is based. Private
