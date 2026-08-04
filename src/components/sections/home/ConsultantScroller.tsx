@@ -96,7 +96,11 @@ export default function ConsultantScroller({
                   )}
                 </span>
 
-                <span className="hidden shrink-0 text-right text-[11px] tabular-nums leading-relaxed text-ink-muted/80 sm:block">
+                {/* Full-strength ink-muted, not /80. At 11px this is small text,
+                    so WCAG wants 4.5:1 and the faded version measured 3.65:1 —
+                    axe flagged every card. Undimmed it is 5.6:1 and still reads
+                    as secondary against the name beside it. */}
+                <span className="hidden shrink-0 text-right text-[11px] tabular-nums leading-relaxed text-ink-muted sm:block">
                   <span className="block">GMC {c.gmc}</span>
                   {c.consultantInReadingSince && (
                     <span className="block">
