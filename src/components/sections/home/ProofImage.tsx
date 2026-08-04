@@ -49,7 +49,12 @@ export default function ProofImage({
 }) {
   return (
     <div className="relative">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-canvas-soft">
+      {/* Taller on a phone than from sm up. The cards overlay at every width
+          now, and a 4:5 frame did not leave enough photograph above them once
+          they did — 3:4 buys ~60px of height at 375px, which is the difference
+          between a picture with cards on it and two cards with a strip of
+          picture behind them. */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[1.75rem] bg-canvas-soft sm:aspect-[4/5]">
         <Image
           src={src}
           alt={alt}
@@ -59,31 +64,33 @@ export default function ProofImage({
         />
       </div>
 
-      {/* On a phone these sit *below* the photograph rather than on it —
-          overlaid, the two cards covered about two thirds of a 409px-tall image
-          and there was no photograph left to speak of. From sm up they overlay,
-          inset inside the frame rather than hanging off it, since an
-          overhanging card either clips or forces sideways scroll. */}
-      <div className="mt-3 flex flex-col gap-3 sm:pointer-events-none sm:absolute sm:inset-x-6 sm:bottom-6 sm:mt-0">
-        <div className="max-w-sm rounded-2xl bg-white/95 p-5 shadow-[0_20px_60px_-20px_rgba(6,28,70,0.45)] backdrop-blur-sm sm:pointer-events-auto">
+      {/* Overlaid at every width, inset inside the frame rather than hanging off
+          it — an overhanging card either clips or forces sideways scroll.
+
+          These used to drop below the photograph on a phone, because at 4:5 the
+          two of them swallowed most of it. They are back on the image, paid for
+          by the taller mobile frame above and by tighter type and padding here:
+          the card is the same object, just not shouting at 375px. */}
+      <div className="pointer-events-none absolute inset-x-4 bottom-4 flex flex-col gap-2.5 sm:inset-x-6 sm:bottom-6 sm:gap-3">
+        <div className="pointer-events-auto max-w-sm rounded-2xl bg-white/95 p-4 shadow-[0_20px_60px_-20px_rgba(6,28,70,0.45)] backdrop-blur-sm sm:p-5">
           <div className="flex items-start gap-3">
             <Tick />
             <div className="min-w-0">
-              <p className="font-display text-[17px] leading-snug text-ink">
+              <p className="font-display text-[15px] leading-snug text-ink sm:text-[17px]">
                 {cardTitle}
               </p>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
+              <p className="mt-1.5 text-[12px] leading-relaxed text-ink-muted sm:text-[13px]">
                 {cardBody}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex w-fit items-baseline gap-3 rounded-full bg-white/95 px-5 py-2.5 shadow-[0_20px_60px_-20px_rgba(6,28,70,0.45)] backdrop-blur-sm sm:pointer-events-auto">
-          <span className="font-display text-lg leading-none text-ink">
+        <div className="pointer-events-auto flex w-fit items-baseline gap-2.5 rounded-full bg-white/95 px-4 py-2 shadow-[0_20px_60px_-20px_rgba(6,28,70,0.45)] backdrop-blur-sm sm:gap-3 sm:px-5 sm:py-2.5">
+          <span className="font-display text-base leading-none text-ink sm:text-lg">
             {statValue}
           </span>
-          <span className="text-[13px] leading-none text-ink-muted">
+          <span className="text-[12px] leading-none text-ink-muted sm:text-[13px]">
             {statLabel}
           </span>
         </div>

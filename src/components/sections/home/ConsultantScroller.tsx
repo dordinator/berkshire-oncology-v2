@@ -36,11 +36,20 @@ export default function ConsultantScroller({
   specialities: Record<string, string[]>;
 }) {
   return (
-    <div className="relative lg:absolute lg:inset-0">
-      {/* The nested scroller is md-and-up only. On a phone a short scroll area
-          inside a scrolling page is a trap: you swipe to move the page, the
-          inner list eats it, and getting past the section takes several
-          attempts. There the ten rows simply run in normal flow.
+    <div className="relative min-w-0 lg:absolute lg:inset-0">
+      {/* Two different scrollers, because the trap only exists in one axis.
+          From md this is a nested *vertical* list, three and a half rows deep.
+          On a phone that is unusable — a short vertical scroll area inside a
+          scrolling page eats the swipe you meant for the page, and getting past
+          the section takes several attempts. The old answer was to drop the
+          scroller entirely below md and let all ten rows run in normal flow,
+          which is not a trap but is a very long section and reads as no scroller
+          at all.
+
+          Sideways has neither problem: a horizontal swipe is unambiguous, it
+          cannot fight the page's vertical scroll, and ten names become one
+          flick. It also matches the two chapters above.
+
           overscroll-contain is set here rather than left to Lenis — its rule in
           globals.css keys off `.lenis.lenis-smooth`, and only `lenis` is on the
           html element, so that rule never matches. */}
@@ -50,11 +59,14 @@ export default function ConsultantScroller({
         // text beside it, so the list starts level with the heading and ends
         // level with the buttons. min-height keeps at least three rows in view
         // if that text column is ever short.
-        className="md:h-[29rem] md:snap-y md:snap-proximity md:overflow-y-auto md:overscroll-contain md:scroll-smooth md:pr-1 md:[scrollbar-color:rgba(6,28,70,0.18)_transparent] md:[scrollbar-width:thin] lg:h-full lg:min-h-[24rem]"
+        className="-mx-6 snap-x snap-mandatory overflow-x-auto overscroll-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:h-[29rem] md:snap-y md:snap-proximity md:overflow-x-visible md:overflow-y-auto md:scroll-smooth md:px-0 md:pb-0 md:pr-1 md:[scrollbar-color:rgba(6,28,70,0.18)_transparent] md:[scrollbar-width:thin] lg:h-full lg:min-h-[24rem]"
       >
-        <ul className="flex flex-col gap-3">
+        <ul className="flex gap-3 md:flex-col">
           {consultants.map((c) => (
-            <li key={c.slug} className="snap-start">
+            <li
+              key={c.slug}
+              className="w-[80vw] shrink-0 snap-start sm:w-[55vw] md:w-auto md:shrink"
+            >
               <Link
                 href={`/consultants/${c.slug}`}
                 className="group flex h-[7rem] items-center gap-4 rounded-2xl border border-ink/[0.07] bg-white px-4 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-accent/25 hover:shadow-[0_18px_44px_-22px_rgba(6,28,70,0.35)] motion-reduce:transition-none sm:gap-5 sm:px-5 md:h-[7.5rem]"

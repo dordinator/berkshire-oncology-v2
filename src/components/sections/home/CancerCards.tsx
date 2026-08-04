@@ -82,7 +82,25 @@ export default function CancerCards({
             <div>{intro}</div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5 md:gap-7">
+          {/* Below md this is a horizontal scroller, from md the two-column
+              arrangement returns. Six tall cards stacked two-abreast is a very
+              long scroll on a phone for something you are meant to skim; sideways
+              it is one flick.
+
+              The two <ul>s survive the change rather than being flattened into
+              one: as flex rows inside a flex row they abut, so the six cards read
+              as a single continuous strip while the markup stays a pair of
+              lists. `display: contents` would do the same thing more neatly but
+              still costs list semantics in some engines, which is not a trade
+              worth making on this site.
+
+              data-lenis-prevent for the same reason the consultant list needs
+              it — Lenis preventDefaults the wheel, and without it a trackpad
+              swipe scrolls the page instead of the strip. */}
+          <div
+            data-lenis-prevent
+            className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0"
+          >
             {columns.map((col, i) => (
               // The first column is placed on the *right* and the second drops
               // down the page, so the topmost card is top-right as in the
@@ -92,14 +110,17 @@ export default function CancerCards({
               // screen reader and for tab order, wherever it sits visually.
               <ul
                 key={i}
-                className={`space-y-5 md:space-y-7 ${
+                className={`flex shrink-0 gap-4 md:block md:shrink md:space-y-7 ${
                   i === 0 ? "lg:order-2" : "lg:order-1 lg:mt-32"
                 }`}
               >
                 {col.map((c) => {
                   const Icon = specialityIcon[c.slug];
                   return (
-                    <li key={c.slug}>
+                    <li
+                      key={c.slug}
+                      className="w-[68vw] shrink-0 snap-start sm:w-[44vw] md:w-auto"
+                    >
                       <Link
                         href={`/specialities/${c.slug}`}
                         className="group relative block overflow-hidden rounded-2xl bg-ink/5"

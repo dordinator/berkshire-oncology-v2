@@ -346,7 +346,12 @@ export default function Home() {
                 list is what decides the grid row height, h-full resolves to the
                 list's own height and nothing is constrained. Out of flow, the
                 text column sets the height and the list matches it exactly. */}
-            <Reveal delay={1} className="lg:relative">
+            {/* min-w-0 is load-bearing. A grid item defaults to min-width:auto,
+                so it refuses to shrink below its content — and the list inside
+                is now a 3000px-wide flex row on a phone. Without this the track
+                grew to fit it, the scroller never constrained, and the whole
+                page scrolled sideways instead of the strip. */}
+            <Reveal delay={1} className="min-w-0 lg:relative">
               <ConsultantScroller
                 consultants={consultants}
                 specialities={specialitiesBySlug}

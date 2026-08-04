@@ -34,19 +34,38 @@ export default function TestimonialCards({ intro }: { intro: React.ReactNode }) 
 
       <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-10 lg:pr-16">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.58fr)] lg:items-start lg:gap-16 xl:gap-24">
-          <div className="grid grid-cols-2 gap-5 md:gap-7">
+          {/* Same horizontal strip as the cancers chapter below md, for the same
+              reason and by the same means — see the note there. The two chapters
+              mirror each other on a desktop and should not diverge on a phone. */}
+          <div
+            data-lenis-prevent
+            // Focusable, unlike the cancers strip, which gets keyboard access
+            // for free from the links inside its cards. These cards are
+            // quotations — <figure>, no link, nothing to tab to — so without a
+            // tabindex a keyboard user could not scroll the region at all.
+            // Named and grouped so it is announced as something rather than as
+            // an unlabelled box, and given a ring because the site switches the
+            // default focus outline off globally.
+            tabIndex={0}
+            role="group"
+            aria-label="Patient feedback, scrollable"
+            className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-transparent [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0"
+          >
             {columns.map((col, i) => (
               // Mirrored from the cancers chapter: there the offset column is
               // pushed left, here it is pushed right, so the topmost card lands
               // on the outer edge in both cases.
               <ul
                 key={i}
-                className={`space-y-5 md:space-y-7 ${
+                className={`flex shrink-0 gap-4 md:block md:shrink md:space-y-7 ${
                   i === 0 ? "lg:order-1" : "lg:order-2 lg:mt-32"
                 }`}
               >
                 {col.map((t) => (
-                  <li key={t.attribution}>
+                  <li
+                    key={t.attribution}
+                    className="w-[68vw] shrink-0 snap-start sm:w-[44vw] md:w-auto"
+                  >
                     {/* A figure, not a link: a quotation is not somewhere to go.
                         That also means no hover state and no focus target, which
                         is correct — there is nothing here to activate. */}
