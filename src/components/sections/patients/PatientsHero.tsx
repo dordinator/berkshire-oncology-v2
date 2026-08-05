@@ -16,7 +16,7 @@ export default function PatientsHero() {
     // here are read by PageMotion, mounted by the page.
     <section
       data-drift-band
-      className="relative overflow-hidden bg-[#f8f8f4] pt-32 text-ink md:pt-36"
+      className="relative overflow-clip bg-[#f8f8f4] pt-32 text-ink md:pt-36"
     >
       <div className="container-wide grid min-h-[calc(100svh-8rem)] items-center gap-12 pb-24 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-36">
         <div className="relative z-10 py-8 lg:py-14">
@@ -59,7 +59,7 @@ export default function PatientsHero() {
             {/* Taller than its frame so the parallax never shows an edge. */}
             <div
               data-fx="parallax"
-              className="absolute inset-x-0 -top-[12%] h-[124%]"
+              className="absolute inset-x-0 -top-[16%] h-[132%]"
             >
               <Image
                 src="/home/partnership.jpg"

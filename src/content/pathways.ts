@@ -53,7 +53,7 @@ export const pathways: Pathway[] = [
         external: true,
       },
     ],
-    action: { label: "Where to start", href: "/patients#pathways" },
+    action: { label: "Where to start", href: "/patients#start-here" },
   },
   {
     id: "preparing",
@@ -62,7 +62,9 @@ export const pathways: Pathway[] = [
       "Reading about a treatment beforehand mostly means you arrive with better questions.",
     links: [
       { label: "Your first appointment", href: "/patients#first-appointment" },
-      { label: "How private care works", href: "/patients#how-it-works" },
+      // #start-here holds the route cards, including "I'm looking for private
+      // treatment" — the old #how-it-works anchor never existed on the page.
+      { label: "How private care works", href: "/patients#start-here" },
       {
         label: "Browse consultants by treatment",
         href: "/consultants/by-treatment",

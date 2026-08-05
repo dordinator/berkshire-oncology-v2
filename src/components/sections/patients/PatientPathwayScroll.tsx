@@ -148,11 +148,17 @@ export default function PatientPathwayScroll() {
 
           <div className="space-y-12 md:space-y-20">
             {routes.map((route) => (
+              // data-fx="rise": each route sheet rises and settles as it
+              // arrives — this column is 39% of the page and was the only
+              // stretch with no scroll life at all. Safe against the sticky
+              // aside: that lives in the SIBLING grid column, so no tween here
+              // ever puts a transform on one of its ancestors.
               <article
                 key={route.id}
                 id={route.id}
                 data-patient-route
-                className={`scroll-mt-32 overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
+                data-fx="rise"
+                className={`scroll-mt-32 overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
               >
                 <div className="flex min-h-full flex-col">
                   <div>

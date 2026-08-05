@@ -22,27 +22,24 @@ export const metadata: Metadata = pageMeta({
   path: "/patients",
 });
 
+// Rendered by the practical card. `body`/`cta` from the old three-column grid
+// were dropped with it — the card names the destination, the destination
+// explains itself.
 const practicalLinks = [
   {
     eyebrow: "Before you arrive",
     title: "Your first appointment",
-    body: "What to bring, how to prepare, and what you can expect to discuss with your consultant.",
     href: "#first-appointment",
-    cta: "Prepare for your appointment",
   },
   {
     eyebrow: "Common questions",
     title: "Clear answers",
-    body: "Referrals, choosing a consultant, locations, private treatment and working alongside NHS care.",
     href: "#faqs",
-    cta: "Read the FAQs",
   },
   {
     eyebrow: "Along the way",
     title: "Resources and support",
-    body: "Practical, emotional and financial support for patients, families, friends and carers.",
     href: "#support",
-    cta: "Find support",
   },
 ];
 
@@ -121,7 +118,7 @@ export default function PatientsPage() {
       <section
         id="practical-information"
         data-drift-band
-        className="scroll-mt-24 overflow-hidden bg-[#e7edf1] py-24 md:py-32"
+        className="scroll-mt-24 overflow-clip bg-[#e7edf1] py-24 md:py-32"
       >
         <div className="container-wide">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
@@ -140,7 +137,7 @@ export default function PatientsPage() {
                 {/* Taller than its frame so the parallax never shows an edge. */}
                 <div
                   data-fx="parallax"
-                  className="absolute inset-x-0 -top-[12%] h-[124%]"
+                  className="absolute inset-x-0 -top-[16%] h-[132%]"
                 >
                   <Image
                     src="/home/approach.jpg"
@@ -176,9 +173,12 @@ export default function PatientsPage() {
                           index === 0 ? "bg-[#8ca49a]" : "border border-ink/20"
                         }`}
                       />
+                      {/* Eyebrow at every width — "Clear answers" alone is not
+                          a self-describing link name, least of all on the
+                          phones where most of this site's traffic lives. */}
                       <span className="min-w-0 flex-1">
-                        {item.title}
-                        <span className="ml-2 hidden text-[11px] uppercase tracking-[0.14em] text-ink-muted sm:inline">
+                        <span className="block">{item.title}</span>
+                        <span className="mt-0.5 block text-[10px] uppercase tracking-[0.14em] text-ink-muted">
                           {item.eyebrow}
                         </span>
                       </span>
@@ -220,7 +220,7 @@ export default function PatientsPage() {
       <section
         id="journey"
         data-drift-band
-        className="relative scroll-mt-24 overflow-hidden bg-[#f8f8f4] py-24 md:py-32"
+        className="relative scroll-mt-24 overflow-clip bg-[#f8f8f4] py-24 md:py-32"
       >
         {/* The top-right of this section used to be empty air beside the
             heading. Two quiet panels now drift through it at different speeds
@@ -279,13 +279,17 @@ export default function PatientsPage() {
               className="absolute left-0 right-0 top-2 hidden h-px bg-ink/15 md:block"
             />
             {/* data-fx instead of Reveal: the two both animate opacity, and a
-                whileInView spring fighting a scrubbed tween flickers. Sides
-                alternate so the row breathes in from both edges. */}
-            {journey.map((step, index) => (
+                whileInView spring fighting a scrubbed tween flickers. All four
+                travel from the SAME side — alternating sides on adjacent grid
+                columns made cards 2 and 3 converge across a 24px gutter and
+                overlap by ~116px mid-flight. Moving in unison preserves every
+                gutter, and the short travel keeps words on-screen on a phone. */}
+            {journey.map((step) => (
               <article
                 key={step.title}
                 data-fx="fly"
-                data-side={index % 2 === 0 ? "left" : "right"}
+                data-side="left"
+                data-fly-x="44"
                 className="relative border-t border-ink/15 pt-7 will-change-transform md:border-t-0 md:pt-9"
               >
                 <span
@@ -358,7 +362,7 @@ export default function PatientsPage() {
       <section
         id="support"
         data-drift-band
-        className="relative scroll-mt-24 overflow-hidden bg-ink py-24 text-white md:py-32"
+        className="relative scroll-mt-24 overflow-clip bg-ink py-24 text-white md:py-32"
       >
         {/* The same corner treatment as the journey section, in this room's
             own material — barely-there glass panels rather than tints. */}
@@ -370,12 +374,12 @@ export default function PatientsPage() {
             data-fx="drift"
             data-drift="0.3"
             data-rot="2"
-            className="absolute right-[26%] top-10 h-44 w-64 rounded-[2rem] border border-white/10 bg-white/[0.045]"
+            className="absolute right-[24%] top-6 h-40 w-60 rounded-[2rem] border border-white/10 bg-white/[0.045]"
           />
           <div
             data-fx="drift"
             data-drift="0.65"
-            className="absolute right-[8%] top-28 h-56 w-44 rounded-[2rem] border border-white/10 bg-white/[0.07]"
+            className="absolute right-[2%] top-12 h-44 w-36 rounded-[2rem] border border-white/10 bg-white/[0.07]"
           />
         </div>
 

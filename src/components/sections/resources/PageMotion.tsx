@@ -163,6 +163,16 @@ export default function PageMotion() {
               );
             });
 
+          // Opacity on rise and fly is TIME-based, not scrubbed — travel keeps
+          // the scrub, the fade plays once on entry and reverses on exit.
+          // Scrubbed opacity had two failure modes with no fix inside a scrub:
+          // a reader who stopped mid-band was left reading parked half-opaque
+          // text (ink-muted copy composites below the 4.5:1 AA floor under
+          // ~0.9), and a hash-landing froze cards at 0.6 indefinitely — two
+          // scrubbed triggers on one element also measure each other's
+          // transforms. A 0.45s play-on-enter has neither problem, which is
+          // exactly why the old time-based <Reveal> never showed either.
+
           // ── sheets rising and settling as they arrive ───────────────────
           document
             .querySelectorAll<HTMLElement>("[data-fx='rise']")
@@ -179,13 +189,11 @@ export default function PageMotion() {
                   y: strong ? 160 : 100,
                   scale: strong ? 0.92 : 0.965,
                   rotation: strong ? 1.6 : 0.7,
-                  opacity: 0.45,
                 },
                 {
                   y: 0,
                   scale: 1,
                   rotation: 0,
-                  opacity: 1,
                   ease: "none",
                   scrollTrigger: {
                     trigger: el,
@@ -195,30 +203,66 @@ export default function PageMotion() {
                   },
                 },
               );
+              gsap.fromTo(
+                el,
+                { opacity: 0.45 },
+                {
+                  opacity: 1,
+                  duration: 0.45,
+                  ease: "power2.out",
+                  scrollTrigger: {
+                    trigger: el,
+                    start: "top 96%",
+                    toggleActions: "play none none reverse",
+                  },
+                },
+              );
             });
 
-          // ── cards flying in from alternating sides ──────────────────────
+          // ── cards flying in from their sides ────────────────────────────
           document
             .querySelectorAll<HTMLElement>("[data-fx='fly']")
             .forEach((el) => {
               const fromLeft = el.dataset.side !== "right";
+              // The travel is tunable (data-fly-x) and capped to 6vw, because
+              // a fixed 70px is a third of a stacked mobile card — the words
+              // themselves slid off the screen edge during the entrance. And
+              // NOTE for authors: alternating sides only works when neighbours
+              // are not side-by-side — opposite sides on adjacent grid columns
+              // converge across the gutter and overlap mid-flight.
+              const base = Number(el.dataset.flyX ?? (strong ? 130 : 70));
               gsap.fromTo(
                 el,
                 {
-                  x: (fromLeft ? -1 : 1) * (strong ? 130 : 70),
+                  x: () =>
+                    (fromLeft ? -1 : 1) *
+                    Math.min(base, window.innerWidth * 0.06),
                   rotation: (fromLeft ? -1 : 1) * (strong ? 2.5 : 1.2),
-                  opacity: 0.3,
                 },
                 {
                   x: 0,
                   rotation: 0,
-                  opacity: 1,
                   ease: "none",
                   scrollTrigger: {
                     trigger: el,
                     start: "top 96%",
                     end: "top 55%",
                     scrub: 0.5,
+                    invalidateOnRefresh: true,
+                  },
+                },
+              );
+              gsap.fromTo(
+                el,
+                { opacity: 0.3 },
+                {
+                  opacity: 1,
+                  duration: 0.45,
+                  ease: "power2.out",
+                  scrollTrigger: {
+                    trigger: el,
+                    start: "top 94%",
+                    toggleActions: "play none none reverse",
                   },
                 },
               );
