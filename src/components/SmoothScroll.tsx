@@ -48,8 +48,12 @@ export default function SmoothScroll() {
       debounce: 450,
     });
 
+    // data-no-snap opts a section out — pages that run their own snap points
+    // (the /locations journey registers a mandatory Snap for its scroll
+    // locks) must not have this proximity instance competing for the same
+    // stretch of scroll: two instances pulling at once reads as a glitch.
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main > section")
+      document.querySelectorAll<HTMLElement>("main > section:not([data-no-snap])")
     ).filter((el) => el.offsetHeight > window.innerHeight * 0.5);
 
     for (const section of sections) {

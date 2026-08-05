@@ -99,7 +99,9 @@ export default function LocationsPage() {
               </p>
             </Reveal>
             <Reveal delay={3}>
-              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+              {/* Hidden below md: the hero shares a pinned stage with the map
+                  on a phone, and two paragraphs push the panel past its box. */}
+              <p className="mt-5 hidden max-w-xl text-[15px] leading-relaxed text-ink-muted md:block">
                 {section?.summary}
               </p>
             </Reveal>
@@ -107,7 +109,11 @@ export default function LocationsPage() {
         }
       />
 
-      <section className="container-wide pb-24 pt-20 md:pb-32 md:pt-28">
+      {/* data-no-snap: sitting directly after the journey's last lock, the
+          global proximity snap's pull toward this section's start competes
+          with the stage's own mandatory locks and can drag a settled stop
+          forward — see SmoothScroll.tsx. */}
+      <section data-no-snap className="container-wide pb-24 pt-20 md:pb-32 md:pt-28">
         {practicalPages.length > 0 && (
           <div>
             <Reveal>

@@ -1,29 +1,54 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import JourneyMap, { type MapStop } from "./JourneyMap";
+import {
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import dynamic from "next/dynamic";
+import Snap from "lenis/snap";
+import { getLenis } from "@/components/SmoothScroll";
+import JourneyMap from "./JourneyMap";
+import type { MapStop } from "./mapCamera";
+
+// Client-only: a canvas has no server-rendered output, and the SVG renderer
+// covers the first paint anyway.
+const JourneyMapCanvas = dynamic(() => import("./JourneyMapCanvas"), {
+  ssr: false,
+});
+
+type Renderer = "svg" | "canvas";
+const RENDERER_KEY = "bop-map-renderer";
+/** Flip after measuring; the toggle lets anyone compare live. */
+const DEFAULT_RENDERER: Renderer = "canvas";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// /locations — the scroll journey. Borrowed knowingly from HCA's "Our
-// locations": a hero beside a faint map of the whole country, and then, as you
-// scroll, the map flies to each site in turn while its panel tells you what
-// the building is.
+// /locations — the scroll journey, as a stepped, locked experience.
 //
-// The scroll does not drive the camera continuously. Each panel is a stop, an
-// IntersectionObserver watches a band across the middle of the viewport, and
-// whichever panel holds that band is the active stop — the map's springs do
-// the travelling. A scrubbed camera would fight Lenis's smoothing and jitter
-// on trackpads; a sprung one glides identically however the user scrolls, and
-// costs one class of bug less on a medical site.
+// One viewport-tall stage stays pinned for the whole journey while a track of
+// N×100vh behind it turns scroll depth into a single progress value:
+// 0 = the hero beside the UK-wide map, k = stop k−1 settled. Everything is a
+// function of that value —
 //
-// One DOM order serves both layouts — hero, then map, then panels:
-//   • below lg that *is* the page: hero copy in flow, then the map reaches the
-//     top of the screen and sticks there while the panels scroll through
-//     beneath it;
-//   • from lg the map lifts out to the right as an absolutely-positioned,
-//     viewport-tall sticky column, and hero + panels form the left column.
-// No duplicated hero, no order: juggling — sticky just does the work twice.
+//   • the camera scrubs through mapCamera's flight arc, pulling OUT until the
+//     frame holds both stops and diving back IN as you approach the next lock;
+//   • the text panels crossfade in step, each one fully readable at its lock
+//     and handed over mid-gap;
+//   • Lenis snap points at every lock mean the page always comes to rest ON a
+//     stop, never in a between-state — six locks, plus the hero.
+//
+// The previous cut let the page free-scroll past panels while an observer
+// retargeted springs mid-flight; quick scrolling made the camera dither, and
+// the site-wide section snap (which registers every tall `main > section`)
+// tugged at the whole 700vh block. The snap guard below disables our locks
+// outside the stage so the tail of the page scrolls normally.
+//
+// Free-fall paths: with reduced motion (no Lenis, no locks) progress is
+// stepped to whole stops, so every frame change is a cut; before hydration
+// the stage shows the hero and the UK map.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface JourneyStop extends MapStop {
@@ -65,11 +90,10 @@ function NhsPill() {
   );
 }
 
-/** Shared left-column gutter: container-wide's padding below lg, and from lg a
- *  computed left inset that keeps the text aligned with the site's container
- *  while letting the column itself stretch to meet the map. */
-const COLUMN =
-  "px-6 md:px-10 lg:w-[48%] lg:pl-[max(2.5rem,calc((100vw-90rem)/2+2.5rem))] lg:pr-14";
+const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
+
+/** How far into a gap a panel stays visible; fully handed over by 0.45. */
+const FADE = 0.45;
 
 export default function LocationsJourney({
   stops,
@@ -78,164 +102,306 @@ export default function LocationsJourney({
 }: {
   stops: JourneyStop[];
   hero: React.ReactNode;
-  /** Licence line for the boundary data. Required — do not render without it. */
+  /** Licence line for the map data. Required — do not render without it. */
   attribution: string;
 }) {
+  const N = stops.length;
+  const reduced = useReducedMotion();
+
+  const trackRef = useRef<HTMLDivElement>(null);
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // ── Progress ───────────────────────────────────────────────────────────────
+  // Raw progress follows the native scroll position (which Lenis animates, so
+  // it is already smooth); a light spring on top erases what wheel steps
+  // remain. Reduced motion gets whole numbers — cuts, not glides.
+  const rawP = useMotionValue(0);
+  const sprungP = useSpring(rawP, { stiffness: 110, damping: 26, mass: 0.6 });
+  const steppedP = useTransform(rawP, (v) => Math.round(v));
+  const progress = reduced ? steppedP : sprungP;
+
   const [active, setActive] = useState(-1);
-  const panelRefs = useRef<(HTMLElement | null)[]>([]);
+
+  // Which renderer draws the map. SVG until hydration (it server-renders);
+  // then the saved choice, or the default. The pill below flips it live —
+  // the camera maths is shared, so the swap is invisible except in feel.
+  const [renderer, setRenderer] = useState<Renderer>("svg");
+  useEffect(() => {
+    const saved = window.localStorage.getItem(RENDERER_KEY);
+    setRenderer(saved === "svg" || saved === "canvas" ? saved : DEFAULT_RENDERER);
+  }, []);
+  const pickRenderer = (r: Renderer) => {
+    setRenderer(r);
+    window.localStorage.setItem(RENDERER_KEY, r);
+  };
 
   useEffect(() => {
-    // Below lg the map owns the top ~44% of the screen, so the band that
-    // decides the active stop sits in the panel area beneath it rather than
-    // across the true centre — otherwise a panel would have to climb halfway
-    // under the map before its stop fired.
-    const mobile = window.matchMedia("(max-width: 1023px)").matches;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(Number((entry.target as HTMLElement).dataset.stop));
-          }
-        }
-      },
-      // When no panel holds the band (the moment between one leaving and the
-      // next arriving) the last stop stays active — the camera holds rather
-      // than resetting, which is the right behaviour.
-      {
-        rootMargin: mobile ? "-52% 0px -34% 0px" : "-43% 0px -43% 0px",
-        threshold: 0,
-      },
-    );
-    for (const el of panelRefs.current) if (el) io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    const el = trackRef.current;
+    if (!el) return;
+
+    let trackTop = 0;
+    const measure = () => {
+      trackTop = el.getBoundingClientRect().top + window.scrollY;
+    };
+    measure();
+
+    const onScroll = () => {
+      const vh = window.innerHeight;
+      rawP.set(
+        Math.min(Math.max((window.scrollY - trackTop) / vh, 0), N),
+      );
+    };
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+    };
+  }, [N, rawP]);
+
+  // Panel crossfade and the active stop, written imperatively — a scrub emits
+  // every frame, and neither job needs React until a stop actually changes.
+  useEffect(() => {
+    const drive = (p: number) => {
+      for (let k = 0; k <= N; k++) {
+        const panel = panelRefs.current[k];
+        if (!panel) continue;
+        const d = p - k;
+        const opacity = Math.max(0, 1 - Math.abs(d) / FADE);
+        panel.style.opacity = String(opacity);
+        panel.style.visibility = opacity <= 0.02 ? "hidden" : "visible";
+        panel.style.transform = `translateY(${(-d * 36).toFixed(1)}px)`;
+      }
+      const idx = Math.round(p) - 1;
+      setActive((prev) => (prev === idx ? prev : idx));
+    };
+    drive(progress.get());
+    return progress.on("change", drive);
+  }, [N, progress]);
+
+  // ── The locks ──────────────────────────────────────────────────────────────
+  // Our own Snap instance on the site's Lenis: mandatory, so the page always
+  // settles on a stop — but only while the stage owns the viewport. Mandatory
+  // snapping is global to the scroll, so without the guard it would drag the
+  // user back out of the practical-links tail below.
+  useEffect(() => {
+    const lenis = getLenis();
+    const el = trackRef.current;
+    if (!lenis || !el) return;
+
+    let snap: InstanceType<typeof Snap> | null = null;
+    let trackTop = 0;
+    let stageEnd = 0;
+
+    const build = () => {
+      snap?.destroy();
+      trackTop = el.getBoundingClientRect().top + window.scrollY;
+      const vh = window.innerHeight;
+      stageEnd = trackTop + N * vh;
+      snap = new Snap(lenis, {
+        type: "mandatory",
+        duration: 1.15,
+        easing: easeInOutSine,
+        debounce: 320,
+      });
+      for (let k = 0; k <= N; k++) snap.add(trackTop + k * vh);
+      guard();
+    };
+
+    const guard = () => {
+      if (!snap) return;
+      const inStage = window.scrollY < stageEnd + window.innerHeight * 0.4;
+      if (inStage) snap.start();
+      else snap.stop();
+    };
+
+    build();
+    window.addEventListener("scroll", guard, { passive: true });
+    window.addEventListener("resize", build);
+    return () => {
+      window.removeEventListener("scroll", guard);
+      window.removeEventListener("resize", build);
+      snap?.destroy();
+    };
+  }, [N]);
+
+  // Initial styles mirror p = 0 so the server render and the first client
+  // frame agree: hero visible, everything else hidden.
+  const panelStyle = (k: number): React.CSSProperties =>
+    k === 0
+      ? { opacity: 1, visibility: "visible" }
+      : { opacity: 0, visibility: "hidden" };
+
+  const panels = useMemo(
+    () => [
+      <div key="hero">{hero}</div>,
+      ...stops.map((stop) => (
+        <article key={stop.name}>
+          <p className="flex items-center gap-3 text-[12px] font-medium uppercase tracking-[0.18em] text-ink-muted">
+            <span className="font-display text-base tracking-normal text-accent">
+              {stop.index}
+            </span>
+            <span aria-hidden className="h-px w-8 bg-ink-muted/40" />
+            {stop.eyebrow}
+          </p>
+
+          <div className="mt-3 flex flex-wrap items-center gap-3 lg:mt-4">
+            <h2 className="font-display text-[26px] leading-tight text-ink md:text-4xl">
+              {stop.name}
+            </h2>
+            {stop.nhs && <NhsPill />}
+          </div>
+
+          <p className="mt-2 text-[15px] text-ink-muted">
+            {stop.area}
+            {stop.provider ? ` · ${stop.provider}` : ""}
+          </p>
+
+          <p className="mt-4 max-w-md text-[14px] leading-relaxed text-ink md:text-base lg:mt-5">
+            {stop.description}
+          </p>
+
+          {stop.address && (
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted lg:mt-4">
+              {stop.address}
+            </p>
+          )}
+
+          <Link
+            href={stop.href}
+            className="group mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-accent lg:mt-7"
+          >
+            {stop.linkLabel}
+            <Arrow />
+          </Link>
+        </article>
+      )),
+    ],
+    [hero, stops],
+  );
 
   return (
-    <section className="relative">
-      {/* ── Stop −1: the hero copy ─────────────────────────────────────────── */}
+    // data-no-snap: this section runs its own Snap locks; the global
+    // proximity snap must not compete (see SmoothScroll.tsx).
+    <section data-no-snap className="relative">
+      {/* The track: its height is the journey's scroll length. Sticky travel
+          is track height minus stage height, so N+1 viewport-heights give the
+          stage N full gaps — one per lock-to-lock flight. */}
       <div
-        ref={(el) => {
-          panelRefs.current[0] = el;
-        }}
-        data-stop={-1}
-        className={`flex flex-col justify-end pb-12 pt-28 md:pt-36 lg:min-h-screen lg:justify-center lg:pb-0 ${COLUMN}`}
+        ref={trackRef}
+        style={{ height: `${(N + 1) * 100}vh` }}
+        className="relative"
       >
-        {hero}
-      </div>
-
-      {/* ── The map ─────────────────────────────────────────────────────────
-          Below lg: a band that reaches the top of the screen and sticks, with
-          canvas paint and z-10 so panels scroll in beneath it. From lg: the
-          right half of the page, sticky for the full height of the journey. */}
-      <div className="sticky top-0 z-10 h-[44svh] w-full bg-canvas lg:absolute lg:inset-y-0 lg:right-0 lg:z-0 lg:h-auto lg:w-[52%] lg:bg-transparent">
-        <div className="relative h-full w-full lg:sticky lg:top-0 lg:h-screen">
-          {/* Below lg the map cedes its last 26px to the licence caption —
-              floated over the drawing, the caption wrapped to four lines and
-              collided with the count chip. From lg it is a corner note again. */}
-          <div className="absolute inset-x-0 bottom-[26px] top-0 lg:bottom-0">
-            <JourneyMap stops={stops} active={active} />
-
-            {/* A soft fade along the map's bottom edge so panels appear to
-                slide beneath it rather than being guillotined. */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-canvas to-transparent lg:hidden"
-            />
-          </div>
-
-          {/* The HCA count card. Full card from lg, a compact chip below it;
-              both belong to the wide shot and step aside once the journey
-              begins. */}
-          <div
-            className={`absolute transition-opacity duration-500 ${
-              active === -1 ? "opacity-100" : "pointer-events-none opacity-0"
-            } bottom-[34px] left-4 lg:bottom-auto lg:left-0 lg:top-1/2 lg:-translate-y-1/2`}
-          >
-            <div className="rounded-2xl bg-ink px-5 py-4 text-white shadow-[0_24px_70px_-28px_rgba(6,28,70,0.55)] lg:rounded-3xl lg:px-10 lg:py-12">
-              <p className="font-display text-4xl leading-none lg:text-7xl">
-                {stops.length}
-              </p>
-              <p className="mt-2 text-[13px] leading-snug text-white/90 lg:mt-4 lg:text-lg">
-                Locations across the
-                <br className="hidden lg:block" /> Thames Valley
-              </p>
-              <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/50 lg:mt-6 lg:text-[12px]">
-                Scroll down to explore
-              </p>
-              <svg
-                aria-hidden
-                viewBox="0 0 16 16"
-                fill="none"
-                className="mt-3 hidden h-5 w-5 text-white/80 lg:block"
-              >
-                <path
-                  d="M8 2v11M3.5 8.5 8 13l4.5-4.5"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+        <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden lg:block">
+          {/* ── The map ──────────────────────────────────────────────────
+              Below lg: a band across the top of the stage, its last 26px
+              ceded to the licence caption. From lg: the right half. */}
+          <div className="relative h-[44svh] w-full shrink-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
+            <div className="absolute inset-x-0 bottom-[26px] top-0 lg:bottom-0">
+              {renderer === "canvas" ? (
+                <JourneyMapCanvas
+                  stops={stops}
+                  active={active}
+                  progress={progress}
                 />
-              </svg>
+              ) : (
+                <JourneyMap stops={stops} active={active} progress={progress} />
+              )}
+
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-canvas to-transparent lg:hidden"
+              />
+            </div>
+
+            {/* The HCA count card — belongs to the wide shot, steps aside
+                once the journey begins. */}
+            <div
+              className={`absolute transition-opacity duration-500 ${
+                active === -1 ? "opacity-100" : "pointer-events-none opacity-0"
+              } left-4 top-24 lg:left-0 lg:top-1/2 lg:-translate-y-1/2`}
+            >
+              <div className="rounded-2xl bg-ink px-5 py-4 text-white shadow-[0_24px_70px_-28px_rgba(6,28,70,0.55)] lg:rounded-3xl lg:px-10 lg:py-12">
+                <p className="font-display text-4xl leading-none lg:text-7xl">
+                  {stops.length}
+                </p>
+                <p className="mt-2 text-[13px] leading-snug text-white/90 lg:mt-4 lg:text-lg">
+                  Locations across the
+                  <br className="hidden lg:block" /> Thames Valley
+                </p>
+                <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/50 lg:mt-6 lg:text-[12px]">
+                  Scroll down to explore
+                </p>
+                <svg
+                  aria-hidden
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className="mt-3 hidden h-5 w-5 text-white/80 lg:block"
+                >
+                  <path
+                    d="M8 2v11M3.5 8.5 8 13l4.5-4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* Required by the data licences. Do not remove. */}
+            {/* ink-muted, not a faded ink: at this size the faded version
+                measured 2.48:1 and axe rightly objected — a licence line is
+                required to be readable, not merely present. */}
+            <p className="pointer-events-none absolute inset-x-0 bottom-0 px-4 pt-0.5 text-[9px] leading-[10px] text-ink-muted lg:inset-x-auto lg:bottom-1 lg:right-2 lg:px-0 lg:pt-0 lg:text-[10px] lg:leading-normal">
+              {attribution}
+            </p>
+
+            {/* Renderer comparison toggle — same camera, different painter. */}
+            <div className="absolute right-2 top-24 z-20 flex overflow-hidden rounded-full border border-ink/10 bg-white/85 text-[10px] font-medium uppercase tracking-[0.08em] backdrop-blur-sm lg:right-auto lg:left-4 lg:top-auto lg:bottom-9">
+              {(["svg", "canvas"] as const).map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => pickRenderer(r)}
+                  aria-pressed={renderer === r}
+                  className={`px-2.5 py-1 transition-colors ${
+                    renderer === r
+                      ? "bg-ink text-white"
+                      : "text-ink-muted hover:text-ink"
+                  }`}
+                >
+                  {r === "svg" ? "Vector" : "Canvas"}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Required by the data licences. Do not remove. */}
-          <p className="pointer-events-none absolute inset-x-0 bottom-0 px-4 pt-1 text-[8px] leading-[9px] text-ink/40 lg:inset-x-auto lg:bottom-1 lg:right-2 lg:px-0 lg:pt-0 lg:text-[10px] lg:leading-normal">
-            {attribution}
-          </p>
+          {/* ── The panels ───────────────────────────────────────────────
+              Stacked in the same box and crossfaded by progress. Hidden
+              panels are visibility:hidden so their links leave the tab
+              order along with the view. */}
+          <div className="relative min-h-0 flex-1 lg:absolute lg:inset-y-0 lg:left-0 lg:w-[48%]">
+            {panels.map((panel, k) => (
+              <div
+                key={k}
+                ref={(node) => {
+                  panelRefs.current[k] = node;
+                }}
+                style={panelStyle(k)}
+                className="absolute inset-0 flex overflow-y-auto px-6 md:px-10 lg:pl-[max(2.5rem,calc((100vw-90rem)/2+2.5rem))] lg:pr-14"
+              >
+                {/* my-auto, not justify-center on the flex box: flex centring
+                    of overflowing content clips its top unreachably; auto
+                    margins collapse instead, so a panel taller than the box
+                    (the hero at 375px) scrolls from its true top. */}
+                <div className="my-auto w-full py-5">{panel}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-
-      {/* ── The panels ─────────────────────────────────────────────────────── */}
-      <div className={`relative ${COLUMN}`}>
-        {stops.map((stop, i) => (
-          <article
-            key={stop.name}
-            ref={(el) => {
-              panelRefs.current[i + 1] = el;
-            }}
-            data-stop={i}
-            className="flex min-h-[62svh] flex-col justify-center py-14 lg:min-h-screen lg:py-0"
-          >
-            <p className="flex items-center gap-3 text-[12px] font-medium uppercase tracking-[0.18em] text-ink-muted">
-              <span className="font-display text-base tracking-normal text-accent">
-                {stop.index}
-              </span>
-              <span aria-hidden className="h-px w-8 bg-ink-muted/40" />
-              {stop.eyebrow}
-            </p>
-
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <h2 className="font-display text-3xl leading-tight text-ink md:text-4xl">
-                {stop.name}
-              </h2>
-              {stop.nhs && <NhsPill />}
-            </div>
-
-            <p className="mt-2 text-[15px] text-ink-muted">
-              {stop.area}
-              {stop.provider ? ` · ${stop.provider}` : ""}
-            </p>
-
-            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink md:text-base">
-              {stop.description}
-            </p>
-
-            {stop.address && (
-              <p className="mt-4 text-sm leading-relaxed text-ink-muted">
-                {stop.address}
-              </p>
-            )}
-
-            <Link
-              href={stop.href}
-              className="group mt-7 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-accent"
-            >
-              {stop.linkLabel}
-              <Arrow />
-            </Link>
-          </article>
-        ))}
       </div>
     </section>
   );
