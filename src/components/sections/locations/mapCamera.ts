@@ -145,10 +145,13 @@ function stopFrame(stop: MapStop, riverPts: [number, number][]): Frame {
   };
 }
 
-/** Frame 0 is the UK; frame k is stop k−1. */
+/** Frame 0 is the UK; frame k is stop k−1; the final frame is the UK again —
+ *  the journey's outro pulls back out to the shot it opened on. Inert unless
+ *  progress is actually driven past the last stop, since cameraAt clamps. */
 export function buildFrames(stops: MapStop[]): Frame[] {
   const riverPts = riverVertices();
-  return [ukFrame(), ...stops.map((s) => stopFrame(s, riverPts))];
+  const uk = ukFrame();
+  return [uk, ...stops.map((s) => stopFrame(s, riverPts)), uk];
 }
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t);

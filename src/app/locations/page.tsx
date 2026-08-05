@@ -107,68 +107,59 @@ export default function LocationsPage() {
             </Reveal>
           </>
         }
-      />
-
-      {/* data-no-snap: sitting directly after the journey's last lock, the
-          global proximity snap's pull toward this section's start competes
-          with the stage's own mandatory locks and can drag a settled stop
-          forward — see SmoothScroll.tsx. */}
-      <section data-no-snap className="container-wide pb-24 pt-20 md:pb-32 md:pt-28">
-        {practicalPages.length > 0 && (
-          <div>
-            <Reveal>
-              <h2 className="font-display text-2xl text-ink md:text-3xl">
-                Getting there and other sites
-              </h2>
-            </Reveal>
-            <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {practicalPages.map((link, i) => (
-                <Reveal key={link.href} delay={i} className="h-full">
-                  <Link
-                    href={link.href}
-                    className="group flex h-full flex-col rounded-3xl border border-black/[0.06] bg-canvas-warm p-5 transition-colors hover:border-accent/25 hover:bg-white md:p-6"
-                  >
-                    <span className="font-display text-lg text-ink">
+        outro={
+          // The journey's last lock: the camera has pulled back out to the
+          // UK-wide shot it opened on, and the practical pages that used to
+          // live in a section below now close the story beside it.
+          <>
+            <h2 className="font-display text-[26px] leading-tight text-ink md:text-3xl">
+              Getting there and other sites
+            </h2>
+            <div className="mt-5 divide-y divide-ink/[0.07] border-y border-ink/[0.07] lg:mt-7">
+              {practicalPages.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center justify-between gap-4 py-3.5 lg:py-4"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-display text-base text-ink transition-colors group-hover:text-accent lg:text-lg">
                       {link.label}
                     </span>
                     {link.description && (
-                      <span className="mt-2 text-[15px] leading-relaxed text-ink-muted">
+                      <span className="mt-0.5 hidden text-[13px] leading-snug text-ink-muted md:block">
                         {link.description}
                       </span>
                     )}
-                    <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-medium text-accent">
-                      Read more
-                      <Arrow />
-                    </span>
-                  </Link>
-                </Reveal>
+                  </span>
+                  <Arrow className="shrink-0 text-accent" />
+                </Link>
               ))}
             </div>
-          </div>
-        )}
 
-        <Reveal>
-          <div className="card-soft mt-16 p-6 md:p-8">
-            <h2 className="font-display text-xl text-ink md:text-2xl">
-              Not sure which site you need?
-            </h2>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
-              Our practice manager can tell you where your consultant sees
-              patients, and where your treatment would take place, before you
-              make any arrangements. We would always rather check than have you
-              go to the wrong building.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Button href="/contact" variant="primary">
-                Contact the practice
-              </Button>
-              <Button href="/consultants" variant="ghost">
-                Find a consultant
-              </Button>
+            <div className="mt-6 lg:mt-9">
+              <h3 className="font-display text-lg text-ink lg:text-xl">
+                Not sure which site you need?
+              </h3>
+              <p className="mt-2 hidden max-w-md text-[14px] leading-relaxed text-ink-muted sm:block">
+                Our practice manager can tell you where your consultant sees
+                patients, and where your treatment would take place, before you
+                make any arrangements. We would always rather check than have
+                you go to the wrong building.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-3 lg:mt-5">
+                <Button href="/contact" variant="primary">
+                  Contact the practice
+                </Button>
+                <Button href="/consultants" variant="ghost">
+                  Find a consultant
+                </Button>
+              </div>
             </div>
-          </div>
-        </Reveal>
-      </section>
+          </>
+        }
+      />
+
     </>
   );
 }

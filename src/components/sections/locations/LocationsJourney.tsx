@@ -98,14 +98,19 @@ const FADE = 0.45;
 export default function LocationsJourney({
   stops,
   hero,
+  outro,
   attribution,
 }: {
   stops: JourneyStop[];
   hero: React.ReactNode;
+  /** The final lock: camera back at the UK-wide shot, practical links beside. */
+  outro: React.ReactNode;
   /** Licence line for the map data. Required — do not render without it. */
   attribution: string;
 }) {
   const N = stops.length;
+  /** The last lock's index: hero (0), stops (1..N), outro (N+1). */
+  const LAST = N + 1;
   const reduced = useReducedMotion();
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -148,7 +153,7 @@ export default function LocationsJourney({
     const onScroll = () => {
       const vh = window.innerHeight;
       rawP.set(
-        Math.min(Math.max((window.scrollY - trackTop) / vh, 0), N),
+        Math.min(Math.max((window.scrollY - trackTop) / vh, 0), LAST),
       );
     };
     onScroll();
@@ -159,13 +164,13 @@ export default function LocationsJourney({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
     };
-  }, [N, rawP]);
+  }, [LAST, rawP]);
 
   // Panel crossfade and the active stop, written imperatively — a scrub emits
   // every frame, and neither job needs React until a stop actually changes.
   useEffect(() => {
     const drive = (p: number) => {
-      for (let k = 0; k <= N; k++) {
+      for (let k = 0; k <= LAST; k++) {
         const panel = panelRefs.current[k];
         if (!panel) continue;
         const d = p - k;
@@ -179,13 +184,14 @@ export default function LocationsJourney({
     };
     drive(progress.get());
     return progress.on("change", drive);
-  }, [N, progress]);
+  }, [LAST, progress]);
 
   // ── The locks ──────────────────────────────────────────────────────────────
   // Our own Snap instance on the site's Lenis: mandatory, so the page always
   // settles on a stop — but only while the stage owns the viewport. Mandatory
   // snapping is global to the scroll, so without the guard it would drag the
-  // user back out of the practical-links tail below.
+  // user back up out of the footer. With the wheel stepper below this is the
+  // backstop for the inputs it does not own: touch flicks and scrollbar drags.
   useEffect(() => {
     const lenis = getLenis();
     const el = trackRef.current;
@@ -199,14 +205,14 @@ export default function LocationsJourney({
       snap?.destroy();
       trackTop = el.getBoundingClientRect().top + window.scrollY;
       const vh = window.innerHeight;
-      stageEnd = trackTop + N * vh;
+      stageEnd = trackTop + LAST * vh;
       snap = new Snap(lenis, {
         type: "mandatory",
         duration: 1.15,
         easing: easeInOutSine,
         debounce: 320,
       });
-      for (let k = 0; k <= N; k++) snap.add(trackTop + k * vh);
+      for (let k = 0; k <= LAST; k++) snap.add(trackTop + k * vh);
       guard();
     };
 
@@ -225,7 +231,128 @@ export default function LocationsJourney({
       window.removeEventListener("resize", build);
       snap?.destroy();
     };
-  }, [N]);
+  }, [LAST]);
+
+  // ── The stepper ────────────────────────────────────────────────────────────
+  // One gesture, one stop — the flight is the same ~1.1s whether the wheel
+  // turned a notch or a trackpad was flung. Wheel events inside the stage are
+  // taken before Lenis sees them (capture phase, then stopImmediatePropagation)
+  // and folded into a step; everything that arrives during the flight or in a
+  // gesture's momentum tail is swallowed, which is precisely the "size of the
+  // scroll" this removes. At the final lock a downward gesture is left alone,
+  // so the page releases into the footer naturally; keyboard paging gets the
+  // same treatment. Touch stays native — a flick already reads as one gesture,
+  // and the snap above settles it onto a lock.
+  useEffect(() => {
+    const lenis = getLenis();
+    const el = trackRef.current;
+    if (!lenis || !el) return;
+
+    let trackTop = 0;
+    let vh = window.innerHeight;
+    const measure = () => {
+      trackTop = el.getBoundingClientRect().top + window.scrollY;
+      vh = window.innerHeight;
+    };
+    measure();
+
+    let stepping = false;
+    let swallowTail = false;
+    let lastWheel = 0;
+    let acc = 0;
+    let backstop: ReturnType<typeof setTimeout> | null = null;
+
+    const currentLock = () =>
+      Math.round((window.scrollY - trackTop) / vh);
+    const inStage = () =>
+      window.scrollY < trackTop + LAST * vh + vh * 0.35;
+
+    const step = (dir: 1 | -1) => {
+      const next = Math.min(Math.max(currentLock() + dir, 0), LAST);
+      if (next === currentLock()) return;
+      stepping = true;
+      swallowTail = true;
+      lenis.scrollTo(trackTop + next * vh, {
+        duration: 1.1,
+        easing: easeInOutSine,
+        lock: true,
+        force: true,
+        onComplete: () => {
+          stepping = false;
+        },
+      });
+      // If onComplete is ever lost (a resize mid-flight), free the stepper
+      // rather than jamming it — the same lesson the canvas rAF taught.
+      if (backstop) clearTimeout(backstop);
+      backstop = setTimeout(() => {
+        stepping = false;
+      }, 1700);
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      if (!inStage()) return;
+      const dir: 1 | -1 = e.deltaY > 0 ? 1 : -1;
+      // Leaving: the last lock's downward gesture belongs to the page.
+      if (!stepping && dir === 1 && currentLock() >= LAST) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const now = performance.now();
+      const gap = now - lastWheel;
+      lastWheel = now;
+      if (stepping) return;
+      if (swallowTail) {
+        // Momentum keeps emitting after a flight; only a genuine pause ends
+        // the gesture and arms the next one.
+        if (gap < 180) return;
+        swallowTail = false;
+        acc = 0;
+      }
+      acc += e.deltaY;
+      if (Math.abs(acc) < 24) return;
+      const d: 1 | -1 = acc > 0 ? 1 : -1;
+      acc = 0;
+      step(d);
+    };
+
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (
+        t &&
+        (t.tagName === "INPUT" ||
+          t.tagName === "TEXTAREA" ||
+          t.isContentEditable)
+      ) {
+        return;
+      }
+      if (!inStage()) return;
+      const down =
+        e.key === "PageDown" ||
+        e.key === "ArrowDown" ||
+        (e.key === " " && !e.shiftKey);
+      const up =
+        e.key === "PageUp" ||
+        e.key === "ArrowUp" ||
+        (e.key === " " && e.shiftKey);
+      if (!down && !up) return;
+      if (down && currentLock() >= LAST) return;
+      e.preventDefault();
+      if (!stepping) step(down ? 1 : -1);
+    };
+
+    window.addEventListener("wheel", onWheel, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("wheel", onWheel, true);
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", measure);
+      if (backstop) clearTimeout(backstop);
+    };
+  }, [LAST]);
 
   // Initial styles mirror p = 0 so the server render and the first client
   // frame agree: hero visible, everything else hidden.
@@ -278,8 +405,10 @@ export default function LocationsJourney({
           </Link>
         </article>
       )),
+      // The outro: index LAST, beside the camera's return to the wide shot.
+      <div key="outro">{outro}</div>,
     ],
-    [hero, stops],
+    [hero, outro, stops],
   );
 
   return (
@@ -287,11 +416,12 @@ export default function LocationsJourney({
     // proximity snap must not compete (see SmoothScroll.tsx).
     <section data-no-snap className="relative">
       {/* The track: its height is the journey's scroll length. Sticky travel
-          is track height minus stage height, so N+1 viewport-heights give the
-          stage N full gaps — one per lock-to-lock flight. */}
+          is track height minus stage height, so LAST+1 viewport-heights give
+          the stage LAST full gaps — one per lock-to-lock flight, the final
+          one being the pull back out to the UK. */}
       <div
         ref={trackRef}
-        style={{ height: `${(N + 1) * 100}vh` }}
+        style={{ height: `${(LAST + 1) * 100}vh` }}
         className="relative"
       >
         <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden lg:block">
@@ -300,14 +430,23 @@ export default function LocationsJourney({
               ceded to the licence caption. From lg: the right half. */}
           <div className="relative h-[44svh] w-full shrink-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
             <div className="absolute inset-x-0 bottom-[26px] top-0 lg:bottom-0">
+              {/* At the outro the raw index is N — out of stops' range — and
+                  the renderers must read it as "no active stop": every pin at
+                  full strength, no grounds highlighted, as in the hero's wide
+                  shot. The count card keys off the raw value instead, so it
+                  stays a hero-only object. */}
               {renderer === "canvas" ? (
                 <JourneyMapCanvas
                   stops={stops}
-                  active={active}
+                  active={active >= 0 && active < N ? active : -1}
                   progress={progress}
                 />
               ) : (
-                <JourneyMap stops={stops} active={active} progress={progress} />
+                <JourneyMap
+                  stops={stops}
+                  active={active >= 0 && active < N ? active : -1}
+                  progress={progress}
+                />
               )}
 
               <div
