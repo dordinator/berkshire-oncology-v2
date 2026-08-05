@@ -29,50 +29,59 @@ export interface Testimonial {
   quote: string;
   /** How the patient is credited. */
   attribution: string;
-  /** File in public/testimonials/. */
-  image: string;
-  /** Pexels photographer and photo id, for the record. */
-  credit: string;
 }
 
-/* The photographs are Pexels — free for commercial use, no attribution
-   required, though the credit is recorded below anyway. They are warm and
-   vibrant on purpose, and the card scrim is neutral black rather than the
-   site's navy so it fades them without tinting them blue.
+/* TEMPORARY: eight image sets, switchable from the toggle in
+   TestimonialCards. Each is four photographs meant to sit together, so the
+   choice is a direction rather than four separate picks. Once one is chosen,
+   keep its four files, delete the rest of public/testimonials/, and replace
+   this with a plain path on each testimonial.
 
-   These are stock, and they are not the people quoted. That is a second reason
-   the placeholder notice matters: a photograph beside a testimonial reads as a
-   photograph of whoever said it. If real quotations arrive without consented
-   photographs of the patients, this section should keep the images generic and
-   say so, or drop them. */
+   All generated with Higgsfield Soul 2.0. Worth knowing what that means here:
+   the people do not exist. That is safer than stock photographs of real people
+   in one way — nobody real is being presented as a patient of this practice —
+   and worse in another, because an invented face beside a quotation is still a
+   depiction of a patient who did not sit for it. It holds while the quotations
+   are placeholders. It should not survive them without a decision. */
+export const IMAGE_SETS = [
+  { id: "garden", name: "Garden", hint: "Cottage gardens, ferns, roses \u2014 quiet and English" },
+  { id: "home", name: "Home light", hint: "Windows, armchairs, tea \u2014 domestic calm" },
+  { id: "outdoors", name: "Outdoors", hint: "Coast path, woodland, park \u2014 air and movement" },
+  { id: "together", name: "Together", hint: "Couples, daughters, grandchildren \u2014 companionship" },
+  { id: "table", name: "Kitchen table", hint: "Ordinary life resumed \u2014 the least staged" },
+  { id: "golden", name: "Golden hour", hint: "Warm low sun portraits \u2014 the most flattering" },
+  { id: "hands", name: "Hands", hint: "Close crops, no faces \u2014 check the rings for artefacts" },
+  { id: "window", name: "Windows", hint: "Thresholds and daylight \u2014 contemplative" },
+] as const;
+
+export type ImageSetId = (typeof IMAGE_SETS)[number]["id"];
+
+export const DEFAULT_IMAGE_SET: ImageSetId = "garden";
+
+/** public/testimonials/<set>-<1..4>.jpg */
+export function imageFor(set: ImageSetId, index: number) {
+  return `/testimonials/${set}-${index + 1}.jpg`;
+}
 
 export const testimonials: Testimonial[] = [
   {
     quote:
       "I saw the same consultant every time. He explained what the options were and what each one would ask of me, and then we decided together.",
     attribution: "Patient A, Reading",
-    image: "/testimonials/couple-park.jpg",
-    credit: "Caleb Oquendo / Pexels 7807597",
   },
   {
     quote:
       "I was seen within a few days of my GP referral, and someone rang me afterwards to check I had understood what had been said.",
     attribution: "Patient B, Windsor",
-    image: "/testimonials/family.jpg",
-    credit: "Rebeca Medeiros / Pexels 15795032",
   },
   {
     quote:
       "Nobody rushed me. I asked the same question three times in one appointment and got a straight answer three times.",
     attribution: "Patient C, Newbury",
-    image: "/testimonials/woman-garden.jpg",
-    credit: "Marcus Aurelius / Pexels 6787552",
   },
   {
     quote:
       "It mattered to know exactly who was in charge of my treatment, and to be able to reach them when I needed to.",
     attribution: "Patient D, Reading",
-    image: "/testimonials/couple-gardening.jpg",
-    credit: "Greta Hoffman / Pexels 7729131",
   },
 ];
