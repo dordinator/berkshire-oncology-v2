@@ -4,8 +4,9 @@
 //
 // Turns ONS boundary GeoJSON into a small TypeScript module of SVG path data,
 // so a component can draw a faint vector map of the UK — country outlines plus
-// county / unitary-authority lines, and the Thames and Kennet through the
-// Thames Valley — with no runtime fetch, no map library and no tile server.
+// county / unitary-authority lines, the Thames and Kennet through the Thames
+// Valley, the road and rail network around it, and the footprint of each site —
+// with no runtime fetch, no map library and no tile server.
 //
 //   node scripts/build-map-paths.mjs
 //
@@ -31,16 +32,22 @@
 // chosen because two decimal places on that grid is ~4 m on the ground: fine
 // enough to stay smooth zoomed to a town, while keeping the numbers short.
 //
-// ── Two tolerance tiers ──────────────────────────────────────────────────────
+// ── Four tolerance tiers ─────────────────────────────────────────────────────
 // Douglas–Peucker, run in projected world units so the tolerance means the same
 // thing everywhere on screen:
 //
 //   coarse — country outlines and every county outside the Thames Valley. Sized
 //            to be sub-pixel at a whole-UK view (the UK is ~1900 world units
 //            wide, so a 600 px render puts one unit at about a third of a pixel).
-//   fine   — counties whose bounding box meets the Thames Valley box below, and
-//            every river. Sized to stay clean zoomed to roughly town level
-//            (z ~ 12–13), where one world unit is 16–32 px.
+//   medium — major roads and railways. Sized for a regional view of the Thames
+//            Valley (z ~ 10–11): a motorway sweep stays a sweep, but a slip-road
+//            wiggle nobody can see at that zoom costs nothing.
+//   fine   — counties whose bounding box meets the Thames Valley box below,
+//            every river, and the local streets around each site. Sized to stay
+//            clean zoomed to roughly town level (z ~ 12–13), where one world
+//            unit is 16–32 px.
+//   site   — the six site footprints, at the output quantum. A hospital block is
+//            40–80 m across, so anything coarser would round it to a triangle.
 //
 // Output coordinates are rounded to 2dp and written as one absolute moveto plus
 // relative linetos. The deltas are differences of already-rounded integers, so
@@ -58,6 +65,36 @@
 // Rivers are *open* polylines — no closing Z — so they must be stroked, never
 // filled. Everything else about them (projection, tolerance, encoding) is
 // identical to the boundaries.
+//
+// ── Roads, railways and sites ────────────────────────────────────────────────
+// Four more Overpass queries, cached separately and — bar the site footprints —
+// shaped exactly like the rivers: stitch the ways back into long polylines,
+// project, simplify, clip, drop the stubs, encode. Five requests in total, one
+// per data class, and never more than one in flight.
+//
+//   roadsMajor — highway=motorway / trunk / primary / secondary across the
+//                Thames Valley box. Link roads (motorway_link and friends) are
+//                excluded by anchoring the regex: at this zoom a slip road is a
+//                blob on the junction, not a road. Ways are bucketed by class
+//                *before* stitching, so a chain never straddles two classes and
+//                the class survives into the output for per-class styling.
+//   roadsLocal — highway=tertiary / unclassified / residential / living_street /
+//                pedestrian within LOCAL_RADIUS of any site. Overpass's `around`
+//                hands back whole ways, so a lane that merely brushes the radius
+//                arrives with its full length attached; each polyline is clipped
+//                back to the union of the discs so the export means what it says.
+//   railways   — railway=rail without a service tag, so the running lines survive
+//                and the sidings, spurs, yards and crossovers do not.
+//
+// Roads and railways are open polylines too, and are stroked the same way.
+//
+// Site footprints are the odd one out: closed rings, taken from the hospital
+// grounds / healthcare / building polygon that contains each site coordinate,
+// falling back to the largest polygon within SITE_RADIUS when nothing contains
+// it. Where both a grounds polygon (amenity=hospital or healthcare=*) and a
+// single block contain the point, the grounds win — the map wants the site, not
+// one ward of it. Multipolygon relations contribute their outer ring(s) only;
+// courtyards would need a fill-rule the caller has no reason to want.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { mkdir, readFile, writeFile, stat } from "node:fs/promises";
@@ -76,19 +113,49 @@ const CACHE_DIR = process.env.MAP_DATA_DIR || join(tmpdir(), "boh-mapdata");
 /** World size in pixels. 256 * 2 ** 8 — see the projection note above. */
 const WORLD = 65536;
 
+/**
+ * One world unit is EARTH_CIRCUMFERENCE * cos(lat) / WORLD metres on the ground:
+ * 381 m at the latitude of Reading. Every threshold below is written in world
+ * units, with the metres it works out to at that latitude in the comment.
+ */
+const EARTH_CIRCUMFERENCE = 40075016.686;
+const metresPerUnit = (lat) => (EARTH_CIRCUMFERENCE * Math.cos((lat * Math.PI) / 180)) / WORLD;
+
 /** Douglas–Peucker tolerance, in world units at WORLD. */
 const TOL_COARSE = 1.6; // ~0.5 px at a whole-UK view
+const TOL_ROADS = 0.15; // ~57 m — ~0.6 px at z 10, ~2.3 px at z 12
 const TOL_FINE = 0.09; // ~1.5 px at z 12, ~3 px at z 13
+const TOL_SITE = 0.01; // ~4 m — the 2dp output quantum, i.e. lossless once rounded
 
 /** Rings smaller than this (longest bbox side, world units) are dropped. */
 const MIN_SPAN_COARSE = 3.2; // ~1.2 km — islets that would render as specks
 const MIN_SPAN_FINE = 0.5; // ~200 m
 
-/** River polylines shorter than this along their length (world units) are dropped. */
+/** Polylines shorter than this along their length (world units) are dropped. */
 const MIN_RIVER_LENGTH = 0.8; // ~300 m — clipping stubs and orphaned side channels
+const MIN_ROAD_MAJOR_LENGTH = 1.05; // ~400 m — junction fragments left by the clip
+const MIN_ROAD_LOCAL_LENGTH = 0.32; // ~120 m — cul-de-sac stubs and disc-edge slivers
+const MIN_RAIL_LENGTH = 1.3; // ~500 m — platform loops and chords
 
 /** Thames Valley: Reading, Windsor, Oxford and their neighbours get the fine tier. */
 const THAMES_VALLEY = { minLat: 51.2, maxLat: 51.95, minLng: -1.55, maxLng: -0.3 };
+
+/**
+ * The six places the practice works out of, in the order the site lists them.
+ * `slug` is the key the component joins on, so it has to stay stable.
+ */
+const SITES = [
+  { slug: "practice", lat: 51.449959, lng: -0.985037 },
+  { slug: "spire-dunedin-reading", lat: 51.450499, lng: -0.986018 },
+  { slug: "royal-berkshire-hospital", lat: 51.449176, lng: -0.958114 },
+  { slug: "princess-margaret-windsor", lat: 51.47484, lng: -0.609968 },
+  { slug: "genesiscare-windsor", lat: 51.47786, lng: -0.616878 },
+  { slug: "genesiscare-oxford", lat: 51.723559, lng: -1.215733 },
+];
+
+/** Local streets are kept within this of a site; site polygons are sought within this. */
+const LOCAL_RADIUS = 2500; // metres
+const SITE_RADIUS = 150; // metres
 
 /** Decimal places kept in the output. */
 const DP = 2;
@@ -119,19 +186,101 @@ const COUNTIES = {
   page: 20, // the layer caps a response at 2000 features but chokes on big geometry
 };
 
-// OpenStreetMap, via one Overpass query for the named waterway=river ways inside
-// the Thames Valley box. Overpass is a free, volunteer-funded service: ask once,
-// cache the answer, and identify the caller.
+// OpenStreetMap, via four Overpass queries: the named waterway=river ways inside
+// the Thames Valley box, the major roads and railways across the same box, the
+// local streets around the sites, and the site footprints. Overpass is a free,
+// volunteer-funded service: ask once, cache each answer separately, and identify
+// the caller.
 
 const OVERPASS = "https://overpass-api.de/api/interpreter";
 
 const USER_AGENT =
   "berkshire-oncology-partnership/build-map-paths.mjs (one-off static map build)";
 
+/**
+ * Overpass's own server-side budget, in seconds. Generous because the major-road
+ * query sweeps 7,000 km² and comes back with a fifth of a million nodes; the
+ * others finish in seconds and the budget costs them nothing.
+ */
+const OVERPASS_TIMEOUT = 600;
+
+/** Overpass bbox order is S,W,N,E — the opposite way round from a GeoJSON bbox. */
+const bboxOf = (box) => `${box.minLat},${box.minLng},${box.maxLat},${box.maxLng}`;
+
+/** `^(...)$` so highway=motorway matches and highway=motorway_link does not. */
+const exactly = (values) => `^(${values.join("|")})$`;
+
 const RIVERS = {
   file: "thames_valley_rivers_osm.json",
+  label: "rivers",
   names: ["River Thames", "River Kennet"],
   box: THAMES_VALLEY,
+  get query() {
+    const clauses = this.names
+      .map((name) => `  way["waterway"="river"]["name"="${name}"](${bboxOf(this.box)});`)
+      .join("\n");
+    return `[out:json][timeout:${OVERPASS_TIMEOUT}];\n(\n${clauses}\n);\nout geom;`;
+  },
+};
+
+const ROADS_MAJOR = {
+  file: "thames_valley_roads_major_osm.json",
+  label: "major roads",
+  classes: ["motorway", "trunk", "primary", "secondary"],
+  box: THAMES_VALLEY,
+  get query() {
+    return (
+      `[out:json][timeout:${OVERPASS_TIMEOUT}];\n(\n` +
+      `  way["highway"~"${exactly(this.classes)}"](${bboxOf(this.box)});\n` +
+      `);\nout geom;`
+    );
+  },
+};
+
+const RAILWAYS = {
+  file: "thames_valley_railways_osm.json",
+  label: "railways",
+  box: THAMES_VALLEY,
+  get query() {
+    return (
+      `[out:json][timeout:${OVERPASS_TIMEOUT}];\n(\n` +
+      `  way["railway"="rail"][!"service"](${bboxOf(this.box)});\n` +
+      `);\nout geom;`
+    );
+  },
+};
+
+const ROADS_LOCAL = {
+  file: "sites_roads_local_osm.json",
+  label: "local streets",
+  classes: ["tertiary", "unclassified", "residential", "living_street", "pedestrian"],
+  radius: LOCAL_RADIUS,
+  get query() {
+    const clauses = SITES.map(
+      (s) =>
+        `  way["highway"~"${exactly(this.classes)}"](around:${this.radius},${s.lat},${s.lng});`,
+    ).join("\n");
+    return `[out:json][timeout:${OVERPASS_TIMEOUT}];\n(\n${clauses}\n);\nout geom;`;
+  },
+};
+
+const SITE_POLYS = {
+  file: "sites_polygons_osm.json",
+  label: "site footprints",
+  radius: SITE_RADIUS,
+  // Grounds, healthcare buildings and plain buildings all in one net; which of
+  // them wins per site is decided geometrically in buildSitePolys().
+  selectors: ['["amenity"="hospital"]', '["healthcare"]', '["building"]'],
+  get query() {
+    const clauses = SITES.flatMap((s) =>
+      this.selectors.flatMap((sel) =>
+        ["way", "relation"].map(
+          (kind) => `  ${kind}${sel}(around:${this.radius},${s.lat},${s.lng});`,
+        ),
+      ),
+    ).join("\n");
+    return `[out:json][timeout:${OVERPASS_TIMEOUT}];\n(\n${clauses}\n);\nout geom;`;
+  },
 };
 
 const SOURCE_NOTE =
@@ -139,6 +288,12 @@ const SOURCE_NOTE =
   "Counties and Unitary Authorities (December 2025) Boundaries UK BGC. " +
   "Rivers from OpenStreetMap via the Overpass API: waterway=river ways named " +
   "River Thames or River Kennet within the Thames Valley box. " +
+  "Also from OpenStreetMap via the Overpass API: highway=" +
+  ROADS_MAJOR.classes.join("/") +
+  " ways and railway=rail ways without a service tag within the same box; highway=" +
+  ROADS_LOCAL.classes.join("/") +
+  ` ways within ${LOCAL_RADIUS} m of a site; and the amenity=hospital, healthcare ` +
+  `and building ways and multipolygon relations within ${SITE_RADIUS} m of a site. ` +
   "Web Mercator, world 65536 px (= zoom 8).";
 
 // The exact statement ONS requires for digital boundary products, verbatim from
@@ -156,7 +311,7 @@ const ONS_ATTRIBUTION =
 // OpenStreetMap is ODbL: any produced work must credit "© OpenStreetMap
 // contributors". The site credits OSM for its map tiles elsewhere, but this
 // string is the one shown beside *this* map, so it has to carry the credit too.
-const ATTRIBUTION = `${ONS_ATTRIBUTION} River data © OpenStreetMap contributors.`;
+const ATTRIBUTION = `${ONS_ATTRIBUTION} River, road, rail and site data © OpenStreetMap contributors.`;
 
 // ── Fetching ─────────────────────────────────────────────────────────────────
 
@@ -236,25 +391,19 @@ async function load(spec) {
   return fc;
 }
 
-/** Overpass QL: every named river way that meets the box, geometry included. */
-function overpassQuery(spec) {
-  const { minLat, minLng, maxLat, maxLng } = spec.box;
-  const bbox = `${minLat},${minLng},${maxLat},${maxLng}`; // Overpass order: S,W,N,E
-  const clauses = spec.names
-    .map((name) => `  way["waterway"="river"]["name"="${name}"](${bbox});`)
-    .join("\n");
-  return `[out:json][timeout:180];\n(\n${clauses}\n);\nout geom;`;
-}
-
-/** Cached Overpass download. One request, ever, unless the cache is cleared. */
-async function loadRivers(spec) {
+/**
+ * Cached Overpass download, one file per data class. One request per class,
+ * ever, unless the cache is cleared — so a rebuild after a tolerance tweak
+ * costs the Overpass volunteers nothing.
+ */
+async function loadOverpass(spec) {
   const path = join(CACHE_DIR, spec.file);
   if (await exists(path)) {
     return JSON.parse(await readFile(path, "utf8"));
   }
 
   await mkdir(CACHE_DIR, { recursive: true });
-  process.stderr.write(`fetching ${spec.names.join(", ")} from Overpass\n`);
+  process.stderr.write(`fetching ${spec.label} from Overpass\n`);
 
   const res = await fetch(OVERPASS, {
     method: "POST",
@@ -263,7 +412,7 @@ async function loadRivers(spec) {
       "user-agent": USER_AGENT,
       "accept-encoding": "gzip",
     },
-    body: new URLSearchParams({ data: overpassQuery(spec) }),
+    body: new URLSearchParams({ data: spec.query }),
   });
   if (!res.ok) throw new Error(`${res.status} ${res.statusText} from ${OVERPASS}`);
   const body = await res.json();
@@ -483,6 +632,195 @@ function polylineLength(points) {
   return total;
 }
 
+/**
+ * The sites as discs in projected world units. Mercator stretches with latitude,
+ * so a radius in metres is a different number of world units at Oxford than at
+ * Reading; each disc is sized at its own site's latitude.
+ */
+function siteDiscs(radiusMetres) {
+  return SITES.map((site) => {
+    const [x, y] = project(site.lat, site.lng);
+    return { x, y, r: radiusMetres / metresPerUnit(site.lat) };
+  });
+}
+
+/**
+ * The stretches of a→b that lie inside at least one disc, as [t0, t1] pairs in
+ * ascending order with overlaps merged. Solves |a + t·d − c|² = r² per disc,
+ * clamped to the segment. The discs around Reading and around Windsor overlap in
+ * pairs, which is exactly why the spans have to be merged rather than emitted.
+ */
+function segmentInDiscs(a, b, discs) {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const qa = dx * dx + dy * dy;
+  const spans = [];
+  for (const disc of discs) {
+    const fx = a[0] - disc.x;
+    const fy = a[1] - disc.y;
+    const qc = fx * fx + fy * fy - disc.r * disc.r;
+    if (qa === 0) {
+      if (qc <= 0) spans.push([0, 1]); // a zero-length segment, sitting inside
+      continue;
+    }
+    const qb = 2 * (fx * dx + fy * dy);
+    const discriminant = qb * qb - 4 * qa * qc;
+    if (discriminant < 0) continue; // the line misses the circle entirely
+    const root = Math.sqrt(discriminant);
+    const t0 = Math.max(0, (-qb - root) / (2 * qa));
+    const t1 = Math.min(1, (-qb + root) / (2 * qa));
+    if (t1 > t0) spans.push([t0, t1]);
+  }
+  if (spans.length < 2) return spans;
+
+  spans.sort((p, q) => p[0] - q[0]);
+  const merged = [spans[0]];
+  for (let i = 1; i < spans.length; i++) {
+    const last = merged[merged.length - 1];
+    if (spans[i][0] <= last[1]) last[1] = Math.max(last[1], spans[i][1]);
+    else merged.push(spans[i]);
+  }
+  return merged;
+}
+
+/**
+ * Clip a polyline to the union of the discs, splitting it wherever it leaves and
+ * re-enters. The counterpart of clipPolyline for a round boundary; the same
+ * run-continuity test joins consecutive segments back up.
+ */
+function clipPolylineToDiscs(points, discs) {
+  const along = (a, b, t) => [a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])];
+  const out = [];
+  let run = null;
+  for (let i = 0; i + 1 < points.length; i++) {
+    const a = points[i];
+    const b = points[i + 1];
+    const spans = segmentInDiscs(a, b, discs);
+    if (!spans.length) {
+      if (run) out.push(run);
+      run = null;
+      continue;
+    }
+    for (const [t0, t1] of spans) {
+      const p = along(a, b, t0);
+      const q = along(a, b, t1);
+      if (run) {
+        const last = run[run.length - 1];
+        // Continuous with what came before? Otherwise the line left the discs.
+        if (Math.abs(last[0] - p[0]) < 1e-9 && Math.abs(last[1] - p[1]) < 1e-9) {
+          run.push(q);
+          continue;
+        }
+        out.push(run);
+      }
+      run = [p, q];
+    }
+    // Stopping short of the far end means the line left the discs mid-segment.
+    if (spans[spans.length - 1][1] < 1) {
+      out.push(run);
+      run = null;
+    }
+  }
+  if (run) out.push(run);
+  return out;
+}
+
+// ── Polygons ─────────────────────────────────────────────────────────────────
+
+/**
+ * Twice the signed area of a projected ring. Sign is winding, so take |·|.
+ *
+ * The shoelace terms are worked out relative to the ring's first vertex, which
+ * matters more than it looks: world coordinates here are ~3 × 10⁴, so each raw
+ * cross product is ~7 × 10⁸, while a 14 m-square building spans 0.0026 world
+ * units². Subtracting the big numbers first keeps eleven digits of signal that
+ * the naive form throws away.
+ */
+function ringArea2(ring, origin = ring[0]) {
+  let total = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xj = ring[j][0] - origin[0];
+    const yj = ring[j][1] - origin[1];
+    const xi = ring[i][0] - origin[0];
+    const yi = ring[i][1] - origin[1];
+    total += xj * yi - xi * yj;
+  }
+  return total;
+}
+
+/** Ray casting, on projected coordinates. Points on the edge may go either way. */
+function ringContains(point, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i];
+    const [xj, yj] = ring[j];
+    if (yi > point[1] !== yj > point[1]) {
+      if (point[0] < ((xj - xi) * (point[1] - yi)) / (yj - yi) + xi) inside = !inside;
+    }
+  }
+  return inside;
+}
+
+/** Shortest distance from a point to a ring's edge, in world units. */
+function ringDistance(point, ring) {
+  let best = Infinity;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const d = segDistSq(point, ring[j], ring[i]);
+    if (d < best) best = d;
+  }
+  return Math.sqrt(best);
+}
+
+/** Lexicographic "a beats b" over a fixed-length rank tuple, higher wins. */
+function outranks(a, b) {
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return a[i] > b[i];
+  }
+  return false;
+}
+
+/** Area-weighted centroid of a set of rings, in world units. */
+function ringsCentroid(rings) {
+  // Relative to one shared origin, for the reason ringArea2 spells out — and
+  // more urgently here, because the centroid moments carry another factor of
+  // ~6 × 10⁴ before the division puts them back on the ground.
+  const origin = rings[0][0];
+  let cx = 0;
+  let cy = 0;
+  let total = 0;
+  for (const ring of rings) {
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const xj = ring[j][0] - origin[0];
+      const yj = ring[j][1] - origin[1];
+      const xi = ring[i][0] - origin[0];
+      const yi = ring[i][1] - origin[1];
+      const cross = xj * yi - xi * yj;
+      cx += (xj + xi) * cross;
+      cy += (yj + yi) * cross;
+      total += cross;
+    }
+  }
+  if (total === 0) return origin; // a degenerate sliver; its first vertex will do
+  return [origin[0] + cx / (3 * total), origin[1] + cy / (3 * total)];
+}
+
+/**
+ * The closed outer ring(s) of an OSM polygon, in [lng, lat]. A way counts only
+ * if it closes on itself. A multipolygon relation's outer boundary can arrive
+ * split across several member ways, so those are stitched exactly as a river is;
+ * inner members — courtyards, lightwells — are dropped.
+ */
+function outerRings(element) {
+  if (element.type === "way") {
+    const g = element.geometry;
+    if (!g || g.length < 4) return [];
+    if (g[0].lat !== g[g.length - 1].lat || g[0].lon !== g[g.length - 1].lon) return [];
+    return [g.map((p) => [p.lon, p.lat])];
+  }
+  const outers = (element.members || []).filter((m) => m.role === "outer" && m.geometry);
+  return stitch(outers).filter((ring) => ring.length >= 4);
+}
+
 // ── Path emission ────────────────────────────────────────────────────────────
 
 /** Integer hundredths → the shortest legal SVG number. 44 → ".44", -300 → "-3". */
@@ -605,7 +943,31 @@ function inThamesValley(feature) {
   );
 }
 
-/** Stitch, project, simplify, clip, drop stubs, encode. One entry per polyline. */
+/**
+ * Stitch, project, simplify, clip, drop stubs. Returns the surviving polylines
+ * longest first, so the main channel or the trunk run is the first entry.
+ *
+ * Every open-polyline class goes through this: rivers, both road tiers and the
+ * railways. Only three things differ between them — the tolerance, the stub
+ * floor, and whether `clip` is the Thames Valley box or the union of the site
+ * discs. Ways must already be bucketed by whatever attribute the caller wants
+ * to keep, because stitching happily welds a primary to a secondary otherwise.
+ */
+function buildPolylines(ways, tolerance, minLength, clip) {
+  const pieces = [];
+  for (const chain of stitch(ways)) {
+    const projected = chain.map(([lng, lat]) => project(lat, lng));
+    for (const piece of clip(simplify(projected, tolerance))) {
+      const length = polylineLength(piece);
+      if (length < minLength) continue;
+      pieces.push({ length, piece });
+    }
+  }
+  pieces.sort((a, b) => b.length - a.length);
+  return pieces.map((entry) => entry.piece);
+}
+
+/** One entry per river polyline, the Thames first and then the Kennet. */
 function buildRivers(overpass, bounds) {
   const box = clipBox(RIVERS.box);
   const byName = new Map(RIVERS.names.map((name) => [name, []]));
@@ -617,18 +979,10 @@ function buildRivers(overpass, bounds) {
 
   const out = [];
   for (const name of RIVERS.names) {
-    const pieces = [];
-    for (const chain of stitch(byName.get(name))) {
-      const projected = chain.map(([lng, lat]) => project(lat, lng));
-      for (const piece of clipPolyline(simplify(projected, TOL_FINE), box)) {
-        const length = polylineLength(piece);
-        if (length < MIN_RIVER_LENGTH) continue;
-        pieces.push({ length, piece });
-      }
-    }
-    // Longest first, so a river's main channel is its first polyline.
-    pieces.sort((a, b) => b.length - a.length);
-    for (const { piece } of pieces) {
+    const pieces = buildPolylines(byName.get(name), TOL_FINE, MIN_RIVER_LENGTH, (points) =>
+      clipPolyline(points, box),
+    );
+    for (const piece of pieces) {
       const d = pointsToSubpath(piece, bounds, false);
       if (d) out.push({ name, d });
     }
@@ -636,11 +990,170 @@ function buildRivers(overpass, bounds) {
   return out;
 }
 
+/**
+ * Motorways, then trunk, then primary, then secondary — bucketed before the
+ * stitch so a chain is all one class and the class survives into the output.
+ */
+function buildRoadsMajor(overpass, bounds) {
+  const box = clipBox(ROADS_MAJOR.box);
+  const byClass = new Map(ROADS_MAJOR.classes.map((cls) => [cls, []]));
+  for (const el of overpass.elements) {
+    if (el.type !== "way") continue;
+    const bucket = byClass.get(el.tags && el.tags.highway);
+    if (bucket) bucket.push(el);
+  }
+
+  const out = [];
+  for (const cls of ROADS_MAJOR.classes) {
+    const pieces = buildPolylines(
+      byClass.get(cls),
+      TOL_ROADS,
+      MIN_ROAD_MAJOR_LENGTH,
+      (points) => clipPolyline(points, box),
+    );
+    for (const piece of pieces) {
+      const d = pointsToSubpath(piece, bounds, false);
+      if (d) out.push({ cls, d });
+    }
+  }
+  return out;
+}
+
+/**
+ * The streets immediately around each site. One pool, no class kept: at this
+ * zoom a residential road and an unclassified lane are the same grey hairline.
+ * Clipped back to the discs the query asked for, since `around` returns whole
+ * ways and a tertiary road can run for miles past the edge of one.
+ */
+function buildRoadsLocal(overpass, bounds) {
+  const discs = siteDiscs(ROADS_LOCAL.radius);
+  const ways = overpass.elements.filter((el) => el.type === "way");
+
+  const out = [];
+  const pieces = buildPolylines(ways, TOL_FINE, MIN_ROAD_LOCAL_LENGTH, (points) =>
+    clipPolylineToDiscs(points, discs),
+  );
+  for (const piece of pieces) {
+    const d = pointsToSubpath(piece, bounds, false);
+    if (d) out.push(d);
+  }
+  return out;
+}
+
+/**
+ * Running lines only. The query already excludes anything with a service tag —
+ * sidings, spurs, yards, crossovers — and this repeats the test so a cache file
+ * fetched under an older query cannot quietly reintroduce a goods yard.
+ */
+function buildRailways(overpass, bounds) {
+  const box = clipBox(RAILWAYS.box);
+  const ways = overpass.elements.filter(
+    (el) => el.type === "way" && !(el.tags && el.tags.service),
+  );
+
+  const out = [];
+  const pieces = buildPolylines(ways, TOL_ROADS, MIN_RAIL_LENGTH, (points) =>
+    clipPolyline(points, box),
+  );
+  for (const piece of pieces) {
+    const d = pointsToSubpath(piece, bounds, false);
+    if (d) out.push(d);
+  }
+  return out;
+}
+
+/**
+ * One closed outline per site. Every returned polygon is scored against every
+ * site coordinate and the best one wins, ranked on:
+ *
+ *   1. containing the point beats merely being near it;
+ *   2. a grounds polygon (amenity=hospital or healthcare=*) beats a single
+ *      block — the map wants the site, not one of its wards;
+ *   3. failing both, the largest.
+ *
+ * So the practice takes its own building (Dunedin House, OSM way 97524252)
+ * while the Royal Berkshire takes the whole hospital site rather than the
+ * Centre Block that happens to sit under the pin. Returns the paths plus a
+ * per-site report for the build summary.
+ */
+function buildSitePolys(overpass, bounds) {
+  const candidates = [];
+  for (const element of overpass.elements) {
+    const rings = outerRings(element).map((ring) =>
+      ring.map(([lng, lat]) => project(lat, lng)),
+    );
+    if (!rings.length) continue;
+    const tags = element.tags || {};
+    candidates.push({
+      id: `${element.type}/${element.id}`,
+      name: tags.name || tags["addr:housename"] || "",
+      grounds: tags.amenity === "hospital" || tags.healthcare !== undefined,
+      area2: Math.abs(rings.reduce((total, ring) => total + ringArea2(ring, rings[0][0]), 0)),
+      rings,
+    });
+  }
+
+  const out = [];
+  const report = [];
+  for (const site of SITES) {
+    const point = project(site.lat, site.lng);
+    const perUnit = metresPerUnit(site.lat);
+    const radius = SITE_POLYS.radius / perUnit;
+
+    let best = null;
+    let bestRank = null;
+    for (const candidate of candidates) {
+      const contains = candidate.rings.some((ring) => ringContains(point, ring));
+      if (!contains) {
+        const distance = Math.min(...candidate.rings.map((ring) => ringDistance(point, ring)));
+        if (distance > radius) continue;
+      }
+      const rank = [contains ? 1 : 0, candidate.grounds ? 1 : 0, candidate.area2];
+      if (bestRank && !outranks(rank, bestRank)) continue;
+      best = { ...candidate, contains };
+      bestRank = rank;
+    }
+
+    if (!best) {
+      report.push({ slug: site.slug, missing: true });
+      continue;
+    }
+
+    const d = best.rings
+      .map((ring) => pointsToSubpath(simplify(ring, TOL_SITE), bounds, true))
+      .filter(Boolean)
+      .join("");
+    if (!d) {
+      report.push({ slug: site.slug, missing: true });
+      continue;
+    }
+
+    const centroid = ringsCentroid(best.rings);
+    report.push({
+      slug: site.slug,
+      id: best.id,
+      name: best.name,
+      contains: best.contains,
+      areaM2: Math.round((best.area2 / 2) * perUnit * perUnit),
+      offsetM: Math.round(Math.hypot(centroid[0] - point[0], centroid[1] - point[1]) * perUnit),
+      rings: best.rings.length,
+    });
+    out.push({ slug: site.slug, d });
+  }
+  return { polys: out, report };
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
   const [countries, counties] = await Promise.all([load(COUNTRIES), load(COUNTIES)]);
-  const riversRaw = await loadRivers(RIVERS);
+  // Sequential, not Promise.all: Overpass runs two slots per IP and firing all
+  // five at once earns a 429. Each is cached, so this is a one-off cost anyway.
+  const riversRaw = await loadOverpass(RIVERS);
+  const roadsMajorRaw = await loadOverpass(ROADS_MAJOR);
+  const roadsLocalRaw = await loadOverpass(ROADS_LOCAL);
+  const railwaysRaw = await loadOverpass(RAILWAYS);
+  const sitePolysRaw = await loadOverpass(SITE_POLYS);
 
   const bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
 
@@ -678,6 +1191,10 @@ async function main() {
   countyOut.sort((a, b) => a.name.localeCompare(b.name));
 
   const riverOut = buildRivers(riversRaw, bounds);
+  const roadsMajorOut = buildRoadsMajor(roadsMajorRaw, bounds);
+  const roadsLocalOut = buildRoadsLocal(roadsLocalRaw, bounds);
+  const railwayOut = buildRailways(railwaysRaw, bounds);
+  const { polys: sitePolyOut, report: siteReport } = buildSitePolys(sitePolysRaw, bounds);
 
   const round = (v) => Math.round(v * Q) / Q;
   const box = {
@@ -693,8 +1210,9 @@ async function main() {
   lines.push("// Rebuild with: node scripts/build-map-paths.mjs");
   lines.push("//");
   lines.push("// SVG path data for a faint vector map of the UK: country outlines, county /");
-  lines.push("// unitary-authority lines and Thames Valley rivers, already projected to");
-  lines.push("// Web Mercator.");
+  lines.push("// unitary-authority lines, Thames Valley rivers, the roads and railways");
+  lines.push("// around it and the footprint of each site, already projected to Web");
+  lines.push("// Mercator.");
   lines.push("//");
   lines.push("// Coordinates are Web Mercator world pixels at a world size of `world`");
   lines.push("// (65536 = 256 * 2 ** 8), from exactly the formula RegionMap.tsx uses:");
@@ -716,6 +1234,10 @@ async function main() {
   lines.push("//");
   lines.push("// `rivers` are OPEN polylines — a single subpath with no closing Z. Stroke");
   lines.push('// them (fill="none"); filling would close each one back to its source.');
+  lines.push("// `roadsMajor`, `roadsLocal` and `railways` are open in exactly the same way.");
+  lines.push("//");
+  lines.push("// `sitePolys` are the odd ones out: CLOSED rings, one entry per site, keyed");
+  lines.push("// by the same slug the site list uses. Fill or stroke them as you like.");
   lines.push("");
   lines.push("/** Web Mercator world size, in pixels, that these coordinates are baked at. */");
   lines.push(`export const world = ${WORLD};`);
@@ -748,15 +1270,67 @@ async function main() {
   }
   lines.push("];");
   lines.push("");
+  lines.push("/** The road classes kept, coarsest first. */");
+  lines.push(
+    `export type RoadClass = ${ROADS_MAJOR.classes.map((c) => `"${c}"`).join(" | ")};`,
+  );
+  lines.push("");
+  lines.push("// Built through road() rather than written out as object literals. An array");
+  lines.push("// literal this long makes TypeScript union all of its element types together");
+  lines.push('// and then give up — "Expression produces a union type that is too complex to');
+  lines.push('// represent" (TS2590). A function call gives every element the identical');
+  lines.push("// type, so the union is one wide and the check is instant. Same data, same");
+  lines.push("// shape at runtime; do not inline it back.");
+  lines.push("const road = (cls: RoadClass, d: string) => ({ cls, d });");
+  lines.push("");
+  lines.push("/**");
+  lines.push(" * Motorways, trunk, primary and secondary roads across the Thames Valley,");
+  lines.push(" * grouped by class and longest first within each. Open polylines — stroke only.");
+  lines.push(" */");
+  lines.push("export const roadsMajor: { cls: RoadClass; d: string }[] = [");
+  for (const r of roadsMajorOut) {
+    lines.push(`  road("${r.cls}", "${esc(r.d)}"),`);
+  }
+  lines.push("];");
+  lines.push("");
+  lines.push(
+    `/** Streets within ${LOCAL_RADIUS} m of a site, longest first. Open polylines — stroke only. */`,
+  );
+  lines.push("export const roadsLocal: string[] = [");
+  for (const d of roadsLocalOut) lines.push(`  "${esc(d)}",`);
+  lines.push("];");
+  lines.push("");
+  lines.push("/** Railway running lines, longest first. Open polylines — stroke only. */");
+  lines.push("export const railways: string[] = [");
+  for (const d of railwayOut) lines.push(`  "${esc(d)}",`);
+  lines.push("];");
+  lines.push("");
+  lines.push("/** The footprint of each site. Closed rings — safe to fill. */");
+  lines.push("export const sitePolys: { slug: string; d: string }[] = [");
+  for (const s of sitePolyOut) {
+    lines.push(`  { slug: "${s.slug}", d: "${esc(s.d)}" },`);
+  }
+  lines.push("];");
+  lines.push("");
   lines.push("/** Where the geometry came from. */");
   lines.push(`export const source = "${esc(SOURCE_NOTE)}";`);
   lines.push("");
   lines.push("/** Required by the licence. Must be displayed wherever this map is drawn. */");
   lines.push(`export const attribution = "${esc(ATTRIBUTION)}";`);
   lines.push("");
-  lines.push(
-    "const mapPaths = { world, bounds, ukOutline, counties, rivers, source, attribution };",
-  );
+  lines.push("const mapPaths = {");
+  lines.push("  world,");
+  lines.push("  bounds,");
+  lines.push("  ukOutline,");
+  lines.push("  counties,");
+  lines.push("  rivers,");
+  lines.push("  roadsMajor,");
+  lines.push("  roadsLocal,");
+  lines.push("  railways,");
+  lines.push("  sitePolys,");
+  lines.push("  source,");
+  lines.push("  attribution,");
+  lines.push("};");
   lines.push("export default mapPaths;");
   lines.push("");
 
@@ -765,16 +1339,30 @@ async function main() {
   await writeFile(OUT, text);
 
   const bytes = Buffer.byteLength(text);
+  const chars = (list, pick = (d) => d) => list.reduce((n, e) => n + pick(e).length, 0);
   process.stdout.write(
     [
       `wrote ${OUT}`,
       `  ${(bytes / 1024).toFixed(1)} KB (${bytes} bytes)`,
-      `  ukOutline: ${ukOutline.length} paths, ${ukOutline.reduce((n, d) => n + d.length, 0)} chars`,
-      `  counties:  ${countyOut.length} of ${counties.features.length} (${fineCount} fine tier)`,
-      `  rivers:    ${riverOut.length} polylines, ${riverOut.reduce((n, r) => n + r.d.length, 0)} chars` +
+      `  ukOutline:  ${ukOutline.length} paths, ${chars(ukOutline)} chars`,
+      `  counties:   ${countyOut.length} of ${counties.features.length} (${fineCount} fine tier)`,
+      `  rivers:     ${riverOut.length} polylines, ${chars(riverOut, (r) => r.d)} chars` +
         ` (${RIVERS.names.map((n) => `${n}: ${riverOut.filter((r) => r.name === n).length}`).join(", ")})`,
-      `  bounds:    x ${box.minX}..${box.maxX}  y ${box.minY}..${box.maxY}`,
-      `  tolerance: coarse ${TOL_COARSE}, fine ${TOL_FINE} world units at ${WORLD}`,
+      `  roadsMajor: ${roadsMajorOut.length} polylines, ${chars(roadsMajorOut, (r) => r.d)} chars` +
+        ` (${ROADS_MAJOR.classes.map((c) => `${c}: ${roadsMajorOut.filter((r) => r.cls === c).length}`).join(", ")})`,
+      `  roadsLocal: ${roadsLocalOut.length} polylines, ${chars(roadsLocalOut)} chars`,
+      `  railways:   ${railwayOut.length} polylines, ${chars(railwayOut)} chars`,
+      `  sitePolys:  ${sitePolyOut.length} of ${SITES.length}, ${chars(sitePolyOut, (s) => s.d)} chars`,
+      ...siteReport.map((s) =>
+        s.missing
+          ? `    ${s.slug.padEnd(26)} NO POLYGON within ${SITE_POLYS.radius} m`
+          : `    ${s.slug.padEnd(26)} ${s.id.padEnd(18)} ${s.contains ? "contains" : "  nearby"}` +
+            ` ${String(s.areaM2).padStart(6)} m2, centroid ${s.offsetM} m off` +
+            `${s.rings > 1 ? `, ${s.rings} rings` : ""}${s.name ? `  ${s.name}` : ""}`,
+      ),
+      `  bounds:     x ${box.minX}..${box.maxX}  y ${box.minY}..${box.maxY}`,
+      `  tolerance:  coarse ${TOL_COARSE}, roads ${TOL_ROADS}, fine ${TOL_FINE}, site ${TOL_SITE}` +
+        ` world units at ${WORLD} (1 unit ~ ${metresPerUnit(SITES[0].lat).toFixed(0)} m)`,
       "",
     ].join("\n"),
   );

@@ -52,6 +52,7 @@ function hospitalStop(
   return {
     index: opts.index,
     eyebrow: opts.eyebrow,
+    slug: loc.slug,
     name: loc.name,
     area: loc.area,
     provider: loc.provider,
@@ -69,6 +70,8 @@ export const journeyStops: JourneyStop[] = [
   {
     index: "01",
     eyebrow: "The practice",
+    // Matches the practice's grounds polygon in mapPaths.generated sitePolys.
+    slug: "practice",
     name: "Berkshire Oncology Partnership",
     area: "Reading",
     description:

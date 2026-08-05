@@ -2,7 +2,17 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { world, ukOutline, counties, rivers } from "@/content/mapPaths.generated";
+import {
+  world,
+  ukOutline,
+  counties,
+  rivers,
+  roadsMajor,
+  roadsLocal,
+  railways,
+  sitePolys,
+} from "@/content/mapPaths.generated";
+import { mapLabels, type MapLabelKind } from "@/content/mapLabels";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The journey's map: the UK as faint accent hairlines, with a camera that
@@ -39,7 +49,18 @@ export interface MapStop {
   /** Diameter of the framed view at this stop, in metres on the ground. */
   spanM: number;
   nhs?: boolean;
+  /** Matches sitePolys in the generated data, for grounds highlighting. */
+  slug?: string;
 }
+
+/** Stroke weight and strength per road class — a hierarchy, so a motorway
+ *  reads heavier than a residential street at every zoom. */
+const ROAD_STYLE = {
+  motorway: { w: 1.6, o: 0.3 },
+  trunk: { w: 1.3, o: 0.26 },
+  primary: { w: 1, o: 0.22 },
+  secondary: { w: 0.8, o: 0.18 },
+} as const;
 
 /** The SVG's own coordinate box. Square, so slice-cropping trims evenly. */
 const BOX = 1000;
@@ -176,7 +197,13 @@ export default function JourneyMap({
   const reduced = useReducedMotion();
   const cameraRef = useRef<SVGGElement>(null);
   const riversRef = useRef<SVGGElement>(null);
+  const roadsMajorRef = useRef<SVGGElement>(null);
+  const roadsLocalRef = useRef<SVGGElement>(null);
+  const railsRef = useRef<SVGGElement>(null);
+  const polysRef = useRef<SVGGElement>(null);
   const pinRefs = useRef<(SVGGElement | null)[]>([]);
+  const labelRefs = useRef<(SVGGElement | null)[]>([]);
+  const labelKindRefs = useRef<Partial<Record<MapLabelKind, SVGGElement | null>>>({});
 
   const frames = useMemo(() => {
     const riverPts = riverVertices();
@@ -230,10 +257,42 @@ export default function JourneyMap({
       // fully drawn by town level, where they are what stops a close-up being
       // two pins in a white void. Faded in log-zoom space, like the zoom.
       const l = Math.log2(s);
-      riversRef.current?.setAttribute(
-        "opacity",
-        String(Math.min(1, Math.max(0, (l - 3) / 2.3))),
+      const ramp = (a: number, b: number) =>
+        Math.min(1, Math.max(0, (l - a) / (b - a)));
+      riversRef.current?.setAttribute("opacity", String(ramp(3, 5.3)));
+
+      // The local cartography arrives in order of importance as the camera
+      // descends: A-roads and motorways first (they orient a regional shot),
+      // then railways, then the hospital grounds and the streets around them
+      // at the deepest frames. Everything is gone at the UK-wide hero.
+      roadsMajorRef.current?.setAttribute("opacity", String(ramp(3.2, 4.8)));
+      railsRef.current?.setAttribute("opacity", String(ramp(3.8, 5.2)));
+      roadsLocalRef.current?.setAttribute("opacity", String(ramp(5.8, 7)));
+      polysRef.current?.setAttribute("opacity", String(ramp(5.5, 6.8)));
+      // The rail dash is drawn in user units, so unlike the non-scaling
+      // stroke width it zooms with the map — recomputed here to hold a
+      // constant ~5px/3.5px rhythm on screen.
+      railsRef.current?.setAttribute(
+        "stroke-dasharray",
+        `${5 * inv} ${3.5 * inv}`,
       );
+
+      // Labels counter-scale like the pins, each keeping its set angle, and
+      // each class holds its own altitude band: towns for the regional shots
+      // (and gone again by street level, where a town name is noise), river
+      // names arriving with the water, streets only at the deepest frames.
+      for (let i = 0; i < mapLabels.length; i++) {
+        labelRefs.current[i]?.setAttribute(
+          "transform",
+          `scale(${inv}) rotate(${mapLabels[i].angle})`,
+        );
+      }
+      labelKindRefs.current.town?.setAttribute(
+        "opacity",
+        String(ramp(1, 2) * (1 - ramp(6.8, 7.6))),
+      );
+      labelKindRefs.current.river?.setAttribute("opacity", String(ramp(4.5, 5.5)));
+      labelKindRefs.current.street?.setAttribute("opacity", String(ramp(6.3, 7)));
     };
     apply(camera.get());
     return camera.on("change", apply);
@@ -244,17 +303,14 @@ export default function JourneyMap({
     [stops],
   );
 
-  return (
-    <svg
-      viewBox={`0 0 ${BOX} ${BOX}`}
-      preserveAspectRatio="xMidYMid slice"
-      className={`h-full w-full text-accent ${className}`}
-      role="img"
-      aria-label={`Map of the United Kingdom marking ${stops
-        .map((s) => s.name)
-        .join(", ")}`}
-    >
-      <g ref={cameraRef}>
+  // ~3,700 paths live in this SVG now. `active` re-renders the component at
+  // every stop change, so the unchanging layers are memoised into stable
+  // elements React bails out of diffing entirely — only the six pins and six
+  // ground polygons are reconciled per stop. Split in two because the grounds
+  // fills must paint above the county lines but below the road network.
+  const staticUnder = useMemo(
+    () => (
+      <>
         {/* Country outline a shade firmer than the county lines beneath it,
             both one hairline wide at every zoom. */}
         {ukOutline.map((d, i) => (
@@ -281,6 +337,108 @@ export default function JourneyMap({
             strokeLinejoin="round"
           />
         ))}
+      </>
+    ),
+    [],
+  );
+
+  const staticOver = useMemo(
+    () => (
+      <>
+        {/* The road network, weighted by class so the M4 reads heavier than
+            a Windsor side street. Streets exist only inside 2.5 km of the six
+            sites — detail lives where the camera goes, nowhere else. */}
+        <g ref={roadsMajorRef} opacity={0}>
+          {roadsMajor.map((r, i) => (
+            <path
+              key={i}
+              d={r.d}
+              fill="none"
+              stroke="currentColor"
+              strokeOpacity={ROAD_STYLE[r.cls].o}
+              strokeWidth={ROAD_STYLE[r.cls].w}
+              vectorEffect="non-scaling-stroke"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          ))}
+        </g>
+        <g ref={roadsLocalRef} opacity={0}>
+          {roadsLocal.map((d, i) => (
+            <path
+              key={i}
+              d={d}
+              fill="none"
+              stroke="currentColor"
+              strokeOpacity={0.15}
+              strokeWidth={0.8}
+              vectorEffect="non-scaling-stroke"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          ))}
+        </g>
+        {/* Dashed in the cartographic manner; the dash rhythm is recomputed
+            against the camera because dash lengths scale and stroke width
+            does not. */}
+        <g ref={railsRef} opacity={0}>
+          {railways.map((d, i) => (
+            <path
+              key={i}
+              d={d}
+              fill="none"
+              stroke="currentColor"
+              strokeOpacity={0.26}
+              strokeWidth={1}
+              vectorEffect="non-scaling-stroke"
+              strokeLinejoin="round"
+            />
+          ))}
+        </g>
+      </>
+    ),
+    [],
+  );
+
+  return (
+    <svg
+      viewBox={`0 0 ${BOX} ${BOX}`}
+      preserveAspectRatio="xMidYMid slice"
+      className={`h-full w-full text-accent ${className}`}
+      role="img"
+      aria-label={`Map of the United Kingdom marking ${stops
+        .map((s) => s.name)
+        .join(", ")}`}
+    >
+      <g ref={cameraRef}>
+        {staticUnder}
+
+        {/* The hospital grounds themselves — the destination as a shape
+            rather than an abstract point, with the active stop's grounds a
+            touch stronger. Under the roads, as a fill should be. */}
+        <g ref={polysRef} opacity={0}>
+          {sitePolys.map((p) => {
+            const isActive =
+              active >= 0 && stops[active]?.slug === p.slug;
+            return (
+              <path
+                key={p.slug}
+                d={p.d}
+                fill="currentColor"
+                fillOpacity={isActive ? 0.16 : 0.07}
+                fillRule="evenodd"
+                stroke="currentColor"
+                strokeOpacity={isActive ? 0.42 : 0.28}
+                strokeWidth={1}
+                vectorEffect="non-scaling-stroke"
+                strokeLinejoin="round"
+                className="transition-[fill-opacity,stroke-opacity] duration-500"
+              />
+            );
+          })}
+        </g>
+
+        {staticOver}
 
         {/* The Thames and the Kennet — every one of the six sites stands on
             one or the other, which is why "Thames Valley" is not a flourish.
@@ -301,13 +459,67 @@ export default function JourneyMap({
           ))}
         </g>
 
+        {/* Labels, grouped by kind so one opacity write fades a whole class.
+            Each label counter-scales like a pin and carries a canvas-coloured
+            halo (paint-order: stroke) so it stays legible across hairlines.
+            The svg is role="img" with a label, so none of this reaches the
+            accessibility tree — it is drawing, not document text. */}
+        {(["town", "river", "street"] as const).map((kind) => (
+          <g
+            key={kind}
+            opacity={0}
+            ref={(el) => {
+              labelKindRefs.current[kind] = el;
+            }}
+          >
+            {mapLabels.map((label, i) =>
+              label.kind !== kind ? null : (
+                <g
+                  key={`${label.text}-${i}`}
+                  // toFixed, not raw doubles: Math.log/Math.sin differ in the
+                  // last ulp between V8 on the server and the browser, so an
+                  // unrounded projection hydration-mismatches. 2dp matches the
+                  // data's own quantisation (~4 m on the ground).
+                  transform={(() => {
+                    const p = project(label.lat, label.lng);
+                    return `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)})`;
+                  })()}
+                >
+                  <text
+                    ref={(el) => {
+                      labelRefs.current[i] = el as unknown as SVGGElement;
+                    }}
+                    textAnchor="middle"
+                    paintOrder="stroke"
+                    stroke="#fafbfc"
+                    strokeWidth={3}
+                    className={
+                      kind === "town"
+                        ? "fill-ink-muted text-[11px] font-medium uppercase tracking-[0.22em]"
+                        : kind === "river"
+                          ? "fill-accent/70 font-display text-[11px] italic"
+                          : "fill-ink-muted text-[9.5px] font-medium tracking-[0.04em]"
+                    }
+                  >
+                    {label.text}
+                  </text>
+                </g>
+              ),
+            )}
+          </g>
+        ))}
+
         {pins.map((p, i) => {
           const isActive = i === active;
           // Before the journey starts every pin stands at full strength — the
           // hero's cluster in the south-east is the point of the wide shot.
           const dim = active >= 0 && !isActive;
           return (
-            <g key={p.name} transform={`translate(${p.x} ${p.y})`}>
+            // toFixed for the same server/client float reason as the labels.
+            <g
+              key={p.name}
+              transform={`translate(${p.x.toFixed(2)} ${p.y.toFixed(2)})`}
+            >
               <g
                 ref={(el) => {
                   pinRefs.current[i] = el;
