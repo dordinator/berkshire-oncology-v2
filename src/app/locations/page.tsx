@@ -144,7 +144,7 @@ export default function LocationsPage() {
                   aria-hidden
                   viewBox="0 0 16 16"
                   fill="none"
-                  className="h-4 w-4 animate-bounce text-accent [animation-duration:1.8s] motion-reduce:animate-none"
+                  className="animate-cue-drift h-4 w-4 text-accent"
                 >
                   <path
                     d="M8 2v11M3.5 8.5 8 13l4.5-4.5"

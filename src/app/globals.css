@@ -242,6 +242,29 @@ a:not([class*="rounded-full"]):focus-visible {
   }
 }
 
+/* ── Scroll cue on /locations ──
+   A slow eased drift, not Tailwind's animate-bounce: the bounce easing lands
+   like a rubber ball in a site whose every other motion decelerates smoothly. */
+@keyframes cue-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-cue-drift {
+  animation: cue-drift 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cue-drift {
+    animation: none;
+  }
+}
+
 @layer utilities {
   /* Anything set in the display face gets the same weight as the heading
      utilities above. Outfit is geometric, and at 400 a "display" line just
