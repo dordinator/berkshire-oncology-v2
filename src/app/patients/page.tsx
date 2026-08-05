@@ -43,25 +43,6 @@ const practicalLinks = [
   },
 ];
 
-const journey = [
-  {
-    title: "Talk with a specialist",
-    body: "Tell the practice team a little about your situation. They will help identify the consultant best placed to see you.",
-  },
-  {
-    title: "Understand your options",
-    body: "Your consultant reviews your history and records, explains what they see, and makes space for your questions.",
-  },
-  {
-    title: "Make a plan",
-    body: "The options and recommendation are set out clearly. Nothing proceeds until you understand and agree the next step.",
-  },
-  {
-    title: "Stay supported",
-    body: "Treatment and follow-up remain under your consultant’s care, with a clear route back when you need help.",
-  },
-];
-
 const appointmentPoints = [
   {
     title: "Bring what you have",
@@ -123,11 +104,13 @@ export default function PatientsPage() {
         <div className="container-wide">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
             <div className="relative order-2 min-h-[560px] py-6 lg:order-1 lg:min-h-[660px]">
+              {/* The home page's chapter gold — the hero's panel is sage, so
+                  the two bookend compositions each get their own colour. */}
               <div
                 aria-hidden
                 data-fx="drift"
                 data-drift="0.5"
-                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-white/70"
+                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-[#f3dca2]"
               />
 
               <div
@@ -218,97 +201,6 @@ export default function PatientsPage() {
       </section>
 
       <section
-        id="journey"
-        data-drift-band
-        className="relative scroll-mt-24 overflow-clip bg-[#f8f8f4] py-24 md:py-32"
-      >
-        {/* The top-right of this section used to be empty air beside the
-            heading. Two quiet panels now drift through it at different speeds
-            — depth, not content, so they sit behind everything and vanish
-            below lg where there is no spare space to use. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-0 hidden h-full w-[40%] lg:block"
-        >
-          <div
-            data-fx="drift"
-            data-drift="0.35"
-            data-rot="-2"
-            className="absolute right-[22%] top-4 h-44 w-72 rounded-[2rem] bg-[#dce6e1]"
-          />
-          <div
-            data-fx="drift"
-            data-drift="0.7"
-            className="absolute right-[5%] top-10 h-48 w-40 overflow-hidden rounded-[2rem] border border-ink/10 shadow-[0_30px_80px_-40px_rgba(6,28,70,0.35)]"
-          >
-            <Image
-              src="/support/hands-table.jpg"
-              alt=""
-              fill
-              sizes="180px"
-              className="object-cover"
-            />
-          </div>
-        </div>
-
-        <div className="container-wide relative z-10">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-20">
-            <Reveal>
-              <div>
-                <span className="eyebrow">
-                  <span aria-hidden className="h-px w-8 bg-ink-muted" /> The shape
-                  of care
-                </span>
-                <h2 className="mt-6 max-w-2xl font-display text-[clamp(2.8rem,4.8vw,5.2rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
-                  A clear route, without pretending every journey is the same.
-                </h2>
-              </div>
-            </Reveal>
-            <Reveal delay={1}>
-              <p className="max-w-xl text-lg leading-relaxed text-ink-muted lg:pb-2">
-                These moments often overlap and the order can change. What stays
-                consistent is a named consultant, clear decisions, and a route
-                back to the team.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="relative mt-16 grid gap-10 md:mt-24 md:grid-cols-4 md:gap-6">
-            <div
-              aria-hidden
-              className="absolute left-0 right-0 top-2 hidden h-px bg-ink/15 md:block"
-            />
-            {/* data-fx instead of Reveal: the two both animate opacity, and a
-                whileInView spring fighting a scrubbed tween flickers. All four
-                travel from the SAME side — alternating sides on adjacent grid
-                columns made cards 2 and 3 converge across a 24px gutter and
-                overlap by ~116px mid-flight. Moving in unison preserves every
-                gutter, and the short travel keeps words on-screen on a phone. */}
-            {journey.map((step) => (
-              <article
-                key={step.title}
-                data-fx="fly"
-                data-side="left"
-                data-fly-x="44"
-                className="relative border-t border-ink/15 pt-7 will-change-transform md:border-t-0 md:pt-9"
-              >
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-[-5px] hidden h-3 w-3 rounded-full border-[3px] border-[#f8f8f4] bg-[#8ca49a] shadow-[0_0_0_1px_rgba(6,28,70,0.15)] md:block"
-                />
-                <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
-                  {step.title}
-                </h3>
-                <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-                  {step.body}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
         id="first-appointment"
         className="scroll-mt-24 bg-[#f0ece2] py-24 md:py-32"
       >
@@ -364,8 +256,8 @@ export default function PatientsPage() {
         data-drift-band
         className="relative scroll-mt-24 overflow-clip bg-ink py-24 text-white md:py-32"
       >
-        {/* The same corner treatment as the journey section, in this room's
-            own material — barely-there glass panels rather than tints. */}
+        {/* The corner treatment in this room's own material — barely-there
+            glass panels drifting at their own speeds rather than tints. */}
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 top-0 hidden h-full w-[36%] lg:block"
