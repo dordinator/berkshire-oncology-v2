@@ -1,16 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import Image from "next/image";
-import {
-  testimonials,
-  PLACEHOLDER,
-  IMAGE_SETS,
-  DEFAULT_IMAGE_SET,
-  imageFor,
-  type ImageSetId,
-} from "@/content/testimonials";
+import { testimonials, PLACEHOLDER } from "@/content/testimonials";
 import ChapterTint, { CHAPTER_GOLD } from "./ChapterTint";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -32,29 +21,13 @@ import ChapterTint, { CHAPTER_GOLD } from "./ChapterTint";
 // pulls every photograph towards blue, and these are meant to stay warm.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const STORE_KEY = "bop:testimonial-set";
-
-export default function TestimonialCards({ intro }: { intro: React.ReactNode }) {
+export default function TestimonialCards({
+  intro,
+}: {
+  intro: React.ReactNode;
+}) {
   const half = Math.ceil(testimonials.length / 2);
-  // Index carried alongside the entry so each card can resolve its own file in
-  // the chosen set — the split into two columns loses the original position.
-  const withIndex = testimonials.map((t, i) => ({ ...t, i }));
-  const columns = [withIndex.slice(0, half), withIndex.slice(half)];
-
-  const [set, setSet] = useState<ImageSetId>(DEFAULT_IMAGE_SET);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const q = new URLSearchParams(window.location.search).get("set");
-    const pick = q ?? window.localStorage.getItem(STORE_KEY);
-    if (pick && IMAGE_SETS.some((s) => s.id === pick)) setSet(pick as ImageSetId);
-  }, []);
-
-  const choose = (id: ImageSetId) => {
-    setSet(id);
-    window.localStorage.setItem(STORE_KEY, id);
-  };
+  const columns = [testimonials.slice(0, half), testimonials.slice(half)];
 
   return (
     // Full width by sitting outside the page's container rather than by
@@ -105,7 +78,7 @@ export default function TestimonialCards({ intro }: { intro: React.ReactNode }) 
                     <figure className="relative block overflow-hidden rounded-2xl bg-ink/5">
                       <span className="relative block aspect-[3/4] w-full">
                         <Image
-                          src={imageFor(set, t.i)}
+                          src={t.image}
                           alt=""
                           fill
                           sizes="(max-width: 1024px) 45vw, 30vw"
@@ -117,7 +90,10 @@ export default function TestimonialCards({ intro }: { intro: React.ReactNode }) 
                             rather than the navy the cancer cards use — navy at
                             this weight turns a warm photograph cold, and these
                             are chosen for their warmth. */}
-                        <span aria-hidden className="absolute inset-0 bg-black/50" />
+                        <span
+                          aria-hidden
+                          className="absolute inset-0 bg-black/50"
+                        />
                       </span>
 
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-7 text-center md:p-8">
@@ -151,54 +127,14 @@ export default function TestimonialCards({ intro }: { intro: React.ReactNode }) 
                 <p className="mt-8 rounded-2xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900">
                   <strong className="font-semibold">Placeholder.</strong> These
                   quotations are invented, to hold the layout while the section
-                  is designed. They are not patient feedback and must be replaced
-                  before this page goes live.
+                  is designed. They are not patient feedback and must be
+                  replaced before this page goes live.
                 </p>
               )}
             </div>
           </div>
         </div>
       </div>
-
-      {/* TEMPORARY: the image-set switcher. Portalled to the body so it clears
-          the section's stacking context and adds no height to the sticky
-          column, whose centring depends on nothing but the viewport. */}
-      {mounted &&
-        createPortal(
-          <div className="fixed bottom-4 right-4 z-[9999] max-h-[85vh] w-64 overflow-y-auto rounded-2xl border border-ink/10 bg-white/95 p-3 shadow-xl backdrop-blur">
-            <p className="px-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-              Feedback images · temporary
-            </p>
-            <div className="flex flex-col gap-1">
-              {IMAGE_SETS.map((s) => {
-                const on = set === s.id;
-                return (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => choose(s.id)}
-                    aria-pressed={on}
-                    className={`rounded-xl px-3 py-2 text-left transition-colors ${
-                      on ? "bg-ink text-white" : "hover:bg-ink/5"
-                    }`}
-                  >
-                    <span className="block text-[13px] font-medium leading-tight">
-                      {s.name}
-                    </span>
-                    <span
-                      className={`mt-0.5 block text-[11px] leading-tight ${
-                        on ? "text-white/70" : "text-ink-muted"
-                      }`}
-                    >
-                      {s.hint}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>,
-          document.body,
-        )}
     </section>
   );
 }
