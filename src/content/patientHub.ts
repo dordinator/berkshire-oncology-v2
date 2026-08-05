@@ -190,7 +190,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Where will I be seen?",
-    a: "Our consultants practise at Spire Dunedin Hospital in Reading, Princess Margaret Hospital in Windsor, and GenesisCare in Windsor and in Sandford, Oxford. All partners also hold NHS consultant posts at the Royal Berkshire Hospital in Reading.",
+    a: "Our consultants practise at Spire Dunedin Hospital in Reading, Princess Margaret Hospital in Windsor, and GenesisCare in Windsor and in Oxford. All partners also hold NHS consultant posts at the Royal Berkshire Hospital in Reading.",
   },
   {
     // NEEDS-APPROVAL: practical rather than clinical, but still worth a check.

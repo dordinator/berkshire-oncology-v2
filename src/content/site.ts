@@ -20,7 +20,12 @@ export const site = {
     phoneMobile: "07928 888662",
     email: "practicemanager@berkshire-oncology.org.uk",
     practiceManager: "Trish Evans",
-    geo: { lat: 51.4502219, lng: -0.9874002 },
+    // Dunedin House, 13 Bath Road — Nominatim's building-level match, sitting
+    // 2.6 m from the ONS centroid of the postcode OSM records for No. 13 and
+    // 91 m across the road from the Spire Dunedin pin, as an odd/even pair
+    // should. Replaces an earlier coordinate ~175 m west along Bath Road that
+    // matched no building.
+    geo: { lat: 51.449959, lng: -0.985037 },
   },
 } as const;
 

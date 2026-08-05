@@ -1,20 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
-import PageHeader from "@/components/site/PageHeader";
+import Breadcrumbs from "@/components/site/Breadcrumbs";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
+import LocationsJourney from "@/components/sections/locations/LocationsJourney";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
 import { allNavLinks, getSection } from "@/content/navigation";
-import { locations, getLocation } from "@/content/locations";
+import { getLocation } from "@/content/locations";
+import { journeyStops } from "@/content/journey";
+import { attribution } from "@/content/mapPaths.generated";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// /locations — the hospitals and centres the partnership practises from, plus
-// the practical pages that sit alongside them.
+// /locations — a scroll journey in the manner of HCA's "Our locations".
 //
-// Cards deliberately carry only what locations.ts confirms: name, area,
-// provider and whether the site is NHS. Which services run where is not yet
-// confirmed by the practice, so nothing on this page implies it.
+// A hero beside a faint vector map of the whole UK, whose pins cluster in the
+// Thames Valley; scrolling flies the map to the practice's own rooms first and
+// then to each hospital in turn, each stop's panel saying what the building is
+// in its operator's own terms. The choreography lives in LocationsJourney; the
+// stops, their order and their framing in content/journey.ts.
+//
+// What used to be here — a card grid of the five sites — is replaced by the
+// journey itself (every panel links on to its detail page). The practical
+// pages and the "not sure which site" card survive below it unchanged.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = pageMeta({
@@ -23,14 +31,6 @@ export const metadata: Metadata = pageMeta({
     "The hospitals and cancer centres where the consultants of Berkshire Oncology Partnership practise, in Reading, Windsor and Oxford.",
   path: "/locations",
 });
-
-function NhsPill() {
-  return (
-    <span className="rounded-full border border-accent/25 bg-accent/[0.07] px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
-      NHS
-    </span>
-  );
-}
 
 function Arrow({ className = "" }: { className?: string }) {
   return (
@@ -71,62 +71,45 @@ export default function LocationsPage() {
         ])}
       />
 
-      <PageHeader
-        eyebrow="Locations"
-        title="Where we practise"
-        intro={section?.summary}
-        breadcrumbs={[{ name: "Home", href: "/" }, { name: "Locations" }]}
+      <LocationsJourney
+        stops={journeyStops}
+        attribution={attribution}
+        hero={
+          <>
+            <div className="mb-6">
+              <Breadcrumbs
+                items={[{ name: "Home", href: "/" }, { name: "Locations" }]}
+              />
+            </div>
+            <Reveal>
+              <span className="eyebrow">
+                <span className="h-px w-8 bg-ink-muted" /> Our locations
+              </span>
+            </Reveal>
+            <Reveal delay={1}>
+              <h1 className="heading-lg mt-5">Where we practise</h1>
+            </Reveal>
+            <Reveal delay={2}>
+              <p className="body-lg mt-6 max-w-xl">
+                The partnership is a group of independent consultants rather
+                than a single hospital. Between them they practise across
+                several providers, including NHS and private sites, so the
+                building you come to depends on your consultant and on the care
+                you need.
+              </p>
+            </Reveal>
+            <Reveal delay={3}>
+              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+                {section?.summary}
+              </p>
+            </Reveal>
+          </>
+        }
       />
 
-      <section className="container-wide pb-24 pt-14 md:pb-32 md:pt-20">
-        <Reveal>
-          <p className="max-w-2xl text-lg leading-relaxed text-ink md:text-xl">
-            The partnership is a group of independent consultants rather than a
-            single hospital. Between them they practise across several
-            providers, including NHS and private sites, so the building you come
-            to depends on your consultant and on the care you need.
-          </p>
-        </Reveal>
-        <Reveal delay={1}>
-          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
-            If you are not certain where your appointment is, please ask us
-            before you travel — we would always rather check than have you go to
-            the wrong building.
-          </p>
-        </Reveal>
-
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {locations.map((location, i) => (
-            <Reveal key={location.slug} delay={i} className="h-full">
-              <Link
-                href={`/locations/${location.slug}`}
-                className="group card-soft flex h-full flex-col p-6 transition-transform duration-300 hover:-translate-y-1 md:p-7"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h2 className="font-display text-xl text-ink">
-                    {location.name}
-                  </h2>
-                  {location.nhs && <NhsPill />}
-                </div>
-                <p className="mt-2 text-[15px] text-ink-muted">
-                  {location.area}
-                </p>
-                {location.provider && location.provider !== location.name && (
-                  <p className="mt-1 text-sm text-ink-muted">
-                    {location.provider}
-                  </p>
-                )}
-                <span className="mt-auto flex items-center gap-1.5 pt-6 text-sm font-medium text-accent">
-                  About this site
-                  <Arrow />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-
+      <section className="container-wide pb-24 pt-20 md:pb-32 md:pt-28">
         {practicalPages.length > 0 && (
-          <div className="mt-16 md:mt-20">
+          <div>
             <Reveal>
               <h2 className="font-display text-2xl text-ink md:text-3xl">
                 Getting there and other sites
@@ -166,7 +149,8 @@ export default function LocationsPage() {
             <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
               Our practice manager can tell you where your consultant sees
               patients, and where your treatment would take place, before you
-              make any arrangements.
+              make any arrangements. We would always rather check than have you
+              go to the wrong building.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Button href="/contact" variant="primary">

@@ -361,7 +361,7 @@ const locations: NavSection = {
         {
           label: "GenesisCare Oxford",
           href: "/locations/genesiscare-oxford",
-          description: "GenesisCare, Sandford, Oxford.",
+          description: "GenesisCare, Oxford.",
           covers: locationCovers,
         },
         {

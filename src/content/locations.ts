@@ -34,12 +34,37 @@ export interface Location {
   /** Provider group, where it differs from the hospital name. */
   provider?: string;
   url?: string;
+  /**
+   * What the SITE publicly is, in the operator's own terms — a claim about
+   * the building, checkable against `url`, never about which partnership
+   * services run there (that is what `services` is for, and it stays empty
+   * until the practice confirms it).
+   */
+  description?: string;
+  /** The operator's own published address for the site. */
+  address?: string;
   /** Confirmed by the practice — empty until then. */
   services: LocationService[];
   /** Whether this is an NHS site rather than a private one. */
   nhs?: boolean;
 }
 
+// ── On the GenesisCare URLs ──────────────────────────────────────────────────
+// The two genesiscare.co.uk links that used to live here died when GenesisCare
+// UK moved its web presence onto the global domain under /uk (the group split
+// into separately governed UK/Australia/Spain businesses on emerging from
+// Chapter 11 in February 2024 — the UK company itself neither closed nor
+// renamed; both centres verified open, August 2026). The old domain's redirect
+// drops the /uk/our-centres/ path segment, hence the cert error then 404.
+//
+// Addresses are the operators' own published wording, from the same pages as
+// the descriptions. Two discrepancies to raise with the practice:
+//   • GenesisCare Windsor: the operator publishes SL4 3HD, CQC's register has
+//     SL4 3ES for the same centre at 69 Alma Road.
+//   • Royal Berkshire: the trust's own page says Craven Road RG1 5LE; NHS.uk
+//     and CQC use the older London Road RG1 5AN postal address. Same site —
+//     it spans the block.
+// ─────────────────────────────────────────────────────────────────────────────
 export const locations: Location[] = [
   {
     slug: "spire-dunedin-reading",
@@ -47,6 +72,9 @@ export const locations: Location[] = [
     area: "Reading",
     provider: "Spire Healthcare",
     url: "https://www.spirehealthcare.com/spire-dunedin-hospital",
+    description:
+      "A private hospital on Bath Road run by Spire Healthcare, with outpatient consulting rooms, diagnostic imaging including MRI, a one-stop breast clinic, and cancer investigations and treatments.",
+    address: "16 Bath Road, Reading RG1 6NS",
     services: [],
   },
   {
@@ -55,6 +83,9 @@ export const locations: Location[] = [
     area: "Windsor",
     provider: "Circle Health Group",
     url: "https://www.circlehealthgroup.co.uk/hospitals/the-princess-margaret-hospital",
+    description:
+      "A private hospital in the centre of Windsor, part of Circle Health Group, with inpatient beds and operating theatres, a diagnostic imaging department spanning X-ray to MRI and mammography, and what Circle describes as its oncology centre.",
+    address: "Osborne Road, Windsor SL4 3SJ",
     services: [],
   },
   {
@@ -62,15 +93,23 @@ export const locations: Location[] = [
     name: "GenesisCare Windsor",
     area: "Windsor",
     provider: "GenesisCare",
-    url: "https://www.genesiscare.co.uk/windsor",
+    url: "https://www.genesiscare.com/uk/our-centres/windsor",
+    description:
+      "A purpose-built specialist outpatient cancer centre on Alma Road, offering advanced radiotherapy, chemotherapy and systemic anti-cancer therapy, with on-site diagnostics including PET-CT and MRI.",
+    address: "69 Alma Road, Windsor SL4 3HD",
     services: [],
   },
   {
     slug: "genesiscare-oxford",
     name: "GenesisCare Oxford",
-    area: "Sandford, Oxford",
+    // Formerly listed here as "Sandford, Oxford" — the operator's own page
+    // uses neither "Sandford" nor "Littlemore", so nor do we.
+    area: "Oxford",
     provider: "GenesisCare",
-    url: "https://www.genesiscare.co.uk/cancer-centre/oxford",
+    url: "https://www.genesiscare.com/uk/our-centres/oxford",
+    description:
+      "A specialist outpatient cancer and radiotherapy centre south of Oxford, whose equipment includes an MR Linac, offering advanced radiotherapy, chemotherapy and systemic anti-cancer therapy alongside a full diagnostic suite.",
+    address: "Peters Way, Sandy Lane West, Oxford OX4 6LB",
     services: [],
   },
   {
@@ -78,7 +117,10 @@ export const locations: Location[] = [
     name: "Royal Berkshire Hospital",
     area: "Reading",
     provider: "Royal Berkshire NHS Foundation Trust",
-    url: "https://www.royalberkshire.nhs.uk",
+    url: "https://www.royalberkshire.nhs.uk/our-locations/royal-berkshire-hospital",
+    description:
+      "The main NHS acute hospital of the Royal Berkshire NHS Foundation Trust — the largest hospital in the trust, providing acute and specialist care for West Berkshire, including cancer services.",
+    address: "Craven Road, Reading RG1 5LE",
     services: [],
     nhs: true,
   },
