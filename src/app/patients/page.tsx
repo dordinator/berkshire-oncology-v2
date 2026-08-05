@@ -71,8 +71,6 @@ const phoneHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
 const supportTopics = [
   "/resources/managing-side-effects",
   "/resources/emotional-and-practical-support",
-  "/resources/carers-and-families",
-  "/resources/financial-and-benefits-advice",
 ]
   .map((href) => allNavLinks.find((link) => link.href === href))
   .filter((link): link is NonNullable<typeof link> => Boolean(link));
@@ -269,7 +267,12 @@ export default function PatientsPage() {
         className="relative scroll-mt-24 overflow-clip bg-ink py-24 text-white md:py-32"
       >
         <div className="container-wide relative">
-          <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-24">
+          {/* items-start, not items-end: with the rows in play the right
+              column grew taller than the heading, and end-alignment left it
+              floating high above the eyebrow. Both columns now open on the
+              same line — rule level with eyebrow — and with two rows their
+              feet land close together too. */}
+          <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-24">
             <Reveal>
               <div>
                 <span className="eyebrow text-white/55">
