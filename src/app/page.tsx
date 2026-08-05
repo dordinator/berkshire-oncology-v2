@@ -10,8 +10,10 @@ import PartnershipField from "@/components/sections/about/PartnershipField";
 import { pageMeta, organizationLd } from "@/content/seo";
 import { site } from "@/content/site";
 import ConsultantScroller from "@/components/sections/home/ConsultantScroller";
+import CancerCards from "@/components/sections/home/CancerCards";
 import {
   getAllConsultants,
+  getAllSpecialities,
   getSpecialitiesForConsultant,
 } from "@/content/queries";
 
@@ -47,6 +49,22 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const consultants = getAllConsultants();
+const specialities = getAllSpecialities();
+
+/**
+ * The six cards in "Cancers we treat", ordered by how common the cancer is in
+ * the UK rather than by how many of our consultants list it. Ranking by
+ * internal coverage put bladder and kidney above bowel and lung, which is not
+ * what a newly diagnosed reader is scanning for — they arrive already knowing
+ * the name of their own diagnosis. Labels come from the speciality data so they
+ * cannot drift; only the order and the selection are set here.
+ */
+const CARD_ORDER = ["breast", "prostate", "lung", "colorectal", "skin", "lymphoma"];
+
+const topCancers = CARD_ORDER.map((slug) => {
+  const s = specialities.find((x) => x.slug === slug);
+  return s ? { slug: s.slug, label: s.title ?? s.name } : null;
+}).filter((c): c is { slug: string; label: string } => c !== null);
 
 /** Sub-speciality names per consultant, resolved once for the client list. */
 const specialitiesBySlug: Record<string, string[]> = Object.fromEntries(
@@ -249,6 +267,28 @@ export default function Home() {
               />
             </Reveal>
           </div>
+        </Section>
+
+        {/* ── Cancers we treat ──────────────────────────────────────────────── */}
+        <Section>
+          <SectionHeading id="cancers" title="Cancers we treat" />
+          <Lede>
+            Our consultants treat {specialities.length} cancer types between
+            them, each concentrating on a few rather than covering everything.
+            Start from your own diagnosis and it will take you to the
+            consultants who treat it.
+          </Lede>
+          <CancerCards cards={topCancers} />
+          <Reveal>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Button href="/specialities" variant="ghost">
+                All {specialities.length} cancer types
+              </Button>
+              <Button href="/consultants/by-cancer-type" variant="ghost">
+                Find a consultant by cancer type
+              </Button>
+            </div>
+          </Reveal>
         </Section>
 
         {/* ── 03 · Our consultants ──────────────────────────────────────────── */}
