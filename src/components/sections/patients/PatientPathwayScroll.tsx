@@ -121,7 +121,11 @@ export default function PatientPathwayScroll() {
         </div>
 
         <div className="mt-16 grid items-start gap-14 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-20 md:mt-20">
-          <aside className="hidden lg:sticky lg:top-32 lg:block">
+          {/* A viewport-tall sticky box with the nav flex-centred inside it,
+              rather than pinned near the top: the route list rides the middle
+              of the screen for the whole length of the sheets. Same pattern as
+              the home page's chapter columns. */}
+          <aside className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted">
               Your starting point
             </p>
