@@ -12,6 +12,7 @@ import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayS
 // hijacked, and no review switcher on a patient-facing page.
 import PageMotion from "@/components/sections/resources/PageMotion";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
+import { allNavLinks } from "@/content/navigation";
 import { site } from "@/content/site";
 import { faqs } from "@/content/patientHub";
 
@@ -63,6 +64,18 @@ const appointmentPoints = [
 ];
 
 const phoneHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
+
+// The support section's expandable rows — read from the IA rather than
+// written here, so the titles, descriptions and destinations stay in step
+// with the resources pages they open onto.
+const supportTopics = [
+  "/resources/managing-side-effects",
+  "/resources/emotional-and-practical-support",
+  "/resources/carers-and-families",
+  "/resources/financial-and-benefits-advice",
+]
+  .map((href) => allNavLinks.find((link) => link.href === href))
+  .filter((link): link is NonNullable<typeof link> => Boolean(link));
 
 export default function PatientsPage() {
   const faqLd = {
@@ -253,28 +266,8 @@ export default function PatientsPage() {
 
       <section
         id="support"
-        data-drift-band
         className="relative scroll-mt-24 overflow-clip bg-ink py-24 text-white md:py-32"
       >
-        {/* The corner treatment in this room's own material — barely-there
-            glass panels drifting at their own speeds rather than tints. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-0 hidden h-full w-[36%] lg:block"
-        >
-          <div
-            data-fx="drift"
-            data-drift="0.3"
-            data-rot="2"
-            className="absolute right-[24%] top-6 h-40 w-60 rounded-[2rem] border border-white/10 bg-white/[0.045]"
-          />
-          <div
-            data-fx="drift"
-            data-drift="0.65"
-            className="absolute right-[2%] top-12 h-44 w-36 rounded-[2rem] border border-white/10 bg-white/[0.07]"
-          />
-        </div>
-
         <div className="container-wide relative">
           <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-24">
             <Reveal>
@@ -306,6 +299,59 @@ export default function PatientsPage() {
                   >
                     Support organisations <span aria-hidden>→</span>
                   </Link>
+                </div>
+
+                {/* The four support areas as expandable rows, read from the
+                    IA — each opens to its own description and on to its page.
+                    The + is the FAQ section's device in this room's material,
+                    and the stack fills the column the glass panels used to
+                    only decorate. */}
+                <div className="mt-10 space-y-3">
+                  {supportTopics.map((topic) => (
+                    <details
+                      key={topic.href}
+                      className="group rounded-2xl border border-white/10 bg-white/[0.06]"
+                    >
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-4 [&::-webkit-details-marker]:hidden">
+                        <span className="font-display text-lg font-semibold leading-snug text-white md:text-xl">
+                          {topic.label}
+                        </span>
+                        <svg
+                          aria-hidden
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          className="h-5 w-5 flex-none text-white/60 transition-transform duration-300 group-open:rotate-45"
+                        >
+                          <path
+                            d="M8 2v12M2 8h12"
+                            stroke="currentColor"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </summary>
+                      <div className="px-6 pb-5">
+                        {topic.description && (
+                          <p className="max-w-md text-[15px] leading-relaxed text-white/65">
+                            {topic.description}
+                          </p>
+                        )}
+                        <Link
+                          href={topic.href}
+                          aria-label={`Read more: ${topic.label}`}
+                          className="group/link mt-3 inline-flex items-center gap-2 text-sm font-medium text-white"
+                        >
+                          Read more
+                          <span
+                            aria-hidden
+                            className="transition-transform group-hover/link:translate-x-1"
+                          >
+                            →
+                          </span>
+                        </Link>
+                      </div>
+                    </details>
+                  ))}
                 </div>
               </div>
             </Reveal>
