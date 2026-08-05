@@ -426,7 +426,7 @@ const fees: NavSection = {
       links: [
         {
           label: "Consultation fees",
-          href: "/tariffs/consultation-fees",
+          href: "/tariffs#tailored",
           description: "The cost of a first appointment and follow-ups.",
           covers: [
             "Initial consultation fee",
@@ -436,9 +436,9 @@ const fees: NavSection = {
           ],
         },
         {
-          label: "Self-pay treatment",
-          href: "/tariffs/self-pay-treatment",
-          description: "Paying for your own care, with a tailored package.",
+          label: "Self-funding treatment",
+          href: "/tariffs#self-funding",
+          description: "Paying for your own care, with a personalised tariff.",
           covers: [
             "How a self-pay package is built around your plan",
             "What is included in a package",
@@ -448,7 +448,7 @@ const fees: NavSection = {
         },
         {
           label: "Private medical insurance",
-          href: "/tariffs/private-medical-insurance",
+          href: "/tariffs#insurance",
           description: "Working with your insurer, and what they usually cover.",
           covers: [
             "Insurers we work with",
@@ -459,7 +459,7 @@ const fees: NavSection = {
         },
         {
           label: "Tariffs",
-          href: "/tariffs",
+          href: "/tariffs#request",
           description: "How the partnership sets its fees.",
           built: true,
         },
@@ -469,9 +469,9 @@ const fees: NavSection = {
       title: "Before you start",
       links: [
         {
-          label: "Getting a treatment estimate",
-          href: "/tariffs/treatment-estimate",
-          description: "How to get a written estimate before treatment begins.",
+          label: "How estimates work",
+          href: "/tariffs#estimates",
+          description: "How estimates are prepared, and why they can change.",
           covers: [
             "How to request an estimate",
             "What the estimate covers",
@@ -481,7 +481,7 @@ const fees: NavSection = {
         },
         {
           label: "Insurance authorisation",
-          href: "/tariffs/insurance-authorisation",
+          href: "/tariffs#insurance",
           description: "Getting your insurer to approve treatment in advance.",
           covers: [
             "Getting an authorisation code before your appointment",
@@ -492,7 +492,7 @@ const fees: NavSection = {
         },
         {
           label: "Excesses and shortfalls",
-          href: "/tariffs/excesses-and-shortfalls",
+          href: "/tariffs#shortfalls",
           description: "What happens when insurance does not cover everything.",
           covers: [
             "What an excess is and when it is charged",
@@ -503,7 +503,7 @@ const fees: NavSection = {
         },
         {
           label: "Payment questions",
-          href: "/tariffs/payment-questions",
+          href: "/tariffs#faqs",
           description: "Billing queries and who handles them.",
           covers: [
             "Who to contact about an invoice",
