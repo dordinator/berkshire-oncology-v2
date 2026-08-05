@@ -243,8 +243,9 @@ a:not([class*="rounded-full"]):focus-visible {
 }
 
 /* ── Scroll cue on /locations ──
-   A slow eased drift, not Tailwind's animate-bounce: the bounce easing lands
-   like a rubber ball in a site whose every other motion decelerates smoothly. */
+   A slow eased drift, deliberately not Tailwind's bouncing preset: a springy
+   arrival lands like a rubber ball in a site whose every other motion
+   decelerates smoothly. */
 @keyframes cue-drift {
   0%,
   100% {
