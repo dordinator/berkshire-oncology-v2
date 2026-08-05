@@ -285,6 +285,53 @@ a:not([class*="rounded-full"]):focus-visible {
      .text-gradient-strong and .text-metal used to sit here alongside it and
      have been removed: the first was referenced only by the old home hero,
      which is no longer imported anywhere, and the second by nothing at all. */
+  /* ── Display scale ────────────────────────────────────────────────────────
+     The rest of the site sets headings at 600 with leading around 1.05–1.14.
+     That is the correct setting for a heading sitting above a paragraph. It is
+     the wrong setting for a heading that *is* the moment — at 100px+, 600
+     reads as shouting and 1.1 leading opens gaps between lines you could park
+     a car in.
+
+     These three classes are the other mode: much larger, one weight lighter,
+     leading under 1, and tracking pulled in to close the rivers that appear
+     between big geometric-sans words. Weight is declared after .font-display
+     above so it wins; both live in the utilities layer, so source order is the
+     only thing separating them.
+
+     Sizes are clamped against the viewport rather than stepped at breakpoints,
+     because the whole effect depends on the line filling its measure — a
+     stepped size spends most of its range slightly wrong. */
+  .display-hero {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.75rem, 9.5vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+  .display-statement {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 0.94;
+    letter-spacing: -0.032em;
+  }
+  .display-section {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4.6vw, 3.9rem);
+    line-height: 0.98;
+    letter-spacing: -0.028em;
+  }
+
+  /* Small, tight, and set in the body face — the counterweight. Big display
+     type only reads as confident when the copy around it is quiet. */
+  .label-tight {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+
   .text-gradient {
     @apply bg-gradient-to-br from-accent via-accent-soft to-lilac bg-clip-text text-transparent;
   }
