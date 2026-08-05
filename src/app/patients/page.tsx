@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import PatientsHero from "@/components/sections/patients/PatientsHero";
 import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayScroll";
+// The scroll choreography built for /resources — markup-free and generic, it
+// wires whatever data-fx hooks it finds. Mounted here WITHOUT IntensityStage,
+// so it runs at its default level 2 "Flowing": everything scrubbed, nothing
+// hijacked, and no review switcher on a patient-facing page.
+import PageMotion from "@/components/sections/resources/PageMotion";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
 import { site } from "@/content/site";
 import { faqs } from "@/content/patientHub";
@@ -103,64 +109,149 @@ export default function PatientsPage() {
         ]}
       />
 
+      <PageMotion />
       <PatientsHero />
       <PatientPathwayScroll />
 
+      {/* The hero's composition, mirrored: panel + photograph + question card
+          on the LEFT, text on the RIGHT, and the three practical destinations
+          carried by the card the way the hero's five routes are — the two
+          bookend compositions rhyme without repeating. data-drift-band scopes
+          the panel's scrubbed travel to this section. */}
       <section
         id="practical-information"
-        className="scroll-mt-24 bg-[#e7edf1] py-24 md:py-32"
+        data-drift-band
+        className="scroll-mt-24 overflow-hidden bg-[#e7edf1] py-24 md:py-32"
       >
         <div className="container-wide">
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
-            <Reveal>
-              <div>
+          <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+            <div className="relative order-2 min-h-[560px] py-6 lg:order-1 lg:min-h-[660px]">
+              <div
+                aria-hidden
+                data-fx="drift"
+                data-drift="0.5"
+                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-white/70"
+              />
+
+              <div
+                data-parallax-frame
+                className="absolute left-0 top-[7%] h-[69%] w-[64%] overflow-hidden rounded-[2.5rem] border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)]"
+              >
+                {/* Taller than its frame so the parallax never shows an edge. */}
+                <div
+                  data-fx="parallax"
+                  className="absolute inset-x-0 -top-[12%] h-[124%]"
+                >
+                  <Image
+                    src="/home/approach.jpg"
+                    alt="A consultant writing up notes after a clinic"
+                    fill
+                    sizes="(max-width: 1024px) 68vw, 38vw"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              <div
+                data-fx="rise"
+                className="absolute bottom-3 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]"
+              >
+                <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
+                  <p className="font-display text-lg">What would help right now?</p>
+                  <span className="hidden text-[10px] uppercase tracking-[0.18em] text-ink-muted sm:block">
+                    Three places
+                  </span>
+                </div>
+
+                <div className="divide-y divide-ink/10">
+                  {practicalLinks.map((item, index) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group flex items-center gap-3 px-2 py-3 text-sm text-ink transition-colors hover:text-accent"
+                    >
+                      <span
+                        aria-hidden
+                        className={`h-2.5 w-2.5 flex-none rounded-full ${
+                          index === 0 ? "bg-[#8ca49a]" : "border border-ink/20"
+                        }`}
+                      />
+                      <span className="min-w-0 flex-1">
+                        {item.title}
+                        <span className="ml-2 hidden text-[11px] uppercase tracking-[0.14em] text-ink-muted sm:inline">
+                          {item.eyebrow}
+                        </span>
+                      </span>
+                      <span
+                        aria-hidden
+                        className="transition-transform group-hover:translate-x-1"
+                      >
+                        →
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="order-1 lg:order-2">
+              <Reveal>
                 <span className="eyebrow">
                   <span aria-hidden className="h-px w-8 bg-ink-muted" /> Practical
                   information
                 </span>
-                <p className="mt-8 max-w-sm text-lg leading-relaxed text-ink-muted">
+              </Reveal>
+              <Reveal delay={1}>
+                <h2 className="mt-6 max-w-xl font-display text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.97] tracking-[-0.055em] text-ink">
+                  The details that make the next step easier.
+                </h2>
+              </Reveal>
+              <Reveal delay={2}>
+                <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
                   Useful detail, kept separate from the bigger decisions so it is
                   easy to find when you need it.
                 </p>
-              </div>
-            </Reveal>
-
-            <Reveal delay={1}>
-              <h2 className="font-display text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.97] tracking-[-0.055em] text-ink">
-                The details that make the next step easier.
-              </h2>
-            </Reveal>
-          </div>
-
-          <div className="mt-16 grid border-y border-ink/15 md:mt-20 md:grid-cols-3">
-            {practicalLinks.map((item, index) => (
-              <Reveal key={item.title} delay={index}>
-                <Link
-                  href={item.href}
-                  className="group flex min-h-[300px] flex-col border-b border-ink/15 p-7 transition-colors hover:bg-white/30 md:border-b-0 md:border-r md:p-9 md:last:border-r-0"
-                >
-                  <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted">
-                    {item.eyebrow}
-                  </span>
-                  <h3 className="mt-7 font-display text-3xl font-semibold leading-tight tracking-tight text-ink">
-                    {item.title}
-                  </h3>
-                  <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-                    {item.body}
-                  </p>
-                  <span className="mt-auto flex items-center gap-3 pt-8 text-sm font-medium text-ink">
-                    {item.cta}
-                    <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-                  </span>
-                </Link>
               </Reveal>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="journey" className="scroll-mt-24 bg-[#f8f8f4] py-24 md:py-32">
-        <div className="container-wide">
+      <section
+        id="journey"
+        data-drift-band
+        className="relative scroll-mt-24 overflow-hidden bg-[#f8f8f4] py-24 md:py-32"
+      >
+        {/* The top-right of this section used to be empty air beside the
+            heading. Two quiet panels now drift through it at different speeds
+            — depth, not content, so they sit behind everything and vanish
+            below lg where there is no spare space to use. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-0 top-0 hidden h-full w-[40%] lg:block"
+        >
+          <div
+            data-fx="drift"
+            data-drift="0.35"
+            data-rot="-2"
+            className="absolute right-[22%] top-4 h-44 w-72 rounded-[2rem] bg-[#dce6e1]"
+          />
+          <div
+            data-fx="drift"
+            data-drift="0.7"
+            className="absolute right-[5%] top-10 h-48 w-40 overflow-hidden rounded-[2rem] border border-ink/10 shadow-[0_30px_80px_-40px_rgba(6,28,70,0.35)]"
+          >
+            <Image
+              src="/support/hands-table.jpg"
+              alt=""
+              fill
+              sizes="180px"
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        <div className="container-wide relative z-10">
           <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-20">
             <Reveal>
               <div>
@@ -187,21 +278,27 @@ export default function PatientsPage() {
               aria-hidden
               className="absolute left-0 right-0 top-2 hidden h-px bg-ink/15 md:block"
             />
+            {/* data-fx instead of Reveal: the two both animate opacity, and a
+                whileInView spring fighting a scrubbed tween flickers. Sides
+                alternate so the row breathes in from both edges. */}
             {journey.map((step, index) => (
-              <Reveal key={step.title} delay={index}>
-                <article className="relative border-t border-ink/15 pt-7 md:border-t-0 md:pt-9">
-                  <span
-                    aria-hidden
-                    className="absolute left-0 top-[-5px] hidden h-3 w-3 rounded-full border-[3px] border-[#f8f8f4] bg-[#8ca49a] shadow-[0_0_0_1px_rgba(6,28,70,0.15)] md:block"
-                  />
-                  <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
-                    {step.title}
-                  </h3>
-                  <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-                    {step.body}
-                  </p>
-                </article>
-              </Reveal>
+              <article
+                key={step.title}
+                data-fx="fly"
+                data-side={index % 2 === 0 ? "left" : "right"}
+                className="relative border-t border-ink/15 pt-7 will-change-transform md:border-t-0 md:pt-9"
+              >
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-[-5px] hidden h-3 w-3 rounded-full border-[3px] border-[#f8f8f4] bg-[#8ca49a] shadow-[0_0_0_1px_rgba(6,28,70,0.15)] md:block"
+                />
+                <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
+                  {step.title}
+                </h3>
+                <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
+                  {step.body}
+                </p>
+              </article>
             ))}
           </div>
         </div>
@@ -258,8 +355,31 @@ export default function PatientsPage() {
         </div>
       </section>
 
-      <section id="support" className="scroll-mt-24 bg-ink py-24 text-white md:py-32">
-        <div className="container-wide">
+      <section
+        id="support"
+        data-drift-band
+        className="relative scroll-mt-24 overflow-hidden bg-ink py-24 text-white md:py-32"
+      >
+        {/* The same corner treatment as the journey section, in this room's
+            own material — barely-there glass panels rather than tints. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-0 top-0 hidden h-full w-[36%] lg:block"
+        >
+          <div
+            data-fx="drift"
+            data-drift="0.3"
+            data-rot="2"
+            className="absolute right-[26%] top-10 h-44 w-64 rounded-[2rem] border border-white/10 bg-white/[0.045]"
+          />
+          <div
+            data-fx="drift"
+            data-drift="0.65"
+            className="absolute right-[8%] top-28 h-56 w-44 rounded-[2rem] border border-white/10 bg-white/[0.07]"
+          />
+        </div>
+
+        <div className="container-wide relative">
           <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-24">
             <Reveal>
               <div>
