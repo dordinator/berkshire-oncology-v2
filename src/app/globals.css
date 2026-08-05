@@ -88,6 +88,15 @@ a:not([class*="rounded-full"]):focus-visible {
   text-underline-offset: 3px;
 }
 
+/* Disclosure rows (the FAQs, the support topics) are summaries, not links, so
+   the rule above never reached them and tabbing onto one showed nothing at
+   all. Same treatment as text links: the title underlines. */
+summary:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
 ::selection {
   background-color: #1a4d8f;
   color: #ffffff;

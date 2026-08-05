@@ -296,9 +296,12 @@ export default function PatientsPage() {
                   <Button href="/resources" variant="light">
                     Patient resources and support
                   </Button>
+                  {/* focus-visible mirrors hover: rounded-full opts this out
+                      of the global underline rule, so without these the
+                      keyboard indicator was nothing at all. */}
                   <Link
                     href="/links"
-                    className="inline-flex items-center gap-3 rounded-full border border-white/25 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60 hover:bg-white/10"
+                    className="inline-flex items-center gap-3 rounded-full border border-white/25 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60 hover:bg-white/10 focus-visible:border-white/60 focus-visible:bg-white/10"
                   >
                     Support organisations <span aria-hidden>→</span>
                   </Link>
@@ -409,8 +412,10 @@ export default function PatientsPage() {
           <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-24">
             <Reveal>
               <div>
-                <span className="eyebrow">
-                  <span aria-hidden className="h-px w-8 bg-ink-muted" /> Your next
+                {/* ink-soft override: the shared eyebrow grey measures 3.72:1
+                    on this sage band — under the AA floor at 12px. */}
+                <span className="eyebrow text-ink-soft">
+                  <span aria-hidden className="h-px w-8 bg-ink-soft" /> Your next
                   step
                 </span>
                 <h2 className="mt-7 max-w-4xl font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink">
@@ -431,7 +436,7 @@ export default function PatientsPage() {
                   </Button>
                   <a
                     href={phoneHref}
-                    className="rounded-full border border-ink/20 bg-white/25 px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/45 hover:bg-white/45"
+                    className="rounded-full border border-ink/20 bg-white/25 px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/45 hover:bg-white/45 focus-visible:border-ink/45 focus-visible:bg-white/45"
                   >
                     {site.contact.phone}
                   </a>

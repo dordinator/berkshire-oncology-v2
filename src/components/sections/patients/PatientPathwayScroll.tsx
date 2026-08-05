@@ -166,7 +166,10 @@ export default function PatientPathwayScroll() {
               >
                 <div className="flex min-h-full flex-col">
                   <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.19em] text-ink-muted">
+                    {/* ink-soft, not ink-muted: at 11px on the toned sheets
+                        the muted grey measures 4.18–4.39:1 — under the 4.5:1
+                        AA floor on three of the five tones. */}
+                    <p className="text-[11px] font-medium uppercase tracking-[0.19em] text-ink-soft">
                       {route.eyebrow}
                     </p>
                     <h3 className="mt-6 max-w-3xl font-display text-[clamp(2.25rem,4.1vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
