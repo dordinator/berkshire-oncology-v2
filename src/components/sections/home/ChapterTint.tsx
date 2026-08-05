@@ -22,11 +22,18 @@ import { createPortal } from "react-dom";
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * The chapter colour, shared by every section that uses this device so they
- * cannot drift apart. Navy ink on it is around 11:1, so it clears WCAG AA for
- * body text several times over.
+ * The chapter colours. Two of them, one per chapter, so the home page's two
+ * washes read as different rooms rather than the same trick twice. Sage goes
+ * to "Cancers we treat" and gold to "Patient feedback" — the cooler colour
+ * under a list of diagnoses, the warmer one under people's own words.
+ *
+ * Both are light enough that navy ink on them clears WCAG AA for body text
+ * several times over (gold ~11:1, sage ~9.5:1). Named here rather than typed
+ * into each section so the two cannot drift apart.
  */
 export const CHAPTER_GOLD = "#f3dca2";
+/** Matches the patients hero panel and its closing band. */
+export const CHAPTER_SAGE = "#c8d6cf";
 
 export default function ChapterTint({ colour }: { colour: string }) {
   const anchorRef = useRef<HTMLDivElement>(null);

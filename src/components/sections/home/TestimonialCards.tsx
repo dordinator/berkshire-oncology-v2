@@ -12,10 +12,13 @@ import ChapterTint, { CHAPTER_GOLD } from "./ChapterTint";
 // tight padding moves to the left edge, and the offset column swaps, so the
 // topmost card is top-left where the other section's is top-right.
 //
-// It carries the same gold on the same trigger, from the same component — the
-// colour is imported rather than repeated, so the two chapters cannot drift onto
-// different golds. Both fill the page when their own heading comes on screen and
-// drain when it leaves.
+// It carries the same wash on the same trigger, from the same component, but
+// in warm gold against the cancers chapter's sage. Two chapters running the
+// identical device in the identical colour read as one long band rather than
+// two rooms, and the warmth belongs here: these are people's own words, where
+// the clinical chapter above wants calm. Both colours are imported from
+// ChapterTint rather than typed in here, so neither can drift. Both fill the
+// page when their own heading comes on screen and drain when it leaves.
 //
 // The card scrim is neutral black, not the site's navy. Navy at this weight
 // pulls every photograph towards blue, and these are meant to stay warm.

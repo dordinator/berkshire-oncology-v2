@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { specialityIcon } from "@/components/site/SpecialityIcons";
-import ChapterTint, { CHAPTER_GOLD } from "./ChapterTint";
+import ChapterTint, { CHAPTER_SAGE } from "./ChapterTint";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // "Cancers we treat" — the chapter-break section.
@@ -25,8 +25,10 @@ import ChapterTint, { CHAPTER_GOLD } from "./ChapterTint";
 // rows — the asymmetry is what makes it read as editorial rather than a grid.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// The chapter's colour now lives with the tint itself, so this section and
-// "Patient feedback" cannot end up on different golds.
+// The chapter's colour lives with the tint itself, so the two chapters cannot
+// drift. This one takes the pale sage the patients pages are built on — the
+// calmer of the pair, which suits a list of diagnoses; the warm gold goes to
+// "Patient feedback" below, where the words are people's own.
 
 /** Which of the sourced image sets is in use. Files live in public/cancers/. */
 const IMAGE_SET = "diagnostic";
@@ -56,7 +58,7 @@ export default function CancerCards({
       {/* Renders a marker here and the colour itself as a fixed sheet on the
           body — the chapter's colour fills the whole page while you are in it
           rather than living inside this box. */}
-      <ChapterTint colour={CHAPTER_GOLD} />
+      <ChapterTint colour={CHAPTER_SAGE} />
 
       {/* Its own container rather than `container-wide`: a wider maximum and a
           tighter right-hand padding pull the card column roughly a third closer
