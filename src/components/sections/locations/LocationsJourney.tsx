@@ -8,22 +8,10 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import dynamic from "next/dynamic";
 import Snap from "lenis/snap";
 import { getLenis } from "@/components/SmoothScroll";
-import JourneyMap from "./JourneyMap";
+import JourneyMapCanvas from "./JourneyMapCanvas";
 import type { MapStop } from "./mapCamera";
-
-// Client-only: a canvas has no server-rendered output, and the SVG renderer
-// covers the first paint anyway.
-const JourneyMapCanvas = dynamic(() => import("./JourneyMapCanvas"), {
-  ssr: false,
-});
-
-type Renderer = "svg" | "canvas";
-const RENDERER_KEY = "bop-map-renderer";
-/** Flip after measuring; the toggle lets anyone compare live. */
-const DEFAULT_RENDERER: Renderer = "canvas";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // /locations — the scroll journey, as a stepped, locked experience.
@@ -126,19 +114,6 @@ export default function LocationsJourney({
   const progress = reduced ? steppedP : sprungP;
 
   const [active, setActive] = useState(-1);
-
-  // Which renderer draws the map. SVG until hydration (it server-renders);
-  // then the saved choice, or the default. The pill below flips it live —
-  // the camera maths is shared, so the swap is invisible except in feel.
-  const [renderer, setRenderer] = useState<Renderer>("svg");
-  useEffect(() => {
-    const saved = window.localStorage.getItem(RENDERER_KEY);
-    setRenderer(saved === "svg" || saved === "canvas" ? saved : DEFAULT_RENDERER);
-  }, []);
-  const pickRenderer = (r: Renderer) => {
-    setRenderer(r);
-    window.localStorage.setItem(RENDERER_KEY, r);
-  };
 
   useEffect(() => {
     const el = trackRef.current;
@@ -431,63 +406,19 @@ export default function LocationsJourney({
           <div className="relative h-[44svh] w-full shrink-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
             <div className="absolute inset-x-0 bottom-[26px] top-0 lg:bottom-0">
               {/* At the outro the raw index is N — out of stops' range — and
-                  the renderers must read it as "no active stop": every pin at
+                  the renderer must read it as "no active stop": every pin at
                   full strength, no grounds highlighted, as in the hero's wide
-                  shot. The count card keys off the raw value instead, so it
-                  stays a hero-only object. */}
-              {renderer === "canvas" ? (
-                <JourneyMapCanvas
-                  stops={stops}
-                  active={active >= 0 && active < N ? active : -1}
-                  progress={progress}
-                />
-              ) : (
-                <JourneyMap
-                  stops={stops}
-                  active={active >= 0 && active < N ? active : -1}
-                  progress={progress}
-                />
-              )}
+                  shot. */}
+              <JourneyMapCanvas
+                stops={stops}
+                active={active >= 0 && active < N ? active : -1}
+                progress={progress}
+              />
 
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-canvas to-transparent lg:hidden"
               />
-            </div>
-
-            {/* The HCA count card — belongs to the wide shot, steps aside
-                once the journey begins. */}
-            <div
-              className={`absolute transition-opacity duration-500 ${
-                active === -1 ? "opacity-100" : "pointer-events-none opacity-0"
-              } left-4 top-24 lg:left-0 lg:top-1/2 lg:-translate-y-1/2`}
-            >
-              <div className="rounded-2xl bg-ink px-5 py-4 text-white shadow-[0_24px_70px_-28px_rgba(6,28,70,0.55)] lg:rounded-3xl lg:px-10 lg:py-12">
-                <p className="font-display text-4xl leading-none lg:text-7xl">
-                  {stops.length}
-                </p>
-                <p className="mt-2 text-[13px] leading-snug text-white/90 lg:mt-4 lg:text-lg">
-                  Locations across the
-                  <br className="hidden lg:block" /> Thames Valley
-                </p>
-                <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/50 lg:mt-6 lg:text-[12px]">
-                  Scroll down to explore
-                </p>
-                <svg
-                  aria-hidden
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  className="mt-3 hidden h-5 w-5 text-white/80 lg:block"
-                >
-                  <path
-                    d="M8 2v11M3.5 8.5 8 13l4.5-4.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
             </div>
 
             {/* Required by the data licences. Do not remove. */}
@@ -497,25 +428,6 @@ export default function LocationsJourney({
             <p className="pointer-events-none absolute inset-x-0 bottom-0 px-4 pt-0.5 text-[9px] leading-[10px] text-ink-muted lg:inset-x-auto lg:bottom-1 lg:right-2 lg:px-0 lg:pt-0 lg:text-[10px] lg:leading-normal">
               {attribution}
             </p>
-
-            {/* Renderer comparison toggle — same camera, different painter. */}
-            <div className="absolute right-2 top-24 z-20 flex overflow-hidden rounded-full border border-ink/10 bg-white/85 text-[10px] font-medium uppercase tracking-[0.08em] backdrop-blur-sm lg:right-auto lg:left-4 lg:top-auto lg:bottom-9">
-              {(["svg", "canvas"] as const).map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => pickRenderer(r)}
-                  aria-pressed={renderer === r}
-                  className={`px-2.5 py-1 transition-colors ${
-                    renderer === r
-                      ? "bg-ink text-white"
-                      : "text-ink-muted hover:text-ink"
-                  }`}
-                >
-                  {r === "svg" ? "Vector" : "Canvas"}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* ── The panels ───────────────────────────────────────────────

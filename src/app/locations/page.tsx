@@ -76,7 +76,9 @@ export default function LocationsPage() {
         attribution={attribution}
         hero={
           <>
-            <div className="mb-6">
+            {/* Hidden below md: the phone hero's box is exactly full without
+                it, and the breadcrumb trail survives in the page's JSON-LD. */}
+            <div className="mb-6 hidden md:block">
               <Breadcrumbs
                 items={[{ name: "Home", href: "/" }, { name: "Locations" }]}
               />
@@ -103,6 +105,55 @@ export default function LocationsPage() {
                   on a phone, and two paragraphs push the panel past its box. */}
               <p className="mt-5 hidden max-w-xl text-[15px] leading-relaxed text-ink-muted md:block">
                 {section?.summary}
+              </p>
+            </Reveal>
+            <Reveal delay={4}>
+              {/* The same divided-row grammar as the journey's outro, so the
+                  two wide shots bookend each other. Short names by hand —
+                  the full ones are the journey's own panels; a row only
+                  needs to say who is where. Keep in step with journey.ts. */}
+              {/* Hidden below md for the same reason as the paragraph above:
+                  the phone's hero box cannot hold them, and the journey
+                  itself is about to say the same thing better. */}
+              <div className="mt-6 hidden max-w-md divide-y divide-ink/[0.07] border-y border-ink/[0.07] md:block lg:mt-8">
+                {(
+                  [
+                    ["Reading", "The practice · Spire Dunedin · Royal Berkshire"],
+                    ["Windsor", "Princess Margaret · GenesisCare"],
+                    ["Oxford", "GenesisCare"],
+                  ] as const
+                ).map(([town, sites]) => (
+                  <div
+                    key={town}
+                    className="flex items-baseline justify-between gap-4 py-2.5 lg:py-3"
+                  >
+                    <span className="font-display text-base text-ink lg:text-lg">
+                      {town}
+                    </span>
+                    <span className="text-right text-[12px] leading-snug text-ink-muted lg:text-[13px]">
+                      {sites}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={5}>
+              <p className="mt-6 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted lg:mt-8">
+                Scroll to explore the six sites
+                <svg
+                  aria-hidden
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className="h-4 w-4 animate-bounce text-accent [animation-duration:1.8s] motion-reduce:animate-none"
+                >
+                  <path
+                    d="M8 2v11M3.5 8.5 8 13l4.5-4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </p>
             </Reveal>
           </>
