@@ -16,8 +16,13 @@ import { useMotionLevel } from "./Intensity";
 //   data-fx="drift"       panel that travels vertically at its own speed
 //                         (data-drift="1.4" data-rot="-3" tune it)
 //   data-fx="rise"        sheet/panel that rises, un-rotates and settles
-//   data-fx="fly"         card that slides in from its side (data-side)
+//                         (data-rise-y="60" softens the travel;
+//                          data-lock="top 80%" ends the scrub earlier so the
+//                          element settles low in the viewport and stays put)
+//   data-fx="fly"         card that slides in from its side (data-side;
+//                         data-lock as above)
 //   data-fx="parallax"    image moving slower than the page inside its frame
+//                         (data-parallax="7" softens the amplitude)
 //   data-pin-curtain      level 3: pins in place while the next sheet covers it
 //   data-pin-shelf        level 3: section pins; data-shelf-track scrubs sideways
 //
@@ -133,7 +138,7 @@ export default function PageMotion() {
                 scrollTrigger: {
                   trigger: band,
                   start: "top 95%",
-                  end: "bottom 55%",
+                  end: band.dataset.lock ?? "bottom 55%",
                   scrub: 0.6,
                 },
               });
@@ -183,12 +188,17 @@ export default function PageMotion() {
               // paper sheet at level 3, so that sheet must never be tweened:
               // its entrance there is the curtain, not the rise.
               if (strong && el.querySelector("[data-pin-shelf]")) return;
+              // Optional per-element travel (data-rise-y); scale and rotation
+              // soften in proportion so a short rise doesn't over-rotate.
+              const yBase = strong ? 160 : 100;
+              const yRise = Number(el.dataset.riseY ?? yBase);
+              const soften = Math.min(1, yRise / yBase);
               gsap.fromTo(
                 el,
                 {
-                  y: strong ? 160 : 100,
-                  scale: strong ? 0.92 : 0.965,
-                  rotation: strong ? 1.6 : 0.7,
+                  y: yRise,
+                  scale: 1 - (strong ? 0.08 : 0.035) * soften,
+                  rotation: (strong ? 1.6 : 0.7) * soften,
                 },
                 {
                   y: 0,
@@ -198,7 +208,7 @@ export default function PageMotion() {
                   scrollTrigger: {
                     trigger: el,
                     start: "top bottom",
-                    end: "top 45%",
+                    end: el.dataset.lock ?? "top 45%",
                     scrub: 0.5,
                   },
                 },
@@ -246,7 +256,7 @@ export default function PageMotion() {
                   scrollTrigger: {
                     trigger: el,
                     start: "top 96%",
-                    end: "top 55%",
+                    end: el.dataset.lock ?? "top 55%",
                     scrub: 0.5,
                     invalidateOnRefresh: true,
                   },
@@ -272,11 +282,13 @@ export default function PageMotion() {
           document
             .querySelectorAll<HTMLElement>("[data-fx='parallax']")
             .forEach((el) => {
+              // Optional per-element amplitude (data-parallax, in yPercent).
+              const amp = Number(el.dataset.parallax ?? 12);
               gsap.fromTo(
                 el,
-                { yPercent: -12 },
+                { yPercent: -amp },
                 {
-                  yPercent: 12,
+                  yPercent: amp,
                   ease: "none",
                   scrollTrigger: {
                     trigger: (el.closest("[data-parallax-frame]") ??

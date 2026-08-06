@@ -39,7 +39,8 @@
     ".next-prodcheck/types/**/*.ts",
     ".next-build/types/**/*.ts",
     ".next-resources/types/**/*.ts",
-    ".next-verify/types/**/*.ts"
+    ".next-verify/types/**/*.ts",
+    ".next-audit/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

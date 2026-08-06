@@ -1,6 +1,11 @@
 "use client";
 
-import { useLayoutEffect, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
+
+// useLayoutEffect on the server is a no-op that React warns about; swap in
+// useEffect for the SSR pass (the measurement only ever runs client-side).
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * Distance from the viewport's left edge to an element's left edge — the
@@ -13,7 +18,7 @@ import { useLayoutEffect, useState, type RefObject } from "react";
  */
 export function useCenterGap(ref: RefObject<HTMLElement | null>): number {
   const [gap, setGap] = useState(0);
-  useLayoutEffect(() => {
+  useIsoLayoutEffect(() => {
     const measure = () => {
       const el = ref.current;
       if (el) setGap(Math.max(0, el.getBoundingClientRect().left));

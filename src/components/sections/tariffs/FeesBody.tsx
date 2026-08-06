@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -10,236 +10,212 @@ import {
   useScroll,
   useSpring,
   useTransform,
-  type Variants,
 } from "framer-motion";
+import Button from "@/components/ui/Button";
 import { site } from "@/content/site";
 import { useCenterGap } from "./useCenterGap";
 
 /*
-  The fees page below the hero: a compact editorial sequence, not a pricing
-  table and not a case study.
+  The fees page below the hero. One constant warm off-white ground; colour
+  lives in panels; every band is the site's split — text one side, a
+  composition the other, alternating sides. The scroll choreography is the
+  site's PageMotion engine (mounted by the page): TEXT SITS STILL and the
+  compositions move around it — tinted backdrop blocks drifting at their
+  own speed (data-fx="drift"), white cards rising and settling as they
+  arrive (data-fx="rise"), and the pathway's line drawing itself
+  (data-fx="draw"). Everything scrubbed, so it runs backwards under the
+  reader's thumb and composes with the Lenis lerp — the same texture as
+  the home, patients and resources pages.
 
-  Borrowed registers — Little Tiger/Linear: confident display statements with
-  tightly edited support copy, colour-blocked sections, one repeatable motif;
-  Granola: modular sections with one job each, quiet borders and rounded
-  panels, in-page navigation, short direct copy, an efficient scroll.
+  Framer stays for exactly three things: the two approved full-bleed
+  signatures (the pale-blue shortfalls band stretching from rounded panel
+  to full bleed, and the navy close docking like a sheet) and the FAQ
+  accordion's sprung open/close — interaction, not scroll.
 
-  The motif: a short sage hairline before every kicker, and sage nodes on the
-  four-stage pathway. Colour system: the hero's warm ivory ground, pale
-  blue-grey information panels, deep navy close. No numbered sections, no
-  prices anywhere.
+  Type is the patients register: clamp statements (semibold, tight
+  leading, −0.05em family tracking), the site .eyebrow with its ink
+  hairline, one statement + one short support paragraph per band.
 
-  Motion: a calm base in the site's Reveal vocabulary (rise 28px, 0.7s,
-  ease [0.22,1,0.36,1], once-only) — sections stagger their kicker, heading
-  and copy; the kicker hairline grows in; the in-page nav tracks the reader
-  with a sliding sage indicator; the FAQs open on a sprung height — plus
-  three scroll-scrubbed signatures so the page isn't one gesture repeated:
-  the funding panels pop in with overshoot and a tilt that settles, the
-  shortfalls band stretches from rounded panel to full bleed, the pathway's
-  connector line draws itself, and the navy close docks like a sheet. All
-  of it collapses under prefers-reduced-motion.
+  Measure refs: the clip scrubs rest at the CONTENT edge of the container,
+  so the measured element must be a child inside .container-wide — the
+  container's border box is full-width below 1400px and rect.left would
+  read 0.
 
-  COPY: assembled from the practice's own published tariff wording (tailored
-  packages, comprehensive tariff before treatment, insurer variation, quotes
-  before treatment, shortfall liability, estimates subject to change) plus
-  the briefed additions. Needs the practice's sign-off before ship.
+  COPY: assembled from the practice's own published tariff wording, cut to
+  the reference pages' density. Needs the practice's sign-off before ship.
 */
 
-const GROUND = "#f7f5f1";
-const PANEL = "#dfe9f5";
-const SAGE = "#6f7f55";
-
-const pill =
-  "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-medium transition-colors";
+// The constant ground — the SAME ivory the hero sits on, so there is no
+// visible seam where the hero ends and the body begins.
+const OFFWHITE = "#f7f5f1";
+const PANEL = "#dfe9f5"; // the kept pale-blue surface (hero strip's family)
+const SAGE_BLOCK = "#c8d6cf"; // patients' signature sage backdrop block
+const SAGE_NODE = "#8ca49a"; // patients mid sage — node fill
+const SAGE_DOT = "#769187"; // patients deep sage — bullet dots
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const rise: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
-};
+/* The chosen scroll pacing ("Early"): every scrubbed element finishes its
+   travel by the time it is a quarter up the viewport — data-lock="top 78%"
+   on the rises, "bottom 78%" on the drawn line — then holds still, so
+   nothing is ever moving while it is being read. */
+const LOCK = "top 78%";
 
-const VIEW = { once: true, margin: "-80px" } as const;
-
-const staggerShow = (step = 0.08, delay = 0): Variants => ({
-  hidden: {},
-  show: { transition: { staggerChildren: step, delayChildren: delay } },
-});
-
-/** The funding panels' entrance: scale overshoot + a degree of tilt that
- *  settles straight. Reduced motion (via the site MotionConfig) drops the
- *  transforms and keeps the fade. */
-const cardPop = (tilt: number): Variants => ({
-  hidden: { opacity: 0, y: 26, scale: 0.94, rotate: tilt },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotate: 0,
-    transition: { type: "spring", stiffness: 200, damping: 16, mass: 0.9 },
-  },
-});
-
-/** A once-only in-view group whose motion children rise in sequence. */
-function Group({
+/** The site eyebrow: hairline + small caps, exactly as patients types it. */
+function Eyebrow({
   children,
-  className,
-  step = 0.08,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  step?: number;
-  delay?: number;
-}) {
-  return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={VIEW}
-      variants={staggerShow(step, delay)}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/** The repeatable motif: sage hairline (grows in from the left) + kicker. */
-function Kicker({
-  children,
-  className = "",
   light = false,
+  center = false,
 }: {
   children: React.ReactNode;
-  className?: string;
   light?: boolean;
+  center?: boolean;
 }) {
   return (
-    <motion.p
-      variants={rise}
-      className={`flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] ${
-        light ? "text-white/50" : "text-ink-muted"
-      } ${className}`}
+    <p
+      className={`eyebrow ${light ? "text-white/55" : ""} ${
+        center ? "justify-center" : ""
+      }`}
     >
-      <motion.span
+      <span
         aria-hidden
-        variants={{
-          hidden: { scaleX: 0 },
-          show: { scaleX: 1, transition: { duration: 0.7, ease: EASE } },
-        }}
-        className="h-px w-8 origin-left"
-        style={{ backgroundColor: light ? `${SAGE}B3` : `${SAGE}99` }}
+        className={`h-px w-8 ${light ? "bg-white/35" : "bg-ink-muted"}`}
       />
       {children}
-    </motion.p>
+    </p>
   );
 }
 
-const NAV = [
-  { label: "Tailored fees", href: "#tailored" },
-  { label: "Funding routes", href: "#funding" },
-  { label: "Before you start", href: "#before-you-start" },
-  { label: "Estimates", href: "#estimates" },
-  { label: "Shortfalls", href: "#shortfalls" },
-  { label: "Request a tariff", href: "#request" },
-  { label: "FAQs", href: "#faqs" },
-  { label: "Contact", href: "#contact-fees" },
-];
+/* Heading tiers. Splits carry the column statement tier; the two
+   full-bleed moments keep their own cuts, and the navy close crescendos. */
+const H_SPLIT =
+  "font-display text-[clamp(2.25rem,4.1vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink";
+const H_LONG =
+  "font-display text-[clamp(2.4rem,4.2vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink";
+const H_CLOSE =
+  "font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-white";
+
+/* The band split: text one side, composition the other. */
+const SPLIT =
+  "grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20";
+
+const SUPPORT = "mt-7 max-w-lg text-lg leading-relaxed text-ink-muted";
+
+/** The site's inline text CTA: label + chevron that slides 4px on hover. */
+function ArrowLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      className="group relative mt-8 inline-flex items-center gap-3 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-[''] focus-visible:underline focus-visible:underline-offset-4"
+    >
+      {children}
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+        aria-hidden
+      >
+        <path d="M1.5 8h13M9.5 3l5 5-5 5" />
+      </svg>
+    </a>
+  );
+}
 
 /**
- * The sticky in-page nav, now aware of where the reader is: an
- * IntersectionObserver watches a band around the viewport's upper middle,
- * the link for the section currently in it turns ink, and a sage indicator
- * slides between links (layoutId does the travelling). On phones the strip
- * also keeps the active link in view by scrolling its own overflow — never
- * the page.
+ * The composition half of a split, in the patients material stack: a
+ * tinted backdrop block drifting at its own speed, a photograph moving
+ * slower than the page inside its rounded frame, and a white card of
+ * quiet hairline rows docked over the photograph's foot, rising as it
+ * arrives. `corner` names the side the backdrop peeks from; the photo
+ * and card counter it.
  */
-function FeesNav() {
-  const [active, setActive] = useState<string | null>(null);
-  const stripRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
-
-  useEffect(() => {
-    const ids = NAV.map((n) => n.href.slice(1));
-    const visible = new Map<string, boolean>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          visible.set((e.target as HTMLElement).id, e.isIntersecting);
-        }
-        // The band is thin, so usually one section is in it; if two touch it,
-        // the later one in reading order is the one being entered.
-        let current: string | null = null;
-        for (const id of ids) if (visible.get(id)) current = id;
-        if (current) setActive(current);
-      },
-      { rootMargin: "-35% 0px -55% 0px" }
-    );
-    for (const id of ids) {
-      const el = document.getElementById(id);
-      if (el) io.observe(el);
-    }
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!active) return;
-    const strip = stripRef.current;
-    const item = itemRefs.current[active];
-    if (!strip || !item) return;
-    if (strip.scrollWidth <= strip.clientWidth + 8) return;
-    strip.scrollTo({
-      left: item.offsetLeft - strip.clientWidth / 2 + item.clientWidth / 2,
-      behavior: "smooth",
-    });
-  }, [active]);
-
+function RowPanel({
+  tint,
+  label,
+  rows,
+  photo,
+  alt,
+  corner = "right",
+}: {
+  tint: string;
+  label: string;
+  rows: string[];
+  photo: string;
+  alt: string;
+  corner?: "left" | "right";
+}) {
+  const right = corner === "right";
   return (
-    <nav
-      aria-label="On this page"
-      className="sticky top-[86px] z-30 border-y border-ink/[0.06] backdrop-blur-md"
-      style={{ backgroundColor: "rgba(247,245,241,0.92)" }}
-    >
+    <div className="relative min-h-[480px] py-6 lg:min-h-[560px]">
       <div
-        ref={stripRef}
-        className="container-wide overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        aria-hidden
+        data-fx="drift"
+        data-drift="0.3"
+        className={`absolute bottom-[8%] top-[2%] w-[47%] rounded-[2.5rem] ${
+          right ? "right-0" : "left-0"
+        }`}
+        style={{ backgroundColor: tint }}
+      />
+
+      <div
+        data-parallax-frame
+        className={`absolute top-[5%] h-[60%] w-[72%] overflow-hidden rounded-[2.5rem] border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)] ${
+          right ? "left-0" : "right-0"
+        }`}
       >
-        <ul className="flex w-max items-center gap-6 py-3 lg:w-full lg:justify-center lg:gap-8">
-          {NAV.map((item) => {
-            const isActive = active === item.href.slice(1);
-            return (
-              <li
-                key={item.href}
-                className="relative"
-                ref={(el) => {
-                  itemRefs.current[item.href.slice(1)] = el;
-                }}
-              >
-                <a
-                  href={item.href}
-                  aria-current={isActive ? "true" : undefined}
-                  className={`whitespace-nowrap text-sm transition-colors focus-visible:text-ink ${
-                    isActive ? "text-ink" : "text-ink-muted lg:hover:text-ink"
-                  }`}
-                >
-                  {item.label}
-                </a>
-                {isActive && (
-                  <motion.span
-                    aria-hidden
-                    layoutId="fees-nav-active"
-                    className="absolute -bottom-3 left-0 right-0 h-[2px] rounded-full"
-                    style={{ backgroundColor: SAGE }}
-                    transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                  />
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        {/* Taller than its frame so the parallax never shows an edge. */}
+        <div
+          data-fx="parallax"
+          data-parallax="7"
+          className="absolute inset-x-0 -top-[16%] h-[132%]"
+        >
+          <Image
+            src={photo}
+            alt={alt}
+            fill
+            sizes="(max-width: 1024px) 72vw, 42vw"
+            className="object-cover"
+          />
+        </div>
       </div>
-    </nav>
+
+      <div
+        data-fx="rise"
+        data-rise-y="55"
+        data-lock={LOCK}
+        className={`absolute bottom-3 w-[78%] rounded-[2rem] border border-ink/10 bg-white p-6 md:p-7 ${
+          right ? "right-0" : "left-0"
+        }`}
+      >
+        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted">
+          {label}
+        </p>
+        <div className="mt-3 divide-y divide-ink/10">
+          {rows.map((row) => (
+            <div key={row} className="flex items-center gap-3.5 py-3.5">
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 flex-none rounded-full"
+                style={{ backgroundColor: SAGE_DOT }}
+              />
+              <span className="font-display text-lg text-ink md:text-xl">
+                {row}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -254,86 +230,54 @@ const STAGES = [
   },
   {
     title: "Receive your tariff or estimate",
-    body: "A personalised tariff or written estimate for the planned treatment, before it begins.",
+    body: "A personalised tariff or written estimate, before treatment begins.",
   },
   {
     title: "Ask questions before proceeding",
-    body: "The practice team will go through anything that is unclear before you commit.",
+    body: "The practice team will go through anything that is unclear.",
   },
 ];
 
 /**
- * The four-stage pathway. The connector line is scroll-driven: it draws
- * itself as the section moves up the viewport (a spring smooths the scrub so
- * it floats rather than tracks), and each sage node springs in as its stage
- * rises. Two lines — vertical for the stacked phone layout, horizontal from
- * lg — so each only ever scales along its own length.
+ * The four-stage pathway — the visual half of its split. The connector
+ * line is an SVG path the PageMotion engine draws against scroll
+ * (data-fx="draw"); the nodes are the register's filled mid-sage cores
+ * with a ring in the ground colour and a 1px ink halo.
  */
 function Pathway() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.85", "end 0.55"],
-  });
-  const draw = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 22,
-    restDelta: 0.001,
-  });
-
   return (
-    <div ref={ref} className="relative mt-14">
-      <motion.div
+    <div data-fx="draw" data-lock="bottom 78%" className="relative">
+      <svg
         aria-hidden
-        className="absolute bottom-0 left-[5px] top-1 w-px origin-top bg-ink/10 lg:hidden"
-        style={{ scaleY: reduce ? 1 : draw }}
-      />
-      <motion.div
-        aria-hidden
-        className="absolute left-0 right-0 top-[5px] hidden h-px origin-left bg-ink/10 lg:block"
-        style={{ scaleX: reduce ? 1 : draw }}
-      />
-      <motion.ol
-        className="grid gap-10 lg:grid-cols-4 lg:gap-8"
-        initial="hidden"
-        whileInView="show"
-        viewport={VIEW}
-        variants={staggerShow(0.12)}
+        preserveAspectRatio="none"
+        viewBox="0 0 12 100"
+        className="absolute bottom-2 left-0 top-1.5 h-[calc(100%-0.875rem)] w-3 overflow-visible text-ink/15"
       >
+        <path
+          d="M6 0 L6 100"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+      <ol className="grid gap-10">
         {STAGES.map((s) => (
-          <motion.li
-            key={s.title}
-            variants={rise}
-            className="relative pl-8 lg:pl-0 lg:pt-8"
-          >
-            <motion.span
+          <li key={s.title} className="relative pl-10">
+            <span
               aria-hidden
-              variants={{
-                hidden: { scale: 0 },
-                show: {
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 18,
-                    delay: 0.1,
-                  },
-                },
-              }}
-              className="absolute left-0 top-1 h-[11px] w-[11px] rounded-full border-2 bg-[#f7f5f1] lg:top-0"
-              style={{ borderColor: SAGE }}
+              className="absolute left-0 top-1.5 h-3 w-3 rounded-full border-[3px] shadow-[0_0_0_1px_rgba(6,28,70,0.15)]"
+              style={{ borderColor: OFFWHITE, backgroundColor: SAGE_NODE }}
             />
-            <h3 className="font-display text-lg leading-snug text-ink">
+            <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
               {s.title}
             </h3>
-            <p className="mt-2 max-w-[30ch] text-sm leading-relaxed text-ink/70">
+            <p className="mt-3 max-w-[38ch] text-[15px] leading-relaxed text-ink-muted">
               {s.body}
             </p>
-          </motion.li>
+          </li>
         ))}
-      </motion.ol>
+      </ol>
     </div>
   );
 }
@@ -360,25 +304,6 @@ const FAQS = [
     ),
   },
   {
-    q: "Do I need insurance authorisation?",
-    a: (
-      <>
-        If you are insured, confirm your cover and obtain authorisation from
-        your insurer before treatment begins — policies and fee schedules vary
-        between insurers and between individual policies.
-      </>
-    ),
-  },
-  {
-    q: "What is a shortfall?",
-    a: (
-      <>
-        If your insurer does not settle an account in full, the remaining
-        amount — the shortfall — is the patient&rsquo;s responsibility.
-      </>
-    ),
-  },
-  {
     q: "Can an estimate change?",
     a: (
       <>
@@ -394,7 +319,7 @@ const FAQS = [
         The practice team. Call {site.contact.phone} or email{" "}
         <a
           href={`mailto:${site.contact.email}`}
-          className="text-accent underline-offset-2 hover:underline"
+          className="text-accent underline underline-offset-2"
         >
           {site.contact.email}
         </a>{" "}
@@ -404,61 +329,136 @@ const FAQS = [
   },
 ];
 
-/**
- * The FAQ accordion, controlled so the answers can open on a sprung height
- * rather than snapping. Exclusive like the partnership rows — opening one
- * closes the rest. Buttons carry aria-expanded/aria-controls; keyboard
- * behaviour is the native button's.
- */
-function Faqs() {
-  const [open, setOpen] = useState<number | null>(null);
+/* The two shortfall topics that expand inside the blue band — the patients
+   support-band device. Same approved wording the FAQ list used to carry. */
+const BAND_ROWS = [
+  {
+    q: "What is a shortfall?",
+    a: "If your insurer does not settle an account in full, the remaining amount — the shortfall — is the patient's responsibility.",
+  },
+  {
+    q: "Do I need insurance authorisation?",
+    a: "If you are insured, confirm your cover and obtain authorisation from your insurer before treatment begins — policies and fee schedules vary between insurers and between individual policies.",
+  },
+];
 
+/** The expandable topic rows inside the blue band, in the patients
+ *  register: bordered rounded rows, the plus rotating 45° when open. */
+function BandRows() {
+  const [open, setOpen] = useState<number | null>(null);
   return (
-    <Group step={0.06} className="divide-y divide-ink/[0.08] border-y border-ink/[0.08]">
-      {FAQS.map((f, i) => {
+    <div className="mt-8 space-y-3">
+      {BAND_ROWS.map((row, i) => {
         const isOpen = open === i;
         return (
-          <motion.div key={f.q} variants={rise}>
-            <h3 className="m-0 font-display text-[1.05rem] font-normal text-ink">
+          <div
+            key={row.q}
+            className="rounded-2xl border border-ink/15 bg-white/45"
+          >
+            <h3 className="m-0">
               <button
                 type="button"
                 aria-expanded={isOpen}
-                aria-controls={`fees-faq-${i}`}
+                aria-controls={`fees-band-row-${i}`}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left font-display text-[1.05rem] text-ink focus-visible:underline focus-visible:underline-offset-4"
+                className="flex w-full cursor-pointer items-center justify-between gap-6 px-5 py-4 text-left font-display text-lg font-semibold leading-snug text-ink transition-colors hover:text-accent focus-visible:underline focus-visible:underline-offset-4"
               >
-                {f.q}
-                <span aria-hidden className="relative h-3.5 w-3.5 shrink-0 text-ink-muted">
+                {row.q}
+                <motion.span
+                  aria-hidden
+                  className="relative h-4 w-4 shrink-0 text-ink-muted"
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ duration: 0.3, ease: EASE }}
+                >
                   <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
-                  {/* The vertical stroke collapses, so + becomes − */}
-                  <motion.span
-                    className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current"
-                    animate={{ scaleY: isOpen ? 0 : 1 }}
-                    transition={{ duration: 0.3, ease: EASE }}
-                  />
-                </span>
+                  <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current" />
+                </motion.span>
               </button>
             </h3>
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
-                  id={`fees-faq-${i}`}
+                  id={`fees-band-row-${i}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: EASE }}
+                  transition={{ duration: 0.35, ease: EASE }}
                   className="overflow-hidden"
                 >
-                  <p className="pb-6 pr-8 text-[15px] leading-relaxed text-ink/75">
-                    {f.a}
+                  <p className="px-5 pb-5 text-[15px] leading-relaxed text-ink/75">
+                    {row.a}
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </div>
         );
       })}
-    </Group>
+    </div>
+  );
+}
+
+/**
+ * The FAQ accordion inside the white panel half of its split. The panel
+ * rises via the engine; the open/close is framer — interaction, not
+ * scroll. Exclusive; the plus rotates 45°; buttons carry aria-expanded/
+ * aria-controls and a focus underline.
+ */
+function Faqs() {
+  const [open, setOpen] = useState<number | null>(null);
+
+  return (
+    <div
+      data-fx="rise"
+      data-lock={LOCK}
+      className="rounded-[2rem] border border-ink/10 bg-white p-6 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] md:p-9"
+    >
+      <div className="divide-y divide-ink/10">
+        {FAQS.map((f, i) => {
+          const isOpen = open === i;
+          return (
+            <div key={f.q}>
+              <h3 className="m-0">
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={`fees-faq-${i}`}
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left font-display text-lg font-semibold leading-snug text-ink transition-colors hover:text-accent focus-visible:underline focus-visible:underline-offset-4 md:text-xl"
+                >
+                  {f.q}
+                  <motion.span
+                    aria-hidden
+                    className="relative h-4 w-4 shrink-0 text-ink-muted"
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                  >
+                    <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
+                    <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current" />
+                  </motion.span>
+                </button>
+              </h3>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    id={`fees-faq-${i}`}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    className="overflow-hidden"
+                  >
+                    <p className="max-w-2xl pb-6 text-[15px] leading-relaxed text-ink-muted md:text-base">
+                      {f.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -467,9 +467,8 @@ export default function FeesBody() {
   const tel = (n: string) => `tel:${n.replace(/\s+/g, "")}`;
   const reduce = useReducedMotion();
 
-  // The shortfalls band: its surface is a full-bleed layer clipped back to
-  // a rounded panel; scrolling into it releases the clip so the pale blue
-  // stretches edge to edge. Reduced motion freezes it at the rounded panel.
+  // The shortfalls band: full-bleed layer clipped back to a rounded panel;
+  // scrolling into it releases the clip. Reduced motion freezes the panel.
   const bandRef = useRef<HTMLDivElement>(null);
   const bandBoxRef = useRef<HTMLDivElement>(null);
   const bandGap = useCenterGap(bandBoxRef);
@@ -488,8 +487,8 @@ export default function FeesBody() {
   const bandRadius = useTransform(bandDraw, (v) => 16 * (1 - (reduce ? 0 : v)));
   const bandClip = useMotionTemplate`inset(0px ${bandInset}px 0px ${bandInset}px round ${bandRadius}px)`;
 
-  // The navy sheet: the close starts inset with rounded top corners and
-  // docks flush as it enters. Reduced motion freezes it flush.
+  // The navy sheet: inset with rounded shoulders on approach, docking
+  // flush as it lands. Reduced motion freezes it flush.
   const sheetRef = useRef<HTMLDivElement>(null);
   const sheetBoxRef = useRef<HTMLDivElement>(null);
   const sheetGap = useCenterGap(sheetBoxRef);
@@ -509,153 +508,144 @@ export default function FeesBody() {
   const sheetClip = useMotionTemplate`inset(0px ${sheetInset}px 0px ${sheetInset}px round ${sheetRadius}px ${sheetRadius}px 0px 0px)`;
 
   return (
-    <div style={{ backgroundColor: GROUND }}>
-      {/* ── In-page navigation — quiet, sticky under the navbar ── */}
-      <FeesNav />
-
-      {/* ── 1 · Fees are tailored to your care ── */}
-      <section id="tailored" className="scroll-mt-36">
-        <Group className="container-wide grid gap-10 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
+    <div style={{ backgroundColor: OFFWHITE }}>
+      {/* ── 1 · Fees are tailored to your care — text | sage composition ── */}
+      <div id="tailored" data-drift-band className="scroll-mt-24 overflow-clip">
+        <div className={`container-wide pt-24 md:pt-32 ${SPLIT}`}>
           <div>
-            <Kicker>How fees are set</Kicker>
-            <motion.h2
-              variants={rise}
-              className="mt-6 max-w-md font-display text-3xl leading-[1.12] tracking-tight text-ink md:text-[2.6rem]"
-            >
+            <Eyebrow>How fees are set</Eyebrow>
+            <h2 className={`mt-7 ${H_SPLIT}`}>
               Fees are tailored to your care.
-            </motion.h2>
+            </h2>
+            <p className={SUPPORT}>
+              Each consultant is an independent practitioner and sets a
+              tariff they feel is fair and reasonable. Cancer care is
+              individual, so we don&rsquo;t publish fixed prices.
+            </p>
           </div>
-          <div className="max-w-xl space-y-5 text-[17px] leading-relaxed text-ink/80 lg:pt-14">
-            <motion.p variants={rise}>
-              Berkshire Oncology Partnership is a group of professional
-              independent practitioners, and each consultant sets their own
-              tariff — one they feel is fair and reasonable for the service
-              provided.
-            </motion.p>
-            <motion.p variants={rise}>
-              Because cancer care is individual, we do not publish fixed
-              treatment prices. Your tariff reflects your diagnosis, your
-              treatment plan and your consultant, and is provided to you
-              directly.
-            </motion.p>
+          <RowPanel
+            tint={SAGE_BLOCK}
+            label="What your tariff covers"
+            rows={["Consultation", "Records review", "Treatment planning"]}
+            photo="/tariffs/consultation.jpg"
+            alt="A consultant listening to a patient during a consultation"
+          />
+        </div>
+      </div>
+
+      {/* ── 2 · Funding routes — text | rising cards ── */}
+      <div id="funding" data-drift-band className="scroll-mt-24 overflow-clip">
+        <div className={`container-wide py-24 md:py-32 ${SPLIT}`}>
+          <div>
+            <Eyebrow>Funding routes</Eyebrow>
+            <h2 className={`mt-7 ${H_SPLIT}`}>
+              Two ways to pay for treatment.
+            </h2>
+            <p className={SUPPORT}>
+              Self-funding or insured — either way, you&rsquo;ll know where
+              you stand before treatment begins.
+            </p>
           </div>
-        </Group>
-      </section>
-
-      {/* ── 2 · Funding routes ── */}
-      <section id="funding" className="scroll-mt-36">
-        <Group className="container-wide pb-20 md:pb-28">
-          <Kicker>Funding routes</Kicker>
-          <motion.h2
-            variants={rise}
-            className="mt-6 max-w-lg font-display text-3xl leading-[1.12] tracking-tight text-ink md:text-[2.6rem]"
-          >
-            Two ways to pay for treatment.
-          </motion.h2>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            <motion.article
-              variants={cardPop(-1.4)}
+          <div className="space-y-6">
+            <article
+              data-fx="rise"
+              data-lock={LOCK}
               id="self-funding"
-              className="scroll-mt-36 rounded-2xl border border-ink/[0.08] bg-white/50 p-8 md:p-10"
+              className="scroll-mt-24 rounded-[2rem] p-8 md:p-10"
+              style={{ backgroundColor: "#dce6e1" }}
             >
-              <h3 className="font-display text-2xl text-ink">
-                Self-funding treatment
-              </h3>
-              <p className="mt-4 text-[16px] leading-relaxed text-ink/75">
-                Each self-funding package is tailored to the individual needs
-                of the patient. Anyone self-funding their treatment is provided
-                with a comprehensive, personalised tariff before treatment
-                starts — so you know where you stand from the outset.
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/70">
+                Self-funding
               </p>
-              <a
-                href="#request"
-                className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-['']"
-              >
+              <h3 className="mt-5 font-display text-2xl font-semibold leading-tight tracking-tight text-ink">
+                Paying for your own treatment
+              </h3>
+              <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/75 md:text-base">
+                Every package is tailored to the patient, with a
+                comprehensive, personalised tariff before treatment starts.
+              </p>
+              <ArrowLink href="#request">
                 Request a personalised tariff
-                <svg viewBox="0 0 20 12" fill="none" className="h-3 w-6" aria-hidden>
-                  <path d="M1 6h16M13 1.5 17.5 6 13 10.5" stroke={SAGE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            </motion.article>
+              </ArrowLink>
+            </article>
 
-            <motion.article
-              variants={cardPop(1.6)}
+            <article
+              data-fx="rise"
+              data-lock={LOCK}
               id="insurance"
-              className="scroll-mt-36 rounded-2xl border border-ink/[0.08] bg-white/50 p-8 md:p-10"
+              className="scroll-mt-24 rounded-[2rem] p-8 md:p-10"
+              style={{ backgroundColor: "#e6edf3" }}
             >
-              <h3 className="font-display text-2xl text-ink">
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/70">
+                Insured
+              </p>
+              <h3 className="mt-5 font-display text-2xl font-semibold leading-tight tracking-tight text-ink">
                 Private medical insurance
               </h3>
-              <p className="mt-4 text-[16px] leading-relaxed text-ink/75">
-                Insurers each have their own fee schedule, and the benefits of
-                individual policies vary. Before treatment begins, confirm your
-                cover with your insurer, check that your consultant is
-                recognised, and obtain any authorisation your policy requires.
+              <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/75 md:text-base">
+                Insurers set their own fee schedules, and policies vary.
+                Confirm your cover and obtain authorisation before treatment
+                begins.
               </p>
-              <a
-                href="#shortfalls"
-                className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-['']"
-              >
+              <ArrowLink href="#shortfalls">
                 What if my policy doesn&rsquo;t cover everything?
-                <svg viewBox="0 0 20 12" fill="none" className="h-3 w-6" aria-hidden>
-                  <path d="M1 6h16M13 1.5 17.5 6 13 10.5" stroke={SAGE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            </motion.article>
+              </ArrowLink>
+            </article>
           </div>
-        </Group>
-      </section>
+        </div>
+      </div>
 
-      {/* ── 3 · Before you start treatment — the pathway ── */}
-      <section id="before-you-start" className="scroll-mt-36 bg-white/40">
-        <div className="container-wide py-20 md:py-28">
-          <Group>
-            <Kicker>Before you start treatment</Kicker>
-            <motion.h2
-              variants={rise}
-              className="mt-6 max-w-lg font-display text-3xl leading-[1.12] tracking-tight text-ink md:text-[2.6rem]"
-            >
-              Four things happen before any treatment begins.
-            </motion.h2>
-          </Group>
-
-          {/* the pathway: a connected line with sage nodes, never numbers */}
+      {/* ── 3 · Before you start — text | the drawn pathway ── */}
+      <div id="before-you-start" className="scroll-mt-24">
+        <div className={`container-wide pb-24 md:pb-32 ${SPLIT}`}>
+          <div>
+            <Eyebrow>Before you start treatment</Eyebrow>
+            <h2 className={`mt-7 ${H_SPLIT}`}>
+              Four things happen before treatment begins.
+            </h2>
+            <p className={SUPPORT}>
+              The same four steps, whoever your consultant is and however you
+              are paying.
+            </p>
+          </div>
           <Pathway />
         </div>
-      </section>
+      </div>
 
-      {/* ── 4 · Estimates and changes ── */}
-      <section id="estimates" className="scroll-mt-36">
-        <Group className="container-wide grid gap-10 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
-          <div>
-            <Kicker>Estimates and changes</Kicker>
-            <motion.h2
-              variants={rise}
-              className="mt-6 max-w-md font-display text-3xl leading-[1.12] tracking-tight text-ink md:text-[2.6rem]"
-            >
+      {/* ── 4 · Estimates — blue composition | text (sides flipped) ── */}
+      <div id="estimates" data-drift-band className="scroll-mt-24 overflow-clip">
+        <div className={`container-wide pb-24 md:pb-32 ${SPLIT}`}>
+          <div className="lg:order-2">
+            <Eyebrow>Estimates and changes</Eyebrow>
+            <h2 className={`mt-7 ${H_SPLIT}`}>
               An estimate is a starting point, not a contract.
-            </motion.h2>
+            </h2>
+            <p className={SUPPORT}>
+              Estimates reflect your treatment plan as it stands. If your
+              plan changes, the estimate changes with it — and your
+              consultant&rsquo;s team will keep you informed.
+            </p>
           </div>
-          <div className="max-w-xl space-y-5 text-[17px] leading-relaxed text-ink/80 lg:pt-14">
-            <motion.p variants={rise}>
-              Every estimate is based on the treatment plan available at the
-              time it is prepared. Cancer care adapts to you — so if your
-              treatment or circumstances change, the estimate may change with
-              them.
-            </motion.p>
-            <motion.p variants={rise}>
-              Tariffs and quotes are a guide to expected costs, and your
-              consultant&rsquo;s team will keep you informed as your plan
-              develops.
-            </motion.p>
+          <div className="lg:order-1">
+            <RowPanel
+              tint={PANEL}
+              label="What can change an estimate"
+              rows={[
+                "Your treatment plan",
+                "The length of a course",
+                "Your circumstances",
+              ]}
+              photo="/tariffs/estimate.jpg"
+              alt="Working through the pages of a written estimate at a desk"
+              corner="left"
+            />
           </div>
-        </Group>
-      </section>
+        </div>
+      </div>
 
-      {/* ── 5 · Excesses and shortfalls — pale-blue information block ── */}
-      <section id="shortfalls" className="scroll-mt-36">
-        <div className="pb-20 md:pb-28">
+      {/* ── 5 · Excesses and shortfalls — the pale-blue full-bleed band ── */}
+      <div id="shortfalls" className="scroll-mt-24">
+        <div className="pb-24 md:pb-32">
           <div ref={bandRef} className="relative">
             {/* the band's surface: a rounded panel at rest; the scroll
                 scrub stretches it edge to edge */}
@@ -667,111 +657,65 @@ export default function FeesBody() {
                 backgroundColor: PANEL,
                 clipPath: bandClip,
               }}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={VIEW}
-              transition={{ duration: 0.7, ease: EASE }}
             />
             <div className="container-wide">
-              <motion.div
-                ref={bandBoxRef}
-                className="relative p-8 md:p-12"
-                initial="hidden"
-                whileInView="show"
-                viewport={VIEW}
-                variants={{
-              hidden: { opacity: 0, y: 28 },
-              show: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                  duration: 0.7,
-                  ease: EASE,
-                  staggerChildren: 0.08,
-                  delayChildren: 0.15,
-                },
-              },
-            }}
-          >
-            <Kicker>Excesses and shortfalls</Kicker>
-            <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
-              <motion.h2
-                variants={rise}
-                className="max-w-md font-display text-2xl leading-[1.15] tracking-tight text-ink md:text-3xl"
-              >
-                If your policy doesn&rsquo;t cover everything, the difference
-                rests with you.
-              </motion.h2>
-              <motion.div
-                variants={rise}
-                className="space-y-4 text-[16px] leading-relaxed text-ink/80"
-              >
-                <p>
-                  Policies vary. Depending on yours, you may be responsible for
-                  an excess, a policy contribution, a service your cover
-                  doesn&rsquo;t include, or a shortfall where your insurer does
-                  not settle the account in full.
-                </p>
-                <p>
-                  We strongly advise obtaining a quote from your insurer before
-                  any treatment, so you know whether the cost of your care will
-                  be covered in full.
-                </p>
-              </motion.div>
-            </div>
-              </motion.div>
+              {/* measure ref INSIDE the container: content edge, not the
+                  full-width border box */}
+              <div ref={bandBoxRef}>
+                {/* The patients support-band anatomy: statement left; on the
+                    right a hairline-ruled column carrying the support copy,
+                    the tariff CTA pair, and two expandable topic rows.
+                    Tighter vertical padding than the open bands — the panel
+                    is dense enough to carry a shorter room. */}
+                <div className="relative py-14 md:py-20">
+                  <Eyebrow>Excesses and shortfalls</Eyebrow>
+                  <div className="mt-7 grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20">
+                    <h2 className={H_LONG}>
+                      If your policy doesn&rsquo;t cover everything, the
+                      difference rests with you.
+                    </h2>
+                    <div className="border-t border-ink/15 pt-7">
+                      <p className="max-w-lg text-lg leading-relaxed text-ink/70">
+                        You may be responsible for an excess, a contribution,
+                        or a shortfall your insurer does not settle. Obtain a
+                        quote from your insurer before treatment begins.
+                      </p>
+                      <div
+                        id="request"
+                        className="mt-8 flex scroll-mt-32 flex-wrap items-center gap-3"
+                      >
+                        <Button href="/contact">Request a tariff</Button>
+                        <Button href="#estimates" variant="ghost">
+                          How estimates work
+                        </Button>
+                      </div>
+                      <BandRows />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── 6 · Request tariff information ── */}
-      <section id="request" className="scroll-mt-36">
-        <Group className="container-wide pb-20 text-center md:pb-28">
-          <Kicker className="justify-center">Tariff information</Kicker>
-          <motion.h2
-            variants={rise}
-            className="mx-auto mt-6 max-w-2xl font-display text-3xl leading-[1.12] tracking-tight text-ink md:text-[2.6rem]"
-          >
-            Request a personalised tariff.
-          </motion.h2>
-          <motion.p
-            variants={rise}
-            className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-ink/75"
-          >
-            We don&rsquo;t publish fixed treatment costs, because no two plans
-            are the same. The practice team will prepare consultant-specific
-            tariff information for your care.
-          </motion.p>
-          <motion.div variants={rise} className="mt-8">
-            <Link
-              href="/contact"
-              className={`${pill} bg-ink text-white focus-visible:bg-accent`}
-            >
-              Request a personalised tariff
-            </Link>
-          </motion.div>
-        </Group>
-      </section>
-
-      {/* ── 7 · FAQs ── */}
-      <section id="faqs" className="scroll-mt-36 bg-white/40">
-        <div className="container-wide grid gap-10 py-20 md:py-28 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
-          <Group>
-            <Kicker>Common questions</Kicker>
-            <motion.h2
-              variants={rise}
-              className="mt-6 max-w-sm font-display text-3xl leading-[1.12] tracking-tight text-ink md:text-[2.6rem]"
-            >
-              Fees, answered plainly.
-            </motion.h2>
-          </Group>
+      {/* ── 6 · FAQs — text | white panel of questions ── */}
+      <div id="faqs" className="scroll-mt-24">
+        <div className={`container-wide pb-24 md:pb-32 ${SPLIT}`}>
+          <div>
+            <Eyebrow>Common questions</Eyebrow>
+            <h2 className={`mt-7 ${H_SPLIT}`}>Fees, answered plainly.</h2>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted">
+              Short answers to the questions patients ask most — and who to
+              call for the rest.
+            </p>
+          </div>
           <Faqs />
         </div>
-      </section>
+      </div>
 
-      {/* ── 8 · Contact — deep navy close ── */}
-      <section id="contact-fees" className="scroll-mt-36">
+      {/* ── 8 · Contact — the navy sheet ── */}
+      <div id="contact-fees" className="scroll-mt-24">
         <div ref={sheetRef} className="relative">
           {/* the navy surface: inset with rounded shoulders on approach,
               docking flush as it lands */}
@@ -784,52 +728,59 @@ export default function FeesBody() {
               clipPath: sheetClip,
             }}
           />
-          <div ref={sheetBoxRef} className="container-wide">
-            <Group className="relative py-20 md:py-24">
-          <Kicker light>Talk to us about fees</Kicker>
-          <div className="mt-6 grid items-end gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-            <motion.h2
-              variants={rise}
-              className="max-w-xl font-display text-3xl leading-[1.1] tracking-tight text-white md:text-[2.8rem]"
-            >
-              The practice team will talk you through any of it.
-            </motion.h2>
-            <motion.div variants={rise} className="lg:text-right">
-              <div className="space-y-1 text-[17px] text-white/85">
-                <p>
-                  <a href={tel(c.phone)} className="focus-visible:underline lg:hover:underline">
-                    {c.phone}
-                  </a>
-                </p>
-                <p>
-                  <a href={tel(c.phoneMobile)} className="focus-visible:underline lg:hover:underline">
-                    {c.phoneMobile}
-                  </a>{" "}
-                  <span className="text-white/50">(mobile)</span>
-                </p>
-                <p className="[overflow-wrap:anywhere]">
-                  <a
-                    href={`mailto:${c.email}`}
-                    className="focus-visible:underline lg:hover:underline"
-                  >
-                    {c.email}
-                  </a>
-                </p>
+          <div className="container-wide">
+            {/* content-edge measure ref, same contract as the band */}
+            <div ref={sheetBoxRef}>
+              <div className="relative py-24 md:py-28">
+                <Eyebrow light>Talk to us about fees</Eyebrow>
+                <div className="mt-7 grid items-end gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+                  <h2 className={`max-w-3xl ${H_CLOSE}`}>
+                    The practice team will talk you through any of it.
+                  </h2>
+                  <div className="lg:text-right">
+                    <div className="space-y-1.5 text-lg text-white/85">
+                      <p>
+                        <a
+                          href={tel(c.phone)}
+                          className="focus-visible:underline lg:hover:underline"
+                        >
+                          {c.phone}
+                        </a>
+                      </p>
+                      <p>
+                        <a
+                          href={tel(c.phoneMobile)}
+                          className="focus-visible:underline lg:hover:underline"
+                        >
+                          {c.phoneMobile}
+                        </a>{" "}
+                        <span className="text-white/50">(mobile)</span>
+                      </p>
+                      <p className="[overflow-wrap:anywhere]">
+                        <a
+                          href={`mailto:${c.email}`}
+                          className="focus-visible:underline lg:hover:underline"
+                        >
+                          {c.email}
+                        </a>
+                      </p>
+                    </div>
+                    <div className="mt-8">
+                      <Button
+                        href="/contact"
+                        variant="light"
+                        className="focus-visible:shadow-[0_0_0_2px_rgba(255,255,255,0.85)]"
+                      >
+                        Contact the practice team
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="mt-7">
-                <Link
-                  href="/contact"
-                  className={`${pill} bg-white text-ink focus-visible:bg-canvas-soft`}
-                >
-                  Contact the practice team
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-            </Group>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
