@@ -283,7 +283,11 @@ function buildIndex(): SearchEntry[] {
 
   // Money words apply to the whole fees section however deep the page sits.
   byHref.forEach((entry, href) => {
-    if (href === "/tariffs" || href.startsWith("/tariffs/")) {
+    if (
+      href === "/tariffs" ||
+      href.startsWith("/tariffs/") ||
+      href.startsWith("/tariffs#")
+    ) {
       entry.keywords = Array.from(new Set([...entry.keywords, ...feeKeywords]));
     }
   });

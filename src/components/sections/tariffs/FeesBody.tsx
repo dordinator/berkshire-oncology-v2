@@ -95,9 +95,14 @@ const H_LONG =
 const H_CLOSE =
   "font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-white";
 
-/* The band split: text one side, composition the other. */
+/* The band split: text one side, composition the other. The flipped
+   variant mirrors the TRACKS as well as the order — grid auto-placement
+   fills tracks positionally, so lg:order alone would hand the composition
+   the narrow column. */
 const SPLIT =
   "grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20";
+const SPLIT_FLIP =
+  "grid items-center gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-20";
 
 const SUPPORT = "mt-7 max-w-lg text-lg leading-relaxed text-ink-muted";
 
@@ -316,7 +321,14 @@ const FAQS = [
     q: "Who can help me understand the costs?",
     a: (
       <>
-        The practice team. Call {site.contact.phone} or email{" "}
+        The practice team. Call{" "}
+        <a
+          href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
+          className="text-accent underline underline-offset-2"
+        >
+          {site.contact.phone}
+        </a>{" "}
+        or email{" "}
         <a
           href={`mailto:${site.contact.email}`}
           className="text-accent underline underline-offset-2"
@@ -337,6 +349,8 @@ const BAND_ROWS = [
     a: "If your insurer does not settle an account in full, the remaining amount — the shortfall — is the patient's responsibility.",
   },
   {
+    // The row the nav's "Insurance authorisation" entry deep-links to.
+    id: "authorisation",
     q: "Do I need insurance authorisation?",
     a: "If you are insured, confirm your cover and obtain authorisation from your insurer before treatment begins — policies and fee schedules vary between insurers and between individual policies.",
   },
@@ -353,7 +367,8 @@ function BandRows() {
         return (
           <div
             key={row.q}
-            className="rounded-2xl border border-ink/15 bg-white/45"
+            id={"id" in row ? row.id : undefined}
+            className="scroll-mt-32 rounded-2xl border border-ink/15 bg-white/45"
           >
             <h3 className="m-0">
               <button
@@ -510,8 +525,11 @@ export default function FeesBody() {
   return (
     <div style={{ backgroundColor: OFFWHITE }}>
       {/* ── 1 · Fees are tailored to your care — text | sage composition ── */}
+      {/* pb-12 keeps the rows card inside this band's overflow-clip during
+          its 55px entrance rise; §2's top padding gives the difference back
+          so the §1→§2 gap stays on rhythm. */}
       <div id="tailored" data-drift-band className="scroll-mt-24 overflow-clip">
-        <div className={`container-wide pt-24 md:pt-32 ${SPLIT}`}>
+        <div className={`container-wide pb-12 pt-24 md:pt-32 ${SPLIT}`}>
           <div>
             <Eyebrow>How fees are set</Eyebrow>
             <h2 className={`mt-7 ${H_SPLIT}`}>
@@ -535,7 +553,7 @@ export default function FeesBody() {
 
       {/* ── 2 · Funding routes — text | rising cards ── */}
       <div id="funding" data-drift-band className="scroll-mt-24 overflow-clip">
-        <div className={`container-wide py-24 md:py-32 ${SPLIT}`}>
+        <div className={`container-wide pb-24 pt-12 md:pb-32 md:pt-20 ${SPLIT}`}>
           <div>
             <Eyebrow>Funding routes</Eyebrow>
             <h2 className={`mt-7 ${H_SPLIT}`}>
@@ -614,7 +632,7 @@ export default function FeesBody() {
 
       {/* ── 4 · Estimates — blue composition | text (sides flipped) ── */}
       <div id="estimates" data-drift-band className="scroll-mt-24 overflow-clip">
-        <div className={`container-wide pb-24 md:pb-32 ${SPLIT}`}>
+        <div className={`container-wide pb-24 md:pb-32 ${SPLIT_FLIP}`}>
           <div className="lg:order-2">
             <Eyebrow>Estimates and changes</Eyebrow>
             <h2 className={`mt-7 ${H_SPLIT}`}>
@@ -669,7 +687,10 @@ export default function FeesBody() {
                     is dense enough to carry a shorter room. */}
                 <div className="relative py-14 md:py-20">
                   <Eyebrow>Excesses and shortfalls</Eyebrow>
-                  <div className="mt-7 grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20">
+                  {/* items-START, not center: the right column grows when a
+                      topic row expands, and a centred grid would re-seat the
+                      statement mid-read. */}
+                  <div className="mt-7 grid items-start gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20">
                     <h2 className={H_LONG}>
                       If your policy doesn&rsquo;t cover everything, the
                       difference rests with you.
@@ -685,10 +706,14 @@ export default function FeesBody() {
                         className="mt-8 flex scroll-mt-32 flex-wrap items-center gap-3"
                       >
                         <Button href="/contact">Request a tariff</Button>
-                        <Button href="#estimates" variant="ghost">
-                          How estimates work
+                        <Button href="#faqs" variant="ghost">
+                          More questions
                         </Button>
                       </div>
+                      <p className="mt-3 text-sm leading-relaxed text-ink/60">
+                        Your request goes to the practice team — tell them
+                        which consultant you are seeing.
+                      </p>
                       <BandRows />
                     </div>
                   </div>
@@ -699,15 +724,27 @@ export default function FeesBody() {
         </div>
       </div>
 
-      {/* ── 6 · FAQs — text | white panel of questions ── */}
+      {/* ── 6 · FAQs — text | white panel of questions. items-start so an
+             opening answer doesn't re-seat the statement. ── */}
       <div id="faqs" className="scroll-mt-24">
-        <div className={`container-wide pb-24 md:pb-32 ${SPLIT}`}>
+        <div
+          className={`container-wide pb-24 md:pb-32 ${SPLIT.replace(
+            "items-center",
+            "items-start"
+          )}`}
+        >
           <div>
             <Eyebrow>Common questions</Eyebrow>
             <h2 className={`mt-7 ${H_SPLIT}`}>Fees, answered plainly.</h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted">
-              Short answers to the questions patients ask most — and who to
-              call for the rest.
+              Short answers to the questions patients ask most — and{" "}
+              <a
+                href={tel(c.phone)}
+                className="inline-block py-2 -my-2 text-accent underline underline-offset-2"
+              >
+                {c.phone}
+              </a>{" "}
+              for the rest.
             </p>
           </div>
           <Faqs />
@@ -742,7 +779,7 @@ export default function FeesBody() {
                       <p>
                         <a
                           href={tel(c.phone)}
-                          className="focus-visible:underline lg:hover:underline"
+                          className="inline-block py-2.5 -my-2.5 focus-visible:underline lg:hover:underline"
                         >
                           {c.phone}
                         </a>
@@ -750,7 +787,7 @@ export default function FeesBody() {
                       <p>
                         <a
                           href={tel(c.phoneMobile)}
-                          className="focus-visible:underline lg:hover:underline"
+                          className="inline-block py-2.5 -my-2.5 focus-visible:underline lg:hover:underline"
                         >
                           {c.phoneMobile}
                         </a>{" "}

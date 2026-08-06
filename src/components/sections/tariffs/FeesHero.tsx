@@ -217,7 +217,7 @@ export default function FeesHero() {
                 href="#tailored"
                 className={`${pill} bg-ink text-white focus-visible:bg-accent`}
               >
-                View fees
+                How fees work
               </a>
               <Link
                 href="/contact"
@@ -254,7 +254,7 @@ export default function FeesHero() {
       <div ref={stripWrapRef} className="container-wide relative z-10 pb-14 md:pb-20">
         <motion.div
           ref={stripBoxRef}
-          className="relative grid gap-8 px-7 py-9 md:grid-cols-3 md:gap-0 md:px-0 md:py-10"
+          className="relative grid gap-8 px-7 py-9 lg:grid-cols-3 lg:gap-0 lg:px-0 lg:py-10"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-40px" }}
@@ -289,8 +289,8 @@ export default function FeesHero() {
             <motion.div
               key={card.title}
               variants={riseSoft}
-              className={`relative flex gap-5 md:px-9 ${
-                i > 0 ? "md:border-l md:border-ink/10" : ""
+              className={`relative flex gap-5 lg:px-9 ${
+                i > 0 ? "lg:border-l lg:border-ink/10" : ""
               }`}
             >
               <div className="mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-ink/20">

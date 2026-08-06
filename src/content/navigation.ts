@@ -426,13 +426,12 @@ const fees: NavSection = {
       links: [
         {
           label: "Consultation fees",
-          href: "/tariffs#tailored",
-          description: "The cost of a first appointment and follow-ups.",
+          href: "/tariffs#request",
+          description: "Request consultant-specific fee information.",
           covers: [
-            "Initial consultation fee",
-            "Follow-up consultation fee",
-            "What the fee does and does not include",
-            "How and when you are invoiced",
+            "How to request your consultant's fees",
+            "What a personalised tariff includes",
+            "Who to speak to about consultation costs",
           ],
         },
         {
@@ -459,7 +458,7 @@ const fees: NavSection = {
         },
         {
           label: "Tariffs",
-          href: "/tariffs#request",
+          href: "/tariffs#tailored",
           description: "How the partnership sets its fees.",
           built: true,
         },
@@ -481,7 +480,7 @@ const fees: NavSection = {
         },
         {
           label: "Insurance authorisation",
-          href: "/tariffs#insurance",
+          href: "/tariffs#authorisation",
           description: "Getting your insurer to approve treatment in advance.",
           covers: [
             "Getting an authorisation code before your appointment",
@@ -504,12 +503,12 @@ const fees: NavSection = {
         {
           label: "Payment questions",
           href: "/tariffs#faqs",
-          description: "Billing queries and who handles them.",
+          description: "Short answers to the questions patients ask most.",
           covers: [
-            "Who to contact about an invoice",
-            "How to pay",
-            "Timescales for settling an account",
-            "Requesting a copy invoice or statement",
+            "How to request a tariff",
+            "Self-funding treatment",
+            "Whether an estimate can change",
+            "Who can help you understand the costs",
           ],
         },
       ],
