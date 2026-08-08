@@ -1,0 +1,287 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The consultant focus strip — ten portraits sharing one band, the one under
+// your pointer coming into focus while the rest compress into slivers.
+//
+// The mechanic is a single animatable property: every panel is flex-basis 0
+// and the camera work is flex-grow, which transitions smoothly and keeps the
+// row exactly filling its track at every moment. The open panel's card sits
+// at a fixed width inside the growing box, so its text never reflows during
+// the move — it fades up once the panel has begun to open.
+//
+// Hover focuses, and so does keyboard focus: every collapsed panel is a
+// button carrying the consultant's name, so tabbing along the strip walks
+// the partnership exactly as mousing does. One panel starts open — the
+// mechanic should be visible before it is touched.
+//
+// Below lg the same data renders as a vertical accordion: slivers this
+// narrow have no room on a phone, and a tap-to-expand row is the honest
+// translation.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface FocusConsultant {
+  slug: string;
+  name: string;
+  shortRole: string;
+  photo: string;
+  cancerTypes: string[];
+  treatments: string[];
+  sites: string[];
+}
+
+/** The site's established gold — the pathway waves and tariffs field use it. */
+const GOLD = "#c8992f";
+
+function Card({ c }: { c: FocusConsultant }) {
+  return (
+    <div className="w-[272px] max-w-full xl:w-[320px]">
+      <h3 className="font-display text-2xl font-semibold leading-tight text-ink xl:text-3xl">
+        {c.name}
+      </h3>
+      <p className="mt-1.5 text-[15px] text-ink-muted">{c.shortRole}</p>
+      <div aria-hidden className="mt-4 h-px w-10" style={{ backgroundColor: GOLD }} />
+
+      <dl className="mt-5 space-y-4">
+        {c.cancerTypes.length > 0 && (
+          <div>
+            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+              Cancer types
+            </dt>
+            <dd className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+              {c.cancerTypes.join(" · ")}
+            </dd>
+          </div>
+        )}
+        {c.treatments.length > 0 && (
+          <div>
+            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+              Treatments
+            </dt>
+            <dd className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+              {c.treatments.join(" · ")}
+            </dd>
+          </div>
+        )}
+        {c.sites.length > 0 && (
+          <div>
+            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+              Locations
+            </dt>
+            <dd className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+              {c.sites.join(" · ")}
+            </dd>
+          </div>
+        )}
+      </dl>
+
+      <div className="mt-6 flex flex-wrap items-center gap-2.5">
+        <Link
+          href={`/consultants/${c.slug}`}
+          className="rounded-full border border-ink/20 bg-white/70 px-4 py-2 text-[13px] font-medium text-ink transition-colors hover:border-ink/45 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
+        >
+          Read full profile
+        </Link>
+        <Link
+          href="/contact"
+          className="group/cta inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-accent focus-visible:bg-accent"
+        >
+          Arrange a consultation
+          <span
+            aria-hidden
+            className="transition-transform group-hover/cta:translate-x-0.5"
+          >
+            →
+          </span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default function ConsultantFocusStrip({
+  consultants,
+}: {
+  consultants: FocusConsultant[];
+}) {
+  const [active, setActive] = useState(3);
+
+  return (
+    <div>
+      {/* ── Desktop: the horizontal strip ─────────────────────────────────── */}
+      <div className="hidden lg:block">
+        <div className="flex h-[600px] gap-1.5 xl:h-[640px]">
+          {consultants.map((c, i) => {
+            const open = i === active;
+            return (
+              <div
+                key={c.slug}
+                onMouseEnter={() => setActive(i)}
+                className="relative overflow-hidden rounded-2xl bg-canvas-soft transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                style={{ flexGrow: open ? 7.4 : 1, flexBasis: 0 }}
+              >
+                {/* Collapsed: the portrait fills the sliver, gently stood
+                    back; a button carries the name for keyboard and screen
+                    readers, and focusing it opens the panel like hover. */}
+                <div
+                  className={`absolute inset-0 transition-opacity duration-500 ${
+                    open ? "pointer-events-none opacity-0" : "opacity-100"
+                  }`}
+                >
+                  <Image
+                    src={c.photo}
+                    alt=""
+                    fill
+                    sizes="10vw"
+                    className="object-cover object-[50%_22%] saturate-[0.88]"
+                  />
+                  <button
+                    type="button"
+                    onFocus={() => setActive(i)}
+                    onClick={() => setActive(i)}
+                    aria-label={`${c.name}, ${c.shortRole}`}
+                    aria-expanded={open}
+                    className="absolute inset-0 h-full w-full focus-visible:shadow-[inset_0_0_0_3px_#c8992f]"
+                  />
+                </div>
+
+                {/* Open: portrait beside the card. The photo keeps a fixed
+                    share of the panel; the card keeps a fixed width, so the
+                    grow never reflows its text. */}
+                <div
+                  aria-hidden={!open}
+                  className={`absolute inset-0 flex transition-opacity delay-150 duration-500 ${
+                    open ? "opacity-100" : "pointer-events-none opacity-0"
+                  }`}
+                >
+                  <div className="relative w-[44%] min-w-[200px] shrink-0">
+                    <Image
+                      src={c.photo}
+                      alt={`${c.name}, ${c.shortRole}`}
+                      fill
+                      sizes="28vw"
+                      className="object-cover object-[50%_22%]"
+                    />
+                  </div>
+                  <div className="flex min-w-0 flex-1 items-center overflow-hidden p-7 xl:p-9">
+                    <Card c={c} />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* The numbered rail. Cells share the panels' grow values and the
+            same easing, so each number rides with its portrait; the open
+            cell carries the name and the gold underline. */}
+        <div className="mt-5 flex gap-1.5">
+          {consultants.map((c, i) => {
+            const open = i === active;
+            return (
+              <button
+                key={c.slug}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={c.name}
+                aria-current={open || undefined}
+                className="min-w-0 text-center transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                style={{ flexGrow: open ? 7.4 : 1, flexBasis: 0 }}
+              >
+                <span
+                  className="text-[11px] tabular-nums tracking-[0.14em]"
+                  style={{ color: open ? GOLD : "#5a6884" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className={`mx-auto block overflow-hidden whitespace-nowrap text-[13px] text-ink transition-opacity duration-300 ${
+                    open ? "opacity-100" : "h-0 opacity-0"
+                  }`}
+                >
+                  {c.name}
+                  <span
+                    aria-hidden
+                    className="mx-auto mt-1 block h-px w-16"
+                    style={{ backgroundColor: GOLD }}
+                  />
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Below lg: the vertical accordion ──────────────────────────────── */}
+      <div className="space-y-2 lg:hidden">
+        {consultants.map((c, i) => {
+          const open = i === active;
+          return (
+            <div
+              key={c.slug}
+              className="overflow-hidden rounded-2xl bg-canvas-soft"
+            >
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                aria-expanded={open}
+                className="flex w-full items-center gap-4 p-2.5 text-left"
+              >
+                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+                  <Image
+                    src={c.photo}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className="object-cover object-[50%_22%]"
+                  />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-base font-semibold leading-tight text-ink">
+                    {c.name}
+                  </span>
+                  <span className="mt-0.5 block text-[12px] text-ink-muted">
+                    {c.shortRole}
+                  </span>
+                </span>
+                <span
+                  aria-hidden
+                  className={`mr-2 text-lg text-ink-muted transition-transform duration-300 ${
+                    open ? "rotate-45" : ""
+                  }`}
+                >
+                  +
+                </span>
+              </button>
+
+              <div
+                className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none ${
+                  open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <div className="relative aspect-[4/3] w-full">
+                    <Image
+                      src={c.photo}
+                      alt={`${c.name}, ${c.shortRole}`}
+                      fill
+                      sizes="100vw"
+                      className="object-cover object-[50%_22%]"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <Card c={c} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
