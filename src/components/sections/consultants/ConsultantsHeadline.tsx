@@ -19,17 +19,21 @@ const VARIANTS = [
   {
     id: "a",
     label: "A",
-    heading: "Ten consultants. Different expertise. One partnership.",
+    lines: ["Ten consultants.", "Different expertise.", "One partnership."],
   },
   {
     id: "b",
     label: "B",
-    heading: "Ten consultants. Eighteen cancer types. One partnership.",
+    lines: ["Ten consultants.", "Eighteen cancer types.", "One partnership."],
   },
   {
     id: "c",
     label: "C",
-    heading: "Begin with your diagnosis — it points to the consultants who treat it.",
+    lines: [
+      "Begin with your diagnosis —",
+      "it points to the consultants",
+      "who treat it.",
+    ],
   },
 ] as const;
 
@@ -51,19 +55,26 @@ export default function ConsultantsHeadline() {
   const current = VARIANTS.find((v) => v.id === variant) ?? VARIANTS[0];
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-16">
-      <h1 className="max-w-3xl font-display text-[clamp(2.6rem,4.6vw,4.8rem)] font-semibold leading-[1.02] tracking-[-0.045em] text-ink">
-        {current.heading}
+    <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
+      <h1
+        className="max-w-3xl font-display text-[clamp(1.9rem,4vw,3.9rem)] leading-[1.14] tracking-[-0.02em] text-ink"
+        style={{ fontWeight: 500 }}
+      >
+        {current.lines.map((line, i) => (
+          <span key={i} className="block">
+            {line}
+          </span>
+        ))}
       </h1>
 
       <div className="lg:border-l lg:border-[#c8992f]/50 lg:pl-8">
-        <p className="max-w-sm text-base leading-relaxed text-ink-muted lg:pb-2">
+        <p className="max-w-sm text-[15px] leading-relaxed text-ink-muted">
           Browse the partnership, or begin with the cancer type or treatment
           you already know.
         </p>
 
         {/* Copy review toggle — remove once a headline is chosen. */}
-        <div className="mt-4 inline-flex overflow-hidden rounded-full border border-ink/10 bg-white/80 text-[10px] font-medium uppercase tracking-[0.1em]">
+        <div className="mt-4 inline-flex overflow-hidden border border-ink/10 bg-white/80 text-[10px] font-medium uppercase tracking-[0.1em]">
           {VARIANTS.map((v) => (
             <button
               key={v.id}

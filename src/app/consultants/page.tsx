@@ -41,6 +41,7 @@ export default function ConsultantsPage() {
     name: c.name,
     shortRole: c.shortRole ?? c.role,
     photo: c.photo ?? "",
+    photoTall: `/consultants/tall/${c.slug}.jpg`,
     cancerTypes: getSpecialitiesForConsultant(c.slug).map(
       (x) => x.speciality.name,
     ),
@@ -60,14 +61,14 @@ export default function ConsultantsPage() {
       {/* The focus strip: the partnership as one band of portraits, the
           hovered consultant coming into focus. This is the page's hero, so
           it owns the h1; the swoosh feature below keeps its heading as an h2. */}
-      <section className="bg-[#f8f8f4] pb-14 pt-32 md:pt-40 lg:pb-16">
+      <section className="bg-[#f8f8f4] pb-10 pt-28 md:pt-32 lg:pb-12">
         <div className="container-wide">
           <ConsultantsHeadline />
         </div>
         {/* The strip runs the full width of the screen — end to end, no
             container: at any inset the band reads as a card, and the point
             is a wall of the whole partnership. */}
-        <div className="mt-10 lg:mt-12">
+        <div className="mt-8 lg:mt-10">
           <ConsultantFocusStrip consultants={focusConsultants} />
         </div>
       </section>

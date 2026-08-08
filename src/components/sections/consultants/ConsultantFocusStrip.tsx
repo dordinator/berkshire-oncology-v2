@@ -29,6 +29,9 @@ export interface FocusConsultant {
   name: string;
   shortRole: string;
   photo: string;
+  /** Extended-headroom portrait (800×1680) — desktop strip only, where the
+      sliver crop must keep the whole face in frame. */
+  photoTall: string;
   cancerTypes: string[];
   treatments: string[];
   sites: string[];
@@ -40,55 +43,55 @@ const GOLD = "#c8992f";
 function Card({ c }: { c: FocusConsultant }) {
   return (
     <div className="w-[272px] max-w-full xl:w-[320px]">
-      <h3 className="font-display text-2xl font-semibold leading-tight text-ink xl:text-3xl">
+      <h3 className="font-display text-2xl font-semibold leading-tight text-ink xl:text-[2rem]">
         {c.name}
       </h3>
       <p className="mt-1.5 text-[15px] text-ink-muted">{c.shortRole}</p>
-      <div aria-hidden className="mt-4 h-px w-10" style={{ backgroundColor: GOLD }} />
+      <div aria-hidden className="mt-3.5 h-px w-10" style={{ backgroundColor: GOLD }} />
 
-      <dl className="mt-5 space-y-4">
+      <dl className="mt-4 divide-y divide-ink/10 border-t border-ink/10">
         {c.cancerTypes.length > 0 && (
-          <div>
+          <div className="py-2.5">
             <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
               Cancer types
             </dt>
-            <dd className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+            <dd className="mt-1 text-[12.5px] leading-snug text-ink-muted">
               {c.cancerTypes.join(" · ")}
             </dd>
           </div>
         )}
         {c.treatments.length > 0 && (
-          <div>
+          <div className="py-2.5">
             <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
               Treatments
             </dt>
-            <dd className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+            <dd className="mt-1 text-[12.5px] leading-snug text-ink-muted">
               {c.treatments.join(" · ")}
             </dd>
           </div>
         )}
         {c.sites.length > 0 && (
-          <div>
+          <div className="py-2.5">
             <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
               Locations
             </dt>
-            <dd className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+            <dd className="mt-1 text-[12.5px] leading-snug text-ink-muted">
               {c.sites.join(" · ")}
             </dd>
           </div>
         )}
       </dl>
 
-      <div className="mt-6 flex flex-wrap items-center gap-2.5">
+      <div className="mt-4 flex flex-wrap items-center gap-2">
         <Link
           href={`/consultants/${c.slug}`}
-          className="rounded-full border border-ink/20 bg-white/70 px-4 py-2 text-[13px] font-medium text-ink transition-colors hover:border-ink/45 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
+          className="rounded-full border border-ink/20 bg-white/70 px-4 py-1.5 text-[13px] font-medium text-ink transition-colors hover:border-ink/45 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
         >
           Read full profile
         </Link>
         <Link
           href="/contact"
-          className="group/cta inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-accent focus-visible:bg-accent"
+          className="group/cta inline-flex items-center gap-2 rounded-full bg-ink px-4 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-accent focus-visible:bg-accent"
         >
           Arrange a consultation
           <span
@@ -112,9 +115,12 @@ export default function ConsultantFocusStrip({
 
   return (
     <div>
-      {/* ── Desktop: the horizontal strip, edge to edge ───────────────────── */}
+      {/* ── Desktop: the horizontal strip, edge to edge. Height is ~half the
+          viewport so headline + strip + rail compose one full screen, and
+          the slivers stay wide enough that the extended-headroom portraits
+          keep the whole face in frame. ─────────────────────────────────── */}
       <div className="hidden lg:block">
-        <div className="flex h-[min(66svh,720px)] min-h-[540px] gap-1.5">
+        <div className="flex h-[clamp(440px,50svh,560px)] gap-[3px] border-y border-ink/[0.08]">
           {consultants.map((c, i) => {
             const open = i === active;
             return (
@@ -122,22 +128,22 @@ export default function ConsultantFocusStrip({
                 key={c.slug}
                 onMouseEnter={() => setActive(i)}
                 className="relative overflow-hidden bg-canvas-soft transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
-                style={{ flexGrow: open ? 7.4 : 1, flexBasis: 0 }}
+                style={{ flexGrow: open ? 6.2 : 1, flexBasis: 0 }}
               >
-                {/* Collapsed: the portrait fills the sliver, gently stood
-                    back; a button carries the name for keyboard and screen
-                    readers, and focusing it opens the panel like hover. */}
+                {/* Collapsed: the portrait fills the sliver; a button carries
+                    the name for keyboard and screen readers, and focusing it
+                    opens the panel like hover. */}
                 <div
                   className={`absolute inset-0 transition-opacity duration-500 ${
                     open ? "pointer-events-none opacity-0" : "opacity-100"
                   }`}
                 >
                   <Image
-                    src={c.photo}
+                    src={c.photoTall}
                     alt=""
                     fill
-                    sizes="10vw"
-                    className="object-cover object-[50%_22%] saturate-[0.88]"
+                    sizes="8vw"
+                    className="object-cover object-center"
                   />
                   <button
                     type="button"
@@ -149,25 +155,29 @@ export default function ConsultantFocusStrip({
                   />
                 </div>
 
-                {/* Open: portrait beside the card. The photo keeps a fixed
-                    share of the panel; the card keeps a fixed width, so the
-                    grow never reflows its text. */}
+                {/* Open: portrait beside the card. The photo slot matches the
+                    extended portrait's aspect exactly, so the full frame shows
+                    uncropped; the card keeps a fixed width, so the grow never
+                    reflows its text. */}
                 <div
                   aria-hidden={!open}
                   className={`absolute inset-0 flex transition-opacity delay-150 duration-500 ${
                     open ? "opacity-100" : "pointer-events-none opacity-0"
                   }`}
                 >
-                  <div className="relative w-[44%] min-w-[200px] shrink-0">
+                  <div
+                    className="relative h-full shrink-0"
+                    style={{ aspectRatio: "800 / 1700" }}
+                  >
                     <Image
-                      src={c.photo}
+                      src={c.photoTall}
                       alt={`${c.name}, ${c.shortRole}`}
                       fill
-                      sizes="28vw"
-                      className="object-cover object-[50%_22%]"
+                      sizes="16vw"
+                      className="object-cover"
                     />
                   </div>
-                  <div className="flex min-w-0 flex-1 items-center overflow-hidden p-7 xl:p-9">
+                  <div className="flex min-w-0 flex-1 items-center overflow-hidden p-6 xl:p-9">
                     <Card c={c} />
                   </div>
                 </div>
@@ -179,7 +189,7 @@ export default function ConsultantFocusStrip({
         {/* The numbered rail. Cells share the panels' grow values and the
             same easing, so each number rides with its portrait; the open
             cell carries the name and the gold underline. */}
-        <div className="mt-5 flex gap-1.5 px-3">
+        <div className="mt-4 flex gap-[3px] px-3">
           {consultants.map((c, i) => {
             const open = i === active;
             return (
@@ -190,7 +200,7 @@ export default function ConsultantFocusStrip({
                 aria-label={c.name}
                 aria-current={open || undefined}
                 className="min-w-0 text-center transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
-                style={{ flexGrow: open ? 7.4 : 1, flexBasis: 0 }}
+                style={{ flexGrow: open ? 6.2 : 1, flexBasis: 0 }}
               >
                 <span
                   className="text-[11px] tabular-nums tracking-[0.14em]"
@@ -222,17 +232,14 @@ export default function ConsultantFocusStrip({
         {consultants.map((c, i) => {
           const open = i === active;
           return (
-            <div
-              key={c.slug}
-              className="overflow-hidden rounded-2xl bg-canvas-soft"
-            >
+            <div key={c.slug} className="overflow-hidden bg-canvas-soft">
               <button
                 type="button"
                 onClick={() => setActive(i)}
                 aria-expanded={open}
                 className="flex w-full items-center gap-4 p-2.5 text-left"
               >
-                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+                <span className="relative h-14 w-14 shrink-0 overflow-hidden">
                   <Image
                     src={c.photo}
                     alt=""
