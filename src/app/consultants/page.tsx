@@ -63,7 +63,15 @@ export default function ConsultantsPage() {
           it owns the h1; the swoosh feature below keeps its heading as an h2. */}
       <section className="bg-[#f8f8f4] pb-10 pt-28 md:pt-32 lg:pb-12">
         <div className="container-wide">
-          <ConsultantsHeadline />
+          <ConsultantsHeadline
+            figures={{
+              consultants: focusConsultants.length,
+              cancerTypes: new Set(
+                focusConsultants.flatMap((c) => c.cancerTypes),
+              ).size,
+              sites: new Set(focusConsultants.flatMap((c) => c.sites)).size,
+            }}
+          />
         </div>
         {/* The strip runs the full width of the screen — end to end, no
             container: at any inset the band reads as a card, and the point
@@ -72,7 +80,10 @@ export default function ConsultantsPage() {
           <ConsultantFocusStrip consultants={focusConsultants} />
         </div>
       </section>
-      <section className="relative min-h-screen overflow-hidden bg-white pb-24">
+      <section
+        id="directory"
+        className="relative min-h-screen overflow-hidden bg-white pb-24"
+      >
         {/* gold marble strands behind the thread — masked out of the top so
             they never touch the swoosh/title feature */}
         <div

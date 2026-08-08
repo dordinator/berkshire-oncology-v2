@@ -130,57 +130,49 @@ export default function ConsultantFocusStrip({
                 className="relative overflow-hidden bg-canvas-soft transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
                 style={{ flexGrow: open ? 6.2 : 1, flexBasis: 0 }}
               >
-                {/* Collapsed: the portrait fills the sliver; a button carries
-                    the name for keyboard and screen readers, and focusing it
-                    opens the panel like hover. */}
+                {/* One persistent portrait per panel — the same element in
+                    both states, so opening never swaps or reloads the image.
+                    Collapsed it sits centred (the sliver is a window onto its
+                    middle); open it slides to the panel's left edge, riding
+                    the same easing as the grow. The card hangs off the
+                    portrait's right edge and simply fades. */}
                 <div
-                  className={`absolute inset-0 transition-opacity duration-500 ${
-                    open ? "pointer-events-none opacity-0" : "opacity-100"
-                  }`}
+                  className="absolute top-0 h-full transition-[left,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                  style={{
+                    aspectRatio: "800 / 1700",
+                    left: open ? "0%" : "50%",
+                    transform: open ? "translateX(0%)" : "translateX(-50%)",
+                  }}
                 >
                   <Image
                     src={c.photoTall}
-                    alt=""
+                    alt={open ? `${c.name}, ${c.shortRole}` : ""}
                     fill
-                    sizes="8vw"
-                    className="object-cover object-center"
+                    sizes="16vw"
+                    className="object-cover"
                   />
-                  <button
-                    type="button"
-                    onFocus={() => setActive(i)}
-                    onClick={() => setActive(i)}
-                    aria-label={`${c.name}, ${c.shortRole}`}
-                    aria-expanded={open}
-                    className="absolute inset-0 h-full w-full focus-visible:shadow-[inset_0_0_0_3px_#c8992f]"
-                  />
-                </div>
-
-                {/* Open: portrait beside the card. The photo slot matches the
-                    extended portrait's aspect exactly, so the full frame shows
-                    uncropped; the card keeps a fixed width, so the grow never
-                    reflows its text. */}
-                <div
-                  aria-hidden={!open}
-                  className={`absolute inset-0 flex transition-opacity delay-150 duration-500 ${
-                    open ? "opacity-100" : "pointer-events-none opacity-0"
-                  }`}
-                >
                   <div
-                    className="relative h-full shrink-0"
-                    style={{ aspectRatio: "800 / 1700" }}
+                    aria-hidden={!open}
+                    className={`absolute inset-y-0 left-full flex w-[340px] items-center px-6 transition-opacity duration-500 xl:w-[400px] xl:px-9 ${
+                      open ? "opacity-100 delay-150" : "pointer-events-none opacity-0"
+                    }`}
                   >
-                    <Image
-                      src={c.photoTall}
-                      alt={`${c.name}, ${c.shortRole}`}
-                      fill
-                      sizes="16vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex min-w-0 flex-1 items-center overflow-hidden p-6 xl:p-9">
                     <Card c={c} />
                   </div>
                 </div>
+
+                {/* Keyboard and screen-reader surface for the collapsed
+                    state; hover's equivalent for focus. */}
+                <button
+                  type="button"
+                  onFocus={() => setActive(i)}
+                  onClick={() => setActive(i)}
+                  aria-label={`${c.name}, ${c.shortRole}`}
+                  aria-expanded={open}
+                  className={`absolute inset-0 h-full w-full focus-visible:shadow-[inset_0_0_0_3px_#c8992f] ${
+                    open ? "pointer-events-none" : ""
+                  }`}
+                />
               </div>
             );
           })}
