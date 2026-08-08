@@ -60,12 +60,15 @@ export default function ConsultantsPage() {
       {/* The focus strip: the partnership as one band of portraits, the
           hovered consultant coming into focus. This is the page's hero, so
           it owns the h1; the swoosh feature below keeps its heading as an h2. */}
-      <section className="bg-[#f8f8f4] pb-16 pt-32 md:pt-40 lg:pb-20">
+      <section className="bg-[#f8f8f4] pb-14 pt-32 md:pt-40 lg:pb-16">
         <div className="container-wide">
           <ConsultantsHeadline />
-          <div className="mt-10 lg:mt-14">
-            <ConsultantFocusStrip consultants={focusConsultants} />
-          </div>
+        </div>
+        {/* The strip runs the full width of the screen — end to end, no
+            container: at any inset the band reads as a card, and the point
+            is a wall of the whole partnership. */}
+        <div className="mt-10 lg:mt-12">
+          <ConsultantFocusStrip consultants={focusConsultants} />
         </div>
       </section>
       <section className="relative min-h-screen overflow-hidden bg-white pb-24">

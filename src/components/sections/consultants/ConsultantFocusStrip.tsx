@@ -112,16 +112,16 @@ export default function ConsultantFocusStrip({
 
   return (
     <div>
-      {/* ── Desktop: the horizontal strip ─────────────────────────────────── */}
+      {/* ── Desktop: the horizontal strip, edge to edge ───────────────────── */}
       <div className="hidden lg:block">
-        <div className="flex h-[600px] gap-1.5 xl:h-[640px]">
+        <div className="flex h-[min(66svh,720px)] min-h-[540px] gap-1.5">
           {consultants.map((c, i) => {
             const open = i === active;
             return (
               <div
                 key={c.slug}
                 onMouseEnter={() => setActive(i)}
-                className="relative overflow-hidden rounded-2xl bg-canvas-soft transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                className="relative overflow-hidden bg-canvas-soft transition-[flex-grow] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
                 style={{ flexGrow: open ? 7.4 : 1, flexBasis: 0 }}
               >
                 {/* Collapsed: the portrait fills the sliver, gently stood
@@ -179,7 +179,7 @@ export default function ConsultantFocusStrip({
         {/* The numbered rail. Cells share the panels' grow values and the
             same easing, so each number rides with its portrait; the open
             cell carries the name and the gold underline. */}
-        <div className="mt-5 flex gap-1.5">
+        <div className="mt-5 flex gap-1.5 px-3">
           {consultants.map((c, i) => {
             const open = i === active;
             return (
@@ -216,8 +216,9 @@ export default function ConsultantFocusStrip({
         </div>
       </div>
 
-      {/* ── Below lg: the vertical accordion ──────────────────────────────── */}
-      <div className="space-y-2 lg:hidden">
+      {/* ── Below lg: the vertical accordion (inset — a full-bleed accordion
+          reads as broken cards on a phone) ────────────────────────────────── */}
+      <div className="space-y-2 px-6 lg:hidden">
         {consultants.map((c, i) => {
           const open = i === active;
           return (
