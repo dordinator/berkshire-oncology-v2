@@ -13,7 +13,13 @@ import type { ReactNode } from "react";
 // `onPhoto` and `onPhotoGhost` are the pair used over the home hero. They are
 // here rather than local to the hero so the wipe is one implementation: the
 // fill, timing and easing are shared with every other button on the site.
-type Variant = "primary" | "ghost" | "light" | "onPhoto" | "onPhotoGhost";
+type Variant =
+  | "primary"
+  | "ghost"
+  | "light"
+  | "onPhoto"
+  | "onPhotoGhost"
+  | "sage";
 
 // There is no focus ring on this site, so keyboard focus has to come from the
 // button itself. focus-visible runs the same fill that hover wipes in — the
@@ -30,6 +36,8 @@ const variants: Record<Variant, string> = {
     "bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white",
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
+  // The cancer-types sheet's pill: deep sage, AA against white numerals.
+  sage: "bg-[#5c7767] text-white",
 };
 
 /** The colour that wipes in behind the label on hover. */
@@ -39,6 +47,7 @@ const fills: Record<Variant, string> = {
   light: "bg-canvas-soft",
   onPhoto: "bg-accent",
   onPhotoGhost: "bg-white/15",
+  sage: "bg-[#4d6659]",
 };
 
 export default function Button({
