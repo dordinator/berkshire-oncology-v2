@@ -31,11 +31,15 @@ export default function Navbar() {
   // The home hero is a dark photograph and the legal pages open on a navy
   // title band, and the transparent top state puts an ink wordmark and ink
   // icons straight onto them — invisible until you scroll. There the pill is
-  // solid from the first pixel. Everywhere else the transparent-until-scrolled
-  // behaviour is exactly as it was.
+  // solid from the first pixel. The cancer-types hub has no hero at all —
+  // its picker starts right under the bar, and a transparent bar sitting on
+  // working content reads as unanchored — so it gets the solid pill too.
+  // Everywhere else the transparent-until-scrolled behaviour is as it was.
   const pathname = usePathname();
-  const overDarkHero =
+  const solidFromTop =
     pathname === "/" ||
+    pathname === "/specialities" ||
+    pathname === "/treatments" ||
     ["/privacy", "/website-privacy", "/cookies", "/terms", "/accessibility"].includes(
       pathname,
     );
@@ -165,7 +169,7 @@ export default function Navbar() {
             // a white sheet hanging off a transparent bar would look detached.
             sheetOpen
               ? "rounded-t-[2.25rem] rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
-              : scrolled || menuOpen || overDarkHero
+              : scrolled || menuOpen || solidFromTop
                 ? "rounded-full border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
                 : "rounded-full border border-transparent bg-transparent"
           }`}
