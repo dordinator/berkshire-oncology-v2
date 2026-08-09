@@ -28,13 +28,15 @@ export const usefulLinks: UsefulLink[] = [
     logo: "/links/circle-health.png",
   },
   {
+    // genesiscare.co.uk is dead (the Feb-2024 restructure moved the UK arm
+    // to genesiscare.com/uk); both centre URLs below curl-verified 200.
     name: "GenesisCare, Oxford",
-    url: "https://www.genesiscare.co.uk/cancer-centre/oxford",
+    url: "https://www.genesiscare.com/uk/our-centres/oxford",
     logo: "/links/genesiscare.jpeg",
   },
   {
     name: "GenesisCare, Windsor",
-    url: "https://www.genesiscare.co.uk/windsor",
+    url: "https://www.genesiscare.com/uk/our-centres/windsor",
     logo: "/links/genesiscare.jpeg",
   },
   {
