@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -106,12 +106,32 @@ function Card({ c }: { c: FocusConsultant }) {
   );
 }
 
+const PHOTO_KEY = "bop-strip-photos";
+
 export default function ConsultantFocusStrip({
   consultants,
 }: {
   consultants: FocusConsultant[];
 }) {
   const [active, setActive] = useState(3);
+  const [photoSet, setPhotoSet] = useState<"enhanced" | "original">("enhanced");
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(PHOTO_KEY);
+    if (saved === "enhanced" || saved === "original") setPhotoSet(saved);
+  }, []);
+
+  const pickSet = (s: "enhanced" | "original") => {
+    setPhotoSet(s);
+    window.localStorage.setItem(PHOTO_KEY, s);
+  };
+
+  /** Same frames, different pixels: tall-original/ holds the untouched
+      200×300 sources lanczos-scaled into identical geometry. */
+  const tallSrc = (c: FocusConsultant) =>
+    photoSet === "original"
+      ? c.photoTall.replace("/tall/", "/tall-original/")
+      : c.photoTall;
 
   return (
     <div>
@@ -120,6 +140,29 @@ export default function ConsultantFocusStrip({
           the slivers stay wide enough that the extended-headroom portraits
           keep the whole face in frame. ─────────────────────────────────── */}
       <div className="hidden lg:block">
+        {/* Photo-quality review toggle — remove once judged. */}
+        <div className="mb-2 flex items-center justify-end gap-2 px-6">
+          <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+            Photos
+          </span>
+          <div className="inline-flex overflow-hidden border border-ink/10 bg-white/80 text-[10px] font-medium uppercase tracking-[0.1em]">
+            {(["enhanced", "original"] as const).map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => pickSet(s)}
+                aria-pressed={photoSet === s}
+                className={`px-2.5 py-1 transition-colors ${
+                  photoSet === s
+                    ? "bg-ink text-white"
+                    : "text-ink-muted hover:text-ink"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="flex h-[clamp(440px,50svh,560px)] gap-[3px] border-y border-ink/[0.08]">
           {consultants.map((c, i) => {
             const open = i === active;
@@ -145,7 +188,7 @@ export default function ConsultantFocusStrip({
                   }}
                 >
                   <Image
-                    src={c.photoTall}
+                    src={tallSrc(c)}
                     alt={open ? `${c.name}, ${c.shortRole}` : ""}
                     fill
                     sizes="16vw"
