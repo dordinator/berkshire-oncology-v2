@@ -71,7 +71,12 @@ export interface TypeCardData {
 const GAP_FACTOR = 0.62; // of one viewport per lock — the traversal fix
 const FLIGHT_S = 0.85; // wheel-step flight, shorter than locations' 1.1
 const ROW = 84; // picker row height, px — constant so SSR can place p = 0
-const FADE = 0.45; // card handover width, in locks (locations' value)
+// Card handover width, in locks. Locations used 0.45, tuned for stepped
+// travel where the stage never rests between locks. Browsing here is
+// CONTINUOUS, so the fades must overlap — at 0.45 the sheet went blank
+// through the middle of every gap; at 0.75 the outgoing and incoming
+// sheets genuinely crossfade (~0.33 each at the midpoint).
+const FADE = 0.75;
 
 const INK = { r: 6, g: 28, b: 70 }; // #061c46
 // The word ramp lands on the DEEP sage — the words are controls, and the
@@ -386,9 +391,12 @@ function SearchBox({
   };
 
   return (
-    <div className="relative mt-4 w-full max-w-[250px]">
-      <div className="flex items-center gap-2 rounded-full border border-ink/15 bg-white/80 px-3.5 py-2">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="h-3.5 w-3.5 flex-none text-ink-muted" aria-hidden>
+    // The search is the page's fast path — it reads as the primary
+    // control, not an afterthought: full-width in its column, solid white,
+    // and the focus state answers in the instrument's gold.
+    <div className="relative mt-5 w-full max-w-[340px]">
+      <div className="flex items-center gap-2.5 rounded-full border border-ink/20 bg-white px-4 py-3 shadow-[0_6px_24px_-14px_rgba(6,28,70,0.25)] transition-colors focus-within:border-[#c8992f]">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="h-4 w-4 flex-none text-ink-muted" aria-hidden>
           <circle cx="7" cy="7" r="4.5" />
           <path d="m10.5 10.5 3 3" />
         </svg>
@@ -400,9 +408,9 @@ function SearchBox({
             if (e.key === "Enter" && hits.length) commit(hits[0]);
             if (e.key === "Escape") setQ("");
           }}
-          placeholder="Search cancer types…"
-          aria-label="Search cancer types"
-          className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-ink-muted/70"
+          placeholder="Search your cancer type…"
+          aria-label="Search your cancer type"
+          className="w-full bg-transparent text-[15px] text-ink outline-none placeholder:text-ink-muted/70"
         />
       </div>
       {open && (
@@ -658,21 +666,19 @@ export default function TypesJourney({ cards }: { cards: TypeCardData[] }) {
       buildSnap();
       window.addEventListener("scroll", guard, { passive: true });
 
-      // One gesture, one lock: capture-phase wheel stepper ahead of Lenis.
-      // swallowTail is set by step() and cleared only by a genuine >=180ms
-      // pause — the momentum tail AFTER a flight is swallowed, but events
-      // BEFORE a step all feed the accumulator (a trackpad's first deltas
-      // are single-digit; gating them per-event freezes two-finger scroll).
+      // Browsing is CONTINUOUS: no wheel capture, no one-gesture-one-lock.
+      // Scrolling scrubs straight through the list — the spring glides the
+      // words and cards through each other — and the mandatory snap above
+      // settles the stage onto the nearest type once the gesture ends.
+      // (The stepper made 14 types feel like 14 speed bumps when someone
+      // just wanted to look through them; search and the rail remain the
+      // fast paths.) Keyboard still steps one type at a time below.
       const currentLock = () => Math.round(rawP.get());
       let stepping = false;
-      let swallowTail = false;
-      let lastWheelAt = 0;
-      let acc = 0;
       let backstop: ReturnType<typeof setTimeout> | undefined;
       const step = (dir: 1 | -1) => {
         const next = Math.min(Math.max(currentLock() + dir, 0), LAST);
         stepping = true;
-        swallowTail = true;
         clearTimeout(backstop);
         backstop = setTimeout(() => (stepping = false), 1700);
         const arrive = () => {
@@ -689,47 +695,6 @@ export default function TypesJourney({ cards }: { cards: TypeCardData[] }) {
           arrive();
         }
       };
-      const onWheel = (e: WheelEvent) => {
-        if (!inStage()) return;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-        const down = e.deltaY > 0;
-        // The sheet's rows region may scroll internally on short viewports
-        // (it carries data-lenis-prevent); while it can still travel in the
-        // gesture's direction, the gesture is its.
-        const scroller = (e.target as HTMLElement | null)?.closest?.(
-          "[data-card-scroll]"
-        ) as HTMLElement | null;
-        if (scroller) {
-          const canScroll = down
-            ? scroller.scrollTop + scroller.clientHeight <
-              scroller.scrollHeight - 1
-            : scroller.scrollTop > 0;
-          if (canScroll) return;
-        }
-        // Release the page at either end so nav above and outro below stay
-        // reachable.
-        if (down && currentLock() >= LAST) return;
-        if (!down && currentLock() <= 0 && window.scrollY <= trackTop + 2)
-          return;
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        const now = performance.now();
-        if (now - lastWheelAt >= 180) swallowTail = false;
-        lastWheelAt = now;
-        if (stepping || swallowTail) return;
-        // Normalise Firefox line/page delta modes to pixels.
-        const unit =
-          e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
-        acc += e.deltaY * unit;
-        if (Math.abs(acc) < 24) return;
-        const dir = acc > 0 ? 1 : -1;
-        acc = 0;
-        step(dir);
-      };
-      window.addEventListener("wheel", onWheel, {
-        passive: false,
-        capture: true,
-      });
 
       const onKey = (e: KeyboardEvent) => {
         const t = e.target as HTMLElement | null;
@@ -856,7 +821,6 @@ export default function TypesJourney({ cards }: { cards: TypeCardData[] }) {
         unsub();
         window.removeEventListener("scroll", onScroll);
         window.removeEventListener("scroll", guard);
-        window.removeEventListener("wheel", onWheel, true);
         window.removeEventListener("keydown", onKey);
         window.removeEventListener("resize", onResize);
         snap?.destroy();
@@ -945,8 +909,8 @@ export default function TypesJourney({ cards }: { cards: TypeCardData[] }) {
                   what you know.
                 </h1>
                 <p className="mt-3 max-w-[30ch] text-sm leading-relaxed text-ink-muted">
-                  Information can orientate, but it cannot predict an
-                  individual pathway.
+                  Search for the type you have been given, or scroll
+                  through the list.
                 </p>
                 <div
                   aria-hidden
@@ -1131,8 +1095,8 @@ export default function TypesJourney({ cards }: { cards: TypeCardData[] }) {
             Start with what you know.
           </h1>
           <p className="mt-3 max-w-[32ch] text-sm leading-relaxed text-ink-muted">
-            Information can orientate, but it cannot predict an individual
-            pathway.
+            Search for the type you have been given, or swipe through the
+            list.
           </p>
           <div
             aria-hidden
