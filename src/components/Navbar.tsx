@@ -38,6 +38,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const solidFromTop =
     pathname === "/" ||
+    pathname === "/contact" ||
     pathname === "/specialities" ||
     pathname === "/treatments" ||
     ["/privacy", "/website-privacy", "/cookies", "/terms", "/accessibility"].includes(
