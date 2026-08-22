@@ -215,23 +215,23 @@ export default function ContactNextStep({
 
         {intent === "consultation" && (
           <div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-            <SectionHeading title="Book securely online.">
+            <SectionHeading title="Request a consultation online.">
               <p>
-                Use the practice&apos;s secure booking service to request or arrange a
-                consultation. You do not need to know which treatment you need before
-                starting.
+                Use our online booking form to request or arrange a consultation.
+                You&apos;ll be shown the options currently available through the
+                practice.
               </p>
               <ul className="mt-6 space-y-3 border-t border-ink/10 pt-6 text-sm text-ink">
-                <li>Choose a suitable appointment or request help finding one</li>
-                <li>Provide your contact and insurance details securely</li>
-                <li>Receive confirmation and pre-appointment information</li>
+                <li>Provide the basic details needed for your request</li>
+                <li>Choose from the options the practice has made available</li>
+                <li>Submit your request to the practice</li>
               </ul>
             </SectionHeading>
             <IntegrationCard
-              title="Continue with Semble"
-              description="The Semble booking experience will open here, keeping the contact page calm while the secure service collects the details needed for an appointment."
-              action="Start secure booking"
-              note="Prototype integration point — the practice's live Semble booking URL is still required."
+              title="Online booking"
+              description="Complete the practice's online booking form to see the available options and provide the details needed for your request."
+              action="Continue to online booking"
+              note="Prototype integration point — the practice's live booking form or embed code is still required."
             />
           </div>
         )}
@@ -269,7 +269,7 @@ export default function ContactNextStep({
             </SectionHeading>
             <IntegrationCard
               title="Open your secure portal"
-              description="The live Semble patient portal will open in a new secure window. You may be asked to sign in or verify your identity."
+              description="The practice's patient portal will open in a new window. You may be asked to sign in or verify your identity."
               action="Open patient portal"
               note="Prototype integration point — the practice's live portal URL is still required."
             />

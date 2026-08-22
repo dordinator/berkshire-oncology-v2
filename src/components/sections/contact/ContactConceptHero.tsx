@@ -163,14 +163,14 @@ export default function ContactConceptHero() {
             className="rounded-[2rem] border border-white/55 bg-[#fbfaf5]/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
           >
             <p className="text-[13px] leading-relaxed text-ink-muted">
-              We&apos;ll show you the right form or secure service next.
+              We&apos;ll show you the right form or online service next.
             </p>
 
             <div className="mt-4">
               <RouteLink
                 intent="consultation"
                 title="Arrange a consultation"
-                description="Choose or request an appointment securely."
+                description="Request or arrange an appointment online."
                 selected={intent === "consultation"}
                 onSelect={selectIntent}
               />
