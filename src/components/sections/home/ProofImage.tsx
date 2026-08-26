@@ -76,10 +76,16 @@ export default function ProofImage({
           <div className="flex items-start gap-3">
             <Tick />
             <div className="min-w-0">
-              <p className="font-display text-[15px] leading-snug text-ink sm:text-[17px]">
+              <p
+                data-copy-key="approach.gmc.title"
+                className="font-display text-[15px] leading-snug text-ink sm:text-[17px]"
+              >
                 {cardTitle}
               </p>
-              <p className="mt-1.5 text-[12px] leading-relaxed text-ink-muted sm:text-[13px]">
+              <p
+                data-copy-key="approach.gmc.body"
+                className="mt-1.5 text-[12px] leading-relaxed text-ink-muted sm:text-[13px]"
+              >
                 {cardBody}
               </p>
             </div>
@@ -90,7 +96,10 @@ export default function ProofImage({
           <span className="font-display text-base leading-none text-ink sm:text-lg">
             {statValue}
           </span>
-          <span className="text-[12px] leading-none text-ink-muted sm:text-[13px]">
+          <span
+            data-copy-key="approach.stat.label"
+            className="text-[12px] leading-none text-ink-muted sm:text-[13px]"
+          >
             {statLabel}
           </span>
         </div>

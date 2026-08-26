@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import MotionProvider from "@/components/MotionProvider";
+import CopyReviewEditor from "@/components/site/CopyReviewEditor";
 
 // Outfit for titles, Inter for everything else — chosen from the comparison
 // toggle that used to live here. Outfit is a geometric sans, so headings are
@@ -87,6 +88,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </MotionProvider>
+        <CopyReviewEditor />
       </body>
     </html>
   );

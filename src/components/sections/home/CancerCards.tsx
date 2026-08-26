@@ -174,7 +174,9 @@ export default function CancerCards({
                             {c.label}
                           </span>
                           <span className="inline-block border-b border-white/60 pb-1 text-[14px] text-white transition-colors group-hover:border-white">
-                            Learn more
+                            <span data-copy-key="cancers.card.action">
+                              View cancer type
+                            </span>
                           </span>
                         </span>
                       </Link>

@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Temporary homepage copy-review editor. Remove with CopyReviewEditor. */
+[data-copy-key][contenteditable] {
+  cursor: text;
+  border-radius: 0.35rem;
+  outline: 1px dashed rgba(109, 40, 217, 0.55);
+  outline-offset: 0.2rem;
+  transition:
+    outline-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+[data-copy-key][contenteditable]:hover {
+  background-color: rgba(237, 233, 254, 0.16);
+  outline-color: rgba(139, 92, 246, 0.9);
+}
+
+[data-copy-key][contenteditable]:focus {
+  background-color: rgba(237, 233, 254, 0.2);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+  outline: 2px solid rgb(139, 92, 246);
+}
+
+[data-copy-key][data-copy-dirty="true"] {
+  background-color: rgba(254, 243, 199, 0.22);
+  outline-color: rgb(245, 158, 11);
+}
+
 :root {
   --bg: #fafbfc;
   --fg: #061c46;

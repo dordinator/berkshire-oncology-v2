@@ -122,11 +122,10 @@ function Words({ n, capital = false }: { n: number; capital?: boolean }) {
 }
 
 export const metadata: Metadata = pageMeta({
-  title: "Private oncology care in Reading and Berkshire",
+  title: "Private cancer consultants in Reading and Berkshire",
   description:
-    `Berkshire Oncology Partnership is a partnership of ${consultants.length} independent consultant ` +
-    "clinical and medical oncologists providing private cancer diagnosis, treatment and care across " +
-    "Berkshire and the surrounding area, in both NHS and private practice.",
+    `Find a private cancer specialist from Berkshire Oncology Partnership's ${consultants.length} consultant ` +
+    "oncologists. Appointments are available in Reading and at hospitals across Berkshire and Oxford.",
   path: "/",
 });
 
@@ -141,7 +140,15 @@ export const metadata: Metadata = pageMeta({
  * the only job that was actually needed, which is to mark where one section
  * stops and the next begins.
  */
-function SectionHeading({ title, id }: { title: string; id: string }) {
+function SectionHeading({
+  title,
+  id,
+  copyKey,
+}: {
+  title: string;
+  id: string;
+  copyKey?: string;
+}) {
   return (
     <div className="max-w-3xl">
       <Reveal>
@@ -150,6 +157,7 @@ function SectionHeading({ title, id }: { title: string; id: string }) {
       <Reveal delay={1}>
         <h2
           id={id}
+          data-copy-key={copyKey}
           tabIndex={-1}
           className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
         >
@@ -165,20 +173,38 @@ function Section({ children }: { children: React.ReactNode }) {
   return <section className="mt-24 md:mt-36">{children}</section>;
 }
 
-function Lede({ children }: { children: React.ReactNode }) {
+function Lede({
+  children,
+  copyKey,
+}: {
+  children: React.ReactNode;
+  copyKey?: string;
+}) {
   return (
     <Reveal delay={2}>
-      <p className="mt-7 max-w-3xl text-lg leading-relaxed text-ink/85 md:text-xl md:leading-relaxed">
+      <p
+        data-copy-key={copyKey}
+        className="mt-7 max-w-3xl text-lg leading-relaxed text-ink/85 md:text-xl md:leading-relaxed"
+      >
         {children}
       </p>
     </Reveal>
   );
 }
 
-function Body({ children }: { children: React.ReactNode }) {
+function Body({
+  children,
+  copyKey,
+}: {
+  children: React.ReactNode;
+  copyKey?: string;
+}) {
   return (
     <Reveal>
-      <p className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink/75">
+      <p
+        data-copy-key={copyKey}
+        className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink/75"
+      >
         {children}
       </p>
     </Reveal>
@@ -212,31 +238,33 @@ export default function Home() {
             <div>
               <SectionHeading
                 id="approach"
-                title="Our approach to care"
+                title="What you can expect from your care"
+                copyKey="approach.heading"
               />
-              <Lede>
-                In private practice every patient is under the care of a named
-                consultant. That consultant sees you at your first appointment,
-                explains the diagnosis, sets out the options and remains
-                responsible for your treatment. You are not passed between
-                clinicians as your case moves along.
+              <Lede copyKey="approach.lede">
+                You will see a named consultant from your first appointment.
+                They will explain what they know, what still needs to be found
+                out and which treatments may be suitable. They will remain
+                responsible for your care throughout.
               </Lede>
-              <Body>
-                Treatment decisions in cancer are rarely a single obvious
-                answer. More often there are two or three defensible options
-                that differ in what they ask of you, what they offer and what
-                they risk. Our consultants set those out in plain terms and
-                decide with you rather than for you. Where another opinion would
-                help, a case is discussed with colleagues in the partnership or
-                at a multidisciplinary team meeting.
+              <Body copyKey="approach.body">
+                There is not always one obvious treatment. Your consultant will
+                explain the possible benefits, side effects and practical
+                differences in plain language, then make the decision with you.
+                When another specialist&rsquo;s view would help, they can discuss your
+                case with colleagues or at a multidisciplinary team meeting.
               </Body>
               <Reveal>
                 <div className="mt-9 flex flex-wrap gap-3">
                   <Button href="/about/our-approach" variant="ghost">
-                    Our approach to care
+                    <span data-copy-key="approach.action.care">
+                      How we care for patients
+                    </span>
                   </Button>
                   <Button href="/patients" variant="ghost">
-                    Patients &amp; families
+                    <span data-copy-key="approach.action.patients">
+                      Information for patients and families
+                    </span>
                   </Button>
                 </div>
               </Reveal>
@@ -246,10 +274,10 @@ export default function Home() {
               <ProofImage
                 src="/home/approach.jpg"
                 alt="A consultant writing up notes at a desk"
-                cardTitle="On the GMC Specialist Register"
-                cardBody={`All ${words(withGmc)} of our consultants hold full registration with a licence to practise. Every GMC number is published on this page.`}
+                cardTitle="Every consultant is on the GMC Specialist Register"
+                cardBody={`All ${words(withGmc)} consultants hold full registration with a licence to practise. Their GMC numbers are published in their profiles so you can check the register.`}
                 statValue={`Since ${establishedYear}`}
-                statLabel="consultant care in Reading"
+                statLabel="our longest-serving consultant has worked in Reading"
               />
             </Reveal>
           </div>
@@ -268,30 +296,36 @@ export default function Home() {
             <>
               <Reveal>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                  What we treat
+                  <span data-copy-key="cancers.label">Find your area of care</span>
                 </p>
               </Reveal>
               <Reveal delay={1}>
                 <h2
                   id="cancers"
+                  data-copy-key="cancers.heading"
                   tabIndex={-1}
                   className="mt-6 scroll-mt-28 font-display text-[2.1rem] leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.2rem]"
                 >
-                  Cancers we treat
+                  Cancer types we treat
                 </h2>
               </Reveal>
               <Reveal delay={2}>
-                <p className="mt-7 max-w-md text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
-                  Our consultants treat {specialities.length} cancer types
-                  between them, each concentrating on a few rather than covering
-                  everything. Start from your own diagnosis and it will take you
-                  to the consultants who treat it.
+                <p
+                  data-copy-key="cancers.intro"
+                  className="mt-7 max-w-md text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+                >
+                  Cancer care is highly specialised. Our consultants cover{" "}
+                  {specialities.length} cancer types between them, with each
+                  focusing on particular areas. Choose a cancer type to see the
+                  consultants who treat it.
                 </p>
               </Reveal>
               <Reveal>
                 <div className="mt-9 flex flex-wrap gap-3">
                   <Button href="/specialities" variant="ghost">
-                    All {specialities.length} cancer types
+                    <span data-copy-key="cancers.action.all">
+                      See all {specialities.length} cancer types
+                    </span>
                   </Button>
                 </div>
               </Reveal>
@@ -310,33 +344,43 @@ export default function Home() {
             <div>
               <SectionHeading
                 id="consultants"
-                title="Our consultants"
+                title="Find a consultant"
+                copyKey="consultants.heading"
               />
               <Reveal delay={2}>
-                <p className="mt-7 max-w-md text-lg leading-relaxed text-ink/85 md:text-xl md:leading-relaxed">
-                  <Words n={clinicalOncologists.length} capital /> consultant
-                  clinical oncologists and{" "}
-                  <Words n={medicalOncologists.length} /> consultant medical
-                  oncologists. Clinical oncologists treat cancer with
-                  radiotherapy as well as with drug treatments; medical
-                  oncologists specialise in the drug treatments.
+                <p
+                  data-copy-key="consultants.lede"
+                  className="mt-7 max-w-md text-lg leading-relaxed text-ink/85 md:text-xl md:leading-relaxed"
+                >
+                  Our team includes <Words n={clinicalOncologists.length} />{" "}
+                  clinical oncologists and <Words n={medicalOncologists.length} />{" "}
+                  medical oncologists. Clinical oncologists use radiotherapy
+                  and cancer medicines; medical oncologists specialise in
+                  treating cancer with medicines.
                 </p>
               </Reveal>
               <Reveal>
-                <p className="mt-5 max-w-md text-[17px] leading-relaxed text-ink/75">
-                  Between them the partnership covers both halves of
-                  non-surgical cancer care. Every consultant holds full
-                  registration with the General Medical Council, and their GMC
-                  number is listed so anyone can check the register directly.
+                <p
+                  data-copy-key="consultants.body"
+                  className="mt-5 max-w-md text-[17px] leading-relaxed text-ink/75"
+                >
+                  Each profile tells you which cancers a consultant treats,
+                  which treatments they offer and where they see patients. It
+                  also includes their GMC number, so you can check the medical
+                  register directly.
                 </p>
               </Reveal>
               <Reveal>
                 <div className="mt-9 flex flex-wrap gap-3">
                   <Button href="/consultants" variant="ghost">
-                    Find a consultant
+                    <span data-copy-key="consultants.action.all">
+                      View all consultants
+                    </span>
                   </Button>
                   <Button href="/consultants/by-cancer-type" variant="ghost">
-                    Browse by cancer type
+                    <span data-copy-key="consultants.action.cancer">
+                      Search by cancer type
+                    </span>
                   </Button>
                 </div>
               </Reveal>
@@ -382,30 +426,35 @@ export default function Home() {
               <div>
                 <SectionHeading
                   id="nhs-and-private"
-                  title="NHS and private practice"
+                  title="Private care, connected to NHS expertise"
+                  copyKey="nhs.heading"
                 />
-                <Lede>
-                  Our consultants are NHS cancer specialists who also see
-                  patients privately, most of them from posts at the Royal
-                  Berkshire Hospital in Reading, where the Berkshire Cancer
-                  Centre is based.
+                <Lede copyKey="nhs.lede">
+                  Most of our consultants also hold NHS posts at the Royal
+                  Berkshire Hospital in Reading, home to the Berkshire Cancer
+                  Centre. They bring that specialist experience to their
+                  private practice.
                 </Lede>
-                <Body>
-                  Private care does not jump an NHS queue, and it does not put
-                  NHS treatment at risk — patients move between the two,
-                  sometimes more than once, and are entitled to.
+                <Body copyKey="nhs.body">
+                  Choosing private care does not affect your right to NHS care.
+                  Depending on what you need, you may receive some parts of your
+                  diagnosis or treatment privately and others through the NHS.
                 </Body>
 
                 <Reveal>
                   <div className="mt-9 flex flex-wrap gap-3">
                     <Button href="/locations" variant="ghost">
-                      All locations
+                      <span data-copy-key="nhs.action.locations">
+                        View treatment locations
+                      </span>
                     </Button>
                     <Button
                       href="/about/nhs-and-private-practice"
                       variant="ghost"
                     >
-                      NHS and private practice
+                      <span data-copy-key="nhs.action.explainer">
+                        How NHS and private care work
+                      </span>
                     </Button>
                   </div>
                 </Reveal>
@@ -426,7 +475,9 @@ export default function Home() {
                     <p className="mt-1.5 text-[13px] leading-tight text-ink-muted">
                       hospitals and cancer centres
                       <br />
-                      across Berkshire &amp; Oxford
+                      <span data-copy-key="nhs.map.region">
+                        across Berkshire &amp; Oxfordshire
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -469,31 +520,41 @@ export default function Home() {
             <Reveal delay={1}>
               <h2
                 id="feedback"
+                data-copy-key="feedback.heading"
                 tabIndex={-1}
                 className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
               >
-                Patient feedback
+                What patients tell us
               </h2>
             </Reveal>
             <Reveal delay={2}>
-              <p className="mt-7 text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
-                Individual consultants are reviewed on the hospital and provider
-                platforms where they practise, and those reviews are not ours to
-                edit. Feedback of any kind — through the practice, through your
-                hospital, or on a public platform — is read and acted on.
+              <p
+                data-copy-key="feedback.reviews"
+                className="mt-7 text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+              >
+                You can find independent reviews of individual consultants on
+                the hospital and healthcare platforms where they practise. Those
+                reviews are published independently; we do not select or edit
+                them.
               </p>
             </Reveal>
             <Reveal delay={2}>
-              <p className="mt-5 text-[17px] leading-relaxed text-ink/80">
-                If something has gone wrong, please do not leave it to a review.
-                Tell {site.contact.practiceManager} directly and it will be
-                looked into.
+              <p
+                data-copy-key="feedback.direct"
+                className="mt-5 text-[17px] leading-relaxed text-ink/80"
+              >
+                We also want to hear directly about your experience, good or
+                bad. If something has gone wrong, please contact{" "}
+                {site.contact.practiceManager} so the practice can look into it
+                and respond.
               </p>
             </Reveal>
             <Reveal delay={3}>
               <div className="mt-9">
                 <Button href="/about/patient-feedback" variant="ghost">
-                  Patient feedback
+                  <span data-copy-key="feedback.action">
+                    Read or leave feedback
+                  </span>
                 </Button>
               </div>
             </Reveal>

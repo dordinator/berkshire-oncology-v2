@@ -127,11 +127,14 @@ export default function TestimonialCards({
                 // disappears in production is exactly backwards — this needs to
                 // be loudest on the live site, where shipping invented patient
                 // quotations would matter most.
-                <p className="mt-8 rounded-2xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900">
-                  <strong className="font-semibold">Placeholder.</strong> These
-                  quotations are invented, to hold the layout while the section
-                  is designed. They are not patient feedback and must be
-                  replaced before this page goes live.
+                <p
+                  data-copy-key="feedback.placeholder.warning"
+                  className="mt-8 rounded-2xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900"
+                >
+                  <strong className="font-semibold">Draft content — do not publish.</strong>{" "}
+                  These quotations were written only to test the layout. They
+                  are not real patient feedback and must be replaced with
+                  approved quotations before this page goes live.
                 </p>
               )}
             </div>

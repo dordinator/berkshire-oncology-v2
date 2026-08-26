@@ -119,7 +119,10 @@ export default function ConsultantScroller({
                   <span className="block">GMC {c.gmc}</span>
                   {c.consultantInReadingSince && (
                     <span className="block">
-                      Since {c.consultantInReadingSince}
+                      <span data-copy-key="consultants.card.since">
+                        In Reading since
+                      </span>{" "}
+                      {c.consultantInReadingSince}
                     </span>
                   )}
                 </span>

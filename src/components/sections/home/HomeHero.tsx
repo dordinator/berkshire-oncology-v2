@@ -75,26 +75,35 @@ export default function HomeHero() {
               contrast there without darkening the whole room to insure against
               it. */}
           <h1 className="font-display text-4xl font-semibold leading-[1.06] tracking-tight text-white [text-shadow:0_1px_20px_rgba(6,28,70,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
-            Exceptional care,
+            <span data-copy-key="hero.headline.line1">Find the right</span>
             <br />
-            personal to you.
+            <span data-copy-key="hero.headline.line2">
+              cancer consultant for your needs.
+            </span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.6)] md:mt-7 md:text-xl md:leading-relaxed">
-            A partnership of ten consultant oncologists providing private cancer
-            diagnosis, treatment and care in Reading and across Berkshire.
+          <p
+            data-copy-key="hero.intro"
+            className="mt-6 max-w-xl text-lg leading-relaxed text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.6)] md:mt-7 md:text-xl md:leading-relaxed"
+          >
+            Meet privately with a specialist who regularly treats your type of
+            cancer, in Reading and at hospitals across Berkshire and Oxford.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-11">
             <Button href="/contact" variant="onPhoto">
-              Request an appointment
+              <span data-copy-key="hero.action.primary">
+                Arrange an appointment
+              </span>
             </Button>
             <Button href={`tel:${tel}`} variant="onPhotoGhost" arrow={false}>
               {/* Button puts children in a single span, so the icon and label
                   need their own flex row to sit on the same baseline. */}
               <span className="inline-flex items-center gap-2.5">
                 <PhoneIcon />
-                Call {site.contact.phone}
+                <span data-copy-key="hero.action.phone">
+                  Call {site.contact.phone}
+                </span>
               </span>
             </Button>
           </div>

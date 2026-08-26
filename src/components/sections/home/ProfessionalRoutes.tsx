@@ -88,20 +88,20 @@ function Icon({
 
 const routes: Route[] = [
   {
-    title: "Referring professionals",
-    label: "Referral route",
-    body: "Name the consultant if you know who you want, or describe the presentation and we will route it. For anything urgent, telephone rather than write.",
-    cta: "Refer or enquire",
+    title: "Refer a patient",
+    label: "For GPs and clinicians",
+    body: "If you know which consultant you need, name them in your referral. If you are unsure, tell us about the diagnosis or presentation and the practice team will direct it. Please telephone us about urgent referrals.",
+    cta: "Referral information",
     href: "/about/referring-professionals",
     image: "/professionals/referrers.jpg",
     alt: "A clinician talking with a patient across a desk",
     icon: "referral",
   },
   {
-    title: "Consultants",
-    label: "Thinking about joining?",
-    body: "The partnership is a group of independent practitioners rather than an employer. Get in touch whether or not anything is advertised — those conversations usually begin informally.",
-    cta: "Start a conversation",
+    title: "Join the partnership",
+    label: "For consultant oncologists",
+    body: "Our consultants practise independently within the partnership. If you are interested in joining, you are welcome to contact us even when no opportunity is being advertised.",
+    cta: "Talk to the practice",
     href: "/about/careers",
     image: "/professionals/consultants.jpg",
     alt: "",
@@ -109,10 +109,10 @@ const routes: Route[] = [
     feature: true,
   },
   {
-    title: "Practice roles",
-    label: "Work with the practice",
-    body: "Administrative and practice vacancies, when there are any, are handled by the practice office. There is no standing list, so an enquiry is worth more than waiting.",
-    cta: "View practice roles",
+    title: "Work with us",
+    label: "Practice and administration roles",
+    body: "The practice office manages recruitment for administrative and practice roles. Current opportunities are listed here, and you can also contact us with a general enquiry.",
+    cta: "See practice roles",
     href: "/about/careers",
     image: "/professionals/practice-roles.jpg",
     alt: "Two colleagues working at desks in a small office",
@@ -137,17 +137,21 @@ export default function ProfessionalRoutes() {
           <Reveal delay={1}>
             <h2
               id="referrals"
+              data-copy-key="professionals.heading"
               tabIndex={-1}
               className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
             >
-              Referrals, careers and professional enquiries
+              For healthcare professionals
             </h2>
           </Reveal>
           <Reveal delay={2}>
-            <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-ink/75 md:text-lg">
-              Different routes depending on how you are connected to the
-              partnership. All of them reach {site.contact.practiceManager} in
-              the practice office.
+            <p
+              data-copy-key="professionals.intro"
+              className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-ink/75 md:text-lg"
+            >
+              Whether you are referring a patient or would like to work with
+              us, start with {site.contact.practiceManager} in the practice
+              office.
             </p>
           </Reveal>
         </div>
@@ -195,10 +199,14 @@ export default function ProfessionalRoutes() {
                         <Icon name={r.icon} className="h-6 w-6" />
                       </span>
                       <div className="min-w-0">
-                        <h3 className="font-display text-xl leading-snug md:text-[1.4rem]">
+                        <h3
+                          data-copy-key={`professionals.${r.icon}.title`}
+                          className="font-display text-xl leading-snug md:text-[1.4rem]"
+                        >
                           {r.title}
                         </h3>
                         <p
+                          data-copy-key={`professionals.${r.icon}.label`}
                           className={`mt-1 text-[13px] font-medium uppercase tracking-[0.12em] ${
                             r.feature ? "text-white/60" : "text-ink-muted"
                           }`}
@@ -209,6 +217,7 @@ export default function ProfessionalRoutes() {
                     </div>
 
                     <p
+                      data-copy-key={`professionals.${r.icon}.body`}
                       className={`mt-4 text-[15px] leading-relaxed ${
                         r.feature ? "text-white/75" : "text-ink/75"
                       }`}
@@ -256,7 +265,9 @@ export default function ProfessionalRoutes() {
                             : "border-ink/15 text-ink hover:border-ink/40 hover:bg-ink/[0.03]"
                         }`}
                       >
-                        {r.cta}
+                        <span data-copy-key={`professionals.${r.icon}.action`}>
+                          {r.cta}
+                        </span>
                         <svg
                           aria-hidden
                           viewBox="0 0 16 16"

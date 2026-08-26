@@ -29,9 +29,11 @@ const hospitalSentence = hospitals
 
 function Row({
   title,
+  copyKey,
   children,
 }: {
   title: string;
+  copyKey?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -44,7 +46,7 @@ function Row({
       className="group rounded-2xl bg-canvas-soft/70 transition-colors open:bg-canvas-soft"
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-display text-lg leading-snug text-ink marker:content-none [&::-webkit-details-marker]:hidden md:text-xl">
-        {title}
+        <span data-copy-key={copyKey}>{title}</span>
         <span
           aria-hidden
           className="relative h-4 w-4 shrink-0 text-ink-muted"
@@ -86,47 +88,60 @@ export default function PartnershipIntro() {
                 section's name instead, so the eight section titles on the page
                 match the eight in the About menu exactly. */}
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
-              About the partnership
+              <span data-copy-key="partnership.label">
+                Berkshire Oncology Partnership
+              </span>
             </p>
           </Reveal>
 
           <Reveal delay={1}>
             <h2
               id="partnership"
+              data-copy-key="partnership.heading"
               tabIndex={-1}
               className="mt-6 scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
             >
-              Who treats you is your choice.
+              Find a specialist who knows your cancer.
             </h2>
           </Reveal>
 
           <Reveal delay={2}>
-            <p className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
-              You can choose which oncologist treats you. Not everyone realises
-              that, and it is a choice worth making carefully: cancer care is
-              sub-specialised, and the consultant who treats prostate cancer
-              week in, week out is rarely the one who treats lymphoma.
+            <p
+              data-copy-key="partnership.intro"
+              className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+            >
+              A cancer diagnosis can leave you with a lot to take in. One useful
+              first step is to find an oncologist who regularly treats your type
+              of cancer. You can choose who you see privately, and you do not
+              need to work out the right person on your own.
             </p>
           </Reveal>
 
           <Reveal delay={2}>
-            <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed">
-              Berkshire Oncology Partnership is ten consultant oncologists
-              practising together in Reading. Each keeps their own patients and
-              their own clinical judgement; what they share is one office, one
-              route in, and colleagues who cover the cancers they do not. You
-              get a named consultant who stays with your case, and the range of
-              a far larger unit behind them.
+            <p
+              data-copy-key="partnership.body"
+              className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+            >
+              We are ten consultant oncologists working together in Reading.
+              Each consultant has their own specialist areas and remains
+              responsible for their own patients. Our practice team can listen
+              to what you need, help you find the right consultant and arrange
+              an appointment.
             </p>
           </Reveal>
 
           <Reveal delay={3}>
             <div className="mt-10 space-y-2.5">
-              <Row title="One named consultant, start to finish">
-                The consultant you meet at your first appointment explains the
-                diagnosis, sets out the options and stays responsible for your
-                treatment. You are not handed between clinicians as the case
-                moves on, and you always know whose name is on it.{" "}
+              <Row
+                title="Your consultant stays with you"
+                copyKey="partnership.row.continuity.title"
+              >
+                <span data-copy-key="partnership.row.continuity.body">
+                  The consultant you meet at your first appointment will explain
+                  your diagnosis, talk through your options and remain responsible
+                  for your treatment. You will know who is leading your care and
+                  who to speak to when you have questions.
+                </span>{" "}
                 <Link
                   href="/about/our-approach"
                   className="text-accent underline-offset-2 hover:underline"
@@ -140,11 +155,17 @@ export default function PartnershipIntro() {
                   used to make is already made twice on this page — in the
                   paragraph above and by the whole "Cancers we treat" section
                   below it. */}
-              <Row title="The same specialists you would meet on the NHS">
-                Most of our consultants hold NHS posts at the Royal Berkshire
-                Hospital, where the Berkshire Cancer Centre is based. Private
-                care does not jump an NHS queue and does not put NHS treatment at
-                risk — patients move between the two and are entitled to.{" "}
+              <Row
+                title="Private care from NHS cancer specialists"
+                copyKey="partnership.row.nhs.title"
+              >
+                <span data-copy-key="partnership.row.nhs.body">
+                  Most of our consultants hold NHS posts at the Royal Berkshire
+                  Hospital, home to the Berkshire Cancer Centre. Choosing a
+                  private appointment does not affect your right to NHS care. Some
+                  patients move between private and NHS services during their
+                  diagnosis or treatment.
+                </span>{" "}
                 <Link
                   href="/about/nhs-and-private-practice"
                   className="text-accent underline-offset-2 hover:underline"
@@ -154,9 +175,12 @@ export default function PartnershipIntro() {
                 .
               </Row>
 
-              <Row title={`${hospitals.length} hospitals and cancer centres`}>
-                Consultations and treatment take place across Berkshire and into
-                Oxfordshire — {hospitalSentence}. The practice office is at{" "}
+              <Row
+                title={`Appointments at ${hospitals.length} hospitals and cancer centres`}
+                copyKey="partnership.row.locations.title"
+              >
+                Our consultants see patients at {hospitalSentence}. The
+                practice office is at{" "}
                 {site.contact.addressLines[0]}, {site.contact.addressLines[1]}.{" "}
                 <Link
                   href="/locations"

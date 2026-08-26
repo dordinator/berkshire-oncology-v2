@@ -23,10 +23,10 @@ import { site } from "@/content/site";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ROUTES = [
-  { label: "Contact the practice", href: "/contact", icon: "phone" },
-  { label: "Find a consultant", href: "/consultants", icon: "person" },
-  { label: "For referrers", href: "/about/referring-professionals", icon: "arrow" },
-  { label: "Fees", href: "/tariffs", icon: "card" },
+  { label: "Make an enquiry", href: "/contact", icon: "phone" },
+  { label: "Choose a consultant", href: "/consultants", icon: "person" },
+  { label: "Refer a patient", href: "/about/referring-professionals", icon: "arrow" },
+  { label: "View fees", href: "/tariffs", icon: "card" },
 ] as const;
 
 function RouteIcon({ name }: { name: (typeof ROUTES)[number]["icon"] }) {
@@ -74,10 +74,12 @@ export default function CloseBand() {
         <div className="mx-auto w-full max-w-[1560px] md:px-6 lg:px-8">
           <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-4">
             <h2 className="font-display text-3xl leading-tight tracking-tight md:text-4xl">
-              Speak to the practice.
+              <span data-copy-key="close.heading">Not sure where to start?</span>
             </h2>
             <p className="text-[15px] text-white/70 md:text-base">
-              Enquiries &amp; appointments:{" "}
+              <span data-copy-key="close.phone.label">
+                Appointments and enquiries:
+              </span>{" "}
               <a
                 href={`tel:${tel}`}
                 className="font-semibold text-white underline-offset-4 hover:underline"
@@ -87,10 +89,13 @@ export default function CloseBand() {
             </p>
           </div>
 
-          <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/70">
-            Enquiries about the partnership, appointments and referrals all come
-            through {site.contact.practiceManager}, who can point you to the
-            right consultant.
+          <p
+            data-copy-key="close.body"
+            className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/70"
+          >
+            Call or email the practice and speak to {site.contact.practiceManager}.
+            She can help you find the right consultant, arrange an appointment
+            or answer a question about a referral.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -101,7 +106,9 @@ export default function CloseBand() {
                 className="group flex items-center justify-center gap-2.5 rounded-full border border-white/35 px-6 py-4 text-[15px] font-medium text-white transition-colors hover:border-white hover:bg-white/10"
               >
                 <RouteIcon name={r.icon} />
-                {r.label}
+                <span data-copy-key={`close.action.${r.icon}`}>
+                  {r.label}
+                </span>
               </Link>
             ))}
           </div>
