@@ -13,6 +13,21 @@ export const usefulLinks: UsefulLink[] = [
     logo: "/links/cancer-research-uk.png",
   },
   {
+    name: "NHS cancer information",
+    url: "https://www.nhs.uk/conditions/cancer/",
+    logo: "/links/nhs.png",
+  },
+  {
+    name: "Maggie’s",
+    url: "https://www.maggies.org",
+    logo: "/links/maggies.png",
+  },
+  {
+    name: "Cancer Care Map",
+    url: "https://www.cancercaremap.org",
+    logo: "/links/cancer-care-map.png",
+  },
+  {
     name: "Healthcare at Home (Sciensus)",
     url: "https://www.sciensus.com",
     logo: "/links/sciensus.png",

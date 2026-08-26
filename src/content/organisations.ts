@@ -3,12 +3,8 @@ import type { UsefulLink } from "./types";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The recommended organisations, grouped, with a line saying why each might
-// help.
-//
-// The navy band near the top of the page shows these nine as marks — recognition
-// at a glance, no reading required. This module is the other half: what each one
-// is actually for, so a reader can tell which is the right one to try today.
-// Same organisations, different job.
+// help. The Resources page uses the same data for its search results and its
+// scrolling directory, so the two cannot drift apart.
 //
 // WHAT A "reason" IS ALLOWED TO BE.
 // This is a medical site and these are other people's organisations, so nothing
@@ -49,7 +45,7 @@ export const organisationGroups: OrganisationGroup[] = [
   {
     id: "information-and-support",
     title: "Information and support",
-    note: "National charities. Both are independent of the partnership, and both are free to contact.",
+    note: "National organisations offering cancer information, practical support and services beyond the hospital.",
     entries: [
       {
         link: byName("Macmillan Cancer Support"),
@@ -60,6 +56,26 @@ export const organisationGroups: OrganisationGroup[] = [
         link: byName("Cancer Research UK"),
         reason:
           "Plain-English information about cancer types, treatments and clinical trials.",
+      },
+      {
+        link: byName("NHS cancer information"),
+        reason:
+          "Official NHS information about cancer, diagnosis and common treatments.",
+      },
+      {
+        link: byName("Maggie’s"),
+        reason:
+          "Free practical, emotional and social support for people with cancer, their family and friends.",
+      },
+      {
+        link: byName("Cancer Care Map"),
+        reason:
+          "A searchable UK directory of cancer support services near you.",
+      },
+      {
+        link: byName("Healthcare at Home (Sciensus)"),
+        reason:
+          "Medicines and clinical care delivered at home rather than at a hospital.",
       },
     ],
   },
@@ -77,13 +93,9 @@ export const organisationGroups: OrganisationGroup[] = [
   },
   {
     id: "other-services",
-    title: "Other services",
-    note: "Two more organisations patients ask us about.",
+    title: "Specialist services",
+    note: "A specialist external service patients may ask us about.",
     entries: [
-      {
-        link: byName("Healthcare at Home (Sciensus)"),
-        reason: "Medicines and clinical care delivered at home rather than at a hospital.",
-      },
       {
         link: byName("The Forbury Clinic (Reading Urology Partnership)"),
         reason: "The Reading Urology Partnership's own clinic.",

@@ -41,6 +41,8 @@ export default function Navbar() {
     pathname === "/contact" ||
     pathname === "/specialities" ||
     pathname === "/treatments" ||
+    pathname === "/resources" ||
+    pathname === "/links" ||
     ["/privacy", "/website-privacy", "/cookies", "/terms", "/accessibility"].includes(
       pathname,
     );
