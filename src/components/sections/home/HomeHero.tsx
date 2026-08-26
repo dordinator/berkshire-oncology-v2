@@ -86,14 +86,14 @@ export default function HomeHero() {
             data-copy-key="hero.intro"
             className="mt-6 max-w-xl text-lg leading-relaxed text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.6)] md:mt-7 md:text-xl md:leading-relaxed"
           >
-            Meet privately with a specialist who regularly treats your type of
+            Meet privately with a consultant who specialises in your type of
             cancer, in Reading and at hospitals across Berkshire and Oxford.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-11">
             <Button href="/contact" variant="onPhoto">
               <span data-copy-key="hero.action.primary">
-                Arrange an appointment
+                Book an appointment
               </span>
             </Button>
             <Button href={`tel:${tel}`} variant="onPhotoGhost" arrow={false}>
