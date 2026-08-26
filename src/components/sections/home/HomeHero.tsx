@@ -75,11 +75,9 @@ export default function HomeHero() {
               contrast there without darkening the whole room to insure against
               it. */}
           <h1 className="font-display text-4xl font-semibold leading-[1.06] tracking-tight text-white [text-shadow:0_1px_20px_rgba(6,28,70,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
-            <span data-copy-key="hero.headline.line1">Find the right</span>
+            <span data-copy-key="hero.headline.line1">Exceptional care,</span>
             <br />
-            <span data-copy-key="hero.headline.line2">cancer consultant</span>
-            <br />
-            <span data-copy-key="hero.headline.line3">for your needs.</span>
+            <span data-copy-key="hero.headline.line2">personal to you.</span>
           </h1>
 
           <p
