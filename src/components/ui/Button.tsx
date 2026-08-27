@@ -29,11 +29,12 @@ const base =
   "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-ink text-white",
+  primary:
+    "bg-ink text-white ring-2 ring-inset ring-transparent hover:ring-white focus-visible:ring-white",
   ghost: "border border-ink/15 text-ink hover:border-ink/40",
   light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
-    "bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white",
+    "bg-white text-ink ring-2 ring-inset ring-transparent shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white hover:ring-white focus-visible:ring-white",
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
   // The cancer-types sheet's pill: deep sage, AA against white numerals.
