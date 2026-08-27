@@ -9,6 +9,10 @@ import BrandLogo from "./site/BrandLogo";
 import DesktopNav from "./nav/DesktopNav";
 import MobileNav from "./nav/MobileNav";
 import SearchBar from "./nav/SearchBar";
+import {
+  HOME_RETURN_UI_EVENT,
+  type HomeReturnUiEventDetail,
+} from "./site/HomepageReturnState";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The floating navbar pill. It owns three pieces of state — whether the page
@@ -69,6 +73,26 @@ export default function Navbar() {
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
+
+  useEffect(() => {
+    const onRestore = (event: Event) => {
+      const { ui, viewportMatches } = (
+        event as CustomEvent<HomeReturnUiEventDetail>
+      ).detail;
+      if (!viewportMatches) {
+        setMenuOpen(false);
+        setSearchOpen(false);
+        return;
+      }
+
+      setSearchOpen(ui.searchOpen);
+      setMenuOpen(
+        !ui.searchOpen && ui.viewport === "compact" && ui.mobileMenuOpen,
+      );
+    };
+    window.addEventListener(HOME_RETURN_UI_EVENT, onRestore);
+    return () => window.removeEventListener(HOME_RETURN_UI_EVENT, onRestore);
+  }, []);
 
   // Search takes over the bar, so the drawer has to give way to it.
   const openSearch = useCallback(() => {

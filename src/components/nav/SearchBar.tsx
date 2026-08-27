@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -12,6 +12,12 @@ import {
   type SearchEntry,
   type SearchKind,
 } from "@/content/searchIndex";
+import {
+  followHomepageLinkFromKeyboard,
+  HOME_RETURN_UI_EVENT,
+  type HomeReturnUiEventDetail,
+  type HomeUiSnapshot,
+} from "@/components/site/HomepageReturnState";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Site search, as an extension of the navbar rather than a dialog over it.
@@ -58,11 +64,12 @@ export default function SearchBar({
   open: boolean;
   onClose: () => void;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const pendingRestoreRef = useRef<HomeUiSnapshot | null>(null);
+  const applyingRestoreRef = useRef(false);
 
   // The full placeholder needs 357px and a 375px phone leaves the field 221px,
   // so it was being clipped mid-word ("…cancer ty") — which reads as a broken
@@ -100,13 +107,46 @@ export default function SearchBar({
     });
   }, [groups]);
 
-  // Focus the field, and start from a clean query, each time it opens.
+  // Focus the field, and normally start from a clean query. A Back restoration
+  // supplies the saved query and highlighted result instead.
   useEffect(() => {
     if (!open) return;
-    setQuery("");
-    setActiveIndex(0);
-    const frame = requestAnimationFrame(() => inputRef.current?.focus());
+    const restored = pendingRestoreRef.current;
+    if (restored) {
+      applyingRestoreRef.current = true;
+      pendingRestoreRef.current = null;
+      setQuery(restored.searchQuery);
+      setActiveIndex(restored.searchActiveIndex);
+    } else {
+      setQuery("");
+      setActiveIndex(0);
+    }
+    const frame = requestAnimationFrame(() => {
+      inputRef.current?.focus({ preventScroll: true });
+      applyingRestoreRef.current = false;
+    });
     return () => cancelAnimationFrame(frame);
+  }, [open]);
+
+  useEffect(() => {
+    const onRestore = (event: Event) => {
+      const { ui, viewportMatches } = (
+        event as CustomEvent<HomeReturnUiEventDetail>
+      ).detail;
+      const restored = viewportMatches && ui.searchOpen ? ui : null;
+      pendingRestoreRef.current = restored;
+      if (restored && open) {
+        applyingRestoreRef.current = true;
+        pendingRestoreRef.current = null;
+        setQuery(restored.searchQuery);
+        setActiveIndex(restored.searchActiveIndex);
+        requestAnimationFrame(() => {
+          applyingRestoreRef.current = false;
+        });
+      }
+    };
+    window.addEventListener(HOME_RETURN_UI_EVENT, onRestore);
+    return () => window.removeEventListener(HOME_RETURN_UI_EVENT, onRestore);
   }, [open]);
 
   // Close on route change, including after Enter navigates.
@@ -117,6 +157,7 @@ export default function SearchBar({
 
   // A new query means a new list — highlight its first row.
   useEffect(() => {
+    if (applyingRestoreRef.current) return;
     setActiveIndex(0);
   }, [trimmed]);
 
@@ -142,8 +183,10 @@ export default function SearchBar({
       const entry = flat[activeIndex];
       if (!entry) return;
       event.preventDefault();
-      router.push(entry.href);
-      onClose();
+      const result = document.getElementById(
+        `search-option-${activeIndex}`,
+      ) as HTMLAnchorElement | null;
+      if (result) followHomepageLinkFromKeyboard(result, inputRef.current);
     }
   }
 
@@ -235,6 +278,7 @@ export default function SearchBar({
       >
         <div
           data-lenis-prevent
+          data-home-return-overlay-scroll="search-results"
           className="max-h-[calc(100vh-9rem)] w-full overflow-y-auto overscroll-contain rounded-b-[2.25rem] border border-t-0 border-black/[0.06] bg-white/95 px-4 pb-5 pt-3 shadow-[0_28px_80px_-24px_rgba(6,28,70,0.28)] backdrop-blur-xl sm:px-6"
         >
           <div className="mx-auto w-full max-w-3xl">

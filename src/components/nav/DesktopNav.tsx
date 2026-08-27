@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { isSectionActive, navSections, type NavSection } from "@/content/navigation";
+import {
+  HOME_RETURN_UI_EVENT,
+  type HomeReturnUiEventDetail,
+} from "@/components/site/HomepageReturnState";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The horizontal section bar and its mega-menu panels.
@@ -134,6 +138,23 @@ export default function DesktopNav({
   useEffect(() => {
     setOpenId(null);
   }, [pathname]);
+
+  // Back to the homepage recreates the panel the visitor followed a link from.
+  // This runs after the route-change reset above, via the delayed restore event.
+  useEffect(() => {
+    const onRestore = (event: Event) => {
+      const { ui, viewportMatches } = (
+        event as CustomEvent<HomeReturnUiEventDetail>
+      ).detail;
+      setOpenId(
+        viewportMatches && ui.viewport === "desktop" && !ui.searchOpen
+          ? ui.desktopNavId
+          : null,
+      );
+    };
+    window.addEventListener(HOME_RETURN_UI_EVENT, onRestore);
+    return () => window.removeEventListener(HOME_RETURN_UI_EVENT, onRestore);
+  }, []);
 
   // Close on a click anywhere outside the nav.
   useEffect(() => {
@@ -311,6 +332,7 @@ export default function DesktopNav({
             // bottom edge to meet this, forming a single shape.
             className="max-h-[calc(100vh-8rem)] w-full overflow-y-auto rounded-b-[2.25rem] border border-t-0 border-black/[0.06] bg-white/95 px-7 pb-7 pt-5 shadow-[0_28px_80px_-24px_rgba(6,28,70,0.28)] backdrop-blur-xl"
             data-lenis-prevent
+            data-home-return-overlay-scroll="desktop-nav"
           >
             {/* popLayout takes the outgoing section out of flow, so the height
                 we measure is the incoming one's from the first frame. */}

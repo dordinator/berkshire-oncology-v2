@@ -7,6 +7,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { isSectionActive, navSections } from "@/content/navigation";
 import { getLenis } from "@/components/SmoothScroll";
 import { site } from "@/content/site";
+import {
+  HOME_RETURN_UI_EVENT,
+  type HomeReturnUiEventDetail,
+} from "@/components/site/HomepageReturnState";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The drawer. Around nine in ten visitors arrive on a phone, so this is the
@@ -128,6 +132,21 @@ export default function MobileNav({
   useEffect(() => {
     if (!open) setOpenSection(null);
   }, [open]);
+
+  useEffect(() => {
+    const onRestore = (event: Event) => {
+      const { ui, viewportMatches } = (
+        event as CustomEvent<HomeReturnUiEventDetail>
+      ).detail;
+      setOpenSection(
+        viewportMatches && ui.viewport === "compact" && ui.mobileMenuOpen
+          ? ui.mobileSectionId
+          : null,
+      );
+    };
+    window.addEventListener(HOME_RETURN_UI_EVENT, onRestore);
+    return () => window.removeEventListener(HOME_RETURN_UI_EVENT, onRestore);
+  }, []);
 
   return (
     <AnimatePresence>

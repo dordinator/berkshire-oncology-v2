@@ -55,6 +55,7 @@ export default function ConsultantScroller({
           html element, so that rule never matches. */}
       <div
         data-lenis-prevent
+        data-home-return-scroll="consultants"
         // md gets a fixed height; from lg the column stretches to match the
         // text beside it, so the list starts level with the heading and ends
         // level with the buttons. min-height keeps at least three rows in view

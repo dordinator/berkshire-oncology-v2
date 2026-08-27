@@ -45,6 +45,7 @@ export default function TestimonialCards({
               reason and by the same means — see the note there. The two chapters
               mirror each other on a desktop and should not diverge on a phone. */}
           <div
+            data-home-return-scroll="patient-feedback"
             // Horizontal only, and scroll-pl-6 for the first card's left
             // margin — see the notes in CancerCards, which this mirrors.
             data-lenis-prevent-horizontal

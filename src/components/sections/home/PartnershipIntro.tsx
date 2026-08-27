@@ -28,6 +28,7 @@ function Row({
     // which is the old behaviour rather than a broken one.
     <details
       name="partnership-detail"
+      data-home-return-details={copyKey ?? title}
       className="group rounded-2xl bg-canvas-soft/70 transition-colors open:bg-canvas-soft"
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-display text-lg leading-snug text-ink marker:content-none [&::-webkit-details-marker]:hidden md:text-xl">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import Snap from "lenis/snap";
 
@@ -10,13 +11,35 @@ import Snap from "lenis/snap";
 // which `overflow: hidden` does not block. Null when reduced motion is on (no
 // instance is created) or before the effect has run.
 let instance: Lenis | null = null;
+let snapInstance: Snap | null = null;
+let pageSnapPaused = false;
 
 /** The running Lenis instance, if there is one. */
 export function getLenis(): Lenis | null {
   return instance;
 }
 
+/** Keep a deterministic Back restoration from being pulled to a section edge. */
+export function stopPageSnap(): void {
+  pageSnapPaused = true;
+  snapInstance?.stop();
+}
+
+/** Re-enable the gentle section settling after restoration has finished. */
+export function startPageSnap(): void {
+  pageSnapPaused = false;
+  snapInstance?.start();
+}
+
+/** Re-measure Lenis and its current route's section targets after layout changes. */
+export function resizeSmoothScroll(): void {
+  instance?.resize();
+  snapInstance?.resize();
+}
+
 export default function SmoothScroll() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -30,35 +53,6 @@ export default function SmoothScroll() {
       touchMultiplier: 1.5,
     });
     instance = lenis;
-
-    // Soft, Apple-style section settling. Proximity (not mandatory) keeps
-    // sections taller than the viewport fully scrollable and never locks the
-    // user in — it only eases toward a section top once they've slowed/stopped
-    // *close* to a boundary.
-    //   - easeInOutSine: no abrupt kick at the start, gentle arrival at the end.
-    //   - longer duration: a slow, deliberate glide rather than a snap.
-    //   - tighter distanceThreshold: only engages when genuinely near a section.
-    //   - longer debounce: waits until scrolling has actually settled.
-    const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
-    const snap = new Snap(lenis, {
-      type: "proximity",
-      duration: 1.4,
-      easing: easeInOutSine,
-      distanceThreshold: "18%",
-      debounce: 450,
-    });
-
-    // data-no-snap opts a section out — pages that run their own snap points
-    // (the /locations journey registers a mandatory Snap for its scroll
-    // locks) must not have this proximity instance competing for the same
-    // stretch of scroll: two instances pulling at once reads as a glitch.
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main > section:not([data-no-snap])")
-    ).filter((el) => el.offsetHeight > window.innerHeight * 0.5);
-
-    for (const section of sections) {
-      snap.addElement(section, { align: "start" });
-    }
 
     let frame = 0;
     function raf(time: number) {
@@ -89,7 +83,11 @@ export default function SmoothScroll() {
         if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
         target.focus({ preventScroll: true });
         if (window.location.hash !== id) {
-          window.history.pushState(null, "", id);
+          const currentState =
+            window.history.state && typeof window.history.state === "object"
+              ? window.history.state
+              : {};
+          window.history.pushState({ ...currentState }, "", id);
         }
       }
     };
@@ -98,11 +96,49 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener("click", handleAnchor);
-      snap.destroy();
       lenis.destroy();
       instance = null;
     };
   }, []);
+
+  // The root layout persists between App Router pages. Rebuild the proximity
+  // targets for each route rather than keeping references to sections that were
+  // removed from the DOM on the first navigation.
+  useEffect(() => {
+    const lenis = instance;
+    if (!lenis) return;
+
+    let routeSnap: Snap | null = null;
+    const frame = window.requestAnimationFrame(() => {
+      const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
+      routeSnap = new Snap(lenis, {
+        type: "proximity",
+        duration: 1.4,
+        easing: easeInOutSine,
+        distanceThreshold: "18%",
+        debounce: 450,
+      });
+      snapInstance = routeSnap;
+      if (pageSnapPaused) routeSnap.stop();
+
+      // Pages with their own snap controller opt sections out with data-no-snap.
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          "main > section:not([data-no-snap])",
+        ),
+      ).filter((element) => element.offsetHeight > window.innerHeight * 0.5);
+
+      for (const section of sections) {
+        routeSnap.addElement(section, { align: "start" });
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      routeSnap?.destroy();
+      if (snapInstance === routeSnap) snapInstance = null;
+    };
+  }, [pathname]);
 
   return null;
 }
