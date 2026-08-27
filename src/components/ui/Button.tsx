@@ -29,12 +29,11 @@ const base =
   "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-ink text-white ring-2 ring-inset ring-transparent hover:ring-white focus-visible:ring-white",
+  primary: "bg-ink text-white",
   ghost: "border border-ink/15 text-ink hover:border-ink/40",
   light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
-    "bg-white text-ink ring-2 ring-inset ring-transparent shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white hover:ring-white focus-visible:ring-white",
+    "bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white",
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
   // The cancer-types sheet's pill: deep sage, AA against white numerals.
@@ -64,12 +63,20 @@ export default function Button({
   className?: string;
   arrow?: boolean;
 }) {
+  const outlinesBlueHover = variant === "primary" || variant === "onPhoto";
+
   return (
     <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
       <span
         aria-hidden
         className={`absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 group-focus-visible:scale-x-100 group-focus-visible:duration-150 motion-reduce:transition-none ${fills[variant]}`}
       />
+      {outlinesBlueHover && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-20 rounded-full border-2 border-transparent transition-colors duration-300 group-hover:border-white group-focus-visible:border-white"
+        />
+      )}
       <span className="relative">{children}</span>
       {arrow && (
         <svg
