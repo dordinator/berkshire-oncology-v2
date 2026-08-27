@@ -105,9 +105,9 @@ export default function PartnershipIntro() {
               className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
             >
               A cancer diagnosis can leave you with a lot to take in. One useful
-              first step is to find an oncologist who regularly treats your type
+              first step is finding a consultant who regularly treats your type
               of cancer. You can choose who you see privately, and you do not
-              need to work out the right person on your own.
+              have to make that choice alone.
             </p>
           </Reveal>
 
@@ -116,11 +116,12 @@ export default function PartnershipIntro() {
               data-copy-key="partnership.body"
               className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
             >
-              We are ten consultant oncologists working together in Reading.
-              Each consultant has their own specialist areas and remains
-              responsible for their own patients. Our practice team can listen
-              to what you need, help you find the right consultant and arrange
-              an appointment.
+              If you are unsure who to choose, our practice team can ask about
+              your diagnosis or referral and help you find a consultant with
+              relevant experience. Our ten consultant oncologists are based in
+              Reading and cover a range of cancer types and treatments. You can
+              look through their profiles yourself or ask the practice team to
+              help, then book an appointment when you are ready.
             </p>
           </Reveal>
 
