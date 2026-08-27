@@ -83,25 +83,14 @@ export default function PartnershipIntro() {
         </Reveal>
 
         <div>
-          <Reveal>
-            {/* HCA puts a welcome line in this slot; here it carries the
-                section's name instead, so the eight section titles on the page
-                match the eight in the About menu exactly. */}
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
-              <span data-copy-key="partnership.label">
-                Berkshire Oncology Partnership
-              </span>
-            </p>
-          </Reveal>
-
           <Reveal delay={1}>
             <h2
               id="partnership"
               data-copy-key="partnership.heading"
               tabIndex={-1}
-              className="mt-6 scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
+              className="scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
             >
-              Find a specialist who knows your cancer.
+              Specialist cancer care, led by your consultant.
             </h2>
           </Reveal>
 
