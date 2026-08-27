@@ -99,6 +99,18 @@ Use progressive disclosure for useful supporting detail, not to hide information
 needed to judge the main claim. Do not repeat the same promise in consecutive
 viewports; the next section should prove, explain or advance it.
 
+## Typography and content hierarchy
+
+- Use a restrained, consistent type hierarchy: title, subtitle or lede, body
+  copy and, where genuinely needed, one smaller supporting style.
+- Text performing the same role must use the same size across a viewport and
+  across comparable sections. Do not introduce a new size for visual variety.
+- Treat a passage as a subtitle or lede only when it briefly frames the section.
+  Consecutive explanatory paragraphs are body copy and should share one size,
+  even when the first paragraph carries the more important point.
+- Reserve the smaller supporting style for labels, captions, metadata and short
+  evidence notes. It must not be used to hide information a patient needs.
+
 ## Calls to action
 
 - Button labels must describe what happens after the click.
@@ -150,4 +162,3 @@ Preserve these decisions unless the user changes them:
 
 The emotional headline is a brand promise. The copy and evidence that follow it
 must make that promise credible.
-

@@ -188,7 +188,7 @@ function Lede({
     <Reveal delay={2}>
       <p
         data-copy-key={copyKey}
-        className="mt-7 max-w-3xl text-lg leading-relaxed text-ink/85 md:text-xl md:leading-relaxed"
+        className="mt-7 max-w-3xl text-[17px] leading-relaxed text-ink/80"
       >
         {children}
       </p>
@@ -207,7 +207,7 @@ function Body({
     <Reveal>
       <p
         data-copy-key={copyKey}
-        className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink/75"
+        className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink/80"
       >
         {children}
       </p>
