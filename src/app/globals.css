@@ -177,6 +177,9 @@ summary:focus-visible {
   .body-lg {
     @apply text-lg leading-relaxed text-ink-muted md:text-xl;
   }
+  .section-subtitle {
+    @apply text-[17px] leading-relaxed md:text-lg;
+  }
   .glass {
     @apply border border-white/60 bg-white/50 backdrop-blur-xl;
   }

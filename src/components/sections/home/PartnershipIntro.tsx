@@ -87,7 +87,7 @@ export default function PartnershipIntro() {
           <Reveal delay={2}>
             <p
               data-copy-key="partnership.intro"
-              className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+              className="section-subtitle mt-7 max-w-xl text-ink/80"
             >
               A cancer diagnosis can leave you with a lot to take in. One useful
               first step is finding a consultant who regularly treats your type

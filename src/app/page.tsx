@@ -188,7 +188,7 @@ function Lede({
     <Reveal delay={2}>
       <p
         data-copy-key={copyKey}
-        className="mt-7 max-w-3xl text-[17px] leading-relaxed text-ink/80"
+        className="section-subtitle mt-7 max-w-3xl text-ink/80"
       >
         {children}
       </p>
@@ -319,7 +319,7 @@ export default function Home() {
               <Reveal delay={2}>
                 <p
                   data-copy-key="cancers.intro"
-                  className="mt-7 max-w-md text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+                  className="section-subtitle mt-7 max-w-md text-ink/80"
                 >
                   Cancer care is highly specialised. Our consultants cover{" "}
                   {specialities.length} cancer types between them, with each
@@ -357,7 +357,7 @@ export default function Home() {
               <Reveal delay={2}>
                 <p
                   data-copy-key="consultants.lede"
-                  className="mt-7 max-w-md text-lg leading-relaxed text-ink/85 md:text-xl md:leading-relaxed"
+                  className="section-subtitle mt-7 max-w-md text-ink/85"
                 >
                   Our team includes <Words n={clinicalOncologists.length} />{" "}
                   clinical oncologists and <Words n={medicalOncologists.length} />{" "}
@@ -537,7 +537,7 @@ export default function Home() {
             <Reveal delay={2}>
               <p
                 data-copy-key="feedback.reviews"
-                className="mt-7 text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+                className="section-subtitle mt-7 text-ink/80"
               >
                 You can find independent reviews of individual consultants on
                 the hospital and healthcare platforms where they practise. Those

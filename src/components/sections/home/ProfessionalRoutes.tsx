@@ -147,7 +147,7 @@ export default function ProfessionalRoutes() {
           <Reveal delay={2}>
             <p
               data-copy-key="professionals.intro"
-              className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-ink/75 md:text-lg"
+              className="section-subtitle mx-auto mt-5 max-w-2xl text-ink/75"
             >
               Whether you are referring a patient or would like to work with
               us, start with {site.contact.practiceManager} in the practice
