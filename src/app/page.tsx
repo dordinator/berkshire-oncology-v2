@@ -247,17 +247,18 @@ export default function Home() {
                 showRule={false}
               />
               <Lede copyKey="approach.lede">
-                You will see a named consultant from your first appointment.
-                They will explain what they know, what still needs to be found
-                out and which treatments may be suitable. They will remain
-                responsible for your care throughout.
+                At your first appointment, your consultant will review your
+                diagnosis and the information available. They will explain what
+                is known, what may still need to be investigated and which
+                treatment options may be relevant to you.
               </Lede>
               <Body copyKey="approach.body">
-                There is not always one obvious treatment. Your consultant will
-                explain the possible benefits, side effects and practical
-                differences in plain language, then make the decision with you.
-                When another specialist&rsquo;s view would help, they can discuss your
-                case with colleagues or at a multidisciplinary team meeting.
+                Your consultant will explain the potential benefits, possible
+                side effects and practical differences between the options, and
+                the reasons for their recommendation. You can always ask
+                questions before deciding what happens next. Cases are often
+                reviewed by multiple specialists so they can consider the
+                diagnosis and treatment options together.
               </Body>
               <Reveal>
                 <div className="mt-9 flex flex-wrap gap-3">
