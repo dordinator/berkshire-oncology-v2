@@ -86,11 +86,16 @@ export default function PartnershipIntro() {
           <Reveal delay={1}>
             <h2
               id="partnership"
-              data-copy-key="partnership.heading"
               tabIndex={-1}
               className="scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
             >
-              Specialist cancer care, led by your consultant.
+              <span data-copy-key="partnership.heading.line1">
+                Specialist cancer care,
+              </span>
+              <br />
+              <span data-copy-key="partnership.heading.line2">
+                led by your consultant.
+              </span>
             </h2>
           </Reveal>
 
