@@ -54,6 +54,10 @@ const PROFILE_WORK_SECTIONS: Record<string, { leadershipParagraphs: number[] }> 
   "gelareh-eslamian": { leadershipParagraphs: [2] },
 };
 
+const PROFILE_ABOUT_INTRODUCTIONS: Record<string, string> = {
+  "gelareh-eslamian": "Her story, training and approach to care.",
+};
+
 const PROFILE_ABOUT_CHAPTERS: Record<string, ConsultantAboutChapter[]> = {
   "gelareh-eslamian": [
     {
@@ -77,7 +81,6 @@ const PROFILE_ABOUT_CHAPTERS: Record<string, ConsultantAboutChapter[]> = {
         "Gelareh specialises in breast, oesophageal, gastric and pancreato-biliary cancers, with a particular focus on breast cancer.",
         "Her work includes chemotherapy, immunotherapy, monoclonal antibodies and endocrine treatment. She also encourages patients to consider clinical trials when a suitable study is available.",
       ],
-      tint: true,
     },
   ],
 };
@@ -306,7 +309,6 @@ export default function ConsultantProfile({
         label: index === 0 ? "Training" : `Background ${index + 1}`,
         heading: index === 0 ? "Training" : "Clinical background",
         paragraphs: [paragraph],
-        tint: index === aboutParagraphs.length - 1,
       })),
     ];
 
@@ -405,7 +407,14 @@ export default function ConsultantProfile({
       </section>
 
       {aboutChapters.length > 0 && (
-        <ConsultantAboutJourney chapters={aboutChapters} />
+        <ConsultantAboutJourney
+          chapters={aboutChapters}
+          introduction={
+            PROFILE_ABOUT_INTRODUCTIONS[c.slug] ??
+            "Their story, training and approach to care."
+          }
+          title={`About ${name}.`}
+        />
       )}
 
       {treats.length > 0 && (
@@ -423,15 +432,12 @@ export default function ConsultantProfile({
               </p>
             </div>
             <div className="border-t border-ink/[0.16]">
-              {treats.map(({ speciality }, index) => (
+              {treats.map(({ speciality }) => (
                 <Link
                   key={speciality.slug}
                   href={`/specialities/${speciality.slug}`}
-                  className="group grid min-h-[104px] grid-cols-[48px_1fr_auto] items-center gap-4 border-b border-ink/[0.16] py-5 text-ink transition-colors hover:text-accent md:min-h-[124px] md:grid-cols-[64px_1fr_auto]"
+                  className="group grid min-h-[104px] grid-cols-[1fr_auto] items-center gap-4 border-b border-ink/[0.16] py-5 text-ink transition-colors hover:text-accent md:min-h-[124px]"
                 >
-                  <span className="text-sm tabular-nums text-ink-muted">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
                   <span className="font-display text-2xl font-medium leading-tight tracking-[-0.025em] md:text-[32px]">
                     {speciality.title}
                   </span>
@@ -463,7 +469,7 @@ export default function ConsultantProfile({
               </p>
             </div>
             <div className="overflow-hidden rounded-[36px] bg-[#dce9e4] px-6 sm:px-9 md:px-12">
-              {listedModalities.map((modality, index) => {
+              {listedModalities.map((modality) => {
                 const detail = MODALITY_DETAILS[modality] ?? {
                   description: `A treatment approach listed in ${name}'s clinical profile.`,
                   links: [{ label: "Explore treatment information", href: "/treatments" }],
@@ -471,11 +477,8 @@ export default function ConsultantProfile({
                 return (
                   <div
                     key={modality}
-                    className="grid gap-4 border-b border-ink/[0.14] py-7 last:border-b-0 md:grid-cols-[52px_1fr] md:gap-7 md:py-9"
+                    className="border-b border-ink/[0.14] py-7 last:border-b-0 md:py-9"
                   >
-                    <span className="pt-1 text-sm tabular-nums text-ink-muted">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
                     <div>
                       <h3 className="font-display text-[27px] font-medium leading-tight tracking-[-0.025em] text-ink md:text-[34px]">
                         {modality}
@@ -527,7 +530,7 @@ export default function ConsultantProfile({
               </Link>
             </div>
             <div className="space-y-5">
-              {locationDetails.map((location, index) => {
+              {locationDetails.map((location) => {
                 const firstSentence = location.description?.split(". ")[0];
                 return (
                   <Link
@@ -537,7 +540,7 @@ export default function ConsultantProfile({
                   >
                     <span>
                       <span className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted">
-                        {location.area} · {String(index + 1).padStart(2, "0")}
+                        {location.area}
                       </span>
                       <span className="mt-4 block font-display text-[28px] font-medium leading-tight tracking-[-0.025em] md:text-[36px]">
                         {location.name}
