@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { specialityIcon } from "@/components/site/SpecialityIcons";
 import ChapterTint, { CHAPTER_SAGE } from "./ChapterTint";
+import CancerJourneyLink, { CancerReturnRestorer } from "./CancerJourneyLink";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // "Cancers we treat" — the chapter-break section.
@@ -57,6 +57,7 @@ export default function CancerCards({
     // on an ancestor would make that ancestor a scroll container and break the
     // sticky column below.
     <section className="relative isolate">
+      <CancerReturnRestorer />
       {/* Renders a marker here and the colour itself as a fixed sheet on the
           body — the chapter's colour fills the whole page while you are in it
           rather than living inside this box. */}
@@ -140,7 +141,7 @@ export default function CancerCards({
                       key={c.slug}
                       className="w-[56vw] shrink-0 snap-start sm:w-[38vw] md:w-auto"
                     >
-                      <Link
+                      <CancerJourneyLink
                         href={c.href}
                         className="group relative block overflow-hidden rounded-2xl bg-ink/5"
                       >
@@ -181,7 +182,7 @@ export default function CancerCards({
                             </span>
                           </span>
                         </span>
-                      </Link>
+                      </CancerJourneyLink>
                     </li>
                   );
                 })}

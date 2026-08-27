@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ChapterTint from "@/components/sections/home/ChapterTint";
 import JourneyMapCanvas from "@/components/sections/locations/JourneyMapCanvas";
 import { buildFrames, cameraAt, project } from "@/components/sections/locations/mapCamera";
@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import { attribution } from "@/content/mapPaths.generated";
 import { journeyStops } from "@/content/journey";
 import { site } from "@/content/site";
+import { getLenis } from "@/components/SmoothScroll";
 
 export interface CancerTypePrototypeItem {
   id: string;
@@ -872,6 +873,28 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
   }, [items]);
   const journeyItem = selected ?? generalItem;
 
+  const scrollTo = useCallback(
+    (id: string) => {
+      requestAnimationFrame(() =>
+        window.setTimeout(() => {
+          const target = document.getElementById(id);
+          if (!target) return;
+
+          const lenis = getLenis();
+          if (lenis && !reducedMotion) {
+            lenis.scrollTo(target, { duration: 0.9 });
+          } else {
+            target.scrollIntoView({
+              behavior: reducedMotion ? "auto" : "smooth",
+              block: "start",
+            });
+          }
+        }, 60),
+      );
+    },
+    [reducedMotion],
+  );
+
   useEffect(() => {
     const syncSelectionFromUrl = () => {
       const type = new URL(window.location.href).searchParams.get("type");
@@ -884,16 +907,24 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
       // viewport. Repeat the anchor scroll after React has replaced the
       // general journey with the selected one, otherwise the change in content
       // height can leave the visitor above or below the intended section.
-      if (item && window.location.hash === "#specialists") {
+      const isSpecialistDestination =
+        window.location.hash === "#specialists" ||
+        window.location.hash === "#cancer-journey";
+
+      if (item && isSpecialistDestination) {
+        if (window.location.hash !== "#specialists") {
+          const canonicalUrl = new URL(window.location.href);
+          canonicalUrl.hash = "specialists";
+          window.history.replaceState(
+            window.history.state,
+            "",
+            canonicalUrl,
+          );
+        }
+
         requestAnimationFrame(() =>
           window.setTimeout(
-            () =>
-              document
-                .getElementById("specialists")
-                ?.scrollIntoView({
-                  behavior: reducedMotion ? "auto" : "smooth",
-                  block: "start",
-                }),
+            () => scrollTo("specialists"),
             60,
           ),
         );
@@ -903,21 +934,17 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     syncSelectionFromUrl();
     window.addEventListener("popstate", syncSelectionFromUrl);
     return () => window.removeEventListener("popstate", syncSelectionFromUrl);
-  }, [items, reducedMotion]);
-
-  function scrollTo(id: string) {
-    requestAnimationFrame(() => window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" }), 60));
-  }
+  }, [items, scrollTo]);
 
   function selectItem(item: CancerTypePrototypeItem) {
     const url = new URL(window.location.href);
     url.searchParams.set("type", item.id);
-    url.hash = "cancer-journey";
+    url.hash = "specialists";
     window.history.pushState({}, "", url);
     setSelectedId(item.id);
     setShowUnsure(false);
     setQuery(item.title);
-    scrollTo("cancer-journey");
+    scrollTo("specialists");
   }
 
   function showNotSure() {
