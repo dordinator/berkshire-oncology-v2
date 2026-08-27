@@ -42,6 +42,7 @@ export default function Navbar() {
     pathname === "/specialities" ||
     pathname.startsWith("/consultants/") ||
     pathname === "/treatments" ||
+    pathname === "/chemotherapy-demo" ||
     pathname === "/resources" ||
     pathname === "/links" ||
     ["/privacy", "/website-privacy", "/cookies", "/terms", "/accessibility"].includes(
