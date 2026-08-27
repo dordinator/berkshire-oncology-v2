@@ -35,7 +35,13 @@ export const CHAPTER_GOLD = "#f3dca2";
 /** Matches the patients hero panel and its closing band. */
 export const CHAPTER_SAGE = "#c8d6cf";
 
-export default function ChapterTint({ colour }: { colour: string }) {
+export default function ChapterTint({
+  colour,
+  triggerSelector = "h2",
+}: {
+  colour: string;
+  triggerSelector?: string;
+}) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
@@ -57,12 +63,13 @@ export default function ChapterTint({ colour }: { colour: string }) {
     const sheet = sheetRef.current;
     if (!anchor || !sheet) return;
 
-    const heading = anchor.parentElement?.querySelector("h2");
-    if (!heading) return;
+    const trigger = anchor.parentElement?.querySelector(triggerSelector);
+    if (!trigger) return;
 
-    // The heading owns both ends: the colour arrives when "Cancers we treat" is
-    // on screen and leaves when it is not. No rootMargin, so visible means
-    // visible rather than nearly.
+    // The chosen trigger owns both ends: the colour arrives when it is on
+    // screen and leaves when it is not. No rootMargin, so visible means visible
+    // rather than nearly. Home-page chapters keep the h2 default; other sticky
+    // editorial sections can nominate their complete left-hand introduction.
     //
     // Note this behaves differently across the breakpoint, because the heading
     // does: on desktop it is sticky and holds in view for the whole chapter, so
@@ -76,14 +83,14 @@ export default function ChapterTint({ colour }: { colour: string }) {
       { threshold: 0 },
     );
 
-    io.observe(heading);
+    io.observe(trigger);
     return () => io.disconnect();
-  }, [mounted]);
+  }, [mounted, triggerSelector]);
 
   return (
     <>
       {/* Zero-height marker inside the section. Its only job is to give the
-          observer a route to the section's heading. */}
+          observer a route to the section's selected trigger. */}
       <div ref={anchorRef} aria-hidden className="hidden" />
 
       {mounted &&

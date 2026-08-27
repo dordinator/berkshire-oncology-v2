@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { cancerGroups, unlistedGroup } from "@/content/cancerGroups";
 import { site } from "@/content/site";
 import ContactNextStep, { ContactIntent } from "./ContactNextStep";
 
@@ -31,18 +32,22 @@ function RouteLink({
   intent,
   title,
   description,
+  cancerId,
   selected,
   onSelect,
 }: {
   intent: ContactIntent;
   title: string;
   description: string;
+  cancerId?: string | null;
   selected: boolean;
   onSelect: (intent: ContactIntent) => void;
 }) {
+  const cancerQuery = cancerId ? `&cancer=${encodeURIComponent(cancerId)}` : "";
+
   return (
     <Link
-      href={`/contact?intent=${intent}#next-step`}
+      href={`/contact?intent=${intent}${cancerQuery}#next-step`}
       aria-current={selected ? "step" : undefined}
       onClick={(event) => {
         event.preventDefault();
@@ -68,10 +73,22 @@ function RouteLink({
 export default function ContactConceptHero() {
   const tel = site.contact.phone.replace(/\s+/g, "");
   const [intent, setIntent] = useState<ContactIntent | null>("guidance");
+  const [cancerId, setCancerId] = useState<string | null>(null);
+  const cancerGroup = [...cancerGroups, unlistedGroup].find(
+    (group) => group.id === cancerId,
+  );
+  const cancerLabel = cancerGroup
+    ? cancerGroup.id === "cancer-of-unknown-primary"
+      ? cancerGroup.label
+      : cancerGroup.id === "sarcoma"
+        ? cancerGroup.label
+        : `${cancerGroup.label} cancer`
+    : null;
 
   useEffect(() => {
     const readIntent = () => {
       const value = new URL(window.location.href).searchParams.get("intent");
+      const cancer = new URL(window.location.href).searchParams.get("cancer");
       if (
         value === "consultation" ||
         value === "guidance" ||
@@ -82,6 +99,11 @@ export default function ContactConceptHero() {
       } else {
         setIntent("guidance");
       }
+      setCancerId(
+        [...cancerGroups, unlistedGroup].some((group) => group.id === cancer)
+          ? cancer
+          : null,
+      );
     };
 
     readIntent();
@@ -163,7 +185,11 @@ export default function ContactConceptHero() {
             className="rounded-[2rem] border border-white/55 bg-[#fbfaf5]/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
           >
             <p className="text-[13px] leading-relaxed text-ink-muted">
-              We&apos;ll show you the right form or online service next.
+              {cancerLabel ? (
+                <>You&apos;re enquiring about <span className="font-medium text-ink">{cancerLabel}</span>. We&apos;ll show you the right form or online service next.</>
+              ) : (
+                <>We&apos;ll show you the right form or online service next.</>
+              )}
             </p>
 
             <div className="mt-4">
@@ -171,6 +197,7 @@ export default function ContactConceptHero() {
                 intent="consultation"
                 title="Arrange a consultation"
                 description="Request or arrange an appointment online."
+                cancerId={cancerId}
                 selected={intent === "consultation"}
                 onSelect={selectIntent}
               />
@@ -178,6 +205,7 @@ export default function ContactConceptHero() {
                 intent="guidance"
                 title="Not sure where to start?"
                 description="Ask the practice for guidance with a short message."
+                cancerId={cancerId}
                 selected={intent === "guidance"}
                 onSelect={selectIntent}
               />
@@ -185,6 +213,7 @@ export default function ContactConceptHero() {
                 intent="patient-portal"
                 title="Open the patient portal"
                 description="Manage appointments and documents securely."
+                cancerId={cancerId}
                 selected={intent === "patient-portal"}
                 onSelect={selectIntent}
               />
@@ -192,6 +221,7 @@ export default function ContactConceptHero() {
                 intent="referral"
                 title="Make a referral"
                 description="Use the healthcare professional referral route."
+                cancerId={cancerId}
                 selected={intent === "referral"}
                 onSelect={selectIntent}
               />
@@ -201,7 +231,7 @@ export default function ContactConceptHero() {
       </div>
 
     </section>
-    {intent && <ContactNextStep intent={intent} onChooseAgain={chooseAgain} />}
+    {intent && <ContactNextStep intent={intent} onChooseAgain={chooseAgain} cancerLabel={cancerLabel} />}
     </>
   );
 }

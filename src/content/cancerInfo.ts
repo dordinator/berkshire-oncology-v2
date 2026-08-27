@@ -117,7 +117,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         title: "Surgery",
         byOthers: true,
-        body: "Most people with early breast cancer have surgery — either removal of the lump with a margin of normal tissue, or removal of the whole breast, usually with an assessment of the lymph nodes. Surgery is carried out by a breast surgeon rather than by an oncologist. Our consultants plan and give the treatment that happens before and after it, and work alongside the surgical team.",
+        body: "Most people with early breast cancer have surgery. This may mean removing the lump with a margin of normal tissue or removing the whole breast, usually with an assessment of the lymph nodes. Surgery is carried out by a breast surgeon rather than an oncologist. Our consultants work with the surgical team to plan and give any treatment needed before or after the operation.",
       },
       {
         therapy: "chemotherapy",
@@ -132,7 +132,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         therapy: "targeted-therapies",
         title: "Targeted therapy",
-        body: "Treatments aimed at a specific feature of the cancer cell — most commonly HER2. Given when the receptor testing shows the cancer has that feature.",
+        body: "These treatments target a specific feature of the cancer cell, most commonly HER2. They are given when receptor testing shows that the cancer has that feature.",
       },
       {
         therapy: "radiotherapy",
@@ -232,7 +232,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
     approaches: [
       {
         title: "Active surveillance",
-        body: "For low-risk cancer that is unlikely to cause harm, treatment can be safely deferred and the cancer monitored with PSA tests, examination and repeat scans. This is not the same as doing nothing, and not the same as being refused treatment — it is a plan, with agreed points at which treatment would begin.",
+        body: "For low-risk cancer that is unlikely to cause harm, treatment can be safely deferred while the cancer is monitored with PSA tests, examinations and repeat scans. This is not the same as doing nothing or being refused treatment. It is a plan, with agreed points at which treatment would begin.",
       },
       {
         title: "Surgery (radical prostatectomy)",
@@ -262,7 +262,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         therapy: "radioisotope-therapy",
         title: "Radioisotope treatment",
-        body: "A radioactive medicine given into a vein, which travels to where the cancer is active — used in particular situations in advanced prostate cancer.",
+        body: "A radioactive medicine is given into a vein and travels to where the cancer is active. It is used in particular situations in advanced prostate cancer.",
       },
     ],
     deliveryNote:
@@ -342,7 +342,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         therapy: "chemotherapy",
         title: "Chemotherapy",
-        body: "Where a likely origin is suspected, the drug combination usually used for that cancer may be chosen. Where it is not, a broader combination may be used. Your consultant will explain the reasoning rather than presenting it as a given.",
+        body: "If tests suggest where the cancer started, doctors may use the drug combination usually given for that cancer. If the primary site is still unclear, a broader combination may be considered. Your consultant will explain what they recommend and why.",
       },
       {
         therapy: "targeted-therapies",
@@ -352,21 +352,21 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         therapy: "immunotherapy",
         title: "Immunotherapy",
-        body: "May be considered where testing of the tumour suggests it is likely to respond.",
+        body: "Immunotherapy may be considered if tests suggest that the tumour is likely to respond.",
       },
       {
         therapy: "radiotherapy",
         title: "Radiotherapy",
-        body: "Used to treat a specific area — for example an affected lymph node group — or to relieve symptoms such as pain from a bone deposit, often quickly and effectively.",
+        body: "Radiotherapy can treat a specific area, such as an affected group of lymph nodes. It can also relieve symptoms such as pain from a bone deposit, often quickly and effectively.",
       },
       {
         href: "/treatments/radiotherapy#palliative-radiotherapy",
         title: "Symptom control alongside investigation",
-        body: "Pain, breathlessness and other symptoms are treated while tests continue. Waiting for a complete diagnosis is not a reason to leave someone uncomfortable.",
+        body: "Pain, breathlessness and other symptoms can be treated while tests continue. You do not need to wait for a complete diagnosis before getting help with symptoms.",
       },
       {
         title: "Treatment that changes course",
-        body: "If the primary site is identified later, treatment moves onto that cancer's own pathway. This is a good outcome, not a correction — and it is one reason testing may continue after treatment has already started.",
+        body: "If the primary site is identified later, treatment can follow the pathway for that cancer. This is a helpful development, not a sign that anything was wrong before. It is one reason testing may continue after treatment has started.",
       },
     ],
     support: [

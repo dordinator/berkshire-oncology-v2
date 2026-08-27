@@ -193,7 +193,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/"
-                  aria-label="Berkshire Oncology Partnership — home"
+                  aria-label="Berkshire Oncology Partnership, home"
                   className="shrink-0"
                   onClick={closeMenu}
                 >

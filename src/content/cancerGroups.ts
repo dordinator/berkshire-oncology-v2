@@ -32,7 +32,7 @@ export const cancerGroups: CancerGroup[] = [
     label: "Breast",
     slugs: ["breast"],
     blurb:
-      "Cancer that starts in the breast, in women and in men — including cancer found through screening.",
+      "Cancer that starts in the breast, in women and men. This includes cancer found through screening.",
     icon: "breast",
   },
   {
@@ -48,7 +48,7 @@ export const cancerGroups: CancerGroup[] = [
     label: "Bladder and Kidney",
     slugs: ["bladder", "kidney"],
     blurb:
-      "Cancers of the urinary tract — the bladder and the kidneys. Often seen by the same consultants.",
+      "Cancers of the urinary tract, including the bladder and kidneys. They are often seen by the same consultants.",
     icon: "kidney",
   },
   {
@@ -56,7 +56,7 @@ export const cancerGroups: CancerGroup[] = [
     label: "Colorectal",
     slugs: ["colorectal"],
     blurb:
-      "Bowel cancer — cancer of the colon or the rectum, including cancer found through bowel screening.",
+      "Bowel cancer is cancer of the colon or rectum, including cancer found through bowel screening.",
     icon: "colorectal",
   },
   {
@@ -96,7 +96,7 @@ export const cancerGroups: CancerGroup[] = [
     label: "Upper GI",
     slugs: ["oesophagus", "stomach"],
     blurb:
-      "Cancers of the upper digestive tract — the oesophagus (gullet) and the stomach.",
+      "Cancers of the upper digestive tract, including the oesophagus (gullet) and stomach.",
     icon: "oesophagus",
   },
   {
@@ -120,7 +120,7 @@ export const cancerGroups: CancerGroup[] = [
     label: "Testicular",
     slugs: ["testicular"],
     blurb:
-      "Cancer that starts in the testicle — most often in younger men, and usually very treatable.",
+      "Cancer that starts in the testicle. It is most common in younger men and is usually very treatable.",
     icon: "testicular",
   },
   {
@@ -150,7 +150,7 @@ export const unlistedGroup: CancerGroup = {
   label: "Sarcoma",
   slugs: ["sarcoma"],
   blurb:
-    "Cancers of bone and soft tissue. No partner currently lists sarcoma — please contact the practice.",
+    "Cancers of bone and soft tissue. No partner currently lists sarcoma, so please contact the practice for guidance.",
   icon: "sarcoma",
 };
 

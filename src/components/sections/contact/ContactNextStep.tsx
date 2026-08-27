@@ -62,7 +62,7 @@ function IntegrationCard({
   );
 }
 
-function GuidanceForm() {
+function GuidanceForm({ cancerLabel }: { cancerLabel?: string | null }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle",
   );
@@ -169,6 +169,7 @@ function GuidanceForm() {
       </label>
 
       <input className="hidden" name="company" tabIndex={-1} autoComplete="off" />
+      {cancerLabel && <input type="hidden" name="cancerType" value={cancerLabel} />}
 
       {status === "error" && (
         <p role="alert" className="mt-5 text-sm text-red-700">
@@ -196,14 +197,21 @@ function GuidanceForm() {
 export default function ContactNextStep({
   intent,
   onChooseAgain,
+  cancerLabel,
 }: {
   intent: ContactIntent;
   onChooseAgain: () => void;
+  cancerLabel?: string | null;
 }) {
   return (
     <section id="next-step" className="scroll-mt-24 bg-[#f3f1ea]">
       <div className="container-wide py-20 md:py-28 lg:py-32">
-        <div className="mb-10 flex items-center justify-end border-b border-ink/10 pb-5">
+        <div className="mb-10 flex items-center justify-between gap-4 border-b border-ink/10 pb-5">
+          {cancerLabel ? (
+            <p className="text-sm text-ink-muted">Enquiry context: <span className="font-medium text-ink">{cancerLabel}</span></p>
+          ) : (
+            <span aria-hidden />
+          )}
           <button
             type="button"
             onClick={onChooseAgain}
@@ -248,7 +256,7 @@ export default function ContactNextStep({
                 the safest way to share anything confidential if it is needed.
               </p>
             </SectionHeading>
-            <GuidanceForm />
+            <GuidanceForm cancerLabel={cancerLabel} />
           </div>
         )}
 

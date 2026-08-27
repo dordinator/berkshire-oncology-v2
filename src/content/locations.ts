@@ -73,7 +73,7 @@ export const locations: Location[] = [
     provider: "Spire Healthcare",
     url: "https://www.spirehealthcare.com/spire-dunedin-hospital",
     description:
-      "A private hospital on Bath Road run by Spire Healthcare, with outpatient consulting rooms, diagnostic imaging including MRI, a one-stop breast clinic, and cancer investigations and treatments.",
+      "A private hospital on Bath Road run by Spire Healthcare. It has outpatient consulting rooms, diagnostic imaging including MRI, a one-stop breast clinic, and cancer investigation and treatment services.",
     address: "16 Bath Road, Reading RG1 6NS",
     services: [],
   },
@@ -84,7 +84,7 @@ export const locations: Location[] = [
     provider: "Circle Health Group",
     url: "https://www.circlehealthgroup.co.uk/hospitals/the-princess-margaret-hospital",
     description:
-      "A private hospital in the centre of Windsor, part of Circle Health Group, with inpatient beds and operating theatres, a diagnostic imaging department spanning X-ray to MRI and mammography, and what Circle describes as its oncology centre.",
+      "A private hospital in central Windsor with inpatient beds, operating theatres and diagnostic imaging, including X-ray, MRI and mammography. Circle Health Group also lists an oncology centre at the hospital.",
     address: "Osborne Road, Windsor SL4 3SJ",
     services: [],
   },
@@ -108,7 +108,7 @@ export const locations: Location[] = [
     provider: "GenesisCare",
     url: "https://www.genesiscare.com/uk/our-centres/oxford",
     description:
-      "A specialist outpatient cancer and radiotherapy centre south of Oxford, whose equipment includes an MR Linac, offering advanced radiotherapy, chemotherapy and systemic anti-cancer therapy alongside a full diagnostic suite.",
+      "A specialist outpatient cancer and radiotherapy centre south of Oxford. It offers advanced radiotherapy, including treatment using an MR Linac, as well as chemotherapy, systemic anti-cancer therapy and diagnostic services.",
     address: "Peters Way, Sandy Lane West, Oxford OX4 6LB",
     services: [],
   },
@@ -119,7 +119,7 @@ export const locations: Location[] = [
     provider: "Royal Berkshire NHS Foundation Trust",
     url: "https://www.royalberkshire.nhs.uk/our-locations/royal-berkshire-hospital",
     description:
-      "The main NHS acute hospital of the Royal Berkshire NHS Foundation Trust — the largest hospital in the trust, providing acute and specialist care for West Berkshire, including cancer services.",
+      "The main NHS acute hospital of the Royal Berkshire NHS Foundation Trust. It is the trust's largest hospital and provides acute and specialist care for West Berkshire, including cancer services.",
     address: "Craven Road, Reading RG1 5LE",
     services: [],
     nhs: true,
