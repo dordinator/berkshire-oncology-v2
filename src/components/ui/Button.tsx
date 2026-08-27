@@ -74,7 +74,7 @@ export default function Button({
       {outlinesBlueHover && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-20 rounded-full border-2 border-transparent transition-colors duration-300 group-hover:border-white group-focus-visible:border-white"
+          className="pointer-events-none absolute inset-0 z-20 rounded-full border border-transparent transition-colors duration-300 group-hover:border-white group-focus-visible:border-white"
         />
       )}
       <span className="relative">{children}</span>
