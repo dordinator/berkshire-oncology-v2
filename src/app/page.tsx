@@ -163,7 +163,7 @@ function SectionHeading({
           id={id}
           data-copy-key={copyKey}
           tabIndex={-1}
-          className={`${showRule ? "mt-7 " : ""}scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]`}
+          className={`${showRule ? "mt-7 " : ""}home-section-title text-ink`}
         >
           {title}
         </h2>
@@ -311,7 +311,7 @@ export default function Home() {
                   id="cancers"
                   data-copy-key="cancers.heading"
                   tabIndex={-1}
-                  className="mt-6 scroll-mt-28 font-display text-[2.1rem] leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.2rem]"
+                  className="home-section-title mt-6 text-ink"
                 >
                   Cancer types we treat
                 </h2>
@@ -529,7 +529,7 @@ export default function Home() {
                 id="feedback"
                 data-copy-key="feedback.heading"
                 tabIndex={-1}
-                className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
+                className="home-section-title mt-7 text-ink"
               >
                 What patients tell us
               </h2>

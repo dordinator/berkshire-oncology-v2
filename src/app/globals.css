@@ -180,6 +180,12 @@ summary:focus-visible {
   .section-subtitle {
     @apply text-[17px] leading-relaxed md:text-lg;
   }
+  /* Primary section headings on the home page use one scale everywhere.
+     Keep spacing and colour on the individual section so layout variants can
+     differ without creating another typographic hierarchy. */
+  .home-section-title {
+    @apply scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.2rem];
+  }
   .glass {
     @apply border border-white/60 bg-white/50 backdrop-blur-xl;
   }

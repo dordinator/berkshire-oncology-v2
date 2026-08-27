@@ -72,7 +72,7 @@ export default function PartnershipIntro() {
             <h2
               id="partnership"
               tabIndex={-1}
-              className="scroll-mt-28 font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]"
+              className="home-section-title text-ink"
             >
               <span data-copy-key="partnership.heading.line1">
                 Specialist cancer care,

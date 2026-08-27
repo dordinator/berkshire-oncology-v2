@@ -139,7 +139,7 @@ export default function ProfessionalRoutes() {
               id="referrals"
               data-copy-key="professionals.heading"
               tabIndex={-1}
-              className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
+              className="home-section-title mt-7 text-ink"
             >
               For healthcare professionals
             </h2>
