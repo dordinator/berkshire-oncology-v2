@@ -44,7 +44,7 @@ export const pathways: Pathway[] = [
       { label: "Cancer types we treat", href: "/specialities" },
       {
         label: "Find a consultant by cancer type",
-        href: "/consultants/by-cancer-type",
+        href: "/specialities",
       },
       { label: "Questions people ask first", href: "/patients#faqs" },
       {

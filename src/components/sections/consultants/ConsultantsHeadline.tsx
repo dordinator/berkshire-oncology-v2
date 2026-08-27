@@ -10,7 +10,7 @@ import Link from "next/link";
 const LINES = ["Ten consultants.", "Different expertise.", "One partnership."];
 
 const TABS = [
-  { label: "By cancer type", href: "/consultants/by-cancer-type" },
+  { label: "By cancer type", href: "/specialities" },
   { label: "By treatment", href: "/consultants/by-treatment" },
   { label: "A–Z", href: "/consultants/profiles" },
 ];

@@ -214,7 +214,7 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
       : "lg:min-h-[clamp(230px,27svh,310px)]";
   const specialistHref = general
     ? "/consultants"
-    : `/consultants/by-cancer-type#${item.entries[0]?.slug ?? item.id}`;
+    : `/specialities?type=${item.id}#specialists`;
   const specialistIntro = general
     ? "Each consultant focuses on a smaller group of cancers and treatments. Together, the team covers a broad range of needs."
     : examples.length === 1
@@ -879,12 +879,31 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
       setSelectedId(item?.id ?? null);
       setQuery(item?.title ?? "");
       setShowUnsure(false);
+
+      // A homepage cancer card links straight to the selected specialists
+      // viewport. Repeat the anchor scroll after React has replaced the
+      // general journey with the selected one, otherwise the change in content
+      // height can leave the visitor above or below the intended section.
+      if (item && window.location.hash === "#specialists") {
+        requestAnimationFrame(() =>
+          window.setTimeout(
+            () =>
+              document
+                .getElementById("specialists")
+                ?.scrollIntoView({
+                  behavior: reducedMotion ? "auto" : "smooth",
+                  block: "start",
+                }),
+            60,
+          ),
+        );
+      }
     };
 
     syncSelectionFromUrl();
     window.addEventListener("popstate", syncSelectionFromUrl);
     return () => window.removeEventListener("popstate", syncSelectionFromUrl);
-  }, [items]);
+  }, [items, reducedMotion]);
 
   function scrollTo(id: string) {
     requestAnimationFrame(() => window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" }), 60));

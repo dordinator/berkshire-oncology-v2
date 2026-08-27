@@ -102,7 +102,7 @@ export const librarySheets: LibrarySheet[] = [
         links: [
           {
             label: "Find a consultant by cancer type",
-            href: "/consultants/by-cancer-type",
+            href: "/specialities",
           },
           { label: "Contact the practice", href: "/contact" },
         ],

@@ -51,6 +51,11 @@ const nextConfig = {
       // /about redirects into it. This matches `source` exactly — the children
       // (/about/the-partnership and the rest) are untouched and still resolve.
       { source: "/about", destination: "/", permanent: true },
+      {
+        source: "/consultants/by-cancer-type",
+        destination: "/specialities",
+        permanent: true,
+      },
       { source: "/our-consultants.htm", destination: "/consultants", permanent: true },
       { source: "/contact.htm", destination: "/contact", permanent: true },
       { source: "/contacts", destination: "/contact", permanent: true },

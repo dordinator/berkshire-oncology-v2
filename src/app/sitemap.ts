@@ -20,7 +20,6 @@ const standalonePaths = [
 const consultantBrowsePaths = [
   "/consultants/clinical-oncologists",
   "/consultants/medical-oncologists",
-  "/consultants/by-cancer-type",
   "/consultants/by-treatment",
   "/consultants/profiles",
   "/consultants/choosing-a-consultant",

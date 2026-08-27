@@ -50,7 +50,7 @@ export const pathways: Pathway[] = [
       "Tell us the name of the team currently looking after you, if there is one",
       "If you are insured, have your policy details nearby — your insurer may need to authorise the appointment",
     ],
-    action: { label: "Find a consultant by cancer type", href: "/consultants/by-cancer-type" },
+    action: { label: "Find a consultant by cancer type", href: "/specialities" },
   },
   {
     id: "second-opinion",

@@ -77,7 +77,7 @@ export default function ClinicalOncologistsPage() {
               <Button href="/consultants/medical-oncologists" variant="primary">
                 Medical oncologists
               </Button>
-              <Button href="/consultants/by-cancer-type" variant="ghost">
+              <Button href="/specialities" variant="ghost">
                 Browse by cancer type
               </Button>
             </div>

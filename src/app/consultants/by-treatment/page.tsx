@@ -169,7 +169,7 @@ export default function ByTreatmentPage() {
               ask our practice manager.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Button href="/consultants/by-cancer-type" variant="primary">
+              <Button href="/specialities" variant="primary">
                 Browse by cancer type
               </Button>
               <Button href="/contact" variant="ghost">

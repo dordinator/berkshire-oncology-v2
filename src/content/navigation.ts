@@ -266,8 +266,8 @@ const consultantsSection: NavSection = {
         },
         {
           label: "Browse by cancer type",
-          href: "/consultants/by-cancer-type",
-          description: "Every cancer type, and the consultants who treat it.",
+          href: "/specialities",
+          description: "Choose a cancer type to see the consultants who treat it.",
           built: true,
         },
         {

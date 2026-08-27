@@ -80,7 +80,7 @@ const topCancers = CARD_ORDER.map((slug) => {
   return {
     slug: s.slug,
     label: s.title ?? s.name,
-    href: `/specialities?type=${group?.id ?? s.slug}#cancer-journey`,
+    href: `/specialities?type=${group?.id ?? s.slug}#specialists`,
   };
 }).filter(
   (c): c is { slug: string; label: string; href: string } => c !== null,
@@ -363,6 +363,7 @@ export default function Home() {
                 id="consultants"
                 title="Find a consultant"
                 copyKey="consultants.heading"
+                showRule={false}
               />
               <Reveal delay={2}>
                 <p
@@ -394,7 +395,7 @@ export default function Home() {
                       View all consultants
                     </span>
                   </Button>
-                  <Button href="/consultants/by-cancer-type" variant="ghost">
+                  <Button href="/specialities" variant="ghost">
                     <span data-copy-key="consultants.action.cancer">
                       Search by cancer type
                     </span>

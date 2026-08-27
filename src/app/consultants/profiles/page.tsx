@@ -120,7 +120,7 @@ export default function ConsultantProfilesPage() {
               routes will usually get you to the right consultant faster.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Button href="/consultants/by-cancer-type" variant="primary">
+              <Button href="/specialities" variant="primary">
                 Browse by cancer type
               </Button>
               <Button href="/consultants/by-treatment" variant="ghost">
