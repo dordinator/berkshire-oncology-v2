@@ -144,22 +144,26 @@ function SectionHeading({
   title,
   id,
   copyKey,
+  showRule = true,
 }: {
   title: string;
   id: string;
   copyKey?: string;
+  showRule?: boolean;
 }) {
   return (
     <div className="max-w-3xl">
-      <Reveal>
-        <div aria-hidden className="h-px w-full bg-ink/10" />
-      </Reveal>
+      {showRule && (
+        <Reveal>
+          <div aria-hidden className="h-px w-full bg-ink/10" />
+        </Reveal>
+      )}
       <Reveal delay={1}>
         <h2
           id={id}
           data-copy-key={copyKey}
           tabIndex={-1}
-          className="mt-7 scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]"
+          className={`${showRule ? "mt-7 " : ""}scroll-mt-28 font-display text-3xl leading-[1.14] tracking-tight text-ink md:text-[2.6rem]`}
         >
           {title}
         </h2>
@@ -234,12 +238,13 @@ export default function Home() {
         <Section>
           {/* Heading inside the left column, as in section 03, so the
               photograph starts level with it rather than a grid gap below. */}
-          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16 xl:gap-24">
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16 xl:gap-24">
             <div>
               <SectionHeading
                 id="approach"
                 title="What you can expect from your care"
                 copyKey="approach.heading"
+                showRule={false}
               />
               <Lede copyKey="approach.lede">
                 You will see a named consultant from your first appointment.
