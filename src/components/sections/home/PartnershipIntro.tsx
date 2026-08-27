@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
-import { site } from "@/content/site";
-import { hospitals } from "@/content/hospitals";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The first thing after the hero: photograph on one side, the welcome and the
@@ -13,19 +11,6 @@ import { hospitals } from "@/content/hospitals";
 // and screen-reader support for free, and they still open if the bundle never
 // arrives — worth more here than a bespoke accordion would be.
 // ─────────────────────────────────────────────────────────────────────────────
-
-/**
- * "Spire Dunedin Hospital (Reading), … and Royal Berkshire Hospital (Reading)".
- * Built from the data rather than typed out, so adding or losing a site changes
- * this sentence and the count above it together.
- */
-const hospitalSentence = hospitals
-  .map((h) => `${h.name} (${h.location.replace(" (NHS)", "")})`)
-  .reduce(
-    (acc, name, i, arr) =>
-      i === 0 ? name : i === arr.length - 1 ? `${acc} and ${name}` : `${acc}, ${name}`,
-    "",
-  );
 
 function Row({
   title,
@@ -129,15 +114,15 @@ export default function PartnershipIntro() {
           <Reveal delay={3}>
             <div className="mt-10 space-y-2.5">
               <Row
-                title="Private care and our consultants’ NHS work"
+                title="If you are also receiving NHS care"
                 copyKey="partnership.row.nhs.title"
               >
                 <span data-copy-key="partnership.row.nhs.body">
-                  Most of our consultants hold NHS posts at the Royal Berkshire
-                  Hospital, home to the Berkshire Cancer Centre. Choosing a
-                  private appointment does not affect your right to NHS care. Some
-                  patients move between private and NHS services during their
-                  diagnosis or treatment.
+                  All members of the partnership hold NHS consultant posts at
+                  Royal Berkshire Hospital, where the Berkshire Cancer Centre
+                  is based. If you are already receiving NHS care and are
+                  considering a private appointment, contact the practice team
+                  to discuss your circumstances.
                 </span>
               </Row>
 
@@ -145,9 +130,9 @@ export default function PartnershipIntro() {
                 title="Where you can see our consultants"
                 copyKey="partnership.row.locations.title"
               >
-                Our consultants see patients at {hospitalSentence}. The
-                practice office is at{" "}
-                {site.contact.addressLines[0]}, {site.contact.addressLines[1]}.{" "}
+                Our consultants practise at hospitals and cancer centres in
+                Reading, Windsor and Oxford. The location available to you will
+                depend on your consultant and the care you need.{" "}
                 <Link
                   href="/locations"
                   className="text-accent underline-offset-2 hover:underline"
