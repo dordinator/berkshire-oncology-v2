@@ -116,12 +116,13 @@ export default function PartnershipIntro() {
               data-copy-key="partnership.body"
               className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
             >
-              If you are unsure who to choose, our practice team can ask about
-              your diagnosis or referral and help you find a consultant with
-              relevant experience. Our ten consultant oncologists are based in
-              Reading and cover a range of cancer types and treatments. You can
-              look through their profiles yourself or ask the practice team to
-              help, then book an appointment when you are ready.
+              If you are unsure who to choose, our experienced practice team
+              will ask about your diagnosis or referral and help you find the
+              right consultant for you. Our ten consultant oncologists are
+              based in Reading, Berkshire, and cover a broad range of cancer
+              types and treatments. You can look through their profiles
+              yourself or ask the practice team to help, then book an
+              appointment when you are ready.
             </p>
           </Reveal>
 
