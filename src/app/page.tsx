@@ -11,6 +11,7 @@ import RegionMap from "@/components/site/RegionMap";
 import { pageMeta, organizationLd } from "@/content/seo";
 import { site } from "@/content/site";
 import { hospitals } from "@/content/hospitals";
+import { getGroupForSlug } from "@/content/cancerGroups";
 import ConsultantScroller from "@/components/sections/home/ConsultantScroller";
 import CancerCards from "@/components/sections/home/CancerCards";
 import HospitalStrip from "@/components/sections/home/HospitalStrip";
@@ -73,8 +74,17 @@ const CARD_ORDER = ["breast", "prostate", "lung", "colorectal", "skin", "lymphom
 
 const topCancers = CARD_ORDER.map((slug) => {
   const s = specialities.find((x) => x.slug === slug);
-  return s ? { slug: s.slug, label: s.title ?? s.name } : null;
-}).filter((c): c is { slug: string; label: string } => c !== null);
+  if (!s) return null;
+
+  const group = getGroupForSlug(s.slug);
+  return {
+    slug: s.slug,
+    label: s.title ?? s.name,
+    href: `/specialities?type=${group?.id ?? s.slug}#cancer-journey`,
+  };
+}).filter(
+  (c): c is { slug: string; label: string; href: string } => c !== null,
+);
 
 /** Sub-speciality names per consultant, resolved once for the client list. */
 const specialitiesBySlug: Record<string, string[]> = Object.fromEntries(

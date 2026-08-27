@@ -36,6 +36,8 @@ const IMAGE_SET = "diagnostic";
 export interface CancerCard {
   slug: string;
   label: string;
+  /** Opens this cancer inside the redesigned, joined-up cancer journey. */
+  href: string;
 }
 
 export default function CancerCards({
@@ -139,7 +141,7 @@ export default function CancerCards({
                       className="w-[56vw] shrink-0 snap-start sm:w-[38vw] md:w-auto"
                     >
                       <Link
-                        href={`/specialities/${c.slug}`}
+                        href={c.href}
                         className="group relative block overflow-hidden rounded-2xl bg-ink/5"
                       >
                         <span className="relative block aspect-[3/4] w-full">
