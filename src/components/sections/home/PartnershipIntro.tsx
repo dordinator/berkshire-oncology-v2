@@ -129,30 +129,7 @@ export default function PartnershipIntro() {
           <Reveal delay={3}>
             <div className="mt-10 space-y-2.5">
               <Row
-                title="Your consultant stays with you"
-                copyKey="partnership.row.continuity.title"
-              >
-                <span data-copy-key="partnership.row.continuity.body">
-                  The consultant you meet at your first appointment will explain
-                  your diagnosis, talk through your options and remain responsible
-                  for your treatment. You will know who is leading your care and
-                  who to speak to when you have questions.
-                </span>{" "}
-                <Link
-                  href="/about/our-approach"
-                  className="text-accent underline-offset-2 hover:underline"
-                >
-                  How we work
-                </Link>
-                .
-              </Row>
-
-              {/* Three rows, not four: the sub-specialisation point this list
-                  used to make is already made twice on this page — in the
-                  paragraph above and by the whole "Cancers we treat" section
-                  below it. */}
-              <Row
-                title="Private care from NHS cancer specialists"
+                title="Private care and our consultants’ NHS work"
                 copyKey="partnership.row.nhs.title"
               >
                 <span data-copy-key="partnership.row.nhs.body">
@@ -161,18 +138,11 @@ export default function PartnershipIntro() {
                   private appointment does not affect your right to NHS care. Some
                   patients move between private and NHS services during their
                   diagnosis or treatment.
-                </span>{" "}
-                <Link
-                  href="/about/nhs-and-private-practice"
-                  className="text-accent underline-offset-2 hover:underline"
-                >
-                  NHS and private practice
-                </Link>
-                .
+                </span>
               </Row>
 
               <Row
-                title={`Appointments at ${hospitals.length} hospitals and cancer centres`}
+                title="Where you can see our consultants"
                 copyKey="partnership.row.locations.title"
               >
                 Our consultants see patients at {hospitalSentence}. The
@@ -182,7 +152,7 @@ export default function PartnershipIntro() {
                   href="/locations"
                   className="text-accent underline-offset-2 hover:underline"
                 >
-                  All locations
+                  View all locations
                 </Link>
                 .
               </Row>
