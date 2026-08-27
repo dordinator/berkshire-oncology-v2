@@ -247,18 +247,19 @@ export default function Home() {
                 showRule={false}
               />
               <Lede copyKey="approach.lede">
-                At your first appointment, your consultant will review your
-                diagnosis and the information available. They will explain what
-                is known, what may still need to be investigated and which
-                treatment options may be relevant to you.
+                At your first appointment, your consultant will review the
+                information available and talk to you about your symptoms,
+                diagnosis or referral. They will explain what is known, what may
+                still need to be investigated and what the next steps may be.
               </Lede>
               <Body copyKey="approach.body">
-                Your consultant will explain the potential benefits, possible
-                side effects and practical differences between the options, and
-                the reasons for their recommendation. You can always ask
-                questions before deciding what happens next. Cases are often
-                reviewed by multiple specialists so they can consider the
-                diagnosis and treatment options together.
+                Where there are treatment options to consider, your consultant
+                will explain their potential benefits, possible side effects
+                and practical differences, and the reasons for their
+                recommendation. You can always ask questions before deciding
+                what happens next. Cases are often reviewed by multiple
+                specialists so they can consider the diagnosis and treatment
+                options together.
               </Body>
               <Reveal>
                 <div className="mt-9 flex flex-wrap gap-3">
