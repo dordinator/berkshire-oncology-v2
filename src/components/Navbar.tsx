@@ -40,6 +40,7 @@ export default function Navbar() {
     pathname === "/" ||
     pathname === "/contact" ||
     pathname === "/specialities" ||
+    pathname.startsWith("/consultants/") ||
     pathname === "/treatments" ||
     pathname === "/resources" ||
     pathname === "/links" ||
