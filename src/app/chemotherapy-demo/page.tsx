@@ -72,30 +72,45 @@ export default function ChemotherapyDemoPage() {
         id="understanding"
         className="flex scroll-mt-28 items-center border-t border-ink/[0.06] bg-[#fbfaf7] py-24 md:py-28 lg:min-h-[100svh] lg:py-32"
       >
-        <div className="container-wide grid items-start gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-24">
-          <Reveal>
-            <h2 className="max-w-[11ch] font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+        <div className="container-wide grid items-stretch gap-12 lg:grid-cols-[0.76fr_1.24fr] lg:gap-0">
+          <Reveal className="lg:pr-16 xl:pr-20">
+            <h2 className="max-w-[10ch] font-display text-[clamp(2.7rem,3.8vw,4.3rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
               Understanding chemotherapy
             </h2>
-            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
+            <span aria-hidden className="mt-8 block h-0.5 w-14 bg-[#718b7d]" />
+            <p className="mt-9 max-w-[24rem] text-lg leading-[1.7] text-ink-muted">
               What chemotherapy is, how it is given, and where it can fit within a wider treatment plan.
             </p>
             <a
               href={therapy.sources[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-9 inline-flex min-h-11 items-center gap-2 rounded-full border border-ink/15 px-5 text-sm font-medium text-ink transition-colors hover:border-accent/40 hover:text-accent"
+              className="mt-10 inline-flex min-h-12 items-center gap-2 rounded-full border border-ink/15 px-6 text-sm font-medium text-ink transition-colors hover:border-[#718b7d]/70 hover:text-[#617f70]"
             >
               Read more about chemotherapy
               <span aria-hidden>↗</span>
             </a>
           </Reveal>
 
-          <Reveal delay={1}>
-            <div className="max-w-[48rem] space-y-7 border-t border-ink/15 pt-7 text-[17px] leading-[1.85] text-ink/78 md:text-lg">
-              {therapy.what.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+          <Reveal delay={1} className="lg:border-l lg:border-ink/10 lg:pl-16 xl:pl-20">
+            <div className="max-w-[50rem] text-[17px] leading-[1.72] text-ink/85 md:text-lg md:leading-[1.78]">
+              <p>{therapy.what[0]}</p>
+
+              <aside className="mt-9 grid items-center gap-5 bg-[#eef3f0] px-5 py-5 sm:grid-cols-[3.5rem_1px_1fr] sm:px-7">
+                <span
+                  aria-hidden
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[#718b7d] font-display text-xl font-semibold text-[#617f70]"
+                >
+                  i
+                </span>
+                <span aria-hidden className="hidden h-full min-h-14 w-px bg-[#718b7d]/65 sm:block" />
+                <p className="font-semibold leading-[1.55] text-ink">
+                  Chemotherapy targets fast-growing cells, which is why it can affect some healthy tissues that renew quickly.
+                </p>
+              </aside>
+
+              <p className="mt-9 border-t border-ink/10 pt-8">{therapy.what[1]}</p>
+              <p className="mt-9 border-t border-ink/10 pt-8">{therapy.what[2]}</p>
             </div>
           </Reveal>
         </div>
@@ -116,10 +131,10 @@ export default function ChemotherapyDemoPage() {
           </Reveal>
 
           <Reveal delay={1}>
-            <ol className="divide-y divide-ink/12 border-y border-ink/12">
+            <ol className="divide-y divide-ink/10 rounded-[1.25rem] border border-ink/[0.08] bg-canvas px-6 py-2 md:px-8 lg:px-9">
               {therapy.whenConsidered.map((item, index) => (
                 <li key={item} className="grid grid-cols-[2.5rem_1fr] gap-5 py-5 md:py-6">
-                  <span className="pt-0.5 text-sm font-medium text-[#718b7d]">
+                  <span className="pt-0.5 text-sm font-semibold text-ink/70">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <p className="text-base leading-relaxed text-ink/80 md:text-lg">{item}</p>
@@ -132,7 +147,7 @@ export default function ChemotherapyDemoPage() {
 
       <section
         id="what-to-expect"
-        className="flex scroll-mt-28 items-center border-t border-ink/[0.06] bg-[#f5f1e9] py-24 md:py-28 lg:min-h-[100svh] lg:py-32"
+        className="flex scroll-mt-28 items-center border-t border-ink/[0.06] bg-[#f1f4f3] py-24 md:py-28 lg:min-h-[100svh] lg:py-32"
       >
         <div className="container-wide">
           <Reveal>
@@ -150,9 +165,9 @@ export default function ChemotherapyDemoPage() {
 
           <ol className="mt-14 grid gap-x-12 gap-y-10 md:grid-cols-2 lg:mt-16 lg:gap-x-20 lg:gap-y-12">
             {therapy.expect.map((stage, index) => (
-              <Reveal key={stage.title} delay={index} as="li" className="border-t border-[#b8954c]/45 pt-6">
+              <Reveal key={stage.title} delay={index} as="li" className="border-t border-[#718b7d]/40 pt-6">
                 <div className="flex items-baseline gap-5">
-                  <span className="text-sm font-medium text-[#9b762c]">
+                  <span className="text-sm font-medium text-[#617f70]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
@@ -227,7 +242,7 @@ export default function ChemotherapyDemoPage() {
             </Reveal>
 
             <Reveal delay={1}>
-              <div className="lg:border-l lg:border-[#b8954c]/35 lg:pl-16">
+              <div className="lg:border-l lg:border-[#718b7d]/35 lg:pl-16">
                 <h3 className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
                   Where treatment happens
                 </h3>
