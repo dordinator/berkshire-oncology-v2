@@ -1,12 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   AnimatePresence,
   motion,
-  useMotionValueEvent,
   useReducedMotion,
-  useScroll,
 } from "framer-motion";
 
 export type ConsultantAboutChapter = {
@@ -17,7 +16,8 @@ export type ConsultantAboutChapter = {
 
 type ConsultantAboutJourneyProps = {
   chapters: ConsultantAboutChapter[];
-  introduction: string;
+  consultantName: string;
+  expertise: { href: string; title: string }[];
   title: string;
 };
 
@@ -25,166 +25,189 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 function Plus({ open }: { open: boolean }) {
   return (
-    <span aria-hidden className="relative h-5 w-5 shrink-0 text-ink">
+    <motion.span
+      aria-hidden
+      animate={{ rotate: open ? 45 : 0 }}
+      transition={{ duration: 0.35, ease: EASE }}
+      className="relative h-4 w-4 shrink-0 text-ink"
+    >
       <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
-      <motion.span
-        animate={{ opacity: open ? 0 : 1, scaleY: open ? 0 : 1 }}
-        transition={{ duration: 0.28, ease: EASE }}
-        className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current"
+      <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current" />
+    </motion.span>
+  );
+}
+
+function Arrow() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+      <path
+        d="M4 12h15M14 7l5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-    </span>
+    </svg>
   );
 }
 
 export default function ConsultantAboutJourney({
   chapters,
-  introduction,
+  consultantName,
+  expertise,
   title,
 }: ConsultantAboutJourneyProps) {
-  const sceneRef = useRef<HTMLElement>(null);
-  const [activeChapter, setActiveChapter] = useState(0);
+  const summaryChapter = chapters[0];
+  const detailChapters = chapters.slice(1);
+  const expertiseIndex = detailChapters.length;
+  const [activePanel, setActivePanel] = useState(expertiseIndex);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: sceneRef,
-    offset: ["start start", "end end"],
-  });
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+  useEffect(() => {
+    function openHashPanel() {
+      if (window.location.hash === "#cancer-expertise") {
+        setActivePanel(expertiseIndex);
+      }
+    }
 
-    const nextChapter = Math.min(
-      chapters.length - 1,
-      Math.floor(latest * chapters.length),
-    );
-
-    setActiveChapter((current) =>
-      current === nextChapter ? current : nextChapter,
-    );
-  });
-
-  const moveToChapter = (index: number) => {
-    setActiveChapter(index);
-
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-
-    const scene = sceneRef.current;
-    if (!scene) return;
-
-    const sceneTop = scene.getBoundingClientRect().top + window.scrollY;
-    const scrollableDistance = scene.offsetHeight - window.innerHeight;
-    const chapterProgress = (index + 0.5) / chapters.length;
-
-    window.scrollTo({
-      top: sceneTop + scrollableDistance * chapterProgress,
-      behavior: reduceMotion ? "auto" : "smooth",
-    });
-  };
+    openHashPanel();
+    window.addEventListener("hashchange", openHashPanel);
+    return () => window.removeEventListener("hashchange", openHashPanel);
+  }, [expertiseIndex]);
 
   return (
     <section
-      ref={sceneRef}
       id="about"
-      className="relative scroll-mt-24 bg-[#f8f5ef] lg:h-[280svh]"
+      className="scroll-mt-24 bg-[#f7f5f1] py-20 text-ink md:py-24 lg:flex lg:min-h-[75svh] lg:items-center lg:pb-12 lg:pt-20"
     >
-      <div className="container-wide py-16 md:py-20 lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center lg:pb-8 lg:pt-28">
-        <div className="grid w-full gap-12 lg:max-h-[650px] lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-16 xl:gap-20">
-          <aside className="flex items-center">
-            <div>
-              <h2 className="max-w-[8ch] font-display text-[48px] font-medium leading-[0.98] tracking-[-0.045em] text-ink md:text-6xl lg:max-w-none lg:whitespace-nowrap lg:text-[58px] xl:text-[64px]">
-                {title}
-              </h2>
+      <div className="grid w-full gap-14 px-5 sm:px-8 md:px-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center lg:gap-[5vw] lg:px-[5vw]">
+        <div>
+          <h2 className="max-w-[10ch] font-display text-[clamp(3.35rem,5vw,5.8rem)] font-semibold leading-[0.95] tracking-[-0.055em]">
+            {title}
+          </h2>
+          {summaryChapter && (
+            <div className="mt-8 max-w-[37rem] space-y-5 text-[17px] leading-[1.75] text-ink-muted md:text-[18px]">
+              {summaryChapter.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          )}
+        </div>
 
-              <p className="mt-6 max-w-[330px] text-[16px] leading-[1.7] text-ink-muted md:text-[18px]">
-                {introduction}
-              </p>
+        <div className="rounded-[2.5rem] bg-[#dfe9f5] px-6 py-8 md:px-9 md:py-9 lg:px-10 xl:px-12">
+          <div className="border-t border-ink/20">
+            {detailChapters.map((chapter, index) => {
+              const isActive = activePanel === index;
+              const panelId = `consultant-about-panel-${index}`;
 
-              <div
-                className="mt-8 flex items-center gap-3 lg:mt-10 lg:flex-col lg:items-start lg:gap-1"
-                aria-label="About section progress"
-              >
-                {chapters.map((chapter, index) => (
+              return (
+                <motion.article
+                  layout={!reduceMotion}
+                  key={chapter.label}
+                  transition={{ duration: reduceMotion ? 0 : 0.58, ease: EASE }}
+                  className="border-b border-ink/20"
+                >
                   <button
-                    key={chapter.label}
                     type="button"
-                    aria-label={`Move to ${chapter.label}`}
-                    aria-current={activeChapter === index ? "step" : undefined}
-                    onClick={() => moveToChapter(index)}
-                    className="group flex h-5 items-center"
+                    aria-expanded={isActive}
+                    aria-controls={panelId}
+                    aria-label={`Show ${chapter.heading}`}
+                    onClick={() => setActivePanel(index)}
+                    className="group grid w-full grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-4 py-6 text-left md:grid-cols-[3.5rem_minmax(0,1fr)_auto] md:gap-6 md:py-7"
                   >
-                    <span
-                      className={`block rounded-full transition-[width,background-color] duration-500 ease-smooth motion-reduce:transition-none ${
-                        activeChapter === index
-                          ? "h-1 w-36 bg-ink"
-                          : "h-[3px] w-14 bg-[#b9c4ca] group-hover:w-20 group-hover:bg-ink/55 md:w-16"
-                      }`}
-                    />
-                    <span className="sr-only">{chapter.label}</span>
+                    <span className="text-[12px] font-medium tracking-[0.08em] text-ink-muted">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-display text-[1.65rem] font-semibold leading-tight tracking-[-0.03em] transition-transform duration-500 group-hover:translate-x-1 md:text-[2rem]">
+                      {chapter.label}
+                    </span>
+                    <Plus open={isActive} />
                   </button>
-                ))}
-              </div>
-            </div>
-          </aside>
 
-          <div className="overflow-hidden rounded-[2.5rem] bg-[#dfe9e4] px-6 py-8 md:px-10 md:py-10 lg:flex lg:h-[min(650px,calc(100svh-9rem))] lg:flex-col lg:justify-center lg:px-12 lg:py-10 xl:px-14">
-            <div className="border-t border-ink/15">
-              {chapters.map((chapter, index) => {
-                const isActive = activeChapter === index;
-                const panelId = `consultant-about-panel-${index}`;
+                  <AnimatePresence initial={false}>
+                    {isActive && (
+                      <motion.div
+                        id={panelId}
+                        initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                        transition={{
+                          duration: reduceMotion ? 0 : 0.55,
+                          ease: EASE,
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div className="space-y-4 pb-8 pl-[4.15rem] pr-5 text-[15px] leading-[1.7] text-ink-muted md:pl-[5.75rem] md:pr-10 md:text-[16px]">
+                          {chapter.paragraphs.map((paragraph) => (
+                            <p key={paragraph}>{paragraph}</p>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.article>
+              );
+            })}
 
-                return (
-                  <motion.article
-                    layout={!reduceMotion}
-                    key={chapter.label}
-                    transition={{
-                      duration: reduceMotion ? 0 : 0.55,
-                      ease: EASE,
-                    }}
-                    className="border-b border-ink/15"
-                  >
-                    <button
-                      type="button"
-                      aria-expanded={isActive}
-                      aria-controls={panelId}
-                      onClick={() => moveToChapter(index)}
-                      className="group flex w-full items-center justify-between gap-8 py-6 text-left md:py-7"
-                    >
-                      <span className="font-display text-[30px] font-medium leading-tight tracking-[-0.035em] text-ink transition-transform duration-500 group-hover:translate-x-1 md:text-[38px] lg:text-[40px]">
-                        {chapter.label}
-                      </span>
-                      <Plus open={isActive} />
-                    </button>
+            <motion.article
+              id="cancer-expertise"
+              layout={!reduceMotion}
+              transition={{ duration: reduceMotion ? 0 : 0.58, ease: EASE }}
+              className="scroll-mt-24 border-b border-ink/20"
+            >
+            <button
+              type="button"
+              aria-expanded={activePanel === expertiseIndex}
+              aria-controls="consultant-about-panel-expertise"
+              onClick={() => setActivePanel(expertiseIndex)}
+              className="group grid w-full grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-4 py-6 text-left md:grid-cols-[3.5rem_minmax(0,1fr)_auto] md:gap-6 md:py-7"
+            >
+              <span className="text-[12px] font-medium tracking-[0.08em] text-ink-muted">
+                {String(expertiseIndex + 1).padStart(2, "0")}
+              </span>
+              <span className="font-display text-[1.65rem] font-semibold leading-tight tracking-[-0.03em] transition-transform duration-500 group-hover:translate-x-1 md:text-[2rem]">
+                Cancer expertise
+              </span>
+              <Plus open={activePanel === expertiseIndex} />
+            </button>
 
-                    <AnimatePresence initial={false}>
-                      {isActive && (
-                        <motion.div
-                          id={panelId}
-                          initial={
-                            reduceMotion ? false : { height: 0, opacity: 0 }
-                          }
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={
-                            reduceMotion
-                              ? undefined
-                              : { height: 0, opacity: 0 }
-                          }
-                          transition={{
-                            duration: reduceMotion ? 0 : 0.5,
-                            ease: EASE,
-                          }}
-                          className="overflow-hidden"
+            <AnimatePresence initial={false}>
+              {activePanel === expertiseIndex && (
+                <motion.div
+                  id="consultant-about-panel-expertise"
+                  initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.55,
+                    ease: EASE,
+                  }}
+                  className="overflow-hidden"
+                >
+                  <div className="pb-8 pl-[4.15rem] pr-5 md:pl-[5.75rem] md:pr-10">
+                    <p className="text-[15px] leading-[1.7] text-ink-muted md:text-[16px]">
+                      {consultantName} works with people affected by these cancer
+                      types. Each page explains the wider care pathway.
+                    </p>
+                    <div className="mt-5 grid border-t border-ink/15 sm:grid-cols-2 sm:gap-x-8">
+                      {expertise.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="group flex items-center justify-between gap-4 border-b border-ink/15 py-3.5 font-display text-lg font-semibold leading-tight tracking-[-0.02em] transition-colors hover:text-accent"
                         >
-                          <div className="max-w-[680px] space-y-5 pb-8 pr-6 text-[16px] leading-[1.75] text-ink/72 md:pb-10 md:pr-14 md:text-[18px] lg:text-[19px]">
-                            {chapter.paragraphs.map((paragraph) => (
-                              <p key={paragraph}>{paragraph}</p>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.article>
-                );
-              })}
-            </div>
+                          {item.title}
+                          <span className="transition-transform duration-300 group-hover:translate-x-1">
+                            <Arrow />
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            </motion.article>
           </div>
         </div>
       </div>

@@ -11,11 +11,9 @@ import { getTherapiesForConsultant } from "@/content/therapies";
 import { modalitiesByConsultant } from "@/content/modalities";
 import {
   consultantSites,
-  SITE_LABELS,
   sitesForConsultant,
   type ConsultantSiteId,
 } from "@/content/consultantSites";
-import { getLocation, type Location } from "@/content/locations";
 import { site } from "@/content/site";
 import { pageMeta, physicianLd, breadcrumbLd } from "@/content/seo";
 import JsonLd from "@/components/site/JsonLd";
@@ -23,6 +21,8 @@ import Button from "@/components/ui/Button";
 import ConsultantAboutJourney, {
   type ConsultantAboutChapter,
 } from "@/components/consultants/ConsultantAboutJourney";
+import ConsultantTreatmentExperience from "@/components/consultants/ConsultantTreatmentExperience";
+import ConsultantLocationsJourney from "@/components/consultants/ConsultantLocationsJourney";
 
 export function generateStaticParams() {
   return getProfiledConsultantSlugs().map((slug) => ({ slug }));
@@ -47,24 +47,20 @@ export function generateMetadata({
 
 const PROFILE_INTROS: Record<string, string> = {
   "gelareh-eslamian":
-    "Gelareh specialises in breast and upper gastrointestinal cancer care, with experience across chemotherapy, immunotherapy, targeted and endocrine treatments.",
+    "Dr Eslamian specialises in breast and upper gastrointestinal cancer care, with experience across chemotherapy, immunotherapy, targeted and endocrine treatments.",
 };
 
 const PROFILE_WORK_SECTIONS: Record<string, { leadershipParagraphs: number[] }> = {
   "gelareh-eslamian": { leadershipParagraphs: [2] },
 };
 
-const PROFILE_ABOUT_INTRODUCTIONS: Record<string, string> = {
-  "gelareh-eslamian": "Her story, training and approach to care.",
-};
-
 const PROFILE_ABOUT_CHAPTERS: Record<string, ConsultantAboutChapter[]> = {
   "gelareh-eslamian": [
     {
       label: "About",
-      heading: "About Gelareh",
+      heading: "About Dr Eslamian",
       paragraphs: [
-        "Gelareh is a consultant medical oncologist specialising in breast and upper gastrointestinal cancers. Her work combines patient care with clinical leadership, research and medical education.",
+        "Dr Eslamian is a consultant medical oncologist specialising in breast and upper gastrointestinal cancers. Her work combines patient care with clinical leadership, research and medical education.",
       ],
     },
     {
@@ -78,7 +74,7 @@ const PROFILE_ABOUT_CHAPTERS: Record<string, ConsultantAboutChapter[]> = {
       label: "Clinical focus",
       heading: "Clinical focus",
       paragraphs: [
-        "Gelareh specialises in breast, oesophageal, gastric and pancreato-biliary cancers, with a particular focus on breast cancer.",
+        "Dr Eslamian specialises in breast, oesophageal, gastric and pancreato-biliary cancers, with a particular focus on breast cancer.",
         "Her work includes chemotherapy, immunotherapy, monoclonal antibodies and endocrine treatment. She also encourages patients to consider clinical trials when a suitable study is available.",
       ],
     },
@@ -170,6 +166,11 @@ const MODALITY_DETAILS: Record<
 
 function firstName(name: string) {
   return name.replace(/^Dr\.?\s+/i, "").split(/\s+/)[0];
+}
+
+function consultantReference(name: string) {
+  const names = name.replace(/^Dr\.?\s+/i, "").trim().split(/\s+/);
+  return `Dr ${names[names.length - 1]}`;
 }
 
 function formatList(items: string[]) {
@@ -274,17 +275,13 @@ export default function ConsultantProfile({
     c.clinicalInvolvement?.filter((_, index) => !leadershipIndexes.has(index)) ?? [];
   const leadershipParagraphs =
     c.clinicalInvolvement?.filter((_, index) => leadershipIndexes.has(index)) ?? [];
-  const locationDetails = (consultantSites[c.slug] ?? [])
-    .map(({ site: siteId }) => {
-      const location = getLocation(SITE_PAGE_SLUGS[siteId]);
-      return location ? { ...location, label: SITE_LABELS[siteId] } : undefined;
-    })
-    .filter(
-      (location): location is Location & { label: string } => Boolean(location),
-    );
+  const locationSlugs = (consultantSites[c.slug] ?? []).map(
+    ({ site: siteId }) => SITE_PAGE_SLUGS[siteId],
+  );
   const cancerLabels = treats.map((item) => item.speciality.title);
   const treatmentLabels = therapies.map((therapy) => therapy.title);
-  const name = firstName(c.name);
+  const givenName = firstName(c.name);
+  const name = consultantReference(c.name);
   const nameScale =
     c.name.length > 24
       ? "lg:text-[46px] xl:text-[50px]"
@@ -311,6 +308,19 @@ export default function ConsultantProfile({
         paragraphs: [paragraph],
       })),
     ];
+
+  const treatmentExperienceItems = listedModalities.map((modality) => {
+    const detail = MODALITY_DETAILS[modality] ?? {
+      description: `A treatment approach listed in ${name}'s clinical profile.`,
+      links: [{ label: "Explore treatment information", href: "/treatments" }],
+    };
+
+    return {
+      title: modality,
+      description: detail.description,
+      links: detail.links,
+    };
+  });
 
   const facts = [
     c.qualifications,
@@ -354,7 +364,7 @@ export default function ConsultantProfile({
                 />
               ) : (
                 <div className="flex h-full items-center justify-center font-display text-7xl text-ink/35">
-                  {name.slice(0, 1)}
+                  {givenName.slice(0, 1)}
                 </div>
               )}
             </div>
@@ -409,162 +419,27 @@ export default function ConsultantProfile({
       {aboutChapters.length > 0 && (
         <ConsultantAboutJourney
           chapters={aboutChapters}
-          introduction={
-            PROFILE_ABOUT_INTRODUCTIONS[c.slug] ??
-            "Their story, training and approach to care."
-          }
+          consultantName={name}
+          expertise={treats.map(({ speciality }) => ({
+            href: `/specialities/${speciality.slug}`,
+            title: speciality.title,
+          }))}
           title={`About ${name}.`}
         />
       )}
 
-      {treats.length > 0 && (
-        <section
-          id="cancer-expertise"
-          className="scroll-mt-24 bg-[#dce9e4] py-20 md:py-28 lg:flex lg:min-h-[92svh] lg:items-center lg:py-32"
-        >
-          <div className="container-wide grid gap-12 lg:grid-cols-[0.37fr_0.63fr] lg:gap-20 xl:gap-28">
-            <div>
-              <h2 className="max-w-md font-display text-[46px] font-medium leading-[0.98] tracking-[-0.045em] text-ink md:text-6xl">
-                Cancer expertise.
-              </h2>
-              <p className="mt-6 max-w-sm text-base leading-[1.7] text-ink-muted">
-                {name} works with people affected by these cancer types. Each page explains the wider care pathway.
-              </p>
-            </div>
-            <div className="border-t border-ink/[0.16]">
-              {treats.map(({ speciality }) => (
-                <Link
-                  key={speciality.slug}
-                  href={`/specialities/${speciality.slug}`}
-                  className="group grid min-h-[104px] grid-cols-[1fr_auto] items-center gap-4 border-b border-ink/[0.16] py-5 text-ink transition-colors hover:text-accent md:min-h-[124px]"
-                >
-                  <span className="font-display text-2xl font-medium leading-tight tracking-[-0.025em] md:text-[32px]">
-                    {speciality.title}
-                  </span>
-                  <span className="transition-transform duration-300 ease-smooth group-hover:translate-x-1">
-                    <Arrow />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+      {treatmentExperienceItems.length > 0 && (
+        <ConsultantTreatmentExperience
+          consultantName={name}
+          items={treatmentExperienceItems}
+        />
       )}
 
-      {listedModalities.length > 0 && (
-        <section
-          id="treatments"
-          className="scroll-mt-24 py-20 md:py-28 lg:flex lg:min-h-[96svh] lg:items-center lg:py-32"
-        >
-          <div className="container-wide grid gap-12 lg:grid-cols-[0.37fr_0.63fr] lg:gap-20 xl:gap-28">
-            <div>
-              <h2 className="max-w-md font-display text-[46px] font-medium leading-[0.98] tracking-[-0.045em] text-ink md:text-6xl">
-                Treatment experience.
-              </h2>
-              <p className="mt-6 max-w-sm text-base leading-[1.7] text-ink-muted">
-                These are the treatment approaches listed in {name}&rsquo;s profile. The right approach depends on your diagnosis and a clinical review.
-              </p>
-              <p className="mt-5 max-w-sm text-sm leading-[1.7] text-ink-muted/85">
-                You do not need to decide between them before arranging a consultation.
-              </p>
-            </div>
-            <div className="overflow-hidden rounded-[36px] bg-[#dce9e4] px-6 sm:px-9 md:px-12">
-              {listedModalities.map((modality) => {
-                const detail = MODALITY_DETAILS[modality] ?? {
-                  description: `A treatment approach listed in ${name}'s clinical profile.`,
-                  links: [{ label: "Explore treatment information", href: "/treatments" }],
-                };
-                return (
-                  <div
-                    key={modality}
-                    className="border-b border-ink/[0.14] py-7 last:border-b-0 md:py-9"
-                  >
-                    <div>
-                      <h3 className="font-display text-[27px] font-medium leading-tight tracking-[-0.025em] text-ink md:text-[34px]">
-                        {modality}
-                      </h3>
-                      <p className="mt-3 max-w-2xl text-[15px] leading-[1.72] text-ink-muted md:text-base">
-                        {detail.description}
-                      </p>
-                      <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-                        {detail.links.map((link) => (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            className="group inline-flex items-center gap-3 border-b border-ink/20 pb-1 text-sm font-medium text-ink transition-colors hover:text-accent"
-                          >
-                            {link.label}
-                            <span className="transition-transform duration-300 group-hover:translate-x-1">
-                              →
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {locationDetails.length > 0 && (
-        <section
-          id="locations"
-          className="scroll-mt-24 bg-[#e4edf3] py-20 md:py-28 lg:flex lg:min-h-[92svh] lg:items-center lg:py-32"
-        >
-          <div className="container-wide grid gap-12 lg:grid-cols-[0.37fr_0.63fr] lg:gap-20 xl:gap-28">
-            <div>
-              <h2 className="max-w-md font-display text-[46px] font-medium leading-[0.98] tracking-[-0.045em] text-ink md:text-6xl">
-                Where {name} works.
-              </h2>
-              <p className="mt-6 max-w-sm text-base leading-[1.7] text-ink-muted">
-                {name} practises at {locationDetails.length === 1 ? "this site" : "these sites"}. The right place depends on the consultation and care you need.
-              </p>
-              <Link
-                href="/locations"
-                className="mt-8 inline-flex items-center gap-3 border-b border-ink/20 pb-1 text-sm font-medium text-ink transition-colors hover:text-accent"
-              >
-                Explore all locations <span aria-hidden>→</span>
-              </Link>
-            </div>
-            <div className="space-y-5">
-              {locationDetails.map((location) => {
-                const firstSentence = location.description?.split(". ")[0];
-                return (
-                  <Link
-                    key={location.slug}
-                    href={`/locations/${location.slug}`}
-                    className="group grid min-h-[210px] gap-8 rounded-[32px] border border-ink/[0.08] bg-[#f8f5ef] p-7 text-ink shadow-[0_24px_60px_-52px_rgba(6,28,70,0.34)] transition-transform duration-500 ease-smooth hover:-translate-y-1 sm:p-9 md:grid-cols-[1fr_auto] md:items-center"
-                  >
-                    <span>
-                      <span className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted">
-                        {location.area}
-                      </span>
-                      <span className="mt-4 block font-display text-[28px] font-medium leading-tight tracking-[-0.025em] md:text-[36px]">
-                        {location.name}
-                      </span>
-                      {location.provider && (
-                        <span className="mt-1 block text-sm text-ink-muted">
-                          {location.provider}
-                        </span>
-                      )}
-                      {firstSentence && (
-                        <span className="mt-5 block max-w-2xl text-[15px] leading-[1.7] text-ink-muted">
-                          {firstSentence}.
-                        </span>
-                      )}
-                    </span>
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-ink/15 transition-all duration-300 group-hover:translate-x-1 group-hover:border-accent group-hover:text-accent">
-                      <Arrow />
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+      {locationSlugs.length > 0 && (
+        <ConsultantLocationsJourney
+          consultantName={name}
+          locationSlugs={locationSlugs}
+        />
       )}
 
       {(leadershipParagraphs.length > 0 ||
@@ -573,37 +448,45 @@ export default function ConsultantProfile({
         c.disclosures?.length) && (
         <section
           id="professional-work"
-          className="scroll-mt-24 py-20 md:py-28 lg:flex lg:min-h-[92svh] lg:items-center lg:py-32"
+          className="scroll-mt-24 bg-[#f7f5f1] py-20 md:py-24"
         >
-          <div className="container-wide grid gap-12 lg:grid-cols-[0.37fr_0.63fr] lg:gap-20 xl:gap-28">
+          <div className="container-wide grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20 xl:gap-24">
             <div>
-              <h2 className="max-w-md font-display text-[46px] font-medium leading-[0.98] tracking-[-0.045em] text-ink md:text-6xl">
+              <h2 className="max-w-md font-display text-[46px] font-semibold leading-[0.98] tracking-[-0.05em] text-ink md:text-6xl">
                 Professional work.
               </h2>
               <p className="mt-6 max-w-sm text-base leading-[1.7] text-ink-muted">
                 Clinical leadership, research and professional information from {name}&rsquo;s profile.
               </p>
             </div>
-            <div className="border-t border-ink/[0.14]">
-              {leadershipParagraphs.length > 0 && (
-                <InformationDisclosure
-                  title="Clinical leadership"
-                  paragraphs={leadershipParagraphs}
-                  defaultOpen
-                />
-              )}
-              {c.research && c.research.length > 0 && (
-                <InformationDisclosure
-                  title="Research and publications"
-                  paragraphs={c.research}
-                />
-              )}
-              {c.achievements && c.achievements.length > 0 && (
-                <InformationDisclosure title="Achievements" paragraphs={c.achievements} />
-              )}
-              {c.disclosures && c.disclosures.length > 0 && (
-                <InformationDisclosure title="Disclosures" paragraphs={c.disclosures} />
-              )}
+            <div className="relative lg:py-5">
+              <div
+                aria-hidden
+                className="absolute -right-4 top-0 hidden h-[42%] w-[36%] rounded-[2.5rem] bg-[#dfe9f5] lg:block"
+              />
+              <div className="relative rounded-[2.5rem] border border-ink/[0.08] bg-white/80 px-7 shadow-[0_34px_80px_-58px_rgba(6,28,70,0.4)] sm:px-9 md:px-11 lg:mr-5">
+                <div className="border-t border-ink/[0.14]">
+                  {leadershipParagraphs.length > 0 && (
+                    <InformationDisclosure
+                      title="Clinical leadership"
+                      paragraphs={leadershipParagraphs}
+                      defaultOpen
+                    />
+                  )}
+                  {c.research && c.research.length > 0 && (
+                    <InformationDisclosure
+                      title="Research and publications"
+                      paragraphs={c.research}
+                    />
+                  )}
+                  {c.achievements && c.achievements.length > 0 && (
+                    <InformationDisclosure title="Achievements" paragraphs={c.achievements} />
+                  )}
+                  {c.disclosures && c.disclosures.length > 0 && (
+                    <InformationDisclosure title="Disclosures" paragraphs={c.disclosures} />
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -611,11 +494,11 @@ export default function ConsultantProfile({
 
       <section
         id="contact"
-        className="scroll-mt-24 bg-ink py-20 text-white md:py-28 lg:flex lg:min-h-[88svh] lg:items-center lg:py-32"
+        className="scroll-mt-24 rounded-t-[3rem] bg-ink py-20 text-white md:rounded-t-[4.5rem] md:py-28 lg:flex lg:min-h-[82svh] lg:items-center lg:py-32"
       >
         <div className="container-wide grid gap-12 lg:grid-cols-[0.54fr_0.46fr] lg:items-center lg:gap-20 xl:gap-28">
           <div>
-            <h2 className="max-w-3xl font-display text-[48px] font-medium leading-[0.98] tracking-[-0.05em] text-white md:text-6xl lg:text-7xl">
+            <h2 className="max-w-3xl font-display text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-white md:text-6xl lg:text-7xl">
               Ready to speak to the practice?
             </h2>
             <p className="mt-7 max-w-xl text-[17px] leading-[1.72] text-white/72">
@@ -625,7 +508,7 @@ export default function ConsultantProfile({
               If you have a referral letter or recent results, you can share them when you contact us.
             </p>
           </div>
-          <div className="rounded-[34px] bg-[#f8f5ef] p-7 text-ink sm:p-9 md:p-11">
+          <div className="rounded-[2.5rem] border border-white/10 bg-[#f8f5ef] p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
             <p className="text-sm text-ink-muted">What would help now?</p>
             <Link
               href="/contact?intent=consultation#next-step"
