@@ -82,20 +82,14 @@ export default function ConsultantTreatmentExperience({
     setOpenItem(index);
   }
 
-  const sectionHeight =
-    items.length === 1
-      ? "lg:min-h-[100svh]"
-      : items.length === 2
-        ? "lg:min-h-[145svh]"
-        : "lg:min-h-[145svh]";
-
   return (
     <section
       id="treatments"
       ref={sectionRef}
-      className={`relative scroll-mt-24 bg-[#f7f5f1] py-16 text-ink md:py-20 lg:py-0 ${sectionHeight}`}
+      data-treatment-count={Math.min(items.length, 6)}
+      className="consultant-treatment-section relative scroll-mt-24 bg-[#f7f5f1] text-ink"
     >
-      <div className="w-full px-5 sm:px-8 md:px-10 lg:sticky lg:top-0 lg:flex lg:min-h-[75svh] lg:items-center lg:px-[5vw] lg:py-16">
+      <div className="consultant-treatment-stage w-full px-5 sm:px-8 md:px-10 lg:sticky lg:top-0 lg:flex lg:items-center lg:px-[5vw]">
         <div className="grid w-full gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-[5vw]">
           <div>
             <h2 className="max-w-[9ch] font-display text-[clamp(2.9rem,4.7vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-ink">

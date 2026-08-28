@@ -1,11 +1,11 @@
 # Consultant photo pipeline
 
-The site's consultant portraits started as 200×300 crops from the practice's
-old site. What ships now:
+The site's consultant portraits are 200×300 crops from the practice's old
+site. What ships now:
 
-- **`public/consultants/*.jpg`** (800×1200) — Real-ESRGAN x4plus upscales of
-  the originals (via `upscale.py`; restoration CNN, no generative reinvention
-  of faces). Used by the profile pages and every small avatar.
+- **`public/consultants/*.jpg`** (200×300) — the untouched low-resolution
+  originals. Used by the profile pages and every small avatar. Dan chose these
+  over the Real-ESRGAN versions for the site on 2026-08-28.
 - **`public/consultants/tall/*.jpg`** — the focus-strip frames: per-portrait
   top extension sized so every face renders whole in a 92px sliver with hair
   apexes on one line (~33% of frame), built by `normalize.py`. **Dan reviewed

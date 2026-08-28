@@ -9,6 +9,7 @@ import {
 } from "@/content/queries";
 import { getTherapiesForConsultant } from "@/content/therapies";
 import { modalitiesByConsultant } from "@/content/modalities";
+import { consultantProfileCopy } from "@/content/consultantProfileCopy";
 import {
   consultantSites,
   sitesForConsultant,
@@ -18,11 +19,10 @@ import { site } from "@/content/site";
 import { pageMeta, physicianLd, breadcrumbLd } from "@/content/seo";
 import JsonLd from "@/components/site/JsonLd";
 import Button from "@/components/ui/Button";
-import ConsultantAboutJourney, {
-  type ConsultantAboutChapter,
-} from "@/components/consultants/ConsultantAboutJourney";
+import ConsultantAboutJourney from "@/components/consultants/ConsultantAboutJourney";
 import ConsultantTreatmentExperience from "@/components/consultants/ConsultantTreatmentExperience";
 import ConsultantLocationsJourney from "@/components/consultants/ConsultantLocationsJourney";
+import ConsultantSpacingControl from "@/components/consultants/ConsultantSpacingControl";
 
 export function generateStaticParams() {
   return getProfiledConsultantSlugs().map((slug) => ({ slug }));
@@ -44,42 +44,6 @@ export function generateMetadata({
     }.`;
   return pageMeta({ title, description, path: `/consultants/${c.slug}` });
 }
-
-const PROFILE_INTROS: Record<string, string> = {
-  "gelareh-eslamian":
-    "Dr Eslamian specialises in breast and upper gastrointestinal cancer care, with experience across chemotherapy, immunotherapy, targeted and endocrine treatments.",
-};
-
-const PROFILE_WORK_SECTIONS: Record<string, { leadershipParagraphs: number[] }> = {
-  "gelareh-eslamian": { leadershipParagraphs: [2] },
-};
-
-const PROFILE_ABOUT_CHAPTERS: Record<string, ConsultantAboutChapter[]> = {
-  "gelareh-eslamian": [
-    {
-      label: "About",
-      heading: "About Dr Eslamian",
-      paragraphs: [
-        "Dr Eslamian is a consultant medical oncologist specialising in breast and upper gastrointestinal cancers. Her work combines patient care with clinical leadership, research and medical education.",
-      ],
-    },
-    {
-      label: "Training",
-      heading: "Training",
-      paragraphs: [
-        "She graduated in medicine from Babol University in Iran, then continued her foundation and medical training in Devon. She completed specialist oncology training across Wessex, South Yorkshire, London and Kent.",
-      ],
-    },
-    {
-      label: "Clinical focus",
-      heading: "Clinical focus",
-      paragraphs: [
-        "Dr Eslamian specialises in breast, oesophageal, gastric and pancreato-biliary cancers, with a particular focus on breast cancer.",
-        "Her work includes chemotherapy, immunotherapy, monoclonal antibodies and endocrine treatment. She also encourages patients to consider clinical trials when a suitable study is available.",
-      ],
-    },
-  ],
-};
 
 const SITE_PAGE_SLUGS: Record<ConsultantSiteId, string> = {
   "spire-dunedin": "spire-dunedin-reading",
@@ -121,6 +85,13 @@ const MODALITY_DETAILS: Record<
     links: [
       { label: "Targeted therapies", href: "/treatments/targeted-therapies" },
       { label: "Hormone therapy", href: "/treatments/hormone-therapy" },
+    ],
+  },
+  "Targeted therapies": {
+    description:
+      "Medicines selected around particular features of cancer cells, helping treatment act more precisely.",
+    links: [
+      { label: "Understand targeted therapies", href: "/treatments/targeted-therapies" },
     ],
   },
   "Hormone treatment": {
@@ -177,6 +148,44 @@ function formatList(items: string[]) {
   if (items.length <= 1) return items[0] ?? "";
   if (items.length === 2) return `${items[0]} and ${items[1]}`;
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
+function thirdPersonNarrative(paragraph: string, name: string) {
+  const possessive = `${name}${name.endsWith("s") ? "’" : "’s"}`;
+
+  return paragraph
+    .replace(/\bI occasionally accept\b/g, `${name} occasionally accepts`)
+    .replace(/\bI now practice\b/g, `${name} now practises`)
+    .replace(/\bI also refer\b/g, `${name} also refers`)
+    .replace(/\bI recently updated\b/g, `${name} recently updated`)
+    .replace(/\bI have\b/g, `${name} has`)
+    .replace(/\bI am\b/g, `${name} is`)
+    .replace(/\bI was\b/g, `${name} was`)
+    .replace(/\bI would\b/g, `${name} would`)
+    .replace(/\bI accept\b/g, `${name} accepts`)
+    .replace(/\bI acquired\b/g, `${name} acquired`)
+    .replace(/\bI aim\b/g, `${name} aims`)
+    .replace(/\bI attend\b/g, `${name} attends`)
+    .replace(/\bI commenced\b/g, `${name} commenced`)
+    .replace(/\bI completed\b/g, `${name} completed`)
+    .replace(/\bI did\b/g, `${name} completed`)
+    .replace(/\bI edited\b/g, `${name} edited`)
+    .replace(/\bI graduated\b/g, `${name} graduated`)
+    .replace(/\bI helped\b/g, `${name} helped`)
+    .replace(/\bI make\b/g, `${name} makes`)
+    .replace(/\bI moved\b/g, `${name} moved`)
+    .replace(/\bI see\b/g, `${name} sees`)
+    .replace(/\bI sing\b/g, `${name} sings`)
+    .replace(/\bI specialise\b/g, `${name} specialises`)
+    .replace(/\bI spent\b/g, `${name} spent`)
+    .replace(/\bI started\b/g, `${name} started`)
+    .replace(/\bI took\b/g, `${name} took`)
+    .replace(/\bI treat\b/g, `${name} treats`)
+    .replace(/\band am\b/g, "and is")
+    .replace(/\band have\b/g, "and has")
+    .replace(/\band hold\b/g, "and holds")
+    .replace(/\bmy\b/gi, possessive)
+    .replace(/\bI\b/g, name);
 }
 
 function Arrow() {
@@ -269,12 +278,7 @@ export default function ConsultantProfile({
   const therapies = getTherapiesForConsultant(c.slug);
   const locations = sitesForConsultant(c.slug);
   const listedModalities = modalitiesByConsultant[c.slug] ?? [];
-  const workConfig = PROFILE_WORK_SECTIONS[c.slug];
-  const leadershipIndexes = new Set(workConfig?.leadershipParagraphs ?? []);
-  const aboutParagraphs =
-    c.clinicalInvolvement?.filter((_, index) => !leadershipIndexes.has(index)) ?? [];
-  const leadershipParagraphs =
-    c.clinicalInvolvement?.filter((_, index) => leadershipIndexes.has(index)) ?? [];
+  const profileCopy = consultantProfileCopy[c.slug];
   const locationSlugs = (consultantSites[c.slug] ?? []).map(
     ({ site: siteId }) => SITE_PAGE_SLUGS[siteId],
   );
@@ -289,25 +293,53 @@ export default function ConsultantProfile({
         ? "lg:text-[50px] xl:text-[56px] xl:whitespace-nowrap"
         : "lg:text-[60px] xl:text-[68px] xl:whitespace-nowrap";
   const intro =
-    PROFILE_INTROS[c.slug] ??
+    profileCopy?.intro ??
     `${name} treats ${formatList(cancerLabels.slice(0, 3).map((label) => label.toLowerCase()))}, with experience across ${formatList(
       treatmentLabels.slice(0, 3).map((label) => label.toLowerCase()),
     )}.`;
 
   const aboutChapters =
-    PROFILE_ABOUT_CHAPTERS[c.slug] ??
-    [
-      {
-        label: "About",
-        heading: `About ${name}`,
-        paragraphs: [intro],
-      },
-      ...aboutParagraphs.map((paragraph, index) => ({
-        label: index === 0 ? "Training" : `Background ${index + 1}`,
-        heading: index === 0 ? "Training" : "Clinical background",
-        paragraphs: [paragraph],
-      })),
-    ];
+    profileCopy
+      ? [
+          {
+            label: "About",
+            heading: `About ${name}`,
+            paragraphs: profileCopy.about,
+          },
+          {
+            label: "Training",
+            heading: "Training",
+            paragraphs: profileCopy.training,
+          },
+          {
+            label: "Clinical focus",
+            heading: "Clinical focus",
+            paragraphs: profileCopy.clinicalFocus,
+          },
+        ]
+      : [
+          {
+            label: "About",
+            heading: `About ${name}`,
+            paragraphs: [intro],
+          },
+          ...(c.clinicalInvolvement ?? []).map((paragraph, index) => ({
+            label: index === 0 ? "Training" : "Clinical focus",
+            heading: index === 0 ? "Training" : "Clinical focus",
+            paragraphs: [thirdPersonNarrative(paragraph, name)],
+          })),
+        ];
+
+  const leadershipParagraphs = profileCopy?.leadership ?? [];
+  const researchParagraphs = c.research?.map((paragraph) =>
+    thirdPersonNarrative(paragraph, name),
+  );
+  const achievementParagraphs = c.achievements?.map((paragraph) =>
+    thirdPersonNarrative(paragraph, name),
+  );
+  const disclosureParagraphs = c.disclosures?.map((paragraph) =>
+    thirdPersonNarrative(paragraph, name),
+  );
 
   const treatmentExperienceItems = listedModalities.map((modality) => {
     const detail = MODALITY_DETAILS[modality] ?? {
@@ -334,7 +366,11 @@ export default function ConsultantProfile({
   ].filter((fact): fact is string => Boolean(fact));
 
   return (
-    <article className="bg-[#f8f5ef]">
+    <article
+      className="bg-[#f8f5ef]"
+      data-consultant-profile
+      data-section-spacing="balanced"
+    >
       <JsonLd
         data={[
           physicianLd(
@@ -398,8 +434,16 @@ export default function ConsultantProfile({
                   title="Cancer expertise"
                   items={cancerLabels}
                 />
-                <ProfileRow href="#treatments" title="Treatments" items={treatmentLabels} />
-                <ProfileRow href="#locations" title="Locations" items={locations} />
+                {treatmentLabels.length > 0 && (
+                  <ProfileRow
+                    href="#treatments"
+                    title="Treatments"
+                    items={treatmentLabels}
+                  />
+                )}
+                {locations.length > 0 && (
+                  <ProfileRow href="#locations" title="Locations" items={locations} />
+                )}
               </div>
             </div>
           </div>
@@ -443,12 +487,12 @@ export default function ConsultantProfile({
       )}
 
       {(leadershipParagraphs.length > 0 ||
-        c.research?.length ||
-        c.achievements?.length ||
-        c.disclosures?.length) && (
+        researchParagraphs?.length ||
+        achievementParagraphs?.length ||
+        disclosureParagraphs?.length) && (
         <section
           id="professional-work"
-          className="scroll-mt-24 bg-[#f7f5f1] py-20 md:py-24"
+          className="consultant-section-rhythm scroll-mt-24 bg-[#f7f5f1]"
         >
           <div className="container-wide grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20 xl:gap-24">
             <div>
@@ -473,17 +517,23 @@ export default function ConsultantProfile({
                       defaultOpen
                     />
                   )}
-                  {c.research && c.research.length > 0 && (
+                  {researchParagraphs && researchParagraphs.length > 0 && (
                     <InformationDisclosure
                       title="Research and publications"
-                      paragraphs={c.research}
+                      paragraphs={researchParagraphs}
                     />
                   )}
-                  {c.achievements && c.achievements.length > 0 && (
-                    <InformationDisclosure title="Achievements" paragraphs={c.achievements} />
+                  {achievementParagraphs && achievementParagraphs.length > 0 && (
+                    <InformationDisclosure
+                      title="Achievements"
+                      paragraphs={achievementParagraphs}
+                    />
                   )}
-                  {c.disclosures && c.disclosures.length > 0 && (
-                    <InformationDisclosure title="Disclosures" paragraphs={c.disclosures} />
+                  {disclosureParagraphs && disclosureParagraphs.length > 0 && (
+                    <InformationDisclosure
+                      title="Disclosures"
+                      paragraphs={disclosureParagraphs}
+                    />
                   )}
                 </div>
               </div>
@@ -494,7 +544,7 @@ export default function ConsultantProfile({
 
       <section
         id="contact"
-        className="scroll-mt-24 rounded-t-[3rem] bg-ink py-20 text-white md:rounded-t-[4.5rem] md:py-28 lg:flex lg:min-h-[82svh] lg:items-center lg:py-32"
+        className="consultant-contact-section consultant-section-rhythm scroll-mt-24 rounded-t-[3rem] bg-ink text-white md:rounded-t-[4.5rem] lg:flex lg:items-center"
       >
         <div className="container-wide grid gap-12 lg:grid-cols-[0.54fr_0.46fr] lg:items-center lg:gap-20 xl:gap-28">
           <div>
@@ -554,6 +604,8 @@ export default function ConsultantProfile({
           </div>
         </div>
       </section>
+
+      {process.env.NODE_ENV === "development" && <ConsultantSpacingControl />}
     </article>
   );
 }

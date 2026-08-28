@@ -226,7 +226,7 @@ export const therapies: Therapy[] = [
     // consultants list that phrase, and it already maps to Immunotherapy above;
     // reading it as targeted therapy as well would be our inference, not their
     // wording. Only "Targeted and endocrine treatments" says it outright.
-    matches: ["Targeted and endocrine treatments"],
+    matches: ["Targeted therapies", "Targeted and endocrine treatments"],
     note: "Several of our consultants describe this treatment under other wording, such as 'biological and immunotherapy'. Which of them provide targeted therapies is being confirmed with the partnership before it is listed here.",
     related: ["immunotherapy", "hormone-therapy", "chemotherapy"],
     what: [

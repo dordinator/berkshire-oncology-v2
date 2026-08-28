@@ -103,7 +103,7 @@ export default function ConsultantLocationsJourney({
     <section
       id="locations"
       ref={sectionRef}
-      className="flex min-h-[100svh] scroll-mt-24 items-center bg-[#d5e0dc] py-16 text-ink md:py-20 lg:pb-16 lg:pt-40"
+      className="consultant-locations-section consultant-section-rhythm flex min-h-[100svh] scroll-mt-24 items-center bg-[#d5e0dc] text-ink"
     >
       <div className="grid w-full gap-12 px-5 sm:px-8 md:px-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw] lg:px-[5vw]">
         <div className="lg:max-w-[32rem]">

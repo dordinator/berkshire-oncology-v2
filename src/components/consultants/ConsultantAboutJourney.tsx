@@ -78,7 +78,7 @@ export default function ConsultantAboutJourney({
   return (
     <section
       id="about"
-      className="scroll-mt-24 bg-[#f7f5f1] py-20 text-ink md:py-24 lg:flex lg:min-h-[75svh] lg:items-center lg:pb-12 lg:pt-20"
+      className="consultant-about-section consultant-section-rhythm scroll-mt-24 bg-[#f7f5f1] text-ink lg:flex lg:items-center"
     >
       <div className="grid w-full gap-14 px-5 sm:px-8 md:px-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center lg:gap-[5vw] lg:px-[5vw]">
         <div>

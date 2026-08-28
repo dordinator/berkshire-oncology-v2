@@ -233,6 +233,86 @@ summary:focus-visible {
   }
 }
 
+/* Consultant profile rhythm -------------------------------------------------
+   The profile used to mix section padding, viewport-height floors and a
+   sticky scroll runway. That made nominally adjacent sections feel unrelated.
+   These scoped variables keep the hero untouched while giving every chapter
+   the same outer spacing and letting the local review control tune the whole
+   journey as one system. */
+[data-consultant-profile] {
+  --consultant-section-space: clamp(4rem, 4.5vw, 5rem);
+  --consultant-stage-height: 75svh;
+  --consultant-treatment-height: 145svh;
+  --consultant-location-nav-clearance: 5rem;
+}
+
+[data-consultant-profile][data-section-spacing="compact"] {
+  --consultant-section-space: clamp(3rem, 3.5vw, 4rem);
+  --consultant-stage-height: 68svh;
+  --consultant-treatment-height: 125svh;
+}
+
+[data-consultant-profile][data-section-spacing="spacious"] {
+  --consultant-section-space: clamp(5rem, 5.5vw, 6.5rem);
+  --consultant-stage-height: 82svh;
+  --consultant-treatment-height: 165svh;
+}
+
+.consultant-section-rhythm {
+  padding-block: var(--consultant-section-space);
+}
+
+.consultant-treatment-section {
+  padding-block: var(--consultant-section-space);
+}
+
+@media (min-width: 1024px) {
+  .consultant-about-section,
+  .consultant-contact-section {
+    min-height: var(--consultant-stage-height);
+  }
+
+  .consultant-treatment-section {
+    min-height: calc(
+      var(--consultant-treatment-height) +
+        var(--consultant-treatment-count-adjustment, 0svh)
+    );
+    padding-block: 0;
+  }
+
+  .consultant-treatment-section[data-treatment-count="1"] {
+    min-height: 100svh;
+  }
+
+  .consultant-treatment-section[data-treatment-count="2"] {
+    --consultant-treatment-count-adjustment: -20svh;
+  }
+
+  .consultant-treatment-section[data-treatment-count="4"] {
+    --consultant-treatment-count-adjustment: 18svh;
+  }
+
+  .consultant-treatment-section[data-treatment-count="5"] {
+    --consultant-treatment-count-adjustment: 36svh;
+  }
+
+  .consultant-treatment-section[data-treatment-count="6"] {
+    --consultant-treatment-count-adjustment: 54svh;
+  }
+
+  .consultant-treatment-stage {
+    min-height: var(--consultant-stage-height);
+    padding-block: var(--consultant-section-space);
+  }
+
+  .consultant-locations-section {
+    padding-top: calc(
+      var(--consultant-section-space) +
+        var(--consultant-location-nav-clearance)
+    );
+  }
+}
+
 /* ── Chapter tint ────────────────────────────────────────────────────────────
    The "Cancers we treat" band washes its colour in as it enters the viewport
    and back out as it leaves, so the section reads as a chapter you move into

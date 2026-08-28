@@ -1,9 +1,9 @@
 import type { Slug } from "./types";
 
-// Treatment modalities per consultant, exactly as listed on the old speciality
-// pages (the wording is consistent per consultant across every condition page
-// they appear on). Dr Ruth Davis's pages show only a specialities line and no
-// "Treatments" line, so she is intentionally omitted here.
+// Treatment modalities per consultant. Most retain the wording used on the old
+// practice speciality pages. Dr Ruth Davis's old practice pages omitted a
+// treatment line, so her entry is verified against current Frimley Health NHS,
+// GenesisCare and Spire profiles instead.
 export const modalitiesByConsultant: Record<Slug, string[]> = {
   "joss-adams": ["Chemotherapy", "Radiotherapy", "Immunotherapy", "Hormone treatment"],
   "madhumita-bhattacharyya": [
@@ -18,6 +18,13 @@ export const modalitiesByConsultant: Record<Slug, string[]> = {
     "Biological and immunotherapy",
     "Hormone treatment",
     "Therapeutic radioisotopes",
+  ],
+  "ruth-davis": [
+    "Chemotherapy",
+    "Radiotherapy",
+    "Biological and immunotherapy",
+    "Hormone treatment",
+    "Targeted therapies",
   ],
   "gelareh-eslamian": [
     "Chemotherapy",
