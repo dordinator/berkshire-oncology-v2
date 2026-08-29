@@ -28,12 +28,16 @@ type Variant =
 const base =
   "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
 
+// Blue-fill hover states use the button's own two-pixel border. Keeping the
+// transparent border in the resting state prevents any movement when it turns
+// white, and the animated fill cannot paint over it.
 const variants: Record<Variant, string> = {
-  primary: "bg-ink text-white",
+  primary:
+    "border-2 border-transparent bg-ink text-white hover:border-white focus-visible:border-white",
   ghost: "border border-ink/15 text-ink hover:border-ink/40",
   light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
-    "bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:text-white",
+    "border-2 border-transparent bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
   // The cancer-types sheet's pill: deep sage, AA against white numerals.
@@ -65,8 +69,6 @@ export default function Button({
   arrow?: boolean;
   external?: boolean;
 }) {
-  const outlinesBlueHover = variant === "primary" || variant === "onPhoto";
-
   return (
     <Link
       href={href}
@@ -78,12 +80,6 @@ export default function Button({
         aria-hidden
         className={`absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 group-focus-visible:scale-x-100 group-focus-visible:duration-150 motion-reduce:transition-none ${fills[variant]}`}
       />
-      {outlinesBlueHover && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-20 rounded-full border border-transparent transition-colors duration-300 group-hover:border-white group-focus-visible:border-white"
-        />
-      )}
       <span className="relative">{children}</span>
       {external && <span className="sr-only"> (opens in a new tab)</span>}
       {arrow && (

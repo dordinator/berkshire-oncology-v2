@@ -38,7 +38,6 @@ export default function PatientsHero() {
             <Button
               href="#start-here"
               variant="primary"
-              className="border-2 border-transparent hover:border-white focus-visible:border-white"
             >
               Find your next step
             </Button>
