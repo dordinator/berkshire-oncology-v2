@@ -19,6 +19,7 @@ type Variant =
   | "light"
   | "onPhoto"
   | "onPhotoGhost"
+  | "patientHero"
   | "sage";
 
 // There is no focus ring on this site, so keyboard focus has to come from the
@@ -40,6 +41,8 @@ const variants: Record<Variant, string> = {
     "border-2 border-transparent bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
+  patientHero:
+    "border-2 border-transparent bg-ink text-white hover:border-ink focus-visible:border-ink",
   // The cancer-types sheet's pill: deep sage, AA against white numerals.
   sage: "bg-[#5c7767] text-white",
 };
@@ -51,6 +54,7 @@ const fills: Record<Variant, string> = {
   light: "bg-canvas-soft",
   onPhoto: "bg-accent",
   onPhotoGhost: "bg-white/15",
+  patientHero: "bg-[#4d6659]",
   sage: "bg-[#4d6659]",
 };
 
