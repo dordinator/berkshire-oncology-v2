@@ -142,7 +142,7 @@ export default function PatientsPage() {
 
               <div
                 data-fx="rise"
-                className="absolute bottom-0 right-0 w-[92%] rounded-[2.25rem] border border-ink/10 bg-[#fbfaf5] p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-5 lg:w-[88%]"
+                className="absolute bottom-4 right-0 w-[92%] rounded-[2.25rem] border border-ink/10 bg-[#fbfaf5] p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:bottom-5 sm:p-5 lg:w-[88%]"
               >
                 <div className="flex items-center border-b border-ink/10 px-3 pb-4">
                   <p className="font-display text-xl">What would help right now?</p>
