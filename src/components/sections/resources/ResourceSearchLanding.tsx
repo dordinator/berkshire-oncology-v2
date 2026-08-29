@@ -546,7 +546,7 @@ export default function ResourceSearchLanding() {
 
         <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10">
           <div className="grid gap-12 xl:h-[33rem] xl:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)] xl:items-stretch xl:gap-16 2xl:h-auto 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:items-start 2xl:gap-24">
-            <div className="2xl:sticky 2xl:top-0 2xl:flex 2xl:min-h-svh 2xl:items-center">
+            <div className="xl:flex xl:items-center 2xl:sticky 2xl:top-0 2xl:min-h-svh">
               <div>
                 <h2
                   id="information-support-heading"
