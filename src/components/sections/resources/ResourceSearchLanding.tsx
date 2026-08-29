@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { organisationGroups, domain } from "@/content/organisations";
 import { hospitals } from "@/content/hospitals";
@@ -347,31 +347,8 @@ function CompactResourceRow({
 
 export default function ResourceSearchLanding() {
   const [query, setQuery] = useState("");
-  const [compactResourcesScrollable, setCompactResourcesScrollable] =
-    useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const compactResourcesRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-
-  useEffect(() => {
-    const scroller = compactResourcesRef.current;
-    if (!scroller) return;
-
-    const updateScrollable = () => {
-      setCompactResourcesScrollable(
-        scroller.scrollHeight > scroller.clientHeight + 2,
-      );
-    };
-
-    updateScrollable();
-    const observer = new ResizeObserver(updateScrollable);
-    observer.observe(scroller);
-    if (scroller.firstElementChild) {
-      observer.observe(scroller.firstElementChild);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const trimmed = query.trim();
   const results = useMemo(() => {
@@ -567,9 +544,9 @@ export default function ResourceSearchLanding() {
       >
         <ChapterTint colour={SUPPORT_CHAPTER_BLUE} />
 
-        <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10 xl:py-0 2xl:py-32">
-          <div className="grid gap-12 xl:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)] xl:items-start xl:gap-16 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:gap-24">
-            <div className="xl:sticky xl:top-0 xl:flex xl:min-h-svh xl:items-center">
+        <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10">
+          <div className="grid gap-12 xl:h-[33rem] xl:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)] xl:items-stretch xl:gap-16 2xl:h-auto 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:items-start 2xl:gap-24">
+            <div className="2xl:sticky 2xl:top-0 2xl:flex 2xl:min-h-svh 2xl:items-center">
               <div>
                 <h2
                   id="information-support-heading"
@@ -589,95 +566,12 @@ export default function ResourceSearchLanding() {
               </div>
             </div>
 
-            <div className="relative hidden self-start xl:sticky xl:top-28 xl:block xl:h-[calc(100svh-9rem)] 2xl:hidden">
+            <div className="relative hidden min-w-0 xl:block 2xl:hidden">
               <div
-                ref={compactResourcesRef}
-                tabIndex={compactResourcesScrollable ? 0 : undefined}
-                role={compactResourcesScrollable ? "region" : undefined}
-                aria-label={
-                  compactResourcesScrollable
-                    ? "Information and support organisations"
-                    : undefined
-                }
-                onWheelCapture={(event) => {
-                  const scroller = event.currentTarget;
-                  const canScrollUp = scroller.scrollTop > 1;
-                  const canScrollDown =
-                    scroller.scrollTop + scroller.clientHeight <
-                    scroller.scrollHeight - 1;
-                  const shouldScrollList =
-                    (event.deltaY < 0 && canScrollUp) ||
-                    (event.deltaY > 0 && canScrollDown);
-
-                  if (shouldScrollList) {
-                    scroller.setAttribute("data-lenis-prevent-wheel", "");
-                  } else {
-                    scroller.removeAttribute("data-lenis-prevent-wheel");
-                  }
-                }}
-                onPointerLeave={(event) =>
-                  event.currentTarget.removeAttribute(
-                    "data-lenis-prevent-wheel",
-                  )
-                }
-                onBlurCapture={(event) =>
-                  event.currentTarget.removeAttribute(
-                    "data-lenis-prevent-wheel",
-                  )
-                }
-                onKeyDown={(event) => {
-                  const scroller = event.currentTarget;
-                  const maxScroll =
-                    scroller.scrollHeight - scroller.clientHeight;
-                  let nextScroll: number | null = null;
-
-                  switch (event.key) {
-                    case "ArrowDown":
-                      nextScroll = scroller.scrollTop + 48;
-                      break;
-                    case "ArrowUp":
-                      nextScroll = scroller.scrollTop - 48;
-                      break;
-                    case "PageDown":
-                      nextScroll =
-                        scroller.scrollTop + scroller.clientHeight * 0.82;
-                      break;
-                    case "PageUp":
-                      nextScroll =
-                        scroller.scrollTop - scroller.clientHeight * 0.82;
-                      break;
-                    case " ":
-                      nextScroll =
-                        scroller.scrollTop +
-                        scroller.clientHeight * (event.shiftKey ? -0.82 : 0.82);
-                      break;
-                    case "Home":
-                      nextScroll = 0;
-                      break;
-                    case "End":
-                      nextScroll = maxScroll;
-                      break;
-                  }
-
-                  if (nextScroll === null) return;
-                  const clampedScroll = Math.max(
-                    0,
-                    Math.min(maxScroll, nextScroll),
-                  );
-
-                  if (Math.abs(clampedScroll - scroller.scrollTop) < 1) {
-                    return;
-                  }
-
-                  event.preventDefault();
-                  scroller.scrollTo({
-                    top: clampedScroll,
-                    behavior: reduced ? "auto" : "smooth",
-                  });
-                }}
-                className="h-full overflow-y-auto scroll-smooth pr-2 [scrollbar-color:rgba(6,28,70,0.2)_transparent] [scrollbar-gutter:stable] [scrollbar-width:thin] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                data-lenis-prevent
+                className="absolute inset-0 snap-y snap-proximity overflow-y-auto overscroll-contain scroll-smooth pr-1 [scrollbar-color:rgba(6,28,70,0.18)_transparent] [scrollbar-width:thin]"
               >
-                <ul className="grid snap-y snap-proximity gap-4 pb-12 pt-1">
+                <ul className="grid gap-4">
                   {informationResources.map((result, index) => (
                     <li key={result.id} className="snap-start">
                       <CompactResourceRow result={result} index={index} />
@@ -686,18 +580,14 @@ export default function ResourceSearchLanding() {
                 </ul>
               </div>
 
-              {compactResourcesScrollable && (
-                <>
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-[#dbe8ee] to-transparent"
-                  />
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#dbe8ee] via-[#dbe8ee]/80 to-transparent"
-                  />
-                </>
-              )}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#dbe8ee] to-transparent"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#dbe8ee] via-[#dbe8ee]/80 to-transparent"
+              />
             </div>
 
             <div
