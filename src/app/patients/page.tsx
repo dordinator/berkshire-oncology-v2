@@ -334,38 +334,50 @@ export default function PatientsPage() {
         </div>
       </section>
 
-      <section id="faqs" className="scroll-mt-24 bg-white py-24 md:py-32">
+      <section
+        id="faqs"
+        aria-labelledby="patients-faq-heading"
+        className="flex min-h-svh scroll-mt-24 items-center bg-white py-24 md:py-28"
+      >
         <div className="container-wide">
-          <div className="grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-24">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-20 xl:gap-28">
             <Reveal>
-              <div>
-                <h2 className="font-display text-[clamp(3rem,4.7vw,5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
+              <div className="text-center">
+                <h2
+                  id="patients-faq-heading"
+                  className="mx-auto max-w-[11ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                >
                   The things people ask us most often.
                 </h2>
-                <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted">
+                <p className="mx-auto mt-7 max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-[17px]">
                   If your question is not here, the practice team would rather
                   you asked than guessed.
                 </p>
               </div>
             </Reveal>
 
-            <div className="border-t border-ink/15">
+            <div className="overflow-hidden rounded-[1.75rem] border border-ink/[0.09] bg-white px-5 shadow-[0_24px_80px_-48px_rgba(6,28,70,0.34)] sm:rounded-[2rem] sm:px-8">
               {faqs.map((faq) => (
-                <details key={faq.q} className="group border-b border-ink/15">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-8 py-7 [&::-webkit-details-marker]:hidden">
-                    <h3 className="max-w-2xl font-display text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-accent md:text-2xl">
+                <details
+                  key={faq.q}
+                  className="group border-b border-ink/[0.09] last:border-b-0"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden sm:py-6">
+                    <h3 className="max-w-2xl font-display text-[17px] font-semibold leading-snug text-ink transition-colors group-hover:text-accent sm:text-xl">
                       {faq.q}
                     </h3>
                     <span
                       aria-hidden
-                      className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full border border-ink/15 text-lg text-ink-muted transition-transform group-open:rotate-45"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/10 text-xl font-normal text-ink transition-transform duration-300 group-open:rotate-45"
                     >
                       +
                     </span>
                   </summary>
-                  <p className="max-w-2xl pb-8 text-[15px] leading-relaxed text-ink-muted md:text-base">
-                    {faq.a}
-                  </p>
+                  <div className="max-w-2xl pb-6 pr-12">
+                    <p className="text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
+                      {faq.a}
+                    </p>
+                  </div>
                 </details>
               ))}
             </div>
