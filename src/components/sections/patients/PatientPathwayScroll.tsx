@@ -7,15 +7,15 @@ const routes = [
   {
     id: "newly-diagnosed",
     label: "I’m newly diagnosed",
-    eyebrow: "After a cancer diagnosis",
-    statement: "You can contact the practice even if you do not have every document.",
-    body: "Start with the cancer type, if you know it. The consultant directory shows the specialists for each diagnosis, and the practice team can explain what information may be needed before an appointment.",
+    eyebrow: null,
+    statement: "Find the consultants who treat your cancer type.",
+    body: "Use the diagnosis shown in your clinic letter or report. If you are unsure which category it belongs to, the practice team can help.",
     points: [
-      "Share any scans, reports or clinic letters you already have",
-      "Name the hospital or clinician looking after you, if applicable",
-      "Check with your insurer before the appointment, if you plan to use insurance",
+      "Choose the cancer type you have been diagnosed with",
+      "See the consultants who treat it",
+      "Review their experience and where they practise",
     ],
-    action: { label: "Find a consultant by cancer type", href: "/specialities" },
+    action: { label: "Browse cancer types and consultants", href: "/specialities" },
     tone: "bg-[#dce6e1]",
   },
   {
@@ -162,12 +162,14 @@ export default function PatientPathwayScroll() {
                     {/* ink-soft, not ink-muted: at 11px on the toned sheets
                         the muted grey measures 4.18–4.39:1 — under the 4.5:1
                         AA floor on three of the five tones. */}
-                    <p className="text-[11px] font-medium uppercase tracking-[0.19em] text-ink-soft">
-                      {route.eyebrow}
-                    </p>
+                    {route.eyebrow && (
+                      <p className="text-[11px] font-medium uppercase tracking-[0.19em] text-ink-soft">
+                        {route.eyebrow}
+                      </p>
+                    )}
                     <h3
                       id={`${route.id}-title`}
-                      className="mt-6 max-w-3xl font-display text-[clamp(2.25rem,3.5vw,3.9rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink"
+                      className={`${route.eyebrow ? "mt-6 " : ""}max-w-3xl font-display text-[clamp(2.25rem,3.5vw,3.9rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink`}
                     >
                       {route.statement}
                     </h3>
