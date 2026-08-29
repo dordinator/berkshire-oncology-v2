@@ -43,20 +43,20 @@ const practicalLinks = [
 
 const appointmentPoints = [
   {
-    title: "Bring what you have",
-    body: "Scans, reports, clinic letters and a list of your current medication. If you do not have them, come anyway.",
+    title: "Clinical information",
+    body: "Bring any clinic letters, scan reports or test results you already have.",
   },
   {
-    title: "Bring someone you trust",
-    body: "A second person can hear things you miss, remember questions, and help you reflect afterwards.",
+    title: "Current medicines",
+    body: "Bring an up-to-date list, including prescribed medicines, vitamins and supplements.",
   },
   {
-    title: "Write your questions down",
-    body: "Make a list at home, when you are calm, and take it into the appointment with you.",
+    title: "Questions to ask",
+    body: "Write down what you would like the consultant to explain or discuss.",
   },
   {
-    title: "Expect a conversation",
-    body: "Your consultant will explain how they see your situation before any decision is made.",
+    title: "Someone you trust",
+    body: "If you would like to, bring a friend or relative to listen, take notes and help you remember questions.",
   },
 ];
 
@@ -196,43 +196,55 @@ export default function PatientsPage() {
         className="scroll-mt-24 bg-[#f0ece2] py-24 md:py-32"
       >
         <div className="container-wide">
-          <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
+          <div className="grid gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <Reveal>
-              <div>
-                <h2 className="max-w-xl font-display text-[clamp(3rem,5.3vw,5.7rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
-                  Bring what you have. Bring someone you trust.
+              <div className="lg:sticky lg:top-32">
+                <h2 className="max-w-xl font-display text-[clamp(3rem,5vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+                  How to prepare for your first appointment.
                 </h2>
                 <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">
-                  Most people arrive with questions and some uncertainty. That
-                  is a completely reasonable place to begin.
+                  Bring the information you already have and the questions you
+                  want to ask. You can also bring someone you trust.
                 </p>
               </div>
             </Reveal>
 
-            <div className="border-t border-ink/20">
-              {appointmentPoints.map((item, index) => (
-                <Reveal key={item.title} delay={index % 2}>
-                  <article className="grid gap-3 border-b border-ink/20 py-8 sm:grid-cols-[0.8fr_1.2fr] sm:gap-8 md:py-10">
-                    <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
-                      {item.title}
-                    </h3>
-                    <p className="text-[15px] leading-relaxed text-ink-muted">
-                      {item.body}
-                    </p>
-                  </article>
-                </Reveal>
-              ))}
-              <p className="pt-7 text-sm leading-relaxed text-ink-muted">
-                If you need step-free access, nearby parking or an interpreter,
-                tell the practice team when you book. See our{" "}
-                <Link
-                  href="/locations/parking-and-accessibility"
-                  className="font-medium text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
-                >
-                  parking and accessibility information
-                </Link>
-                .
-              </p>
+            <div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {appointmentPoints.map((item, index) => (
+                  <Reveal key={item.title} delay={index % 2}>
+                    <article className="h-full rounded-[2rem] border border-ink/10 bg-white/45 p-7 md:p-8">
+                      <span
+                        aria-hidden
+                        className="block h-2.5 w-2.5 rounded-full bg-[#8ca49a]"
+                      />
+                      <h3 className="mt-7 font-display text-2xl font-semibold leading-tight text-ink">
+                        {item.title}
+                      </h3>
+                      <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
+                        {item.body}
+                      </p>
+                    </article>
+                  </Reveal>
+                ))}
+              </div>
+
+              <div className="mt-4 grid gap-4 rounded-[2rem] border border-ink/10 bg-[#e3eaf0] p-7 sm:grid-cols-[0.72fr_1.28fr] sm:gap-8 md:p-8">
+                <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
+                  Access and communication
+                </h3>
+                <p className="text-[15px] leading-relaxed text-ink-muted">
+                  If you need step-free access, nearby parking or an interpreter,
+                  tell the practice team when you book. Read our{" "}
+                  <Link
+                    href="/locations/parking-and-accessibility"
+                    className="font-medium text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
+                  >
+                    parking and accessibility information
+                  </Link>
+                  .
+                </p>
+              </div>
             </div>
           </div>
         </div>
