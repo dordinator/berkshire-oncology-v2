@@ -311,7 +311,7 @@ const generalTreatmentPanels: TreatmentPanel[] = [
     summary:
       "Chemotherapy, hormone therapy, targeted treatments and immunotherapy may be used alone or with other treatments. Your consultant will explain whether any of these medicines may help you.",
     detail: "Chemotherapy · Hormone therapy · Targeted treatments · Immunotherapy",
-    href: "/treatments",
+    href: "/treatments#medicine-treatments",
     linkLabel: "Understand medicine treatments",
   },
   {
