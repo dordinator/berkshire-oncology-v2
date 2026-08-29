@@ -28,6 +28,12 @@ export interface CancerTypePrototypeItem {
   treatments: { slug?: string; href: string; title: string; summary: string; byOthers?: boolean }[];
   locations: { slug: string; name: string; area: string; provider?: string; description?: string; address?: string }[];
   treatmentBasis?: "general" | "cancer-specific" | "consultant-linked" | "unconfirmed";
+  clinicalReview?: {
+    status: "draft" | "reviewed";
+    reviewedBy?: string;
+    reviewedOn?: string;
+    href: string;
+  };
 }
 
 const aliases: Record<string, string[]> = {
@@ -346,6 +352,19 @@ const MAX_AUTO_EXPANDED_TREATMENT_ROWS = 3;
 
 function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] {
   const consultantLinked = item.treatmentBasis === "consultant-linked";
+
+  if (consultantLinked) {
+    return [
+      {
+        title: "General treatment information",
+        summary:
+          "The treatments page explains medicines and radiotherapy in general terms. It does not identify what would be suitable for you or form part of your care.",
+        href: "/treatments",
+        linkLabel: "Read about treatment types",
+      },
+    ];
+  }
+
   const medicineTreatments = item.treatments.filter(
     (treatment) => treatment.slug && medicineTreatmentSlugs.has(treatment.slug),
   );
@@ -362,21 +381,18 @@ function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] 
   const panels: TreatmentPanel[] = [
     {
       title: "Treatment using medicines",
-      summary: consultantLinked
-        ? `Read about the medicine treatments listed by consultants who care for ${item.title.toLowerCase()}. Your consultant will explain whether any of them may be relevant to you.`
-        : `Read about the medicine treatments linked to ${item.title.toLowerCase()}. Your consultant will explain whether any of them may be relevant to you.`,
+      summary: "Medicine treatments that may be discussed in some situations.",
       treatments: medicineTreatments,
     },
     {
       title: "Precisely targeted radiotherapy",
-      summary: consultantLinked
-        ? `Read about the radiotherapy treatments listed by consultants who care for ${item.title.toLowerCase()}. Your consultant will explain whether radiotherapy may be relevant to you.`
-        : `These radiotherapy treatments may form part of care for ${item.title.toLowerCase()}. Your consultant will explain whether any of them may be relevant to you.`,
+      summary: "Radiotherapy approaches that may be discussed in some situations.",
       treatments: radiotherapyTreatments,
     },
     {
       title: "Other and combined approaches",
-      summary: `Other treatments may form part of care for ${item.title.toLowerCase()}, either on their own or alongside oncology treatment.`,
+      summary:
+        "Depending on the diagnosis, care may also involve surgery, research or another approach alongside oncology treatment.",
       treatments: otherTreatments,
     },
   ].filter((panel) => panel.treatments && panel.treatments.length > 0);
@@ -459,18 +475,37 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
         <div className="grid w-full gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-[5vw]">
           <div>
             <h2 className="max-w-[9ch] font-display text-[clamp(2.9rem,4.7vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.055em]">
-              Understand one thing at a time.
+              {general
+                ? "Understand one thing at a time."
+                : "Treatment approaches you may hear about."}
             </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
               {general
                 ? "You do not need to compare or choose treatments yourself. This section explains some of the language you may hear during a consultation."
-                : item.treatmentBasis === "consultant-linked"
-                  ? `The pages below cover treatments listed by consultants who care for ${item.title.toLowerCase()}. Your consultant will explain which options, if any, may be relevant to you.`
-                  : `These treatment approaches are linked to ${item.title.toLowerCase()}. Your consultant will explain which options, if any, may be relevant to you.`}
+                : item.treatmentBasis === "cancer-specific"
+                  ? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which — if any — are suitable for you.`
+                  : `We do not yet have a clinically reviewed treatment guide for ${item.title.toLowerCase()}. You can read general information about treatment types, but their inclusion on this site does not mean they would form part of your care. A consultant would need to review your diagnosis and test results before explaining what, if anything, may be relevant.`}
             </p>
-            <p className="mt-6 max-w-sm text-xs leading-relaxed text-ink-muted">
-              This is general information, not a treatment recommendation.
-            </p>
+            {general && (
+              <p className="mt-6 max-w-sm text-xs leading-relaxed text-ink-muted">
+                This is general information, not a treatment recommendation.
+              </p>
+            )}
+            {!general && item.clinicalReview && (
+              <div className="mt-7 max-w-md border-t border-ink/15 pt-5 text-xs leading-relaxed text-ink-muted">
+                <p>
+                  {item.clinicalReview.status === "reviewed"
+                    ? `Clinically reviewed${item.clinicalReview.reviewedBy ? ` by ${item.clinicalReview.reviewedBy}` : ""}${item.clinicalReview.reviewedOn ? ` · ${item.clinicalReview.reviewedOn}` : ""}.`
+                    : "Draft clinical information. Awaiting review by one of the partnership’s consultants before publication."}
+                </p>
+                <Link
+                  href={item.clinicalReview.href}
+                  className="mt-2 inline-flex items-center gap-2 font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
+                >
+                  View sources and review status <Arrow />
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className="border-t border-ink/15">

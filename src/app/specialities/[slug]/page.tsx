@@ -903,7 +903,7 @@ export default function SpecialityPage({
         {/* Quiet provenance line. Until a consultant signs the page off, it says
             so — in the register a clinical site uses, not a warning banner. */}
         <Reveal>
-          <div className="mt-10 border-t border-black/[0.07] pt-6 text-[13px] leading-relaxed text-ink-muted">
+          <div id="clinical-review" className="mt-10 scroll-mt-28 border-t border-black/[0.07] pt-6 text-[13px] leading-relaxed text-ink-muted">
             {info ? (
               <>
                 <p>

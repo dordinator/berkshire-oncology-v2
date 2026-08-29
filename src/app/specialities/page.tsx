@@ -35,14 +35,24 @@ function toItem(
   const locations = new Map<string, { slug: string; name: string; area: string; provider?: string; description?: string; address?: string }>();
   const listedModalities = new Set<string>();
   let hasCancerSpecificApproaches = false;
+  let clinicalReview: CancerTypePrototypeItem["clinicalReview"];
 
   for (const slug of group.slugs) {
     for (const c of getConsultantsForSpeciality(slug)) {
       if (!consultants.has(c.slug)) consultants.set(c.slug, { name: c.name, slug: c.slug, photo: c.photo, role: c.shortRole ?? c.role });
       c.modality?.forEach((modality) => listedModalities.add(modality));
     }
-    const approaches = cancerInfo[slug]?.approaches ?? [];
+    const info = cancerInfo[slug];
+    const approaches = info?.approaches ?? [];
     if (approaches.length > 0) hasCancerSpecificApproaches = true;
+    if (info && !clinicalReview) {
+      clinicalReview = {
+        status: info.reviewedBy ? "reviewed" : "draft",
+        reviewedBy: info.reviewedBy,
+        reviewedOn: info.reviewedOn,
+        href: `/specialities/${slug}#clinical-review`,
+      };
+    }
     for (const approach of approaches) {
       const treatmentKey = approach.therapy ?? `${slug}-${approach.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       if (!treatments.has(treatmentKey)) {
@@ -119,6 +129,7 @@ function toItem(
       : treatments.size > 0
         ? "consultant-linked"
         : "unconfirmed",
+    clinicalReview: hasCancerSpecificApproaches ? clinicalReview : undefined,
   };
 }
 

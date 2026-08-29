@@ -117,7 +117,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         title: "Surgery",
         byOthers: true,
-        body: "Most people with early breast cancer have surgery. This may mean removing the lump with a margin of normal tissue or removing the whole breast, usually with an assessment of the lymph nodes. Surgery is carried out by a breast surgeon rather than an oncologist. Our consultants work with the surgical team to plan and give any treatment needed before or after the operation.",
+        body: "Most people with early breast cancer have surgery. This may mean removing the lump with a margin of normal tissue or removing the whole breast, usually with an assessment of the lymph nodes. Surgery is carried out by a breast surgeon rather than an oncologist. An oncologist may be involved in planning treatment before or after the operation.",
       },
       {
         therapy: "chemotherapy",
@@ -146,7 +146,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       },
       {
         title: "Clinical trials",
-        body: "Several of our consultants are involved in breast cancer research and can tell you whether a trial is open that suits your situation, including at centres in London.",
+        body: "Trial availability and eligibility change. A consultant can explain whether any currently open study may be relevant to your diagnosis, including at specialist centres elsewhere.",
       },
     ],
     deliveryNote:
@@ -237,7 +237,7 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
       {
         title: "Surgery (radical prostatectomy)",
         byOthers: true,
-        body: "Removal of the prostate, carried out by a urological surgeon rather than an oncologist. Our consultants can talk you through how it compares with radiotherapy for your particular cancer, and see men who need treatment after surgery.",
+        body: "Removal of the prostate, carried out by a urological surgeon rather than an oncologist. An oncologist can explain how surgery compares with radiotherapy and whether oncology treatment may be needed after surgery.",
       },
       {
         therapy: "radiotherapy",
