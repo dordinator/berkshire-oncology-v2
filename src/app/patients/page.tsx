@@ -62,6 +62,49 @@ const appointmentPoints = [
 
 const phoneHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
 
+function ContactArrow() {
+  return (
+    <svg viewBox="0 0 18 18" fill="none" className="h-4 w-4" aria-hidden>
+      <path
+        d="M3.5 9h11M10.5 5l4 4-4 4"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PatientContactRoute({
+  href,
+  title,
+  description,
+}: {
+  href: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group -mx-3 flex min-h-[6.25rem] items-center justify-between gap-5 border-t border-ink/10 px-3 py-5 text-left last:border-b"
+    >
+      <span className="min-w-0">
+        <span className="block font-display text-xl font-semibold leading-tight tracking-[-0.02em] text-ink md:text-2xl">
+          {title}
+        </span>
+        <span className="mt-2 block max-w-md text-[13px] leading-relaxed text-ink-muted md:text-sm">
+          {description}
+        </span>
+      </span>
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#a66f1f]/30 text-[#a66f1f] transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
+        <ContactArrow />
+      </span>
+    </Link>
+  );
+}
+
 // The support section's expandable rows — read from the IA rather than
 // written here, so the titles, descriptions and destinations stay in step
 // with the resources pages they open onto.
@@ -385,30 +428,48 @@ export default function PatientsPage() {
         </div>
       </section>
 
-      <section className="bg-[#c8d6cf] py-24 md:py-28">
-        <div className="container-wide">
-          <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-24">
+      <section
+        id="contact-next-step"
+        className="flex min-h-svh scroll-mt-24 items-center bg-ink py-24 text-white md:py-28"
+      >
+        <div className="container-wide w-full">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(25rem,0.72fr)] lg:items-center lg:gap-[7vw]">
             <Reveal>
-              <div>
-                <h2 className="max-w-4xl font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink">
-                  Not sure where to begin?
+              <div className="max-w-4xl">
+                <h2 className="font-display text-[clamp(3.2rem,6.1vw,7rem)] font-semibold leading-[0.91] tracking-[-0.06em] [text-shadow:0_2px_24px_rgba(6,28,70,0.45)]">
+                  You do not need to work out the next step alone.
                 </h2>
+                <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/78 md:text-xl">
+                  Tell us what you know and the practice team can help you decide
+                  who to speak to.
+                </p>
               </div>
             </Reveal>
 
             <Reveal delay={1}>
-              <div className="border-t border-ink/20 pt-7">
-                <p className="text-lg leading-relaxed text-ink/70">
-                  You do not need to know the right question. The practice team
-                  can talk things through and help you find the right consultant.
+              <div className="rounded-[2rem] border border-white/55 bg-[#fbfaf5]/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.55)] backdrop-blur-md sm:p-8 lg:p-10">
+                <p className="text-[13px] leading-relaxed text-ink-muted">
+                  What would help now?
                 </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href="/contact#guidance" variant="primary">
-                    Contact the practice team
-                  </Button>
+                <div className="mt-4">
+                  <PatientContactRoute
+                    href="/contact?intent=consultation#next-step"
+                    title="Arrange a consultation"
+                    description="Request an appointment and share the details you have."
+                  />
+                  <PatientContactRoute
+                    href="/contact?intent=guidance#next-step"
+                    title="I’m not sure what happens next"
+                    description="Ask the practice team what to do next. You do not need to choose a consultant or treatment first."
+                  />
+                </div>
+                <div className="mt-6 flex flex-wrap items-baseline justify-between gap-3 border-t border-ink/10 pt-5">
+                  <span className="text-xs leading-relaxed text-ink-muted">
+                    Prefer to speak to someone?
+                  </span>
                   <a
                     href={phoneHref}
-                    className="rounded-full border border-ink/20 bg-white/25 px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/45 hover:bg-white/45 focus-visible:border-ink/45 focus-visible:bg-white/45"
+                    className="font-display text-xl font-semibold text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-[#a66f1f]"
                   >
                     {site.contact.phone}
                   </a>
