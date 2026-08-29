@@ -54,7 +54,7 @@ const fills: Record<Variant, string> = {
   light: "bg-canvas-soft",
   onPhoto: "bg-accent",
   onPhotoGhost: "bg-white/15",
-  patientHero: "bg-[#4d6659]",
+  patientHero: "bg-accent",
   sage: "bg-[#4d6659]",
 };
 
