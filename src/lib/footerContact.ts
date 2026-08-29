@@ -1,4 +1,10 @@
-const excludedFooterContactRoutes = ["/contact", "/tariffs", "/about"];
+const excludedFooterContactRoutes = [
+  "/contact",
+  "/tariffs",
+  "/about",
+  "/treatments",
+  "/chemotherapy-demo",
+];
 
 export function hasFooterContact(pathname: string) {
   if (pathname === "/") return false;
