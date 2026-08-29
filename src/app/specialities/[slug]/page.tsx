@@ -906,13 +906,20 @@ export default function SpecialityPage({
           <div id="clinical-review" className="mt-10 scroll-mt-28 border-t border-black/[0.07] pt-6 text-[13px] leading-relaxed text-ink-muted">
             {info ? (
               <>
-                <p>
-                  {info.reviewedBy
-                    ? `Clinically reviewed by ${info.reviewedBy}${
-                        info.reviewedOn ? ` · ${info.reviewedOn}` : ""
-                      }`
-                    : "Written from published UK guidance. Awaiting clinical review by one of our consultants before publication."}
-                </p>
+                {info.reviewedBy && info.reviewedOn ? (
+                  <>
+                    <p>
+                      Clinically reviewed by {info.reviewedBy}
+                      {info.reviewerCredentials ? `, ${info.reviewerCredentials}` : ""}
+                      {` · ${info.reviewedOn}.`}
+                    </p>
+                    {info.nextReviewOn && (
+                      <p className="mt-2">Next review due {info.nextReviewOn}.</p>
+                    )}
+                  </>
+                ) : (
+                  <p>Written from published UK guidance. Awaiting clinical review by one of our consultants before publication.</p>
+                )}
                 <p className="mt-2">
                   Sources:{" "}
                   {info.sources.map((s, i) => (

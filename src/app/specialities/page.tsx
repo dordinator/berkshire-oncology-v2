@@ -3,9 +3,11 @@ import JsonLd from "@/components/site/JsonLd";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
 import { cancerGroups, unlistedGroup } from "@/content/cancerGroups";
 import { getSpecialityBySlug, getConsultantsForSpeciality } from "@/content/queries";
-import { cancerInfo } from "@/content/cancerInfo";
-import { cancerTreatmentGuides } from "@/content/cancerTreatmentGuides";
-import { getLocationsForTherapy } from "@/content/treatmentLocations";
+import { cancerInfo, type CancerInfo } from "@/content/cancerInfo";
+import {
+  cancerTreatmentGuides,
+  type CancerTreatmentGuide,
+} from "@/content/cancerTreatmentGuides";
 import { therapies } from "@/content/therapies";
 import CancerTypesPrototype, {
   type CancerTypePrototypeItem,
@@ -32,12 +34,54 @@ function toItem(
   treated = true,
 ): CancerTypePrototypeItem {
   const consultants = new Map<string, { name: string; slug: string; photo?: string; role?: string }>();
-  const treatments = new Map<string, { slug?: string; href: string; title: string; summary: string; byOthers?: boolean }>();
-  const locations = new Map<string, { slug: string; name: string; area: string; provider?: string; description?: string; address?: string }>();
+  const treatments = new Map<string, { slug?: string; href?: string; title: string; summary: string; byOthers?: boolean }>();
+  // A facility offering a therapy does not establish that it provides that
+  // therapy for this cancer. Keep cancer-specific locations empty until the
+  // practice supplies a verified cancer × treatment × site mapping.
+  const locations: CancerTypePrototypeItem["locations"] = [];
   const listedModalities = new Set<string>();
   let hasCancerSpecificApproaches = false;
   let treatmentIntro: string | undefined;
   let clinicalReview: CancerTypePrototypeItem["clinicalReview"];
+  const groupTreatmentGuide = cancerTreatmentGuides[group.id];
+
+  function addTreatmentGuide(
+    treatmentGuide: CancerInfo | CancerTreatmentGuide,
+    fallbackSlug: string,
+    reviewHref?: string,
+  ) {
+    const approaches = treatmentGuide.approaches;
+    if (approaches.length > 0) hasCancerSpecificApproaches = true;
+    if ("intro" in treatmentGuide) treatmentIntro = treatmentGuide.intro;
+    if (!clinicalReview) {
+      clinicalReview = {
+        status: treatmentGuide.reviewedBy && treatmentGuide.reviewedOn ? "reviewed" : "draft",
+        reviewedBy: treatmentGuide.reviewedBy,
+        reviewerCredentials: treatmentGuide.reviewerCredentials,
+        reviewedOn: treatmentGuide.reviewedOn,
+        nextReviewOn: treatmentGuide.nextReviewOn,
+        sources: treatmentGuide.sources,
+        href: reviewHref,
+      };
+    }
+
+    for (const approach of approaches) {
+      const treatmentKey = approach.therapy ?? `${fallbackSlug}-${approach.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+      if (!treatments.has(treatmentKey)) {
+        treatments.set(treatmentKey, {
+          slug: approach.therapy,
+          href: !treated
+            ? undefined
+            : approach.therapy
+              ? `/treatments/${approach.therapy}`
+              : approach.href ?? ("overview" in treatmentGuide ? `/specialities/${fallbackSlug}` : undefined),
+          title: approach.title,
+          summary: approach.body,
+          byOthers: approach.byOthers,
+        });
+      }
+    }
+  }
 
   for (const slug of group.slugs) {
     for (const c of getConsultantsForSpeciality(slug)) {
@@ -45,46 +89,13 @@ function toItem(
       c.modality?.forEach((modality) => listedModalities.add(modality));
     }
     const info = cancerInfo[slug];
-    const treatmentGuide = cancerTreatmentGuides[slug] ?? info;
-    const approaches = treatmentGuide?.approaches ?? [];
-    if (approaches.length > 0) hasCancerSpecificApproaches = true;
-    if (treatmentGuide && "intro" in treatmentGuide) {
-      treatmentIntro = treatmentGuide.intro;
+    if (!groupTreatmentGuide && info) {
+      addTreatmentGuide(info, slug, `/specialities/${slug}#clinical-review`);
     }
-    if (treatmentGuide && !clinicalReview) {
-      clinicalReview = {
-        status: treatmentGuide.reviewedBy ? "reviewed" : "draft",
-        reviewedBy: treatmentGuide.reviewedBy,
-        reviewedOn: treatmentGuide.reviewedOn,
-        sources: treatmentGuide.sources,
-        href: info ? `/specialities/${slug}#clinical-review` : undefined,
-      };
-    }
-    for (const approach of approaches) {
-      const treatmentKey = approach.therapy ?? `${slug}-${approach.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-      if (!treatments.has(treatmentKey)) {
-        treatments.set(treatmentKey, {
-          slug: approach.therapy,
-          href: approach.therapy ? `/treatments/${approach.therapy}` : approach.href ?? `/specialities/${slug}`,
-          title: approach.title,
-          summary: approach.body,
-          byOthers: approach.byOthers,
-        });
-      }
-      if (!approach.therapy) continue;
-      for (const { location } of getLocationsForTherapy(approach.therapy)) {
-        if (!locations.has(location.slug)) {
-          locations.set(location.slug, {
-            slug: location.slug,
-            name: location.name,
-            area: location.area,
-            provider: location.provider,
-            description: location.description,
-            address: location.address,
-          });
-        }
-      }
-    }
+  }
+
+  if (groupTreatmentGuide) {
+    addTreatmentGuide(groupTreatmentGuide, group.slugs[0]);
   }
 
   // Most cancer types currently have only the treatment wording reproduced on
@@ -101,18 +112,6 @@ function toItem(
         title: therapy.title,
         summary: therapy.summary,
       });
-      for (const { location } of getLocationsForTherapy(therapy.slug)) {
-        if (!locations.has(location.slug)) {
-          locations.set(location.slug, {
-            slug: location.slug,
-            name: location.name,
-            area: location.area,
-            provider: location.provider,
-            description: location.description,
-            address: location.address,
-          });
-        }
-      }
     }
   }
 
@@ -130,7 +129,7 @@ function toItem(
     entries,
     consultants: Array.from(consultants.values()),
     treatments: Array.from(treatments.values()),
-    locations: Array.from(locations.values()),
+    locations,
     treatmentBasis: hasCancerSpecificApproaches
       ? "cancer-specific"
       : treatments.size > 0
@@ -143,6 +142,15 @@ function toItem(
 
 export default function SpecialitiesPage() {
   const items = [...cancerGroups.map((group) => toItem(group)), toItem(unlistedGroup, false)];
+  const missingTreatmentGuides = items.filter(
+    (item) => item.treatmentBasis !== "cancer-specific",
+  );
+
+  if (missingTreatmentGuides.length > 0) {
+    throw new Error(
+      `Cancer groups without a cancer-specific treatment guide: ${missingTreatmentGuides.map((item) => item.id).join(", ")}`,
+    );
+  }
 
   return (
     <>

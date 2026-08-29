@@ -16,22 +16,38 @@ Where content lives: `src/content/cancerInfo.ts` (full clinical guides),
 
 ## What needs a signature
 
-| Page | Status | Reviewer | Date |
-|---|---|---|---|
-| Breast — `/specialities/breast` | Draft, awaiting review | | |
-| Prostate — `/specialities/prostate` | Draft, awaiting review | | |
-| Cancer of Unknown Primary — `/specialities/cancer-unknown-primary` | Draft, awaiting review | | |
-| Remaining 15 cancer types | Not yet written | — | — |
+| Page | Status | Reviewer | Credentials | Last review | Next review |
+|---|---|---|---|---|---|
+| Breast — `/specialities/breast` | Draft, awaiting review | | | | |
+| Prostate — `/specialities/prostate` | Draft, awaiting review | | | | |
+| Cancer of Unknown Primary — `/specialities/cancer-unknown-primary` | Draft, awaiting review | | | | |
+| Remaining 15 cancer types | Not yet written | — | — | — | — |
 
-The cancer-type hub also contains a treatment-only bowel cancer draft in
-`src/content/cancerTreatmentGuides.ts`. It is awaiting clinical review and does
-not make the unfinished bowel cancer detail page appear complete.
+The hub has a separate treatment-only draft for every group whose full guide is
+not yet written. These drafts do not make the unfinished detail pages appear
+complete.
 
-To mark a full guide as reviewed, set `reviewedBy` and `reviewedOn` on that entry
-in `src/content/cancerInfo.ts`. For a treatment-only draft, set the same fields
-in `src/content/cancerTreatmentGuides.ts`. The page then replaces the "awaiting
-clinical review" line with the reviewer's name and date automatically — there
-is no second place to update.
+| Hub treatment guide | Status | Reviewer | Credentials | Last review | Next review |
+|---|---|---|---|---|---|
+| Bladder and Kidney | Draft, awaiting review | | | | |
+| Bowel (colorectal) | Draft, awaiting review | | | | |
+| Lung | Draft, awaiting review | | | | |
+| Head and Neck | Draft, awaiting review | | | | |
+| Gynaecological | Draft, awaiting review | | | | |
+| Brain and Spinal | Draft, awaiting review | | | | |
+| Upper GI | Draft, awaiting review | | | | |
+| Liver and Pancreatic | Draft, awaiting review | | | | |
+| Skin and Melanoma | Draft, awaiting review | | | | |
+| Testicular | Draft, awaiting review | | | | |
+| Lymphoma | Draft, awaiting review | | | | |
+| Sarcoma — specialist-service information only | Draft, awaiting review | | | | |
+
+To mark a full guide as reviewed, set `reviewedBy`, `reviewerCredentials`,
+`reviewedOn` and `nextReviewOn` on that entry in `src/content/cancerInfo.ts`.
+For a treatment-only draft, use the same fields in
+`src/content/cancerTreatmentGuides.ts`. A name and last-review date are required
+before the page changes from draft to reviewed; credentials and the next-review
+date are then displayed when supplied. Do not invent a missing review field.
 
 ---
 
@@ -62,13 +78,24 @@ Kept deliberately, and worth holding any future page to:
 | Bowel | [NICE NG151 — Colorectal cancer](https://www.nice.org.uk/guidance/ng151) (published 29 Jan 2020, last reviewed 29 Apr 2026) | Colon/rectal distinction, surgery, systemic therapy, molecular biomarkers and metastatic disease |
 | Bowel | [NHS — Treatment for bowel cancer](https://www.nhs.uk/conditions/bowel-cancer/treatment/) | Individual treatment factors and plain-English overview of surgery, chemotherapy, radiotherapy and selected medicines |
 | Bowel | [Cancer Research UK — Treatment for bowel cancer](https://www.cancerresearchuk.org/about-cancer/bowel-cancer/treatment) (last reviewed 10 Jan 2025) | Plain-English distinction between colon and rectal treatment pathways |
+| Bladder and Kidney | [NICE NG2 — Bladder cancer](https://www.nice.org.uk/guidance/ng2), [NICE NG256 — Kidney cancer](https://www.nice.org.uk/guidance/ng256), [NHS — Bladder cancer treatment](https://www.nhs.uk/conditions/bladder-cancer/treatment/), [Cancer Research UK — Kidney cancer treatment](https://www.cancerresearchuk.org/about-cancer/kidney-cancer/treatment/decisions) | Bladder/kidney distinction, local treatment, radiotherapy and systemic treatment |
+| Lung | [NICE NG122 — Lung cancer](https://www.nice.org.uk/guidance/ng122), [NHS — Lung cancer treatment](https://www.nhs.uk/conditions/lung-cancer/treatment/), [Cancer Research UK — Lung cancer treatment](https://www.cancerresearchuk.org/about-cancer/lung-cancer/treatment) | Non-small-cell/small-cell distinction and surgery, radiotherapy and systemic treatment |
+| Head and Neck | [NICE NG36 — Cancer of the upper aerodigestive tract](https://www.nice.org.uk/guidance/ng36), [NHS — Mouth cancer treatment](https://www.nhs.uk/conditions/mouth-cancer/treatment/), [Cancer Research UK — Head and neck cancer](https://www.cancerresearchuk.org/about-cancer/head-neck-cancer) | Site-specific treatment and rehabilitation needs |
+| Gynaecological | [Cancer Research UK — Gynaecological cancers](https://www.cancerresearchuk.org/about-cancer/womens-cancer), [NHS — Ovarian cancer treatment](https://www.nhs.uk/conditions/ovarian-cancer/treatment/), [Cancer Research UK — Womb cancer treatment](https://www.cancerresearchuk.org/about-cancer/womb-cancer/treatment/decisions-about-treatment), [NHS — Cervical cancer treatment](https://www.nhs.uk/conditions/cervical-cancer/treatment/), [Cancer Research UK — Vulval cancer treatment](https://www.cancerresearchuk.org/about-cancer/vulval-cancer/treatment), [Cancer Research UK — Vaginal cancer treatment](https://www.cancerresearchuk.org/about-cancer/vaginal-cancer/treatment/treatment-decisions) | Differences between ovarian, womb, cervical, vulval and vaginal treatment pathways |
+| Brain and Spinal | [NICE NG99 — Primary brain tumours and brain metastases](https://www.nice.org.uk/guidance/ng99), [NHS — Malignant brain tumour treatment](https://www.nhs.uk/conditions/malignant-brain-tumour/treatment/), [Cancer Research UK — Secondary brain cancer](https://www.cancerresearchuk.org/about-cancer/secondary-cancer/secondary-brain-cancer/treatment), [Cancer Research UK — Primary spinal cord tumours](https://www.cancerresearchuk.org/about-cancer/brain-tumours/types/treatment-spinal-cord-tumours) | Primary brain, primary spinal-cord and secondary-brain distinctions; surgery, radiotherapy and medicine treatment |
+| Upper GI | [NICE NG83 — Oesophago-gastric cancer](https://www.nice.org.uk/guidance/ng83), [Cancer Research UK — Oesophageal cancer treatment](https://www.cancerresearchuk.org/about-cancer/oesophageal-cancer/treatment/decisions-about-your-treatment), [Cancer Research UK — Stomach cancer treatment](https://www.cancerresearchuk.org/about-cancer/stomach-cancer/treatment) | Oesophageal/junctional/stomach distinctions and combined treatment pathways |
+| Liver and Pancreatic | [NICE NG85 — Pancreatic cancer](https://www.nice.org.uk/guidance/ng85), [Cancer Research UK — Primary liver cancer](https://www.cancerresearchuk.org/about-cancer/liver-cancer/treatment/treatment-options), [Cancer Research UK — Pancreatic cancer](https://www.cancerresearchuk.org/about-cancer/pancreatic-cancer/treatment/treatment-decisions), [Cancer Research UK — Bile-duct cancer](https://www.cancerresearchuk.org/about-cancer/bile-duct-cancer/treatment/treatment-options) | Primary-site distinction, liver-directed treatment and systemic treatment |
+| Skin and Melanoma | [NICE NG14 — Melanoma](https://www.nice.org.uk/guidance/ng14), [Cancer Research UK — Melanoma treatment](https://www.cancerresearchuk.org/about-cancer/melanoma/treatment/treatment-decisions), [Cancer Research UK — Non-melanoma skin cancer](https://www.cancerresearchuk.org/about-cancer/skin-cancer/treatment) | Melanoma/BCC/SCC distinctions and local or systemic treatment |
+| Testicular | [NHS — Testicular cancer treatment](https://www.nhs.uk/conditions/testicular-cancer/treatment/), [Cancer Research UK — Testicular cancer treatment](https://www.cancerresearchuk.org/about-cancer/testicular-cancer/treatment) | Seminoma/non-seminoma distinction, surgery, surveillance, chemotherapy and radiotherapy |
+| Lymphoma | [NICE NG52 — Non-Hodgkin lymphoma](https://www.nice.org.uk/guidance/ng52), [NHS — Hodgkin lymphoma treatment](https://www.nhs.uk/conditions/hodgkin-lymphoma/treatment/), [NHS — Non-Hodgkin lymphoma treatment](https://www.nhs.uk/conditions/non-hodgkin-lymphoma/treatment/) | Subtype and growth-rate distinctions, monitoring and specialist treatments |
+| Sarcoma | [NICE QS78 — Sarcoma](https://www.nice.org.uk/guidance/qs78), [NHS — Soft-tissue sarcoma treatment](https://www.nhs.uk/conditions/soft-tissue-sarcoma/treatment/), [Cancer Research UK — Primary bone cancer](https://www.cancerresearchuk.org/about-cancer/bone-cancer/treatment/treatment-options-for-bone-cancer) | Specialist sarcoma MDT requirement and broad bone/soft-tissue treatment distinctions |
 | Prostate | [NICE NG131 — Prostate cancer: diagnosis and management](https://www.nice.org.uk/guidance/ng131) (published 9 May 2019, last updated 15 Dec 2021) | mpMRI before biopsy, transperineal biopsy, Gleason/grade group, risk stratification, treatment options by risk group |
 | Prostate | [Cancer Research UK — prostate cancer](https://www.cancerresearchuk.org/about-cancer/prostate-cancer) | Plain-English register; active surveillance explanation |
 | CUP | [NICE CG104 — Metastatic malignant disease of unknown primary origin in adults](https://www.nice.org.uk/guidance/cg104) (published 26 Jul 2010, last updated 26 Apr 2023) | MUO → provisional CUP → confirmed CUP terminology, immunohistochemistry, imaging sequence, specialist MDT |
 | CUP | [Cancer Research UK — cancer of unknown primary](https://www.cancerresearchuk.org/about-cancer/cancer-unknown-primary-cup) | Plain-English register |
 
-Every external link on the pages was checked and returns HTTP 200 as of
-31 July 2026.
+All source links in the clinical content returned HTTP 200 when checked on
+30 August 2026. They should be checked again as part of each review round.
 
 ---
 
@@ -87,20 +114,21 @@ every line traces to the host site's own published service list:
 | GenesisCare Oxford | Radiotherapy (MR Linac, SABR, IGRT, SGRT, VMAT, DIBH, prostate spacers), SACT, CT/MRI/PET-CT, biopsy | [GenesisCare Oxford](https://www.genesiscare.com/uk/our-centres/oxford) |
 | Royal Berkshire Hospital | NHS only — Berkshire Cancer Centre: four linear accelerators, brachytherapy, chemotherapy day unit, Macmillan information centre | [Royal Berkshire NHS FT — cancer services](https://www.royalberkshire.nhs.uk/services-and-departments/cancer) |
 
-**The one claim to check with the practice:** the pages tell patients that
-radiotherapy happens only at the two GenesisCare centres and that drug treatment
-is available at all four private sites. That is true of what those sites
-publish. It is not necessarily true of where *our consultants personally*
-practise. If any partner does not treat at one of these sites, that site should
-be removed from `privateCareSites` for the relevant pages.
+The cancer hub deliberately does not turn a site's generic treatment capability
+into a cancer-specific location claim. Its all-cancers view can show the known
+site list, but a selected cancer shows an unconfirmed state until the practice
+supplies a cancer × treatment × site mapping. The older full detail pages still
+use `privateCareSites` to suggest sites from treatment category, so those claims
+remain part of the practice review below.
 
 ---
 
 ## Open questions for the practice
 
-1. **Which of our consultants work at which site?** The pages currently present
-   all four private sites for every cancer type with cover. Per-consultant
-   location data would make this precise instead of general.
+1. **Which cancers and consultants are covered at which site?** The hub now
+   avoids inferring this. The existing full detail pages still present private
+   sites from general treatment capability. Supply a verified cancer ×
+   consultant × treatment × site mapping before making that routing specific.
 2. **"Brain and Spinal" grouping.** The practice asked for this label, but only
    brain is in the data and only Dr Davis lists it. No partner currently lists
    spinal tumours. Either confirm spinal cover, or the group should be relabelled
@@ -114,14 +142,29 @@ be removed from `privateCareSites` for the relevant pages.
    `src/content/modalities.ts` and the diagram corrects itself.
 5. **CUP cover.** Dr Hill is the only partner listing it. The page says so. Is
    that still current?
+6. **Combined cancer groups.** Confirm that one treatment overview is helpful
+   for Bladder and Kidney, Gynaecological, Upper GI, Liver and Pancreatic, and
+   Skin and Melanoma. The drafts state the important differences, but they do
+   not replace a subtype-specific consultation.
+7. **Liver and pancreatic scope.** Confirm whether “liver” includes secondary
+   liver cancer and whether pancreatic neuroendocrine tumours or gallbladder
+   cancer belong in this group. The draft currently separates secondary liver
+   disease and excludes pancreatic neuroendocrine tumours from its overview.
+8. **Skin consultant coverage.** Confirm which consultants cover melanoma,
+   basal cell carcinoma and squamous cell carcinoma. The group does not assume
+   that every listed skin-cancer consultant covers every subtype.
+9. **Testicular and lymphoma pathways.** Confirm who oversees testicular
+   surveillance and which lymphoma subtypes and systemic treatments the
+   partnership manages. The draft marks surveillance, transplant and CAR-T as
+   specialist-team care rather than partnership-delivered treatment.
 
 ---
 
 ## Not done yet
 
-- The other 15 cancer types have no written clinical content. Their pages still
-  work — real consultants, treatments, locations, next steps — and say plainly
-  that the clinical guide is being written.
+- The other 15 cancer types still have no **full** written clinical guide. The
+  hub now has sourced treatment-only drafts for every group, but diagnosis,
+  staging, support and full-page content remain to be written and reviewed.
 - No photography. The pages currently carry the ten real consultant portraits
   and nothing else. See the note in the handover about art direction before any
   stock is added.

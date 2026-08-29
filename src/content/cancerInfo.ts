@@ -68,7 +68,10 @@ export interface CancerInfo {
   sources: { label: string; url: string }[];
   /** Set once a consultant has signed the page off. */
   reviewedBy?: string;
+  /** Relevant professional credentials for the named reviewer. */
+  reviewerCredentials?: string;
   reviewedOn?: string;
+  nextReviewOn?: string;
 }
 
 export const cancerInfo: Record<Slug, CancerInfo> = {

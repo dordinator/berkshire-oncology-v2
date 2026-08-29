@@ -25,14 +25,16 @@ export interface CancerTypePrototypeItem {
   treated: boolean;
   entries: { slug: string; title: string }[];
   consultants: { slug: string; name: string; photo?: string; role?: string; areas?: string[] }[];
-  treatments: { slug?: string; href: string; title: string; summary: string; byOthers?: boolean }[];
+  treatments: { slug?: string; href?: string; title: string; summary: string; byOthers?: boolean }[];
   locations: { slug: string; name: string; area: string; provider?: string; description?: string; address?: string }[];
   treatmentBasis?: "general" | "cancer-specific" | "consultant-linked" | "unconfirmed";
   treatmentIntro?: string;
   clinicalReview?: {
     status: "draft" | "reviewed";
     reviewedBy?: string;
+    reviewerCredentials?: string;
     reviewedOn?: string;
+    nextReviewOn?: string;
     sources: { label: string; url: string }[];
     href?: string;
   };
@@ -350,8 +352,6 @@ const radiotherapyTreatmentSlugs = new Set([
   "brachytherapy",
   "radioisotope-therapy",
 ]);
-const MAX_AUTO_EXPANDED_TREATMENT_ROWS = 3;
-
 function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] {
   const consultantLinked = item.treatmentBasis === "consultant-linked";
 
@@ -387,7 +387,7 @@ function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] 
       treatments: medicineTreatments,
     },
     {
-      title: "Precisely targeted radiotherapy",
+      title: "Radiotherapy approaches",
       summary: "Radiotherapy approaches that may be discussed in some situations.",
       treatments: radiotherapyTreatments,
     },
@@ -416,10 +416,10 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
     () => (general ? generalTreatmentPanels : cancerTreatmentPanels(item)),
     [general, item],
   );
-  const collapseByDefault = !general && treatmentPanels.some(
-    (panel) =>
-      (panel.treatments?.length ?? 0) > MAX_AUTO_EXPANDED_TREATMENT_ROWS,
-  );
+  // Cancer-specific copy is grouped by treatment type for scanning, not by
+  // clinical priority. Start every group closed so the first panel cannot read
+  // as a recommendation or an implied treatment sequence.
+  const collapseByDefault = !general;
   const [openTreatment, setOpenTreatment] = useState<number | null>(
     collapseByDefault ? null : 0,
   );
@@ -495,11 +495,22 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
             )}
             {!general && item.clinicalReview && (
               <div className="mt-7 max-w-md border-t border-ink/15 pt-5 text-xs leading-relaxed text-ink-muted">
-                <p>
-                  {item.clinicalReview.status === "reviewed"
-                    ? `Clinically reviewed${item.clinicalReview.reviewedBy ? ` by ${item.clinicalReview.reviewedBy}` : ""}${item.clinicalReview.reviewedOn ? ` · ${item.clinicalReview.reviewedOn}` : ""}.`
-                    : "Draft clinical information. Awaiting review by one of the partnership’s consultants before publication."}
-                </p>
+                {item.clinicalReview.status === "reviewed" ? (
+                  <>
+                    <p>
+                      Clinically reviewed by {item.clinicalReview.reviewedBy}
+                      {item.clinicalReview.reviewerCredentials
+                        ? `, ${item.clinicalReview.reviewerCredentials}`
+                        : ""}
+                      {` · ${item.clinicalReview.reviewedOn}.`}
+                    </p>
+                    {item.clinicalReview.nextReviewOn && (
+                      <p className="mt-2">Next review due {item.clinicalReview.nextReviewOn}.</p>
+                    )}
+                  </>
+                ) : (
+                  <p>Draft clinical information. Awaiting review by one of the partnership’s consultants.</p>
+                )}
                 <p className="mt-2">
                   Sources:{" "}
                   {item.clinicalReview.sources.map((source, index) => (
@@ -577,28 +588,45 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
 
                             {panel.treatments && panel.treatments.length > 0 && (
                               <div className="mt-5 border-t border-ink/10">
-                                {panel.treatments.map((treatment) => (
-                                  <Link
-                                    key={`${treatment.href}-${treatment.title}`}
-                                    href={treatment.href}
-                                    className="group/link grid grid-cols-[minmax(0,1fr)_28px] gap-4 border-b border-ink/10 py-4 last:border-b-0"
-                                  >
-                                    <span>
-                                      <span className="flex flex-wrap items-center gap-2 font-display text-lg font-semibold leading-tight text-ink">
-                                        {treatment.title}
-                                        {treatment.byOthers && (
-                                          <span className="rounded-full bg-[#f0ece2] px-2 py-1 font-sans text-[8px] font-medium uppercase tracking-[0.1em] text-ink-muted">
-                                            Another specialist
-                                          </span>
-                                        )}
+                                {panel.treatments.map((treatment) => {
+                                  const content = (
+                                    <>
+                                      <span>
+                                        <span className="flex flex-wrap items-center gap-2 font-display text-lg font-semibold leading-tight text-ink">
+                                          {treatment.title}
+                                          {treatment.byOthers && (
+                                            <span className="rounded-full bg-[#f0ece2] px-2 py-1 font-sans text-[8px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+                                              Another specialist
+                                            </span>
+                                          )}
+                                        </span>
+                                        <span className="mt-1.5 line-clamp-2 block text-xs leading-relaxed text-ink-muted">
+                                          {treatment.summary}
+                                        </span>
                                       </span>
-                                      <span className="mt-1.5 line-clamp-2 block text-xs leading-relaxed text-ink-muted">
-                                        {treatment.summary}
-                                      </span>
-                                    </span>
-                                    <span className="mt-1 text-ink-muted transition-transform group-hover/link:translate-x-1 group-hover/link:text-ink"><Arrow /></span>
-                                  </Link>
-                                ))}
+                                      {treatment.href && (
+                                        <span className="mt-1 text-ink-muted transition-transform group-hover/link:translate-x-1 group-hover/link:text-ink"><Arrow /></span>
+                                      )}
+                                    </>
+                                  );
+
+                                  return treatment.href ? (
+                                    <Link
+                                      key={`${treatment.href}-${treatment.title}`}
+                                      href={treatment.href}
+                                      className="group/link grid grid-cols-[minmax(0,1fr)_28px] gap-4 border-b border-ink/10 py-4 last:border-b-0"
+                                    >
+                                      {content}
+                                    </Link>
+                                  ) : (
+                                    <div
+                                      key={treatment.title}
+                                      className="grid grid-cols-1 border-b border-ink/10 py-4 last:border-b-0"
+                                    >
+                                      {content}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             )}
 
@@ -703,7 +731,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
               ? "Our consultants practise across hospitals and specialist centres in Reading, Windsor and Oxford. The right place depends on your consultant and the care you need."
               : item.treatmentBasis === "consultant-linked"
                 ? `These are some of the places connected to consultants who treat ${item.title.toLowerCase()}. Your consultant will confirm where your appointments and treatment would take place.`
-                : `These locations are linked to the treatments described for ${item.title.toLowerCase()}. Your consultant will confirm where your care would take place.`}
+                : `Where appointments or treatment take place depends on your exact care plan and provider. We have not inferred a location from the general treatment information for ${item.title.toLowerCase()}; the practice team or your consultant will confirm it.`}
           </p>
           <Button href="/locations" variant="ghost" className="mt-8">Explore all locations</Button>
         </div>
@@ -789,17 +817,20 @@ function LocationsViewport({ item, general = false }: { item: CancerTypePrototyp
 function CancerJourney({ item, onReset, general = false }: { item: CancerTypePrototypeItem; onReset: () => void; general?: boolean }) {
   if (!item.treated) {
     return (
-      <motion.section id="cancer-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`scroll-mt-28 flex min-h-[82svh] items-center bg-[#f0ece2] text-ink ${sectionPadding}`}>
-        <div className="grid w-full gap-10 px-5 sm:px-8 md:px-10 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-[5vw]">
-          <div>
-            <h2 className="max-w-2xl font-display text-[clamp(3rem,6vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.055em]">We do not currently have a consultant who treats this cancer.</h2>
+      <motion.div id="specialists" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="scroll-mt-28">
+        <section className={`flex min-h-[82svh] items-center bg-[#f0ece2] text-ink ${sectionPadding}`}>
+          <div className="grid w-full gap-10 px-5 sm:px-8 md:px-10 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-[5vw]">
+            <div>
+              <h2 className="max-w-2xl font-display text-[clamp(3rem,6vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.055em]">We do not currently have a consultant who treats this cancer.</h2>
+            </div>
+            <div>
+              <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find an appropriate specialist service.</p>
+              <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium">Choose another type</button></div>
+            </div>
           </div>
-          <div>
-            <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find a specialist centre that may be able to help.</p>
-            <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium">Choose another type</button></div>
-          </div>
-        </div>
-      </motion.section>
+        </section>
+        {item.clinicalReview && <TreatmentsViewport item={item} />}
+      </motion.div>
     );
   }
 
@@ -825,6 +856,18 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     const locations = new Map<string, CancerTypePrototypeItem["locations"][number]>();
     const entries = new Map<string, CancerTypePrototypeItem["entries"][number]>();
 
+    journeyStops.forEach((stop) => {
+      if (!stop.slug) return;
+      locations.set(stop.slug, {
+        slug: stop.slug,
+        name: stop.name,
+        area: stop.area,
+        provider: stop.provider,
+        description: stop.description,
+        address: stop.address,
+      });
+    });
+
     for (const item of items.filter((candidate) => candidate.treated)) {
       item.consultants.forEach((consultant) => {
         const existing = consultants.get(consultant.slug);
@@ -836,7 +879,6 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
       item.treatments.forEach((treatment) => {
         if (treatment.slug && !treatments.has(treatment.slug)) treatments.set(treatment.slug, treatment);
       });
-      item.locations.forEach((location) => locations.set(location.slug, location));
       item.entries.forEach((entry) => entries.set(entry.slug, entry));
     }
 
@@ -854,6 +896,18 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     };
   }, [items]);
   const journeyItem = selected ?? generalItem;
+  const journeySteps = selected && !selected.treated
+    ? [
+        { label: "Specialist guidance", href: "#specialists" },
+        { label: "Possible treatment information", href: "#treatments" },
+        { label: "Contact and next steps", href: "#contact-next-step" },
+      ]
+    : [
+        { label: "Specialists", href: "#specialists" },
+        { label: "Possible treatments", href: "#treatments" },
+        { label: "Care locations", href: "#locations" },
+        { label: "Contact and next steps", href: "#contact-next-step" },
+      ];
 
   const scrollTo = useCallback(
     (id: string) => {
@@ -1075,15 +1129,10 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
             <div className="absolute bottom-0 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
               <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
                 <p className="font-display text-lg font-semibold text-ink">Your cancer pathway</p>
-                <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-muted">Four steps</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-muted">{journeySteps.length === 3 ? "Three steps" : "Four steps"}</span>
               </div>
               <ol className="divide-y divide-ink/10">
-                {[
-                  { label: "Specialists", href: "#specialists" },
-                  { label: "Possible treatments", href: "#treatments" },
-                  { label: "Care locations", href: "#locations" },
-                  { label: "Contact and next steps", href: "#contact-next-step" },
-                ].map(({ label, href }, index) => (
+                {journeySteps.map(({ label, href }, index) => (
                   <li key={label}>
                     <a
                       href={href}
