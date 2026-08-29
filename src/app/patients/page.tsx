@@ -430,7 +430,7 @@ export default function PatientsPage() {
 
       <section
         id="contact-next-step"
-        className="flex min-h-svh scroll-mt-24 items-center bg-ink py-24 text-white md:py-28"
+        className="flex scroll-mt-24 items-center bg-ink py-16 text-white md:py-20"
       >
         <div className="container-wide w-full">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(25rem,0.72fr)] lg:items-center lg:gap-[7vw]">
