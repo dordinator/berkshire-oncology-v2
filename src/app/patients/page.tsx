@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import PatientsHero from "@/components/sections/patients/PatientsHero";
 import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayScroll";
+import PatientContactPaddingPreview from "@/components/sections/patients/PatientContactPaddingPreview";
 // The scroll choreography built for /resources — markup-free and generic, it
 // wires whatever data-fx hooks it finds. Mounted here WITHOUT IntensityStage,
 // so it runs at its default level 2 "Flowing": everything scrubbed, nothing
@@ -428,10 +429,7 @@ export default function PatientsPage() {
         </div>
       </section>
 
-      <section
-        id="contact-next-step"
-        className="flex scroll-mt-24 items-center bg-ink py-16 text-white md:py-20"
-      >
+      <PatientContactPaddingPreview>
         <div className="container-wide w-full">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(25rem,0.72fr)] lg:items-center lg:gap-[7vw]">
             <Reveal>
@@ -478,7 +476,7 @@ export default function PatientsPage() {
             </Reveal>
           </div>
         </div>
-      </section>
+      </PatientContactPaddingPreview>
     </>
   );
 }
