@@ -36,7 +36,7 @@ const routes = [
     id: "private-treatment",
     label: "I’m looking for private treatment",
     eyebrow: "Private care, clearly explained",
-    statement: "Start with the consultant and the care you need—not the paperwork.",
+    statement: "Start with the consultant and the care you need, not the paperwork.",
     body: "Care can be funded through private medical insurance or paid for directly. The practice team will explain the route, where appointments and treatment can happen, and how fees are confirmed before you proceed.",
     points: [
       "Find the consultant who specialises in your diagnosis",
