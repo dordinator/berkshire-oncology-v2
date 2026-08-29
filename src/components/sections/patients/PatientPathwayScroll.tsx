@@ -7,7 +7,6 @@ const routes = [
   {
     id: "newly-diagnosed",
     label: "I’m newly diagnosed",
-    eyebrow: null,
     statement: "Find the consultants who treat your cancer type.",
     body: "Use the diagnosis shown in your clinic letter or report. If you are unsure which category it belongs to, the practice team can help.",
     points: [
@@ -21,7 +20,6 @@ const routes = [
   {
     id: "second-opinion",
     label: "I’m looking for a second opinion",
-    eyebrow: "A review by another specialist",
     statement: "A second opinion can review your diagnosis, treatment plan or both.",
     body: "It may confirm what you have already been told or provide a different view. Arranging one can take time, so speak to your current team before changing any tests, appointments or treatment.",
     points: [
@@ -35,7 +33,6 @@ const routes = [
   {
     id: "private-treatment",
     label: "I’m looking for private treatment",
-    eyebrow: "Self-pay and insured care",
     statement: "Start with a consultation and a clear understanding of the likely costs.",
     body: "Private care may be self-funded or paid through medical insurance. Any treatment recommendation depends on your diagnosis and a consultant’s review of your clinical information.",
     points: [
@@ -49,7 +46,6 @@ const routes = [
   {
     id: "receiving-treatment",
     label: "I’m already receiving treatment",
-    eyebrow: "During cancer treatment",
     statement: "Use the urgent contact details from your treating team if you feel unwell.",
     body: "For new or worsening symptoms, use the urgent number on your treatment record or alert card. Call NHS 111 if you cannot find that number. Call 999 in a life-threatening emergency.",
     points: [
@@ -63,7 +59,6 @@ const routes = [
   {
     id: "supporting-someone",
     label: "I’m supporting someone with cancer",
-    eyebrow: "For families, friends and carers",
     statement: "Ask what support the person wants and how they would like you to be involved.",
     body: "You can help prepare questions, attend appointments if they would like you there and support practical tasks. Healthcare professionals need the patient’s permission before sharing details about their care.",
     points: [
@@ -159,17 +154,9 @@ export default function PatientPathwayScroll() {
               >
                 <div className="flex min-w-0 flex-1 flex-col">
                   <div>
-                    {/* ink-soft, not ink-muted: at 11px on the toned sheets
-                        the muted grey measures 4.18–4.39:1 — under the 4.5:1
-                        AA floor on three of the five tones. */}
-                    {route.eyebrow && (
-                      <p className="text-[11px] font-medium uppercase tracking-[0.19em] text-ink-soft">
-                        {route.eyebrow}
-                      </p>
-                    )}
                     <h3
                       id={`${route.id}-title`}
-                      className={`${route.eyebrow ? "mt-6 " : ""}max-w-3xl font-display text-[clamp(2.25rem,3.5vw,3.9rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink`}
+                      className="max-w-3xl font-display text-[clamp(2.25rem,3.5vw,3.9rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink"
                     >
                       {route.statement}
                     </h3>

@@ -81,11 +81,8 @@ export default function PatientsHero() {
               half-transparent and adrift over the photograph. Entrances belong
               to elements the reader scrolls TO. */}
           <div className="absolute bottom-3 left-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]">
-            <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
+            <div className="flex items-center border-b border-ink/10 px-2 pb-3">
               <p className="font-display text-lg">Where are you starting from?</p>
-              <span className="hidden text-[10px] uppercase tracking-[0.18em] text-ink-muted sm:block">
-                Choose one
-              </span>
             </div>
 
             <div className="divide-y divide-ink/10">

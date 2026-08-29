@@ -29,17 +29,14 @@ export const metadata: Metadata = pageMeta({
 // explains itself.
 const practicalLinks = [
   {
-    eyebrow: "Before you arrive",
     title: "Your first appointment",
     href: "#first-appointment",
   },
   {
-    eyebrow: "Common questions",
-    title: "Clear answers",
+    title: "Frequently asked questions",
     href: "#faqs",
   },
   {
-    eyebrow: "Along the way",
     title: "Resources and support",
     href: "#support",
   },
@@ -149,11 +146,8 @@ export default function PatientsPage() {
                 data-fx="rise"
                 className="absolute bottom-3 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]"
               >
-                <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
+                <div className="flex items-center border-b border-ink/10 px-2 pb-3">
                   <p className="font-display text-lg">What would help right now?</p>
-                  <span className="hidden text-[10px] uppercase tracking-[0.18em] text-ink-muted sm:block">
-                    Three places
-                  </span>
                 </div>
 
                 <div className="divide-y divide-ink/10">
@@ -169,15 +163,7 @@ export default function PatientsPage() {
                           index === 0 ? "bg-[#8ca49a]" : "border border-ink/20"
                         }`}
                       />
-                      {/* Eyebrow at every width — "Clear answers" alone is not
-                          a self-describing link name, least of all on the
-                          phones where most of this site's traffic lives. */}
-                      <span className="min-w-0 flex-1">
-                        <span className="block">{item.title}</span>
-                        <span className="mt-0.5 block text-[10px] uppercase tracking-[0.14em] text-ink-muted">
-                          {item.eyebrow}
-                        </span>
-                      </span>
+                      <span className="min-w-0 flex-1">{item.title}</span>
                       <span
                         aria-hidden
                         className="transition-transform group-hover:translate-x-1"
@@ -192,17 +178,11 @@ export default function PatientsPage() {
 
             <div className="order-1 lg:order-2">
               <Reveal>
-                <span className="eyebrow">
-                  <span aria-hidden className="h-px w-8 bg-ink-muted" /> Practical
-                  information
-                </span>
-              </Reveal>
-              <Reveal delay={1}>
-                <h2 className="mt-6 max-w-xl font-display text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.97] tracking-[-0.055em] text-ink">
+                <h2 className="max-w-xl font-display text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.97] tracking-[-0.055em] text-ink">
                   The details that make the next step easier.
                 </h2>
               </Reveal>
-              <Reveal delay={2}>
+              <Reveal delay={1}>
                 <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
                   Useful detail, kept separate from the bigger decisions so it is
                   easy to find when you need it.
@@ -221,11 +201,7 @@ export default function PatientsPage() {
           <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
             <Reveal>
               <div>
-                <span className="eyebrow">
-                  <span aria-hidden className="h-px w-8 bg-ink-muted" /> Your first
-                  appointment
-                </span>
-                <h2 className="mt-7 max-w-xl font-display text-[clamp(3rem,5.3vw,5.7rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+                <h2 className="max-w-xl font-display text-[clamp(3rem,5.3vw,5.7rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
                   Bring what you have. Bring someone you trust.
                 </h2>
                 <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">
@@ -269,19 +245,12 @@ export default function PatientsPage() {
         className="relative scroll-mt-24 overflow-clip bg-ink py-24 text-white md:py-32"
       >
         <div className="container-wide relative">
-          {/* items-start, not items-end: with the rows in play the right
-              column grew taller than the heading, and end-alignment left it
-              floating high above the eyebrow. Both columns now open on the
-              same line — rule level with eyebrow — and with two rows their
-              feet land close together too. */}
+          {/* Both columns open on the same line, with the expandable rows
+              keeping their feet close together too. */}
           <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-24">
             <Reveal>
               <div>
-                <span className="eyebrow text-white/55">
-                  <span aria-hidden className="h-px w-8 bg-white/35" /> Patients,
-                  families and carers
-                </span>
-                <h2 className="mt-7 max-w-4xl font-display text-[clamp(3rem,5.6vw,6.2rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-white">
+                <h2 className="max-w-4xl font-display text-[clamp(3rem,5.6vw,6.2rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-white">
                   Good care includes the part that happens between appointments.
                 </h2>
               </div>
@@ -372,10 +341,7 @@ export default function PatientsPage() {
           <div className="grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-24">
             <Reveal>
               <div>
-                <span className="eyebrow">
-                  <span aria-hidden className="h-px w-8 bg-ink-muted" /> Questions
-                </span>
-                <h2 className="mt-7 font-display text-[clamp(3rem,4.7vw,5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
+                <h2 className="font-display text-[clamp(3rem,4.7vw,5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
                   The things people ask us most often.
                 </h2>
                 <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted">
@@ -414,13 +380,7 @@ export default function PatientsPage() {
           <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-24">
             <Reveal>
               <div>
-                {/* ink-soft override: the shared eyebrow grey measures 3.72:1
-                    on this sage band — under the AA floor at 12px. */}
-                <span className="eyebrow text-ink-soft">
-                  <span aria-hidden className="h-px w-8 bg-ink-soft" /> Your next
-                  step
-                </span>
-                <h2 className="mt-7 max-w-4xl font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink">
+                <h2 className="max-w-4xl font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink">
                   Not sure where to begin?
                 </h2>
               </div>
