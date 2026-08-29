@@ -18,19 +18,16 @@ const TABS = [
 export default function ConsultantsHeadline() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
-      <h1
-        className="max-w-3xl font-display text-[clamp(1.9rem,4vw,3.9rem)] leading-[1.14] tracking-[-0.02em] text-ink"
-        style={{ fontWeight: 500 }}
-      >
+      <h1 className="max-w-3xl font-display text-[2.35rem] font-semibold leading-[0.98] tracking-[-0.05em] text-ink sm:text-[clamp(2.65rem,4.6vw,4.8rem)] sm:leading-[0.96] sm:tracking-[-0.055em]">
         {LINES.map((line) => (
-          <span key={line} className="block">
+          <span key={line} className="block sm:whitespace-nowrap">
             {line}
           </span>
         ))}
       </h1>
 
       <div className="lg:border-l lg:border-[#c8992f]/50 lg:pl-8">
-        <p className="max-w-sm text-[15px] leading-relaxed text-ink-muted">
+        <p className="max-w-sm text-base leading-relaxed text-ink-muted md:text-lg">
           Browse the partnership, or begin with the cancer type or treatment
           you already know.
         </p>
@@ -41,7 +38,7 @@ export default function ConsultantsHeadline() {
               <li key={t.href}>
                 <Link
                   href={t.href}
-                  className="group relative inline-block pb-2 text-[13px] tracking-[0.02em] text-ink transition-colors hover:text-accent"
+                  className="group relative inline-block whitespace-nowrap pb-2 text-sm font-medium text-ink transition-colors hover:text-accent"
                 >
                   {t.label}
                   <span

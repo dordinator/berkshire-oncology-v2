@@ -58,7 +58,7 @@ export default function Footer() {
             </h2>
             <ul className="mt-5 space-y-3">
               {exploreLinks.map((l) => (
-                <li key={l.href}>
+                <li key={`${l.label}-${l.href}`}>
                   <Link
                     href={l.href}
                     className="text-sm text-white/65 transition-colors hover:text-white"
