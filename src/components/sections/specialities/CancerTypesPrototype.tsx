@@ -525,7 +525,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                                   <Link
                                     key={`${treatment.href}-${treatment.title}`}
                                     href={treatment.href}
-                                    className="group/link grid grid-cols-[minmax(0,1fr)_28px] gap-4 border-b border-ink/10 py-4"
+                                    className="group/link grid grid-cols-[minmax(0,1fr)_28px] gap-4 border-b border-ink/10 py-4 last:border-b-0"
                                   >
                                     <span>
                                       <span className="flex flex-wrap items-center gap-2 font-display text-lg font-semibold leading-tight text-ink">
