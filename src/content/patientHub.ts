@@ -167,6 +167,7 @@ export const journey: JourneyStep[] = [
 export interface Faq {
   q: string;
   a: string;
+  link?: { label: string; href: string };
 }
 
 export const faqs: Faq[] = [
@@ -196,5 +197,10 @@ export const faqs: Faq[] = [
     // NEEDS-APPROVAL: practical rather than clinical, but still worth a check.
     q: "What should I bring to my first appointment?",
     a: "Anything you already have that describes your diagnosis: scans, reports, clinic letters and a list of the medication you currently take. If you do not have these, come anyway — your consultant can request them. Bringing someone with you, and a written list of your questions, is often more useful than people expect.",
+  },
+  {
+    q: "Where can I find trusted cancer information and support?",
+    a: "Our resources page links to established organisations offering cancer information and practical, emotional and financial support.",
+    link: { label: "View trusted resources", href: "/resources" },
   },
 ];

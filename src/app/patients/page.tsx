@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
-import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import PatientsHero from "@/components/sections/patients/PatientsHero";
 import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayScroll";
@@ -12,7 +11,6 @@ import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayS
 // hijacked, and no review switcher on a patient-facing page.
 import PageMotion from "@/components/sections/resources/PageMotion";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
-import { allNavLinks } from "@/content/navigation";
 import { faqs } from "@/content/patientHub";
 
 export const metadata: Metadata = pageMeta({
@@ -36,7 +34,7 @@ const practicalLinks = [
   },
   {
     title: "Resources and support",
-    href: "#support",
+    href: "/resources",
   },
 ];
 
@@ -58,16 +56,6 @@ const appointmentPoints = [
     body: "If you would like to, bring a friend or relative to listen, take notes and help you remember questions.",
   },
 ];
-
-// The support section's expandable rows — read from the IA rather than
-// written here, so the titles, descriptions and destinations stay in step
-// with the resources pages they open onto.
-const supportTopics = [
-  "/resources/managing-side-effects",
-  "/resources/emotional-and-practical-support",
-]
-  .map((href) => allNavLinks.find((link) => link.href === href))
-  .filter((link): link is NonNullable<typeof link> => Boolean(link));
 
 export default function PatientsPage() {
   const faqLd = {
@@ -236,102 +224,6 @@ export default function PatientsPage() {
       </section>
 
       <section
-        id="support"
-        className="relative scroll-mt-24 overflow-clip bg-ink py-24 text-white md:py-32"
-      >
-        <div className="container-wide relative">
-          {/* Both columns open on the same line, with the expandable rows
-              keeping their feet close together too. */}
-          <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-24">
-            <Reveal>
-              <div>
-                <h2 className="max-w-4xl font-display text-[clamp(3rem,5.6vw,6.2rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-white">
-                  Good care includes the part that happens between appointments.
-                </h2>
-              </div>
-            </Reveal>
-
-            <Reveal delay={1}>
-              <div className="border-t border-white/20 pt-7">
-                <p className="text-lg leading-relaxed text-white/70">
-                  Find help with side effects, fatigue and sleep, emotional
-                  wellbeing, financial questions, caring responsibilities and
-                  the practical impact of treatment.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href="/resources" variant="light">
-                    Patient resources and support
-                  </Button>
-                  {/* focus-visible mirrors hover: rounded-full opts this out
-                      of the global underline rule, so without these the
-                      keyboard indicator was nothing at all. */}
-                  <Link
-                    href="/links"
-                    className="inline-flex items-center gap-3 rounded-full border border-white/25 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60 hover:bg-white/10 focus-visible:border-white/60 focus-visible:bg-white/10"
-                  >
-                    Support organisations <span aria-hidden>→</span>
-                  </Link>
-                </div>
-
-                {/* The four support areas as expandable rows, read from the
-                    IA — each opens to its own description and on to its page.
-                    The + is the FAQ section's device in this room's material,
-                    and the stack fills the column the glass panels used to
-                    only decorate. */}
-                <div className="mt-10 space-y-3">
-                  {supportTopics.map((topic) => (
-                    <details
-                      key={topic.href}
-                      className="group rounded-2xl border border-white/10 bg-white/[0.06]"
-                    >
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-4 [&::-webkit-details-marker]:hidden">
-                        <span className="font-display text-lg font-semibold leading-snug text-white md:text-xl">
-                          {topic.label}
-                        </span>
-                        <svg
-                          aria-hidden
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          className="h-5 w-5 flex-none text-white/60 transition-transform duration-300 group-open:rotate-45"
-                        >
-                          <path
-                            d="M8 2v12M2 8h12"
-                            stroke="currentColor"
-                            strokeWidth="1.2"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </summary>
-                      <div className="px-6 pb-5">
-                        {topic.description && (
-                          <p className="max-w-md text-[15px] leading-relaxed text-white/65">
-                            {topic.description}
-                          </p>
-                        )}
-                        <Link
-                          href={topic.href}
-                          aria-label={`Read more: ${topic.label}`}
-                          className="group/link mt-3 inline-flex items-center gap-2 text-sm font-medium text-white"
-                        >
-                          Read more
-                          <span
-                            aria-hidden
-                            className="transition-transform group-hover/link:translate-x-1"
-                          >
-                            →
-                          </span>
-                        </Link>
-                      </div>
-                    </details>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <section
         id="faqs"
         aria-labelledby="patients-faq-heading"
         className="flex min-h-svh scroll-mt-24 items-center bg-white py-24 md:py-28"
@@ -374,6 +266,15 @@ export default function PatientsPage() {
                     <p className="text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
                       {faq.a}
                     </p>
+                    {faq.link && (
+                      <Link
+                        href={faq.link.href}
+                        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink underline decoration-ink/25 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                      >
+                        {faq.link.label}
+                        <span aria-hidden>→</span>
+                      </Link>
+                    )}
                   </div>
                 </details>
               ))}
