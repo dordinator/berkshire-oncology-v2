@@ -559,10 +559,6 @@ export default function ResourceSearchLanding() {
                   practical support, plus services that may be arranged as part
                   of your care.
                 </p>
-                <p className="mt-6 flex items-center gap-2 text-[12px] text-ink-muted">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Each link opens the organisation&apos;s own website.
-                </p>
               </div>
             </div>
 
@@ -586,7 +582,7 @@ export default function ResourceSearchLanding() {
               />
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#dbe8ee] via-[#dbe8ee]/80 to-transparent"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#dbe8ee] via-[#dbe8ee]/50 to-transparent"
               />
             </div>
 
@@ -644,10 +640,6 @@ export default function ResourceSearchLanding() {
               <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
                 Which location applies depends on your consultant and treatment;
                 the practice will confirm this with you.
-              </p>
-              <p className="mt-6 flex items-center gap-2 text-[12px] text-ink-muted">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Select a location below to visit its own website.
               </p>
             </div>
 
