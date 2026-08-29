@@ -142,10 +142,10 @@ export default function PatientsPage() {
 
               <div
                 data-fx="rise"
-                className="absolute bottom-3 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]"
+                className="absolute bottom-0 right-0 w-[92%] rounded-[2.25rem] border border-ink/10 bg-[#fbfaf5] p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-5 lg:w-[88%]"
               >
-                <div className="flex items-center border-b border-ink/10 px-2 pb-3">
-                  <p className="font-display text-lg">What would help right now?</p>
+                <div className="flex items-center border-b border-ink/10 px-3 pb-4">
+                  <p className="font-display text-xl">What would help right now?</p>
                 </div>
 
                 <div className="divide-y divide-ink/10">
@@ -153,11 +153,11 @@ export default function PatientsPage() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="group flex items-center gap-3 px-2 py-3 text-sm text-ink transition-colors hover:text-accent"
+                      className="group flex items-center gap-4 px-3 py-4 text-[15px] text-ink transition-colors hover:text-accent"
                     >
                       <span
                         aria-hidden
-                        className={`h-2.5 w-2.5 flex-none rounded-full ${
+                        className={`h-3 w-3 flex-none rounded-full ${
                           index === 0 ? "bg-[#8ca49a]" : "border border-ink/20"
                         }`}
                       />
