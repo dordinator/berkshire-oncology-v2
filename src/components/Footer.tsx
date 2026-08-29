@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import BrandLogo from "./site/BrandLogo";
 import { site, policyLinks } from "@/content/site";
 import { navSections } from "@/content/navigation";
+import { hasFooterContact } from "@/lib/footerContact";
 
 // The eight sections of the information architecture, split across two columns
 // so the footer stays readable. Labels and hrefs come from navigation.ts, so a
@@ -22,14 +23,14 @@ export default function Footer() {
   const year = new Date().getFullYear();
   const c = site.contact;
   const pathname = usePathname();
-  const followsPatientsContact = pathname === "/patients";
+  const followsContact = hasFooterContact(pathname);
 
   return (
     <footer className="relative overflow-hidden bg-ink text-white">
       <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[120%] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-accent/25 via-lilac/10 to-transparent blur-3xl" />
       <div
         className={`container-wide relative ${
-          followsPatientsContact ? "pb-20 pt-0 md:pb-28" : "py-20 md:py-28"
+          followsContact ? "pb-20 pt-0 md:pb-28" : "py-20 md:py-28"
         }`}
       >
         {/* Five blocks now the link list is split in two, so the grid steps up

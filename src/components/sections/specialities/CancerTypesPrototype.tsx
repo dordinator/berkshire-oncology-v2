@@ -748,7 +748,7 @@ function ContactViewport({ item, onReset, general = false }: { item: CancerTypeP
   const phoneHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
 
   return (
-    <section id="contact-next-step" className={`flex min-h-[100svh] items-center bg-ink text-white ${sectionPadding}`}>
+    <section id="contact-next-step" className="flex scroll-mt-24 items-center bg-ink py-12 text-white">
       <div className="w-full px-5 sm:px-8 md:px-10 lg:px-[5vw]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(25rem,0.72fr)] lg:items-center lg:gap-[7vw]">
           <div className="max-w-4xl">
