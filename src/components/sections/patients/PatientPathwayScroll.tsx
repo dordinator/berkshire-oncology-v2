@@ -46,14 +46,14 @@ const routes = [
   {
     id: "receiving-treatment",
     label: "I’m already receiving treatment",
-    statement: "Use the urgent contact details from your treating team if you feel unwell.",
-    body: "For new or worsening symptoms, use the urgent number on your treatment record or alert card. Call NHS 111 if you cannot find that number. Call 999 in a life-threatening emergency.",
+    statement: "Know who to contact during treatment.",
+    body: "Contact your treating team about symptoms, side effects or questions about your treatment. The practice team can help with appointments, letters and other administrative questions.",
     points: [
       "Keep your treatment team’s urgent number easy to find",
-      "Contact your treating team about symptoms or side effects",
-      "Contact the practice team about appointments or paperwork",
+      "Follow the instructions on your treatment record or alert card if you feel unwell",
+      "Use NHS 111 if you need urgent help and are unsure what to do. Call 999 in a life-threatening emergency",
     ],
-    action: { label: "Find trusted support services", href: "/resources" },
+    action: { label: "Find support during treatment", href: "/resources" },
     tone: "bg-[#dce5ed]",
   },
   {
