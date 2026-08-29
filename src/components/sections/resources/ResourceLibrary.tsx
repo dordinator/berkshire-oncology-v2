@@ -162,7 +162,7 @@ function Sheet({ sheet, compact }: { sheet: LibrarySheet; compact?: boolean }) {
         <div className="mt-6 shrink-0">
           <Link
             href={sheet.cta.href}
-            className="group/cta inline-flex items-center gap-2.5 rounded-full bg-ink px-5 py-2.5 text-[13.5px] font-medium text-white transition-colors hover:bg-accent focus-visible:bg-accent"
+            className="ink-cta group/cta inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 text-[13.5px] font-medium"
           >
             {sheet.cta.label}
             {isOutline(sheet.cta.href) && (

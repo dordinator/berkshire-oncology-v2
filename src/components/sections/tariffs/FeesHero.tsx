@@ -215,7 +215,7 @@ export default function FeesHero() {
             >
               <a
                 href="#tailored"
-                className={`${pill} bg-ink text-white focus-visible:bg-accent`}
+                className={`${pill} ink-cta`}
               >
                 How fees work
               </a>

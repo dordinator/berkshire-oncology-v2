@@ -37,7 +37,7 @@ export default function PatientsHero() {
           <div className="mt-9 flex flex-wrap gap-3">
             <Button
               href="#start-here"
-              variant="patientHero"
+              variant="primary"
             >
               Find your next step
             </Button>

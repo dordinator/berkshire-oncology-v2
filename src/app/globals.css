@@ -192,6 +192,71 @@ summary:focus-visible {
   .card-soft {
     @apply rounded-3xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_40px_-12px_rgba(0,0,0,0.08)];
   }
+  /* Solid navy CTAs that cannot use the shared Button component still use its
+     full interaction: an accent-blue fill wipes in from the left while a real
+     two-pixel navy border appears without changing the control's dimensions. */
+  .ink-cta {
+    @apply relative isolate overflow-hidden border-2 border-transparent bg-ink text-white transition-colors duration-300 hover:border-ink focus-visible:border-ink;
+  }
+  .ink-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: #1a4d8f;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ink-cta:hover::before,
+  .ink-cta:focus-visible::before {
+    transform: scaleX(1);
+  }
+  .ink-cta:focus-visible::before {
+    transition-duration: 150ms;
+  }
+  /* One consultant-profile route uses a navy circular arrow rather than a
+     filled pill. It gets the same colour movement while the circle itself
+     stays fixed and only its arrow shifts. */
+  .ink-cta-icon {
+    @apply relative isolate overflow-hidden border-2 border-transparent bg-ink text-white transition-colors duration-300;
+  }
+  .ink-cta-icon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: #1a4d8f;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .group:hover .ink-cta-icon,
+  .group:focus-visible .ink-cta-icon {
+    border-color: var(--fg);
+  }
+  .group:hover .ink-cta-icon::before,
+  .group:focus-visible .ink-cta-icon::before {
+    transform: scaleX(1);
+  }
+  .group:focus-visible .ink-cta-icon::before {
+    transition-duration: 150ms;
+  }
+  .ink-cta-icon > svg {
+    position: relative;
+    transition: transform 300ms;
+  }
+  .group:hover .ink-cta-icon > svg,
+  .group:focus-visible .ink-cta-icon > svg {
+    transform: translateX(0.25rem);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ink-cta::before,
+    .ink-cta-icon::before,
+    .ink-cta-icon > svg {
+      transition: none;
+    }
+  }
   /* Form fields (contact page) */
   .field-label {
     @apply mb-1.5 block text-sm font-medium text-ink;

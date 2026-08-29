@@ -588,7 +588,7 @@ export default function ConsultantProfile({
                   Ask the practice team for guidance before choosing a consultant or treatment.
                 </span>
               </span>
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white transition-transform duration-300 group-hover:translate-x-1">
+              <span className="ink-cta-icon flex h-12 w-12 items-center justify-center rounded-full">
                 <Arrow />
               </span>
             </Link>

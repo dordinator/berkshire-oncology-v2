@@ -19,7 +19,6 @@ type Variant =
   | "light"
   | "onPhoto"
   | "onPhotoGhost"
-  | "patientHero"
   | "sage";
 
 // There is no focus ring on this site, so keyboard focus has to come from the
@@ -30,19 +29,17 @@ const base =
   "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
 
 // Blue-fill hover states use the button's own two-pixel border. Keeping the
-// transparent border in the resting state prevents any movement when it turns
-// white, and the animated fill cannot paint over it.
+// border transparent in the resting state prevents movement when its active
+// colour appears, and the animated fill cannot paint over it.
 const variants: Record<Variant, string> = {
   primary:
-    "border-2 border-transparent bg-ink text-white hover:border-white focus-visible:border-white",
+    "border-2 border-transparent bg-ink text-white hover:border-ink focus-visible:border-ink",
   ghost: "border border-ink/15 text-ink hover:border-ink/40",
   light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
     "border-2 border-transparent bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
-  patientHero:
-    "border-2 border-transparent bg-ink text-white hover:border-ink focus-visible:border-ink",
   // The cancer-types sheet's pill: deep sage, AA against white numerals.
   sage: "bg-[#5c7767] text-white",
 };
@@ -54,7 +51,6 @@ const fills: Record<Variant, string> = {
   light: "bg-canvas-soft",
   onPhoto: "bg-accent",
   onPhotoGhost: "bg-white/15",
-  patientHero: "bg-accent",
   sage: "bg-[#4d6659]",
 };
 

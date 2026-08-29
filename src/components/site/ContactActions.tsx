@@ -10,10 +10,9 @@ import { site } from "@/content/site";
 // route transitions, and the label needs an icon in front of it instead of the
 // trailing arrow.
 //
-// They don't react to hover. They used to carry the same wipe-across fill as
-// <Button>, which on a phone number reads as decoration for its own sake. What
-// remains is a focus-visible state — not a flourish but the only thing marking
-// where a keyboard user is, since the site draws no focus ring.
+// The navy telephone action uses the same site-wide wipe and focus treatment
+// as every other solid navy CTA. The icon stays fixed because it identifies the
+// action; there is no trailing directional arrow to move.
 const base =
   "inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-[15px] font-medium transition-colors duration-200 sm:w-auto";
 
@@ -35,7 +34,7 @@ export default function ContactActions({
     >
       <a
         href={tel}
-        className={`${base} bg-ink text-white focus-visible:bg-accent`}
+        className={`${base} ink-cta`}
       >
         <IconPhone className="h-[18px] w-[18px]" aria-hidden />
         <span>

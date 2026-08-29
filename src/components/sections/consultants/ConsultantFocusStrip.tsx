@@ -105,7 +105,7 @@ function Card({
         <Link
           href="/contact#consultation"
           tabIndex={interactive ? undefined : -1}
-          className="group/cta inline-flex max-w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-1.5 text-center text-sm font-medium leading-tight text-white transition-colors hover:bg-accent focus-visible:bg-accent"
+          className="ink-cta group/cta inline-flex max-w-full items-center justify-center gap-2 rounded-full px-4 py-1.5 text-center text-sm font-medium leading-tight"
         >
           Arrange a consultation
           <span

@@ -295,7 +295,7 @@ export default function MobileNav({
               <Link
                 href="/contact"
                 onClick={onClose}
-                className="flex min-h-[52px] items-center justify-center rounded-full bg-ink px-4 text-[15px] font-medium text-white transition-colors hover:bg-accent"
+                className="ink-cta flex min-h-[52px] items-center justify-center rounded-full px-4 text-[15px] font-medium"
               >
                 Contact us
               </Link>

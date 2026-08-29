@@ -333,7 +333,7 @@ export default function TreatmentSections({
               </p>
               <Link
                 href="/specialities#browse-all"
-                className="group inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full bg-ink px-6 text-sm font-medium text-white transition-colors hover:bg-accent"
+                className="ink-cta group inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full px-6 text-sm font-medium"
               >
                 Find your cancer type
                 <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />

@@ -15,7 +15,7 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
         </p>
         <button
           onClick={reset}
-          className="mt-8 inline-flex items-center justify-center rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent"
+          className="ink-cta mt-8 inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-medium"
         >
           Try again
         </button>
