@@ -10,7 +10,6 @@ import { buildFrames, cameraAt, project } from "@/components/sections/locations/
 import Button from "@/components/ui/Button";
 import { attribution } from "@/content/mapPaths.generated";
 import { journeyStops } from "@/content/journey";
-import { site } from "@/content/site";
 import {
   getLenis,
   resizeSmoothScroll,
@@ -722,93 +721,6 @@ function LocationsViewport({ item, general = false }: { item: CancerTypePrototyp
   return <GeneralLocationsViewport item={item} general={general} />;
 }
 
-function ContactRouteLink({
-  href,
-  title,
-  description,
-}: {
-  href: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="group -mx-3 flex min-h-[6.25rem] items-center justify-between gap-5 border-t border-ink/10 px-3 py-5 text-left last:border-b"
-    >
-      <span className="min-w-0">
-        <span className="block font-display text-xl font-semibold leading-tight tracking-[-0.02em] text-ink md:text-2xl">
-          {title}
-        </span>
-        <span className="mt-2 block max-w-md text-[13px] leading-relaxed text-ink-muted md:text-sm">
-          {description}
-        </span>
-      </span>
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#a66f1f]/30 text-[#a66f1f] transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
-        <Arrow />
-      </span>
-    </Link>
-  );
-}
-
-function ContactViewport({ item, onReset, general = false }: { item: CancerTypePrototypeItem; onReset: () => void; general?: boolean }) {
-  const phoneHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
-
-  return (
-    <section id="contact-next-step" className="flex scroll-mt-24 items-center bg-ink py-12 text-white">
-      <div className="w-full px-5 sm:px-8 md:px-10 lg:px-[5vw]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(25rem,0.72fr)] lg:items-center lg:gap-[7vw]">
-          <div className="max-w-4xl">
-            <h2 className="font-display text-[clamp(3.2rem,6.1vw,7rem)] font-semibold leading-[0.91] tracking-[-0.06em] [text-shadow:0_2px_24px_rgba(6,28,70,0.45)]">
-              You do not need to work out the next step alone.
-            </h2>
-            <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/78 md:text-xl">
-              {general
-                ? "Tell us what you know and the practice team can help you decide who to speak to."
-                : `Tell the practice team what you know about your ${item.title.toLowerCase()} diagnosis. They can help you find the right consultant and next step.`}
-            </p>
-            {!general && (
-              <button
-                type="button"
-                onClick={onReset}
-                className="mt-8 text-sm text-white/65 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white"
-              >
-                Choose a different cancer type
-              </button>
-            )}
-          </div>
-
-          <div className="rounded-[2rem] border border-white/55 bg-[#fbfaf5]/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.55)] backdrop-blur-md sm:p-8 lg:p-10">
-            <p className="text-[13px] leading-relaxed text-ink-muted">
-              What would help now?
-            </p>
-            <div className="mt-4">
-              <ContactRouteLink
-                href="/contact#consultation"
-                title="Arrange a consultation"
-                description={general
-                  ? "Request an appointment and share the details you have."
-                  : `Request an appointment about ${item.title.toLowerCase()}. You only need to share the details you have.`}
-              />
-              <ContactRouteLink
-                href="/contact#guidance"
-                title="I’m not sure what happens next"
-                description="Ask the practice team what to do next. You do not need to choose a consultant or treatment first."
-              />
-            </div>
-            <div className="mt-6 flex flex-wrap items-baseline justify-between gap-3 border-t border-ink/10 pt-5">
-              <span className="text-xs leading-relaxed text-ink-muted">Prefer to speak to someone?</span>
-              <a href={phoneHref} className="font-display text-xl font-semibold text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-[#a66f1f]">
-                {site.contact.phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function CancerJourney({ item, onReset, general = false }: { item: CancerTypePrototypeItem; onReset: () => void; general?: boolean }) {
   if (!item.treated) {
     return (
@@ -831,7 +743,6 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
       <GeneralSpecialistsViewport item={item} general={general} />
       <TreatmentsViewport item={item} general={general} />
       <LocationsViewport item={item} general={general} />
-      <ContactViewport item={item} onReset={onReset} general={general} />
     </motion.div>
   );
 }

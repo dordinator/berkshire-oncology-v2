@@ -15,5 +15,5 @@ export function hasFooterContact(pathname: string) {
 }
 
 export function shouldRenderSharedFooterContact(pathname: string) {
-  return hasFooterContact(pathname) && pathname !== "/specialities";
+  return hasFooterContact(pathname);
 }
