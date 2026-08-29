@@ -207,13 +207,17 @@ function FeatureResourceCard({
         </span>
       </span>
 
-      <span className="mt-3 flex min-h-12 flex-1 items-center sm:mt-5">
+      <span className="mt-4 flex min-h-28 flex-1 items-center justify-center overflow-hidden py-2 sm:mt-5 sm:min-h-32 lg:min-h-36">
         {result.logo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={result.logo}
             alt=""
-            className="max-h-12 max-w-[205px] object-contain object-left sm:max-h-16 sm:max-w-[250px] lg:max-h-[72px] lg:max-w-[280px]"
+            className={`block max-h-24 w-auto max-w-[88%] object-contain sm:max-h-28 lg:max-h-32 ${
+              result.logo === "/links/sciensus.png"
+                ? "scale-[3.15] mix-blend-multiply"
+                : ""
+            }`}
           />
         ) : (
           <span className="font-display text-4xl font-semibold text-ink">
@@ -222,7 +226,7 @@ function FeatureResourceCard({
         )}
       </span>
 
-      <span className="block border-t border-ink/10 pt-4 sm:pt-5">
+      <span className="block pt-2 sm:pt-3">
         <span className="block font-display text-[19px] font-semibold leading-tight tracking-tight text-ink sm:text-2xl">
           {result.title}
         </span>
