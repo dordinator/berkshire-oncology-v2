@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
-import Breadcrumbs from "@/components/site/Breadcrumbs";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import LocationsJourney from "@/components/sections/locations/LocationsJourney";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
-import { allNavLinks, getSection } from "@/content/navigation";
+import { allNavLinks } from "@/content/navigation";
 import { getLocation } from "@/content/locations";
 import { journeyStops } from "@/content/journey";
 import { attribution } from "@/content/mapPaths.generated";
@@ -28,7 +27,7 @@ import { attribution } from "@/content/mapPaths.generated";
 export const metadata: Metadata = pageMeta({
   title: "Locations",
   description:
-    "The hospitals and cancer centres where the consultants of Berkshire Oncology Partnership practise, in Reading, Windsor and Oxford.",
+    "Find Berkshire Oncology locations in Reading, Windsor and Oxford, and understand how to confirm where your appointment or treatment will take place.",
   path: "/locations",
 });
 
@@ -52,8 +51,6 @@ function Arrow({ className = "" }: { className?: string }) {
 }
 
 export default function LocationsPage() {
-  const section = getSection("locations");
-
   // The pages under /locations that aren't hospitals — travel, parking and the
   // other-providers page. Read from the IA so nothing is missed.
   const practicalPages = allNavLinks.filter(
@@ -76,46 +73,35 @@ export default function LocationsPage() {
         attribution={attribution}
         hero={
           <>
-            {/* Hidden below md: the phone hero's box is exactly full without
-                it, and the breadcrumb trail survives in the page's JSON-LD. */}
-            <div className="mb-6 hidden md:block">
-              <Breadcrumbs
-                items={[{ name: "Home", href: "/" }, { name: "Locations" }]}
-              />
-            </div>
             <Reveal>
-              <span className="eyebrow">
-                <span className="h-px w-8 bg-ink-muted" /> Our locations
-              </span>
+              <h1 className="heading-lg">Where you may be seen</h1>
             </Reveal>
             <Reveal delay={1}>
-              <h1 className="heading-lg mt-5">Where we practise</h1>
+              <p className="body-lg mt-6 max-w-xl">
+                Your location depends on your consultant and the care planned
+                for you. Berkshire Oncology Partnership is a group of
+                independent consultant oncologists based in Reading. They also
+                practise at hospitals and cancer centres in Reading, Windsor
+                and Oxford.
+              </p>
             </Reveal>
             <Reveal delay={2}>
-              <p className="body-lg mt-6 max-w-xl">
-                The partnership is a group of independent consultants rather
-                than a single hospital. Between them they practise across
-                several providers, including NHS and private sites, so the
-                building you come to depends on your consultant and on the care
-                you need.
+              <p className="body-lg mt-5 max-w-xl">
+                These descriptions explain what each site provides generally,
+                not which Berkshire Oncology services take place there. Your
+                consultant or the practice team will confirm where you need to
+                go before you travel.
               </p>
             </Reveal>
             <Reveal delay={3}>
-              {/* Hidden below md: the hero shares a pinned stage with the map
-                  on a phone, and two paragraphs push the panel past its box. */}
-              <p className="mt-5 hidden max-w-xl text-[15px] leading-relaxed text-ink-muted md:block">
-                {section?.summary}
-              </p>
-            </Reveal>
-            <Reveal delay={4}>
               {/* The same divided-row grammar as the journey's outro, so the
                   two wide shots bookend each other. Short names by hand —
                   the full ones are the journey's own panels; a row only
                   needs to say who is where. Keep in step with journey.ts. */}
-              {/* Hidden below md for the same reason as the paragraph above:
-                  the phone's hero box cannot hold them, and the journey
-                  itself is about to say the same thing better. */}
-              <div className="mt-6 hidden max-w-md divide-y divide-ink/[0.07] border-y border-ink/[0.07] md:block lg:mt-8">
+              {/* The stacked map layout does not have enough vertical space
+                  for this optional summary at the verified body-copy sizes.
+                  The journey itself provides the same locations below lg. */}
+              <div className="mt-6 hidden max-w-md divide-y divide-ink/[0.07] border-y border-ink/[0.07] lg:mt-8 lg:block">
                 {(
                   [
                     ["Reading", "The practice · Spire Dunedin · Royal Berkshire"],
@@ -130,16 +116,16 @@ export default function LocationsPage() {
                     <span className="font-display text-base text-ink lg:text-lg">
                       {town}
                     </span>
-                    <span className="text-right text-[12px] leading-snug text-ink-muted lg:text-[13px]">
+                    <span className="text-right text-sm leading-snug text-ink-muted">
                       {sites}
                     </span>
                   </div>
                 ))}
               </div>
             </Reveal>
-            <Reveal delay={5}>
-              <p className="mt-6 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted lg:mt-8">
-                Scroll to explore the six sites
+            <Reveal delay={4}>
+              <p className="mt-6 flex items-center gap-2.5 text-xs font-medium uppercase tracking-[0.18em] text-ink-muted lg:mt-8">
+                Scroll to explore each location
                 <svg
                   aria-hidden
                   viewBox="0 0 16 16"
@@ -163,7 +149,7 @@ export default function LocationsPage() {
           // UK-wide shot it opened on, and the practical pages that used to
           // live in a section below now close the story beside it.
           <>
-            <h2 className="font-display text-[26px] leading-tight text-ink md:text-3xl">
+            <h2 className="font-display text-2xl leading-tight text-ink md:text-3xl">
               Getting there and other sites
             </h2>
             <div className="mt-5 divide-y divide-ink/[0.07] border-y border-ink/[0.07] lg:mt-7">
@@ -178,7 +164,7 @@ export default function LocationsPage() {
                       {link.label}
                     </span>
                     {link.description && (
-                      <span className="mt-0.5 hidden text-[13px] leading-snug text-ink-muted md:block">
+                      <span className="mt-0.5 hidden text-sm leading-snug text-ink-muted md:block">
                         {link.description}
                       </span>
                     )}
@@ -192,11 +178,10 @@ export default function LocationsPage() {
               <h3 className="font-display text-lg text-ink lg:text-xl">
                 Not sure which site you need?
               </h3>
-              <p className="mt-2 hidden max-w-md text-[14px] leading-relaxed text-ink-muted sm:block">
-                Our practice manager can tell you where your consultant sees
-                patients, and where your treatment would take place, before you
-                make any arrangements. We would always rather check than have
-                you go to the wrong building.
+              <p className="mt-2 hidden max-w-md text-base leading-relaxed text-ink-muted sm:block">
+                Contact the practice team if you are unsure where to go. They
+                can check where your consultant sees patients and where your
+                treatment is planned.
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-3 lg:mt-5">
                 <Button href="/contact#guidance" variant="primary">

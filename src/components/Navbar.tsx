@@ -37,12 +37,15 @@ export default function Navbar() {
   // icons straight onto them — invisible until you scroll. There the pill is
   // solid from the first pixel. The cancer-types hub has no hero at all —
   // its picker starts right under the bar, and a transparent bar sitting on
-  // working content reads as unanchored — so it gets the solid pill too.
+  // working content reads as unanchored — so it gets the solid pill too. The
+  // locations landing places detailed map lines behind the bar, so it also
+  // needs the solid surface for consistently clear navigation.
   // Everywhere else the transparent-until-scrolled behaviour is as it was.
   const pathname = usePathname();
   const solidFromTop =
     pathname === "/" ||
     pathname === "/contact" ||
+    pathname === "/locations" ||
     pathname === "/specialities" ||
     pathname.startsWith("/consultants/") ||
     pathname === "/treatments" ||

@@ -40,8 +40,6 @@ import type { MapStop } from "./mapCamera";
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface JourneyStop extends MapStop {
-  /** "01" … "06" — set once in the content layer so numbering never drifts. */
-  index: string;
   eyebrow: string;
   area: string;
   provider?: string;
@@ -72,7 +70,7 @@ function Arrow() {
 
 function NhsPill() {
   return (
-    <span className="rounded-full border border-accent/25 bg-accent/[0.07] px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
+    <span className="rounded-full border border-accent/25 bg-accent/[0.07] px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-accent">
       NHS
     </span>
   );
@@ -341,27 +339,23 @@ export default function LocationsJourney({
       <div key="hero">{hero}</div>,
       ...stops.map((stop) => (
         <article key={stop.name}>
-          <p className="flex items-center gap-3 text-[12px] font-medium uppercase tracking-[0.18em] text-ink-muted">
-            <span className="font-display text-base tracking-normal text-accent">
-              {stop.index}
-            </span>
-            <span aria-hidden className="h-px w-8 bg-ink-muted/40" />
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-muted">
             {stop.eyebrow}
           </p>
 
           <div className="mt-3 flex flex-wrap items-center gap-3 lg:mt-4">
-            <h2 className="font-display text-[26px] leading-tight text-ink md:text-4xl">
+            <h2 className="font-display text-2xl leading-tight text-ink md:text-4xl">
               {stop.name}
             </h2>
             {stop.nhs && <NhsPill />}
           </div>
 
-          <p className="mt-2 text-[15px] text-ink-muted">
+          <p className="mt-2 text-base text-ink-muted">
             {stop.area}
             {stop.provider ? ` · ${stop.provider}` : ""}
           </p>
 
-          <p className="mt-4 max-w-md text-[14px] leading-relaxed text-ink md:text-base lg:mt-5">
+          <p className="mt-4 max-w-md text-base leading-relaxed text-ink lg:mt-5">
             {stop.description}
           </p>
 

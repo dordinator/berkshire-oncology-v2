@@ -38,7 +38,6 @@ function geoOf(hospitalName: string, location?: string) {
 function hospitalStop(
   slug: string,
   opts: {
-    index: string;
     eyebrow: string;
     hospitalName: string;
     hospitalLocation?: string;
@@ -50,7 +49,6 @@ function hospitalStop(
     throw new Error(`locations.ts is missing ${slug} or its description`);
   }
   return {
-    index: opts.index,
     eyebrow: opts.eyebrow,
     slug: loc.slug,
     name: loc.name,
@@ -68,14 +66,13 @@ function hospitalStop(
 
 export const journeyStops: JourneyStop[] = [
   {
-    index: "01",
     eyebrow: "The practice",
     // Matches the practice's grounds polygon in mapPaths.generated sitePolys.
     slug: "practice",
     name: "Berkshire Oncology Partnership",
     area: "Reading",
     description:
-      "The practice's own rooms at 13 Bath Road, directly opposite Spire Dunedin Hospital. This is where the partnership is based, where our practice manager is reached, and where correspondence is handled — every journey with us starts here.",
+      "The partnership is based at 13 Bath Road in Reading, opposite Spire Dunedin Hospital. Contact the practice team about appointments or general enquiries. They can confirm which location you need before you travel.",
     address: site.contact.addressLines.join(", "),
     href: "/contact",
     linkLabel: "Contact the practice",
@@ -83,33 +80,28 @@ export const journeyStops: JourneyStop[] = [
     ...site.contact.geo,
   },
   hospitalStop("spire-dunedin-reading", {
-    index: "02",
     eyebrow: "Private hospital",
     hospitalName: "Spire Dunedin Hospital",
     spanM: 1000,
   }),
   hospitalStop("royal-berkshire-hospital", {
-    index: "03",
     eyebrow: "NHS hospital",
     hospitalName: "Royal Berkshire Hospital",
     spanM: 1200,
   }),
   hospitalStop("princess-margaret-windsor", {
-    index: "04",
     eyebrow: "Private hospital",
     hospitalName: "Princess Margaret Hospital",
     spanM: 1400,
   }),
   hospitalStop("genesiscare-windsor", {
-    index: "05",
-    eyebrow: "Cancer centre",
+    eyebrow: "Private cancer centre",
     hospitalName: "GenesisCare",
     hospitalLocation: "Windsor",
     spanM: 1400,
   }),
   hospitalStop("genesiscare-oxford", {
-    index: "06",
-    eyebrow: "Cancer centre",
+    eyebrow: "Private cancer centre",
     hospitalName: "GenesisCare",
     hospitalLocation: "Oxford",
     spanM: 1600,

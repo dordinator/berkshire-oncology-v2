@@ -73,7 +73,7 @@ export const locations: Location[] = [
     provider: "Spire Healthcare",
     url: "https://www.spirehealthcare.com/spire-dunedin-hospital",
     description:
-      "A private hospital on Bath Road run by Spire Healthcare. It has outpatient consulting rooms, diagnostic imaging including MRI, a one-stop breast clinic, and cancer investigation and treatment services.",
+      "A private hospital on Bath Road run by Spire Healthcare, offering MRI scans, a one-stop breast clinic and cancer investigation and treatment services.",
     address: "16 Bath Road, Reading RG1 6NS",
     services: [],
   },
@@ -84,7 +84,7 @@ export const locations: Location[] = [
     provider: "Circle Health Group",
     url: "https://www.circlehealthgroup.co.uk/hospitals/the-princess-margaret-hospital",
     description:
-      "A private hospital in central Windsor with inpatient beds, operating theatres and diagnostic imaging, including X-ray, MRI and mammography. Circle Health Group also lists an oncology centre at the hospital.",
+      "A private hospital in central Windsor run by Circle Health Group, with consulting rooms, inpatient beds, diagnostic imaging and an oncology centre.",
     address: "Osborne Road, Windsor SL4 3SJ",
     services: [],
   },
@@ -95,7 +95,7 @@ export const locations: Location[] = [
     provider: "GenesisCare",
     url: "https://www.genesiscare.com/uk/our-centres/windsor",
     description:
-      "A purpose-built specialist outpatient cancer centre on Alma Road, offering advanced radiotherapy, chemotherapy and systemic anti-cancer therapy, with on-site diagnostics including PET-CT and MRI.",
+      "A private outpatient cancer centre on Alma Road run by GenesisCare, offering radiotherapy, chemotherapy and diagnostic scans, including PET-CT and MRI.",
     address: "69 Alma Road, Windsor SL4 3HD",
     services: [],
   },
@@ -108,7 +108,7 @@ export const locations: Location[] = [
     provider: "GenesisCare",
     url: "https://www.genesiscare.com/uk/our-centres/oxford",
     description:
-      "A specialist outpatient cancer and radiotherapy centre south of Oxford. It offers advanced radiotherapy, including treatment using an MR Linac, as well as chemotherapy, systemic anti-cancer therapy and diagnostic services.",
+      "A private outpatient cancer centre south of Oxford run by GenesisCare, offering radiotherapy, including MRI-guided treatment using an MR Linac, as well as chemotherapy and diagnostic services.",
     address: "Peters Way, Sandy Lane West, Oxford OX4 6LB",
     services: [],
   },
@@ -119,7 +119,7 @@ export const locations: Location[] = [
     provider: "Royal Berkshire NHS Foundation Trust",
     url: "https://www.royalberkshire.nhs.uk/our-locations/royal-berkshire-hospital",
     description:
-      "The main NHS acute hospital of the Royal Berkshire NHS Foundation Trust. It is the trust's largest hospital and provides acute and specialist care for West Berkshire, including cancer services.",
+      "Royal Berkshire NHS Foundation Trust's main acute hospital. The Berkshire Cancer Centre is based at the hospital and provides NHS cancer diagnosis and treatment services.",
     address: "Craven Road, Reading RG1 5LE",
     services: [],
     nhs: true,
