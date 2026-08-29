@@ -342,6 +342,7 @@ const radiotherapyTreatmentSlugs = new Set([
   "brachytherapy",
   "radioisotope-therapy",
 ]);
+const MAX_AUTO_EXPANDED_TREATMENT_ROWS = 3;
 
 function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] {
   const consultantLinked = item.treatmentBasis === "consultant-linked";
@@ -393,17 +394,23 @@ function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] 
 }
 
 function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototypeItem; general?: boolean }) {
-  const [openTreatment, setOpenTreatment] = useState(0);
-  const treatmentSectionRef = useRef<HTMLElement>(null);
-  const manualTreatmentUntil = useRef(0);
-  const treatmentReducedMotion = useReducedMotion();
   const treatmentPanels = useMemo(
     () => (general ? generalTreatmentPanels : cancerTreatmentPanels(item)),
     [general, item],
   );
+  const collapseByDefault = !general && treatmentPanels.some(
+    (panel) =>
+      (panel.treatments?.length ?? 0) > MAX_AUTO_EXPANDED_TREATMENT_ROWS,
+  );
+  const [openTreatment, setOpenTreatment] = useState<number | null>(
+    collapseByDefault ? null : 0,
+  );
+  const treatmentSectionRef = useRef<HTMLElement>(null);
+  const manualTreatmentUntil = useRef(0);
+  const treatmentReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (treatmentReducedMotion || treatmentPanels.length < 2) return;
+    if (collapseByDefault || treatmentReducedMotion || treatmentPanels.length < 2) return;
 
     let animationFrame = 0;
     const updateFromScroll = () => {
@@ -431,14 +438,16 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
       window.removeEventListener("scroll", updateFromScroll);
       window.removeEventListener("resize", updateFromScroll);
     };
-  }, [treatmentPanels.length, treatmentReducedMotion]);
+  }, [collapseByDefault, treatmentPanels.length, treatmentReducedMotion]);
 
   function chooseTreatment(index: number) {
     manualTreatmentUntil.current = Date.now() + 1400;
-    setOpenTreatment(index);
+    setOpenTreatment((current) =>
+      collapseByDefault && current === index ? null : index,
+    );
   }
 
-  const sectionHeight = treatmentPanels.length === 1
+  const sectionHeight = collapseByDefault || treatmentPanels.length === 1
     ? "lg:min-h-[100svh]"
     : treatmentPanels.length === 2
       ? "lg:min-h-[145svh]"
