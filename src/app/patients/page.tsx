@@ -5,7 +5,7 @@ import JsonLd from "@/components/site/JsonLd";
 import Reveal from "@/components/ui/Reveal";
 import PatientsHero from "@/components/sections/patients/PatientsHero";
 import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayScroll";
-// The scroll choreography built for /resources — markup-free and generic, it
+// The scroll choreography built for /resources is markup-free and generic. It
 // wires whatever data-fx hooks it finds. Mounted here WITHOUT IntensityStage,
 // so it runs at its default level 2 "Flowing": everything scrubbed, nothing
 // hijacked, and no review switcher on a patient-facing page.
@@ -16,12 +16,12 @@ import { faqs } from "@/content/patientHub";
 export const metadata: Metadata = pageMeta({
   title: "Patients and families",
   description:
-    "A clear place to start with Berkshire Oncology Partnership — for a new diagnosis, a second opinion, private treatment, ongoing care or supporting someone with cancer.",
+    "A clear place to start with Berkshire Oncology Partnership for a new diagnosis, a second opinion, private treatment, ongoing care or supporting someone with cancer.",
   path: "/patients",
 });
 
 // Rendered by the practical card. `body`/`cta` from the old three-column grid
-// were dropped with it — the card names the destination, the destination
+// were dropped with it. The card names the destination, and the destination
 // explains itself.
 const practicalLinks = [
   {
@@ -86,7 +86,7 @@ export default function PatientsPage() {
 
       {/* The hero's composition, mirrored: panel + photograph + question card
           on the LEFT, text on the RIGHT, and the three practical destinations
-          carried by the card the way the hero's five routes are — the two
+          carried by the card the way the hero's five routes are. The two
           bookend compositions rhyme without repeating. data-drift-band scopes
           the panel's scrubbed travel to this section. */}
       <section
@@ -97,7 +97,7 @@ export default function PatientsPage() {
         <div className="container-wide">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
             <div className="relative order-2 min-h-[560px] py-6 lg:order-1 lg:min-h-[660px]">
-              {/* The home page's chapter gold — the hero's panel is sage, so
+              {/* The home page's chapter gold. The hero's panel is sage, so
                   the two bookend compositions each get their own colour. */}
               <div
                 aria-hidden
@@ -249,6 +249,7 @@ export default function PatientsPage() {
               {faqs.map((faq) => (
                 <details
                   key={faq.q}
+                  name="patients-faq"
                   className="group border-b border-ink/[0.09] last:border-b-0"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden sm:py-6">

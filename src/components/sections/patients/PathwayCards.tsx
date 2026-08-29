@@ -3,7 +3,7 @@ import Reveal from "@/components/ui/Reveal";
 import { pathways } from "@/content/patientHub";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// The five ways in. Each one opens where it stands — nobody arriving at this
+// The five ways in. Each one opens where it stands, so nobody arriving at this
 // page frightened should have to gamble on a link and land somewhere that turns
 // out not to be about them.
 //

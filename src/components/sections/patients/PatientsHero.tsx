@@ -77,7 +77,7 @@ export default function PatientsHero() {
           </div>
 
           {/* No data-fx="rise" here, deliberately: this card is above the fold,
-              and a scrubbed entrance catches mid-flight on first paint —
+              and a scrubbed entrance catches mid-flight on first paint.
               half-transparent and adrift over the photograph. Entrances belong
               to elements the reader scrolls TO. */}
           <div className="absolute bottom-3 left-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]">

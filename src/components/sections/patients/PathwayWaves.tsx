@@ -2,7 +2,7 @@
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The graphic layer behind the five pathway cards. One component, three levels,
-// driven by the shared site-wide toggle in @/components/graphic/GraphicMode —
+// driven by the shared site-wide toggle in @/components/graphic/GraphicMode.
 // the same context the cancer-type pages use, so a visitor who picks "quiet"
 // there gets a quiet patient hub too.
 //
@@ -11,7 +11,7 @@
 // meaning a patient has to decode, and all of it is aria-hidden.
 //
 // The blue is the brand accent (#1a4d8f) with a little of the logo gold
-// (#c8992f) — the same two colours the tariffs particle field uses, so the two
+// (#c8992f), the same two colours the tariffs particle field uses, so the two
 // pages read as one system.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -21,7 +21,7 @@ import { useGraphicMode } from "@/components/graphic/GraphicMode";
 const ACCENT = "#1a4d8f";
 const GOLD = "#c8992f";
 
-/** Quiet — four fine-line waves, close to invisible. Static. */
+/** Quiet: four fine-line waves, close to invisible. Static. */
 function QuietWaves() {
   return (
     <svg
@@ -49,7 +49,7 @@ function QuietWaves() {
 }
 
 /*
-  Integrated — the five routes drawn as one connected thing.
+  Integrated: the five routes drawn as one connected thing.
 
   On a phone the cards run down the middle of a 375px column, so a vertical
   spine lands dead centre and reads as a seam or a print registration mark
@@ -92,7 +92,7 @@ function IntegratedMobile() {
   From sm up there is room either side of the reading column, so the spine and
   its branches can do their job: one route, five ways onto it.
 
-  The geometry is decorative rather than measured — it can't anchor to the real
+  The geometry is decorative rather than measured. It can't anchor to the real
   card boxes at every breakpoint, so it aims for the rhythm of the stack and
   stays faint enough that a few pixels of drift never reads as a mistake.
 */

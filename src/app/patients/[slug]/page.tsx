@@ -4,7 +4,7 @@ import SectionPage, { sectionPageMeta } from "@/components/site/SectionPage";
 import { allNavLinks, getNavLink } from "@/content/navigation";
 
 // Every page under /patients/ is driven by the information architecture in
-// src/content/navigation.ts — add a link there and the route appears here.
+// src/content/navigation.ts. Add a link there and the route appears here.
 // Links that sit in this section but point elsewhere (e.g. "Patient resources
 // and support" → /resources) are filtered out by the href prefix.
 const PREFIX = "/patients/";

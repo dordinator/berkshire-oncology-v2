@@ -4,7 +4,7 @@
 //
 // The shared toggle in @/components/graphic/GraphicMode persists to
 // localStorage but has no URL handling, and it is used by other pages that are
-// being built in parallel — so rather than reach into it, this reads the
+// being built in parallel. Rather than reach into it, this reads the
 // parameter once on mount and pushes the value through the normal setMode path.
 // Delete this alongside the toggle when the partnership has settled on a mode.
 //

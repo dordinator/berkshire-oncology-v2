@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Copy for the patient hub at /patients.
 //
-// ⚠ APPROVAL NOTE — read before this page goes live.
+// ⚠ APPROVAL NOTE: read before this page goes live.
 //
 // Everything here is deliberately restricted to what the site already states or
 // to plain practical process. There are no timescales, no prices, no referral
@@ -16,10 +16,10 @@
 //
 // Verified sources for the facts used here:
 //   • ten partners, all holding NHS consultant posts at the Royal Berkshire
-//     Hospital, appraised annually — src/app/page.tsx (existing home copy)
-//   • the five locations                                — src/content/locations.ts
-//   • tariff wording, quoted almost verbatim            — src/app/tariffs/page.tsx
-//   • contact details and practice manager              — src/content/site.ts
+//     Hospital, appraised annually: src/app/page.tsx (existing home copy)
+//   • the five locations: src/content/locations.ts
+//   • tariff wording, quoted almost verbatim: src/app/tariffs/page.tsx
+//   • contact details and practice manager: src/content/site.ts
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface Pathway {
@@ -30,7 +30,7 @@ export interface Pathway {
   summary: string;
   /** Two or three calm sentences, shown when the card opens. */
   body: string[];
-  /** Concrete, checkable things — not clinical advice. */
+  /** Concrete, checkable things, not clinical advice. */
   points?: string[];
   action: { label: string; href: string };
 }
@@ -48,7 +48,7 @@ export const pathways: Pathway[] = [
     points: [
       "Have your diagnosis to hand, along with any scans, reports or letters you have been given",
       "Tell us the name of the team currently looking after you, if there is one",
-      "If you are insured, have your policy details nearby — your insurer may need to authorise the appointment",
+      "If you are insured, have your policy details nearby. Your insurer may need to authorise the appointment",
     ],
     action: { label: "Find a consultant by cancer type", href: "/specialities" },
   },
@@ -64,7 +64,7 @@ export const pathways: Pathway[] = [
     points: [
       "Bring or forward your diagnosis, imaging, pathology reports and any treatment plan you have been given",
       "Tell us which hospital and which team hold your records",
-      "Say clearly what you would like reviewed — the diagnosis, the proposed treatment, or both",
+      "Say clearly what you would like reviewed: the diagnosis, the proposed treatment, or both",
     ],
     action: { label: "Contact the practice", href: "/contact" },
   },
@@ -74,13 +74,13 @@ export const pathways: Pathway[] = [
     summary:
       "You are not ready to book anything. You want to understand the options first.",
     body: [
-      "It is reasonable to want to know what a treatment involves before you decide anything, and reading about it beforehand is not a substitute for a consultation — it just means you arrive with better questions.",
+      "It is reasonable to want to know what a treatment involves before you decide anything, and reading about it beforehand is not a substitute for a consultation. It just means you arrive with better questions.",
       "The treatment pages set out what each approach involves in general terms. What is right for you depends on your diagnosis, and that conversation belongs in a consultation with a consultant who has seen your records.",
     ],
     points: [
       "The treatments section covers radiotherapy, chemotherapy, immunotherapy, hormone therapy, targeted therapies and more",
       "Each cancer type page lists the consultants who specialise in it",
-      "Bring your questions to the first appointment — writing them down beforehand helps",
+      "Bring your questions to the first appointment. Writing them down beforehand helps",
     ],
     action: { label: "Explore treatments", href: "/treatments" },
   },
@@ -119,7 +119,7 @@ export const pathways: Pathway[] = [
 ];
 
 // ── The journey, enquiry through follow-up ───────────────────────────────────
-// Process only. No timescales — NEEDS-APPROVAL if the partnership wants to
+// Process only. No timescales. NEEDS-APPROVAL if the partnership wants to
 // state how quickly patients are typically seen at any of these steps.
 export interface JourneyStep {
   n: string;
@@ -175,7 +175,7 @@ export const faqs: Faq[] = [
     // NEEDS-APPROVAL: referral requirements by insurer/hospital are not recorded
     // anywhere in this repo, so this answer routes rather than states.
     q: "Do I need a referral from my GP?",
-    a: "What is required varies between insurers and between hospitals, and your consultant may need clinical information before a first appointment. Rather than guess at your situation, call the practice team — they will tell you exactly what is needed in your case.",
+    a: "What is required varies between insurers and between hospitals, and your consultant may need clinical information before a first appointment. Rather than guess at your situation, call the practice team. They will tell you exactly what is needed in your case.",
   },
   {
     q: "Can I see a consultant privately if I am already under NHS care?",
@@ -187,7 +187,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What will private treatment cost?",
-    a: "Tariffs are intended as a guide only. Each self-funding package is tailored to the individual, and anyone funding their own treatment is given a comprehensive tariff before that treatment starts. Insured patients are strongly advised to obtain a quote beforehand to confirm the cost is covered in full — where an insurer does not settle an account in full, the shortfall is the patient's responsibility.",
+    a: "Tariffs are intended as a guide only. Each self-funding package is tailored to the individual, and anyone funding their own treatment is given a comprehensive tariff before that treatment starts. Insured patients are strongly advised to obtain a quote beforehand to confirm the cost is covered in full. Where an insurer does not settle an account in full, the shortfall is the patient's responsibility.",
   },
   {
     q: "Where will I be seen?",
@@ -196,7 +196,7 @@ export const faqs: Faq[] = [
   {
     // NEEDS-APPROVAL: practical rather than clinical, but still worth a check.
     q: "What should I bring to my first appointment?",
-    a: "Anything you already have that describes your diagnosis: scans, reports, clinic letters and a list of the medication you currently take. If you do not have these, come anyway — your consultant can request them. Bringing someone with you, and a written list of your questions, is often more useful than people expect.",
+    a: "Anything you already have that describes your diagnosis: scans, reports, clinic letters and a list of the medication you currently take. If you do not have these, come anyway. Your consultant can request them. Bringing someone with you, and a written list of your questions, is often more useful than people expect.",
   },
   {
     q: "Where can I find trusted cancer information and support?",
