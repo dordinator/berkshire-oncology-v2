@@ -7,7 +7,8 @@ guidance, not from the practice's own material. None of it has been read by a
 consultant yet. This document exists so that review is a short, concrete job
 rather than "read the website".
 
-Where content lives: `src/content/cancerInfo.ts` (clinical copy),
+Where content lives: `src/content/cancerInfo.ts` (full clinical guides),
+`src/content/cancerTreatmentGuides.ts` (treatment-only drafts),
 `src/content/careDelivery.ts` (which site does what),
 `src/content/cancerGroups.ts` (how the hub is grouped).
 
@@ -22,10 +23,15 @@ Where content lives: `src/content/cancerInfo.ts` (clinical copy),
 | Cancer of Unknown Primary — `/specialities/cancer-unknown-primary` | Draft, awaiting review | | |
 | Remaining 15 cancer types | Not yet written | — | — |
 
-To mark a page as reviewed, set `reviewedBy` and `reviewedOn` on that entry in
-`src/content/cancerInfo.ts`. The page then replaces the "awaiting clinical
-review" line with the reviewer's name and date automatically — there is no
-second place to update.
+The cancer-type hub also contains a treatment-only bowel cancer draft in
+`src/content/cancerTreatmentGuides.ts`. It is awaiting clinical review and does
+not make the unfinished bowel cancer detail page appear complete.
+
+To mark a full guide as reviewed, set `reviewedBy` and `reviewedOn` on that entry
+in `src/content/cancerInfo.ts`. For a treatment-only draft, set the same fields
+in `src/content/cancerTreatmentGuides.ts`. The page then replaces the "awaiting
+clinical review" line with the reviewer's name and date automatically — there
+is no second place to update.
 
 ---
 
@@ -53,6 +59,9 @@ Kept deliberately, and worth holding any future page to:
 | Breast | [NICE NG101 — Early and locally advanced breast cancer](https://www.nice.org.uk/guidance/ng101) (published 18 Jul 2018, last updated 14 Apr 2025) | Diagnostic pathway, receptor testing, sequencing of surgery / chemo / radiotherapy / endocrine therapy |
 | Breast | [NICE CG81 — Advanced breast cancer](https://www.nice.org.uk/guidance/cg81) | Framing of secondary breast cancer as control of disease and symptoms |
 | Breast | [Cancer Research UK — breast cancer](https://www.cancerresearchuk.org/about-cancer/breast-cancer) | Plain-English register for stage/grade/TNM explanation |
+| Bowel | [NICE NG151 — Colorectal cancer](https://www.nice.org.uk/guidance/ng151) (published 29 Jan 2020, last reviewed 29 Apr 2026) | Colon/rectal distinction, surgery, systemic therapy, molecular biomarkers and metastatic disease |
+| Bowel | [NHS — Treatment for bowel cancer](https://www.nhs.uk/conditions/bowel-cancer/treatment/) | Individual treatment factors and plain-English overview of surgery, chemotherapy, radiotherapy and selected medicines |
+| Bowel | [Cancer Research UK — Treatment for bowel cancer](https://www.cancerresearchuk.org/about-cancer/bowel-cancer/treatment) (last reviewed 10 Jan 2025) | Plain-English distinction between colon and rectal treatment pathways |
 | Prostate | [NICE NG131 — Prostate cancer: diagnosis and management](https://www.nice.org.uk/guidance/ng131) (published 9 May 2019, last updated 15 Dec 2021) | mpMRI before biopsy, transperineal biopsy, Gleason/grade group, risk stratification, treatment options by risk group |
 | Prostate | [Cancer Research UK — prostate cancer](https://www.cancerresearchuk.org/about-cancer/prostate-cancer) | Plain-English register; active surveillance explanation |
 | CUP | [NICE CG104 — Metastatic malignant disease of unknown primary origin in adults](https://www.nice.org.uk/guidance/cg104) (published 26 Jul 2010, last updated 26 Apr 2023) | MUO → provisional CUP → confirmed CUP terminology, immunohistochemistry, imaging sequence, specialist MDT |

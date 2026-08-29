@@ -4,6 +4,7 @@ import { pageMeta, breadcrumbLd } from "@/content/seo";
 import { cancerGroups, unlistedGroup } from "@/content/cancerGroups";
 import { getSpecialityBySlug, getConsultantsForSpeciality } from "@/content/queries";
 import { cancerInfo } from "@/content/cancerInfo";
+import { cancerTreatmentGuides } from "@/content/cancerTreatmentGuides";
 import { getLocationsForTherapy } from "@/content/treatmentLocations";
 import { therapies } from "@/content/therapies";
 import CancerTypesPrototype, {
@@ -35,6 +36,7 @@ function toItem(
   const locations = new Map<string, { slug: string; name: string; area: string; provider?: string; description?: string; address?: string }>();
   const listedModalities = new Set<string>();
   let hasCancerSpecificApproaches = false;
+  let treatmentIntro: string | undefined;
   let clinicalReview: CancerTypePrototypeItem["clinicalReview"];
 
   for (const slug of group.slugs) {
@@ -43,14 +45,19 @@ function toItem(
       c.modality?.forEach((modality) => listedModalities.add(modality));
     }
     const info = cancerInfo[slug];
-    const approaches = info?.approaches ?? [];
+    const treatmentGuide = cancerTreatmentGuides[slug] ?? info;
+    const approaches = treatmentGuide?.approaches ?? [];
     if (approaches.length > 0) hasCancerSpecificApproaches = true;
-    if (info && !clinicalReview) {
+    if (treatmentGuide && "intro" in treatmentGuide) {
+      treatmentIntro = treatmentGuide.intro;
+    }
+    if (treatmentGuide && !clinicalReview) {
       clinicalReview = {
-        status: info.reviewedBy ? "reviewed" : "draft",
-        reviewedBy: info.reviewedBy,
-        reviewedOn: info.reviewedOn,
-        href: `/specialities/${slug}#clinical-review`,
+        status: treatmentGuide.reviewedBy ? "reviewed" : "draft",
+        reviewedBy: treatmentGuide.reviewedBy,
+        reviewedOn: treatmentGuide.reviewedOn,
+        sources: treatmentGuide.sources,
+        href: info ? `/specialities/${slug}#clinical-review` : undefined,
       };
     }
     for (const approach of approaches) {
@@ -129,6 +136,7 @@ function toItem(
       : treatments.size > 0
         ? "consultant-linked"
         : "unconfirmed",
+    treatmentIntro,
     clinicalReview: hasCancerSpecificApproaches ? clinicalReview : undefined,
   };
 }

@@ -28,11 +28,13 @@ export interface CancerTypePrototypeItem {
   treatments: { slug?: string; href: string; title: string; summary: string; byOthers?: boolean }[];
   locations: { slug: string; name: string; area: string; provider?: string; description?: string; address?: string }[];
   treatmentBasis?: "general" | "cancer-specific" | "consultant-linked" | "unconfirmed";
+  treatmentIntro?: string;
   clinicalReview?: {
     status: "draft" | "reviewed";
     reviewedBy?: string;
     reviewedOn?: string;
-    href: string;
+    sources: { label: string; url: string }[];
+    href?: string;
   };
 }
 
@@ -483,7 +485,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
               {general
                 ? "You do not need to compare or choose treatments yourself. This section explains some of the language you may hear during a consultation."
                 : item.treatmentBasis === "cancer-specific"
-                  ? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which — if any — are suitable for you.`
+                  ? item.treatmentIntro ?? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which — if any — are suitable for you.`
                   : `We do not yet have a clinically reviewed treatment guide for ${item.title.toLowerCase()}. You can read general information about treatment types, but their inclusion on this site does not mean they would form part of your care. A consultant would need to review your diagnosis and test results before explaining what, if anything, may be relevant.`}
             </p>
             {general && (
@@ -498,12 +500,31 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                     ? `Clinically reviewed${item.clinicalReview.reviewedBy ? ` by ${item.clinicalReview.reviewedBy}` : ""}${item.clinicalReview.reviewedOn ? ` · ${item.clinicalReview.reviewedOn}` : ""}.`
                     : "Draft clinical information. Awaiting review by one of the partnership’s consultants before publication."}
                 </p>
-                <Link
-                  href={item.clinicalReview.href}
-                  className="mt-2 inline-flex items-center gap-2 font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
-                >
-                  View sources and review status <Arrow />
-                </Link>
+                <p className="mt-2">
+                  Sources:{" "}
+                  {item.clinicalReview.sources.map((source, index) => (
+                    <span key={source.url}>
+                      {index > 0 && "; "}
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
+                      >
+                        {source.label}
+                      </a>
+                    </span>
+                  ))}
+                  .
+                </p>
+                {item.clinicalReview.href && (
+                  <Link
+                    href={item.clinicalReview.href}
+                    className="mt-2 inline-flex items-center gap-2 font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
+                  >
+                    View the full guide and review status <Arrow />
+                  </Link>
+                )}
               </div>
             )}
           </div>
