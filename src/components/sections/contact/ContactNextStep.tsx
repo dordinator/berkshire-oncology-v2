@@ -7,7 +7,10 @@ export type ContactIntent =
   | "consultation"
   | "guidance"
   | "patient-portal"
-  | "referral";
+  | "referral"
+  | "professional";
+
+export type ProfessionalSubject = "joining-partnership" | "practice-role";
 
 const tel = (number: string) => `tel:${number.replace(/\s+/g, "")}`;
 
@@ -62,7 +65,13 @@ function IntegrationCard({
   );
 }
 
-function GuidanceForm({ cancerLabel }: { cancerLabel?: string | null }) {
+function GuidanceForm({
+  cancerLabel,
+  defaultSubject = "",
+}: {
+  cancerLabel?: string | null;
+  defaultSubject?: string;
+}) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle",
   );
@@ -146,13 +155,20 @@ function GuidanceForm({ cancerLabel }: { cancerLabel?: string | null }) {
 
       <label className="mt-5 block text-sm font-medium text-ink">
         What can we help with?
-        <select className={field} name="subject" defaultValue="" required>
+        <select
+          className={field}
+          name="subject"
+          defaultValue={defaultSubject}
+          required
+        >
           <option value="" disabled>
             Choose the closest option
           </option>
           <option>Considering a consultation</option>
           <option>Choosing the right consultant</option>
           <option>Fees or insurance</option>
+          <option>Joining the consultant partnership</option>
+          <option>Practice or administration role</option>
           <option>General practice enquiry</option>
           <option>Something else</option>
         </select>
@@ -198,10 +214,12 @@ export default function ContactNextStep({
   intent,
   onChooseAgain,
   cancerLabel,
+  professionalSubject,
 }: {
   intent: ContactIntent;
   onChooseAgain: () => void;
   cancerLabel?: string | null;
+  professionalSubject?: ProfessionalSubject | null;
 }) {
   return (
     <section id="next-step" className="scroll-mt-24 bg-[#f3f1ea]">
@@ -305,6 +323,40 @@ export default function ContactNextStep({
               description="The secure referral service will collect the patient, referrer and clinical information required by the practice."
               action="Start a referral"
               note="Prototype integration point — the final secure referral route is still to be confirmed."
+            />
+          </div>
+        )}
+
+        {intent === "professional" && (
+          <div className="grid items-start gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
+            <SectionHeading
+              title={
+                professionalSubject === "joining-partnership"
+                  ? "Talk to us about joining the partnership."
+                  : professionalSubject === "practice-role"
+                    ? "Ask about working with the practice."
+                    : "Make a professional enquiry."
+              }
+            >
+              <p>
+                Contact the practice office about joining the consultant
+                partnership, practice and administration roles, or another
+                professional enquiry.
+              </p>
+              <p className="mt-5">
+                Please do not include patient-identifiable or confidential
+                clinical information in this form.
+              </p>
+            </SectionHeading>
+            <GuidanceForm
+              key={professionalSubject ?? "professional"}
+              defaultSubject={
+                professionalSubject === "joining-partnership"
+                  ? "Joining the consultant partnership"
+                  : professionalSubject === "practice-role"
+                    ? "Practice or administration role"
+                    : ""
+              }
             />
           </div>
         )}

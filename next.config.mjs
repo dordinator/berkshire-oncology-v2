@@ -52,6 +52,21 @@ const nextConfig = {
       // (/about/the-partnership and the rest) are untouched and still resolve.
       { source: "/about", destination: "/", permanent: true },
       {
+        source: "/about/nhs-and-private-practice",
+        destination: "/patients#private-treatment",
+        permanent: true,
+      },
+      {
+        source: "/about/referring-professionals",
+        destination: "/contact?intent=referral#next-step",
+        permanent: true,
+      },
+      {
+        source: "/about/careers",
+        destination: "/contact?intent=professional#next-step",
+        permanent: true,
+      },
+      {
         source: "/consultants/by-cancer-type",
         destination: "/specialities",
         permanent: true,

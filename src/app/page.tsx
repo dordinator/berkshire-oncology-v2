@@ -6,7 +6,6 @@ import Reveal from "@/components/ui/Reveal";
 import HomeHero from "@/components/sections/home/HomeHero";
 import PartnershipIntro from "@/components/sections/home/PartnershipIntro";
 import ProofImage from "@/components/sections/home/ProofImage";
-import WaveField from "@/components/graphic/WaveField";
 import RegionMap from "@/components/site/RegionMap";
 import { pageMeta, organizationLd } from "@/content/seo";
 import { site } from "@/content/site";
@@ -311,17 +310,12 @@ export default function Home() {
           cards={topCancers}
           intro={
             <>
-              <Reveal>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                  <span data-copy-key="cancers.label">Find your area of care</span>
-                </p>
-              </Reveal>
               <Reveal delay={1}>
                 <h2
                   id="cancers"
                   data-copy-key="cancers.heading"
                   tabIndex={-1}
-                  className="home-section-title mt-6 text-ink"
+                  className="home-section-title text-ink"
                 >
                   Cancer types we treat
                 </h2>
@@ -424,13 +418,11 @@ export default function Home() {
 
         {/* ── 04 · NHS and private practice ─────────────────────────────────── */}
         {/* Was three stacked paragraphs — the longest unbroken run of text on
-            the page, and the reason the node motif was put behind it. The
-            argument is now carried by the row of hospitals rather than by prose:
-            four private sites and the NHS trust, side by side, which is what
-            "NHS and private practice" actually means here. The copy is cut to
-            the two things that row cannot say by itself. */}
+            the page. The argument is now carried by the row of hospitals rather
+            than by prose: four private sites and the NHS trust, side by side,
+            which is what "NHS and private practice" actually means here. The
+            copy is cut to the two things that row cannot say by itself. */}
         <div className="relative isolate">
-          <WaveField className="-z-10" />
           <Section>
             {/* Copy on the left, the region on the right. The heading sits
                 inside the left column rather than above both, so the map starts
@@ -446,17 +438,20 @@ export default function Home() {
                   id="nhs-and-private"
                   title="Private care, connected to NHS expertise"
                   copyKey="nhs.heading"
+                  showRule={false}
                 />
                 <Lede copyKey="nhs.lede">
                   Most of our consultants also hold NHS posts at the Royal
-                  Berkshire Hospital in Reading, home to the Berkshire Cancer
-                  Centre. They bring that specialist experience to their
-                  private practice.
+                  Berkshire Hospital in Reading, where the Berkshire Cancer
+                  Centre is based. They also see private patients at hospitals
+                  and cancer centres across Berkshire and Oxfordshire.
                 </Lede>
                 <Body copyKey="nhs.body">
-                  Choosing private care does not affect your right to NHS care.
-                  Depending on what you need, you may receive some parts of your
-                  diagnosis or treatment privately and others through the NHS.
+                  Choosing private care does not remove your entitlement to NHS
+                  care. Some people receive different parts of their care
+                  through private and NHS services, although the two must be
+                  kept clearly separate. What is possible will depend on the
+                  care you need and the services involved.
                 </Body>
 
                 <Reveal>
@@ -467,11 +462,11 @@ export default function Home() {
                       </span>
                     </Button>
                     <Button
-                      href="/about/nhs-and-private-practice"
+                      href="/patients#private-treatment"
                       variant="ghost"
                     >
                       <span data-copy-key="nhs.action.explainer">
-                        How NHS and private care work
+                        Private treatment information
                       </span>
                     </Button>
                   </div>
@@ -532,17 +527,14 @@ export default function Home() {
       <TestimonialCards
         intro={
           <>
-            <Reveal>
-              <div aria-hidden className="h-px w-full bg-ink/10" />
-            </Reveal>
             <Reveal delay={1}>
               <h2
                 id="feedback"
                 data-copy-key="feedback.heading"
                 tabIndex={-1}
-                className="home-section-title mt-7 text-ink"
+                className="home-section-title text-ink"
               >
-                What patients tell us
+                Patient reviews and feedback
               </h2>
             </Reveal>
             <Reveal delay={2}>
@@ -550,10 +542,9 @@ export default function Home() {
                 data-copy-key="feedback.reviews"
                 className="section-subtitle mt-7 text-ink/80"
               >
-                You can find independent reviews of individual consultants on
-                the hospital and healthcare platforms where they practise. Those
-                reviews are published independently; we do not select or edit
-                them.
+                Where available, you can read independently published patient
+                feedback about our consultants on the hospital and healthcare
+                platforms where they practise.
               </p>
             </Reveal>
             <Reveal delay={2}>
@@ -561,18 +552,24 @@ export default function Home() {
                 data-copy-key="feedback.direct"
                 className="mt-5 text-[17px] leading-relaxed text-ink/80"
               >
-                We also want to hear directly about your experience, good or
-                bad. If something has gone wrong, please contact{" "}
-                {site.contact.practiceManager} so the practice can look into it
-                and respond.
+                If you have experience of care with one of our consultants, we
+                would also like to hear from you. Contact our practice team to
+                share feedback or raise a concern.
               </p>
             </Reveal>
             <Reveal delay={3}>
-              <div className="mt-9">
-                <Button href="/about/patient-feedback" variant="ghost">
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Button
+                  href="https://www.phin.org.uk/search/consultants"
+                  variant="ghost"
+                  external
+                >
                   <span data-copy-key="feedback.action">
-                    Read or leave feedback
+                    Search independent profiles
                   </span>
+                </Button>
+                <Button href="/contact" variant="ghost">
+                  Share feedback or raise a concern
                 </Button>
               </div>
             </Reveal>

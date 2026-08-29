@@ -143,7 +143,6 @@ const pageKeywords: Record<string, string[]> = {
   "/resources": ["support", "guides", "information"],
   "/patients/second-opinion": ["second opinion"],
   "/patients/newly-diagnosed": ["diagnosis", "just diagnosed"],
-  "/about/referring-professionals": ["gp", "refer", "referral", "referrer"],
 };
 
 // ── Entry construction ───────────────────────────────────────────────────────

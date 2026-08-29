@@ -132,10 +132,13 @@ export default function TestimonialCards({
                   data-copy-key="feedback.placeholder.warning"
                   className="mt-8 rounded-2xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900"
                 >
-                  <strong className="font-semibold">Draft content — do not publish.</strong>{" "}
-                  These quotations were written only to test the layout. They
-                  are not real patient feedback and must be replaced with
-                  approved quotations before this page goes live.
+                  <strong className="font-semibold">
+                    Prototype content — not for publication.
+                  </strong>{" "}
+                  The quotation cards in this section use illustrative wording
+                  and images to review the proposed layout. They are not patient
+                  testimonials and must be replaced with verified, approved
+                  feedback—or removed—before launch.
                 </p>
               )}
             </div>

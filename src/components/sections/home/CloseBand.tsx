@@ -25,7 +25,11 @@ import { site } from "@/content/site";
 const ROUTES = [
   { label: "Make an enquiry", href: "/contact", icon: "phone" },
   { label: "Choose a consultant", href: "/consultants", icon: "person" },
-  { label: "Refer a patient", href: "/about/referring-professionals", icon: "arrow" },
+  {
+    label: "Refer a patient",
+    href: "/contact?intent=referral#next-step",
+    icon: "arrow",
+  },
   { label: "View fees", href: "/tariffs", icon: "card" },
 ] as const;
 

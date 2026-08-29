@@ -101,6 +101,77 @@ export default function SmoothScroll() {
     };
   }, []);
 
+  // Cross-page hash links can arrive before the destination has finished
+  // settling. The browser performs its one native jump against that early
+  // layout, then images, fonts or client-rendered sections above the target can
+  // move it several hundred pixels away from the header. Re-align the named
+  // destination through the short settling window. Stop immediately if the
+  // visitor starts interacting, so this never fights a deliberate scroll.
+  useEffect(() => {
+    if (!window.location.hash) return;
+
+    let targetId: string;
+    try {
+      targetId = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      targetId = window.location.hash.slice(1);
+    }
+    if (!targetId) return;
+
+    let cancelled = false;
+    let firstFrame = 0;
+    let secondFrame = 0;
+    const timers: number[] = [];
+
+    const align = () => {
+      if (cancelled) return;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      if (instance) {
+        instance.scrollTo(target, {
+          offset: -96,
+          immediate: true,
+          force: true,
+        });
+      } else {
+        const top = target.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      }
+    };
+
+    const cancel = () => {
+      cancelled = true;
+    };
+
+    firstFrame = window.requestAnimationFrame(() => {
+      align();
+      secondFrame = window.requestAnimationFrame(align);
+    });
+    timers.push(
+      window.setTimeout(align, 150),
+      window.setTimeout(align, 500),
+      window.setTimeout(align, 1000),
+    );
+    void document.fonts?.ready.then(align);
+
+    window.addEventListener("pointerdown", cancel, { once: true });
+    window.addEventListener("touchstart", cancel, { once: true });
+    window.addEventListener("wheel", cancel, { once: true });
+    window.addEventListener("keydown", cancel, { once: true });
+
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+      timers.forEach(window.clearTimeout);
+      window.removeEventListener("pointerdown", cancel);
+      window.removeEventListener("touchstart", cancel);
+      window.removeEventListener("wheel", cancel);
+      window.removeEventListener("keydown", cancel);
+    };
+  }, [pathname]);
+
   // The root layout persists between App Router pages. Rebuild the proximity
   // targets for each route rather than keeping references to sections that were
   // removed from the DOM on the first navigation.

@@ -56,17 +56,24 @@ export default function Button({
   variant = "primary",
   className = "",
   arrow = true,
+  external = false,
 }: {
   children: ReactNode;
   href?: string;
   variant?: Variant;
   className?: string;
   arrow?: boolean;
+  external?: boolean;
 }) {
   const outlinesBlueHover = variant === "primary" || variant === "onPhoto";
 
   return (
-    <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
+    <Link
+      href={href}
+      className={`${base} ${variants[variant]} ${className}`}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+    >
       <span
         aria-hidden
         className={`absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 group-focus-visible:scale-x-100 group-focus-visible:duration-150 motion-reduce:transition-none ${fills[variant]}`}
@@ -78,6 +85,7 @@ export default function Button({
         />
       )}
       <span className="relative">{children}</span>
+      {external && <span className="sr-only"> (opens in a new tab)</span>}
       {arrow && (
         <svg
           className="relative h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
@@ -85,13 +93,23 @@ export default function Button({
           fill="none"
           aria-hidden
         >
-          <path
-            d="M3 8h10M9 4l4 4-4 4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+          {external ? (
+            <path
+              d="M5 11 11 5M6 5h5v5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          ) : (
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          )}
         </svg>
       )}
     </Link>
