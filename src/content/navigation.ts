@@ -520,10 +520,9 @@ const fees: NavSection = {
 const about: NavSection = {
   id: "about",
   label: "About Us",
-  // /about is a legacy redirect back to Home. Linking the navigation to that
-  // redirect resets the homepage and leaves no meaningful Back destination;
-  // the partnership page is the real About landing page.
-  href: "/about/the-partnership",
+  // The homepage is the canonical About landing page. Keep this direct rather
+  // than sending visitors through the legacy /about redirect.
+  href: "/",
   summary:
     "A partnership of ten independent consultant oncologists, working together across Berkshire and the surrounding area.",
   size: "md",
