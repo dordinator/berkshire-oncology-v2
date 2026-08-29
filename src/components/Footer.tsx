@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import BrandLogo from "./site/BrandLogo";
 import { site, policyLinks } from "@/content/site";
 import { navSections } from "@/content/navigation";
@@ -20,11 +21,17 @@ function tel(n: string) {
 export default function Footer() {
   const year = new Date().getFullYear();
   const c = site.contact;
+  const pathname = usePathname();
+  const followsPatientsContact = pathname === "/patients";
 
   return (
     <footer className="relative overflow-hidden bg-ink text-white">
       <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[120%] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-accent/25 via-lilac/10 to-transparent blur-3xl" />
-      <div className="container-wide relative py-20 md:py-28">
+      <div
+        className={`container-wide relative ${
+          followsPatientsContact ? "pb-20 pt-0 md:pb-28" : "py-20 md:py-28"
+        }`}
+      >
         {/* Five blocks now the link list is split in two, so the grid steps up
             gradually — one column on a phone, two, three, then all five once
             there is room for the contact pill to sit on a single line. */}
