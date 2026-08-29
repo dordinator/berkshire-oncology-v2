@@ -46,6 +46,14 @@ const informationColumns = [
   informationResources.slice(informationHalf),
 ];
 
+const resourceLogoSizes: Record<string, string> = {
+  "/links/macmillan.png": "w-[88%] max-w-[430px]",
+  "/links/cancer-research-uk.png": "w-[72%] max-w-[220px]",
+  "/links/nhs.png": "w-[76%] max-w-[250px]",
+  "/links/maggies.png": "w-[84%] max-w-[340px]",
+  "/links/cancer-care-map.png": "w-[88%] max-w-[430px]",
+};
+
 const suggestedSearches = [
   {
     title: "Macmillan Cancer Support",
@@ -196,7 +204,7 @@ function FeatureResourceCard({
       href={result.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex aspect-square w-full flex-col overflow-hidden rounded-[1.75rem] border border-ink/[0.07] bg-[#f8f7f4] p-5 text-ink shadow-[0_24px_70px_-35px_rgba(6,28,70,0.3)] transition-transform duration-500 hover:-translate-y-1 sm:rounded-[2rem] sm:p-7 lg:p-8"
+      className="group relative flex min-h-[390px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-ink/[0.07] bg-[#f8f7f4] p-5 text-ink shadow-[0_24px_70px_-35px_rgba(6,28,70,0.3)] transition-transform duration-500 hover:-translate-y-1 sm:min-h-[420px] sm:rounded-[2rem] sm:p-7 md:min-h-[430px] lg:p-8 xl:min-h-[450px]"
     >
       <span className="flex items-start justify-between gap-5">
         <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
@@ -209,16 +217,25 @@ function FeatureResourceCard({
 
       <span className="mt-4 flex min-h-28 flex-1 items-center justify-center overflow-hidden py-2 sm:mt-5 sm:min-h-32 lg:min-h-36">
         {result.logo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={result.logo}
-            alt=""
-            className={`block max-h-24 w-auto max-w-[88%] object-contain sm:max-h-28 lg:max-h-32 ${
-              result.logo === "/links/sciensus.png"
-                ? "scale-[3.15] mix-blend-multiply"
-                : ""
-            }`}
-          />
+          result.logo === "/links/sciensus.png" ? (
+            <span className="relative block aspect-[540/103] w-[84%] max-w-[290px] overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={result.logo}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover object-center mix-blend-multiply"
+              />
+            </span>
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={result.logo}
+              alt=""
+              className={`block h-auto object-contain ${
+                resourceLogoSizes[result.logo] ?? "w-[82%] max-w-[300px]"
+              }`}
+            />
+          )
         ) : (
           <span className="font-display text-4xl font-semibold text-ink">
             {result.title.charAt(0)}
@@ -445,8 +462,8 @@ export default function ResourceSearchLanding() {
         <ChapterTint colour={SUPPORT_CHAPTER_BLUE} />
 
         <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start lg:gap-16 xl:gap-24">
-            <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center">
+          <div className="grid gap-12 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:items-start 2xl:gap-24">
+            <div className="2xl:sticky 2xl:top-0 2xl:flex 2xl:h-screen 2xl:items-center">
               <div>
                 <h2
                   id="information-support-heading"
@@ -468,13 +485,13 @@ export default function ResourceSearchLanding() {
 
             <div
               data-lenis-prevent-horizontal
-              className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-7"
+              className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-auto md:grid md:w-full md:max-w-[1040px] md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 2xl:max-w-none"
             >
               {informationColumns.map((column, columnIndex) => (
                 <ul
                   key={columnIndex}
                   className={`flex shrink-0 gap-4 md:block md:shrink md:space-y-6 lg:space-y-7 ${
-                    columnIndex === 0 ? "lg:order-2" : "lg:order-1 lg:mt-32"
+                    columnIndex === 0 ? "2xl:order-2" : "2xl:order-1 2xl:mt-32"
                   }`}
                 >
                   {column.map((result) => (
