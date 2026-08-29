@@ -746,7 +746,6 @@ function ContactRouteLink({
 
 function ContactViewport({ item, onReset, general = false }: { item: CancerTypePrototypeItem; onReset: () => void; general?: boolean }) {
   const phoneHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
-  const cancerContext = general ? "" : `&cancer=${encodeURIComponent(item.id)}`;
 
   return (
     <section id="contact-next-step" className={`flex min-h-[100svh] items-center bg-ink text-white ${sectionPadding}`}>
@@ -778,14 +777,14 @@ function ContactViewport({ item, onReset, general = false }: { item: CancerTypeP
             </p>
             <div className="mt-4">
               <ContactRouteLink
-                href={`/contact?intent=consultation${cancerContext}#next-step`}
+                href="/contact#consultation"
                 title="Arrange a consultation"
                 description={general
                   ? "Request an appointment and share the details you have."
                   : `Request an appointment about ${item.title.toLowerCase()}. You only need to share the details you have.`}
               />
               <ContactRouteLink
-                href={`/contact?intent=guidance${cancerContext}#next-step`}
+                href="/contact#guidance"
                 title="I’m not sure what happens next"
                 description="Ask the practice team what to do next. You do not need to choose a consultant or treatment first."
               />
@@ -813,7 +812,7 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
           </div>
           <div>
             <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find a specialist centre that may be able to help.</p>
-            <div className="mt-7 flex flex-wrap gap-3"><Button href={`/contact?intent=guidance&cancer=${encodeURIComponent(item.id)}#next-step`}>Talk to the team</Button><button type="button" onClick={onReset} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium">Choose another type</button></div>
+            <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium">Choose another type</button></div>
           </div>
         </div>
       </motion.section>
@@ -1039,7 +1038,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
               <div>
                 <p className="text-base leading-relaxed text-ink/75">If you have a referral letter, scan report or consultant’s name, send us what you have. The practice team can help work out who you need to speak to.</p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Button href="/contact">Ask the practice team</Button>
+                  <Button href="/contact#guidance">Ask the practice team</Button>
                   <button type="button" onClick={() => browseRef.current?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" })} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink hover:border-ink/40">Browse all cancer types</button>
                 </div>
               </div>

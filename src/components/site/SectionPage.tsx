@@ -93,6 +93,7 @@ export default function SectionPage({
   const siblings = getSiblings(href).slice(0, 8);
   const covers = (link?.covers ?? []).filter((c) => !omitCovers?.includes(c));
   const heading = title ?? link?.label ?? "";
+  const isReferrerPage = href === "/about/referring-professionals";
 
   const breadcrumbs = [
     { name: "Home", href: "/" },
@@ -162,8 +163,11 @@ export default function SectionPage({
                   arrange an appointment with the right consultant.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <Button href="/contact" variant="primary">
-                    Contact the practice
+                  <Button
+                    href={isReferrerPage ? "/contact#referral" : "/contact#guidance"}
+                    variant="primary"
+                  >
+                    {isReferrerPage ? "Open the referral route" : "Contact the practice"}
                   </Button>
                   <a
                     href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}

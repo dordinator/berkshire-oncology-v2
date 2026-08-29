@@ -611,7 +611,7 @@ function TreatmentPanel({
           <span className="sr-only">(opens in a new tab)</span>
         </a>
         <Link
-          href="/contact"
+          href="/contact#consultation"
           className="flex items-center justify-center gap-2.5 px-6 py-4 text-[14px] font-medium text-white transition-colors focus-visible:bg-white/10 lg:hover:bg-white/10"
         >
           <svg viewBox="0 0 24 24" {...stroke} className="h-4 w-4" aria-hidden>
@@ -673,7 +673,7 @@ function ProtonPanel({ fillFrame }: { fillFrame: boolean }) {
       </div>
       <motion.div variants={reduce ? undefined : riseVar} className="shrink-0 bg-ink">
         <Link
-          href="/contact"
+          href="/contact#consultation"
           className="flex items-center justify-center gap-2.5 px-6 py-4 text-[14px] font-medium text-white transition-colors focus-visible:bg-white/10 lg:hover:bg-white/10"
         >
           Arrange a consultation

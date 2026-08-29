@@ -363,7 +363,7 @@ const TypeCard = memo(function TypeCard({
 
         {/* ── The sheet's action — always visible, outside the squeeze ── */}
         <div className="flex shrink-0 justify-center px-7 pb-5 pt-3">
-          <Button href="/contact" variant="sage">
+          <Button href="/contact#consultation" variant="sage">
             Arrange a consultation
           </Button>
         </div>

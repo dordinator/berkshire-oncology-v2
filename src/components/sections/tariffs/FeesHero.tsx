@@ -220,7 +220,7 @@ export default function FeesHero() {
                 How fees work
               </a>
               <Link
-                href="/contact"
+                href="/contact#guidance"
                 className={`${pill} border border-ink/20 bg-white/60 text-ink backdrop-blur-sm focus-visible:border-ink/45 focus-visible:bg-white`}
               >
                 Talk to our team

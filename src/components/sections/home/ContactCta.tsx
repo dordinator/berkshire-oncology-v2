@@ -79,7 +79,7 @@ export default function ContactCta() {
                     </div>
                   </dl>
                   <Link
-                    href="/contact"
+                    href="/contact#guidance"
                     className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-medium text-ink transition-transform hover:scale-[1.02]"
                   >
                     Contact the practice

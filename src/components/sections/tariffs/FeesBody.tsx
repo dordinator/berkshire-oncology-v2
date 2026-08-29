@@ -705,7 +705,7 @@ export default function FeesBody() {
                         id="request"
                         className="mt-8 flex scroll-mt-32 flex-wrap items-center gap-3"
                       >
-                        <Button href="/contact">Request a tariff</Button>
+                        <Button href="/contact#guidance">Request a tariff</Button>
                         <Button href="#faqs" variant="ghost">
                           More questions
                         </Button>
@@ -804,7 +804,7 @@ export default function FeesBody() {
                     </div>
                     <div className="mt-8">
                       <Button
-                        href="/contact"
+                        href="/contact#guidance"
                         variant="light"
                         className="focus-visible:shadow-[0_0_0_2px_rgba(255,255,255,0.85)]"
                       >

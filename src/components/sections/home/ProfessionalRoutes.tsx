@@ -92,7 +92,7 @@ const routes: Route[] = [
     label: "For GPs and clinicians",
     body: "If you know which consultant you need, name them in your referral. If you are unsure, tell us about the diagnosis or presentation and the practice team will direct it. Please telephone us about urgent referrals.",
     cta: "Start a referral",
-    href: "/contact?intent=referral#next-step",
+    href: "/contact#referral",
     image: "/professionals/referrers.jpg",
     alt: "A clinician talking with a patient across a desk",
     icon: "referral",
@@ -102,7 +102,7 @@ const routes: Route[] = [
     label: "For consultant oncologists",
     body: "Our consultants practise independently within the partnership. If you are interested in joining, you are welcome to contact us even when no opportunity is being advertised.",
     cta: "Contact the practice",
-    href: "/contact?intent=professional&subject=joining-partnership#next-step",
+    href: "/contact#professional-joining-partnership",
     image: "/professionals/consultants.jpg",
     alt: "",
     icon: "consultants",
@@ -113,7 +113,7 @@ const routes: Route[] = [
     label: "Practice and administration roles",
     body: "The practice office manages recruitment for administrative and practice roles. Contact the team to ask about current opportunities or make a general enquiry.",
     cta: "Contact the practice",
-    href: "/contact?intent=professional&subject=practice-role#next-step",
+    href: "/contact#professional-practice-role",
     image: "/professionals/practice-roles.jpg",
     alt: "Two colleagues working at desks in a small office",
     icon: "office",
@@ -225,8 +225,8 @@ export default function ProfessionalRoutes() {
                       {r.body}
                     </p>
 
-                    {/* The practice's own contact details, which the referrers
-                      section used to carry and nothing else on this page does. */}
+                    {/* Telephone is the current routing fallback. Do not invite
+                      referral documents or clinical details through email. */}
                     {r.icon === "referral" && (
                       <p className="mt-4 text-[15px]">
                         <a
@@ -234,13 +234,6 @@ export default function ProfessionalRoutes() {
                           className="font-display text-lg text-ink transition-colors hover:text-accent"
                         >
                           {site.contact.phone}
-                        </a>
-                        <br />
-                        <a
-                          href={`mailto:${site.contact.email}`}
-                          className="break-words text-[14px] text-ink-muted transition-colors hover:text-accent"
-                        >
-                          {site.contact.email}
                         </a>
                       </p>
                     )}

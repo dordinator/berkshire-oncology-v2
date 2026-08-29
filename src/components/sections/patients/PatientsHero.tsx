@@ -42,7 +42,7 @@ export default function PatientsHero() {
             >
               Find your next step
             </Button>
-            <Button href="/contact" variant="ghost" arrow={false}>
+            <Button href="/contact#guidance" variant="ghost" arrow={false}>
               Talk to our team
             </Button>
           </div>

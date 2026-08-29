@@ -23,11 +23,11 @@ import { site } from "@/content/site";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ROUTES = [
-  { label: "Make an enquiry", href: "/contact", icon: "phone" },
+  { label: "Make an enquiry", href: "/contact#guidance", icon: "phone" },
   { label: "Choose a consultant", href: "/consultants", icon: "person" },
   {
     label: "Refer a patient",
-    href: "/contact?intent=referral#next-step",
+    href: "/contact#referral",
     icon: "arrow",
   },
   { label: "View fees", href: "/tariffs", icon: "card" },

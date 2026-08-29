@@ -172,7 +172,7 @@ export default function ByTreatmentPage() {
               <Button href="/specialities" variant="primary">
                 Browse by cancer type
               </Button>
-              <Button href="/contact" variant="ghost">
+              <Button href="/contact#guidance" variant="ghost">
                 Contact the practice
               </Button>
             </div>

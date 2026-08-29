@@ -617,7 +617,7 @@ export default function SpecialityPage({
                 locally, and can pass your details on if that helps.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Button href="/contact">Contact the practice</Button>
+                <Button href="/contact#guidance">Contact the practice</Button>
               </div>
             </div>
           </Reveal>
@@ -839,7 +839,7 @@ export default function SpecialityPage({
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <Button href="/contact">Make an enquiry</Button>
+              <Button href="/contact#guidance">Make an enquiry</Button>
               <a
                 href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
                 className="rounded-full border border-ink/15 px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-ink/[0.03]"

@@ -63,7 +63,7 @@ export default function Hero() {
           <Button href="/consultants" variant="primary">
             Meet our consultants
           </Button>
-          <Button href="/contact" variant="ghost" arrow={false}>
+          <Button href="/contact#guidance" variant="ghost" arrow={false}>
             Contact the practice
           </Button>
         </motion.div>

@@ -419,7 +419,7 @@ export default function ConsultantProfile({
                   {intro}
                 </p>
                 <Button
-                  href={`/contact?intent=consultation#next-step`}
+                  href="/contact#consultation"
                   variant="sage"
                   arrow={false}
                   className="mt-6 rounded-lg px-6 py-3"
@@ -561,7 +561,7 @@ export default function ConsultantProfile({
           <div className="rounded-[2.5rem] border border-white/10 bg-[#f8f5ef] p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
             <p className="text-sm text-ink-muted">What would help now?</p>
             <Link
-              href="/contact?intent=consultation#next-step"
+              href="/contact#consultation"
               className="group mt-5 grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-y border-ink/[0.12] py-6"
             >
               <span>
@@ -577,7 +577,7 @@ export default function ConsultantProfile({
               </span>
             </Link>
             <Link
-              href="/contact?intent=guidance#next-step"
+              href="/contact#guidance"
               className="group grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-b border-ink/[0.12] py-6"
             >
               <span>

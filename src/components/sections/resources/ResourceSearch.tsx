@@ -130,7 +130,7 @@ export default function ResourceSearch() {
                   Nothing matched that. The practice team can point you to the
                   right place —{" "}
                   <Link
-                    href="/contact"
+                    href="/contact#guidance"
                     className="text-[#e8c983] underline-offset-2 hover:underline"
                   >
                     contact us

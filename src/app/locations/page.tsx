@@ -199,7 +199,7 @@ export default function LocationsPage() {
                 you go to the wrong building.
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-3 lg:mt-5">
-                <Button href="/contact" variant="primary">
+                <Button href="/contact#guidance" variant="primary">
                   Contact the practice
                 </Button>
                 <Button href="/consultants" variant="ghost">

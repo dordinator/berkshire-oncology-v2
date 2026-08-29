@@ -208,7 +208,7 @@ function HospitalDetails({ location }: { location: Location }) {
           <p className="mt-7 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
             If you need to know what happens here before you travel,{" "}
             <Link
-              href="/contact"
+              href="/contact#guidance"
               className="text-accent underline-offset-2 hover:underline"
             >
               ask the practice about this site

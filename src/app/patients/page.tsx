@@ -433,7 +433,7 @@ export default function PatientsPage() {
                   can talk things through and help you find the right consultant.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href="/contact" variant="primary">
+                  <Button href="/contact#guidance" variant="primary">
                     Contact the practice team
                   </Button>
                   <a

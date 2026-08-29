@@ -90,7 +90,7 @@ function Card({ c }: { c: FocusConsultant }) {
           Read full profile
         </Link>
         <Link
-          href="/contact"
+          href="/contact#consultation"
           className="group/cta inline-flex items-center gap-2 rounded-full bg-ink px-4 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-accent focus-visible:bg-accent"
         >
           Arrange a consultation

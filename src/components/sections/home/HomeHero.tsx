@@ -89,7 +89,10 @@ export default function HomeHero() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-11">
-            <Button href="/contact" variant="onPhoto">
+            <Button
+              href="/contact#consultation"
+              variant="onPhoto"
+            >
               <span data-copy-key="hero.action.primary">
                 Book an appointment
               </span>

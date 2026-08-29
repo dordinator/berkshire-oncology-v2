@@ -1,9 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { cancerGroups, unlistedGroup } from "@/content/cancerGroups";
 import { site } from "@/content/site";
 import ContactNextStep, {
   ContactIntent,
@@ -11,6 +9,22 @@ import ContactNextStep, {
 } from "./ContactNextStep";
 
 const HERO_IMAGE = "/tariffs/consultation.jpg";
+const CONTACT_INTENTS: ContactIntent[] = [
+  "consultation",
+  "guidance",
+  "patient-portal",
+  "referral",
+  "professional",
+];
+
+const PROFESSIONAL_HASHES: Record<string, ProfessionalSubject> = {
+  "professional-joining-partnership": "joining-partnership",
+  "professional-practice-role": "practice-role",
+};
+
+function isContactIntent(value: string | null): value is ContactIntent {
+  return CONTACT_INTENTS.includes(value as ContactIntent);
+}
 
 function Arrow() {
   return (
@@ -31,32 +45,42 @@ function Arrow() {
   );
 }
 
+function revealNextStep() {
+  const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+
+  // Allow the selected route to render before moving focus. Two animation
+  // frames also make direct links from elsewhere on the site dependable.
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      const heading = document.getElementById("next-step-heading");
+      heading?.scrollIntoView({ behavior, block: "start" });
+      heading?.focus({ preventScroll: true });
+    });
+  });
+}
+
 function RouteLink({
   intent,
   title,
   description,
-  cancerId,
   selected,
   onSelect,
 }: {
   intent: ContactIntent;
   title: string;
   description: string;
-  cancerId?: string | null;
   selected: boolean;
   onSelect: (intent: ContactIntent) => void;
 }) {
-  const cancerQuery = cancerId ? `&cancer=${encodeURIComponent(cancerId)}` : "";
-
   return (
-    <Link
-      href={`/contact?intent=${intent}${cancerQuery}#next-step`}
-      aria-current={selected ? "step" : undefined}
-      onClick={(event) => {
-        event.preventDefault();
-        onSelect(intent);
-      }}
-      className={`group -mx-3 flex min-h-[6rem] items-center justify-between gap-5 border-t border-ink/10 px-3 py-4 text-left last:border-b focus-visible:text-accent lg:min-h-[6.4rem] ${selected ? "bg-ink/[0.045] text-ink" : "text-ink"}`}
+    <button
+      type="button"
+      aria-pressed={selected}
+      aria-controls="next-step"
+      onClick={() => onSelect(intent)}
+      className={`group -mx-3 flex min-h-[6rem] w-[calc(100%+1.5rem)] items-center justify-between gap-5 border-t border-ink/10 px-3 py-4 text-left last:border-b focus-visible:text-accent lg:min-h-[6.4rem] ${selected ? "bg-ink/[0.045] text-ink" : "text-ink"}`}
     >
       <span className="min-w-0">
         <span className="block font-display text-[1.25rem] font-semibold leading-tight tracking-tight md:text-[1.35rem]">
@@ -69,83 +93,87 @@ function RouteLink({
       <span className="shrink-0 text-[#a66f1f]">
         <Arrow />
       </span>
-    </Link>
+    </button>
   );
 }
 
 export default function ContactConceptHero() {
   const tel = site.contact.phone.replace(/\s+/g, "");
-  const [intent, setIntent] = useState<ContactIntent | null>("guidance");
-  const [cancerId, setCancerId] = useState<string | null>(null);
+  const [intent, setIntent] = useState<ContactIntent>("consultation");
   const [professionalSubject, setProfessionalSubject] =
     useState<ProfessionalSubject | null>(null);
-  const cancerGroup = [...cancerGroups, unlistedGroup].find(
-    (group) => group.id === cancerId,
-  );
-  const cancerLabel = cancerGroup
-    ? cancerGroup.id === "cancer-of-unknown-primary"
-      ? cancerGroup.label
-      : cancerGroup.id === "sarcoma"
-        ? cancerGroup.label
-        : `${cancerGroup.label} cancer`
-    : null;
 
   useEffect(() => {
     const readIntent = () => {
-      const value = new URL(window.location.href).searchParams.get("intent");
-      const cancer = new URL(window.location.href).searchParams.get("cancer");
-      const subject = new URL(window.location.href).searchParams.get("subject");
-      if (
-        value === "consultation" ||
-        value === "guidance" ||
-        value === "patient-portal" ||
-        value === "referral" ||
-        value === "professional"
-      ) {
-        setIntent(value);
-      } else {
-        setIntent("guidance");
+      const url = new URL(window.location.href);
+      const hashValue = url.hash.slice(1);
+      const hashSubject = PROFESSIONAL_HASHES[hashValue] ?? null;
+      const hashIntent: ContactIntent | null = hashSubject
+        ? "professional"
+        : isContactIntent(hashValue)
+          ? hashValue
+          : null;
+      const queryValue = url.searchParams.get("intent");
+      const queryIntent = isContactIntent(queryValue) ? queryValue : null;
+      const querySubjectValue = url.searchParams.get("subject");
+      const querySubject: ProfessionalSubject | null =
+        queryIntent === "professional" &&
+        (querySubjectValue === "joining-partnership" ||
+          querySubjectValue === "practice-role")
+          ? querySubjectValue
+          : null;
+      const nextIntent = hashIntent ?? queryIntent ?? "consultation";
+      const nextProfessionalSubject =
+        nextIntent === "professional" ? hashSubject ?? querySubject : null;
+      const hasExplicitIntent = Boolean(hashIntent || queryIntent);
+
+      setIntent(nextIntent);
+      setProfessionalSubject(nextProfessionalSubject);
+      if (hasExplicitIntent) {
+        revealNextStep();
       }
-      setCancerId(
-        [...cancerGroups, unlistedGroup].some((group) => group.id === cancer)
-          ? cancer
-          : null,
-      );
-      setProfessionalSubject(
-        subject === "joining-partnership" || subject === "practice-role"
-          ? subject
-          : null,
-      );
+
+      // Older prototype links used query parameters, including cancer type.
+      // Clear every query value from browser history and future referrers, then
+      // preserve only a validated, non-clinical route in the URL fragment.
+      const hasInvalidHash = Boolean(url.hash && !hashIntent);
+      if (url.search || hasInvalidHash) {
+        url.search = "";
+        url.hash = hasExplicitIntent
+          ? nextProfessionalSubject
+            ? `professional-${nextProfessionalSubject}`
+            : nextIntent
+          : "";
+        const currentState =
+          window.history.state && typeof window.history.state === "object"
+            ? window.history.state
+            : {};
+        window.history.replaceState(
+          { ...currentState },
+          "",
+          `${url.pathname}${url.search}${url.hash}`,
+        );
+      }
     };
 
     readIntent();
     window.addEventListener("popstate", readIntent);
-    return () => window.removeEventListener("popstate", readIntent);
+    window.addEventListener("hashchange", readIntent);
+    return () => {
+      window.removeEventListener("popstate", readIntent);
+      window.removeEventListener("hashchange", readIntent);
+    };
   }, []);
 
   function selectIntent(nextIntent: ContactIntent) {
     setIntent(nextIntent);
     setProfessionalSubject(null);
-    const url = new URL(window.location.href);
-    url.searchParams.set("intent", nextIntent);
-    url.searchParams.delete("subject");
-    url.hash = "next-step";
-    window.history.pushState({}, "", url);
-    window.setTimeout(() => {
-      document
-        .getElementById("next-step")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 40);
-  }
-
-  function chooseAgain() {
-    const url = new URL(window.location.href);
-    url.searchParams.delete("intent");
-    url.searchParams.delete("subject");
-    url.hash = "";
-    window.history.pushState({}, "", url);
-    setIntent("guidance");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const currentState =
+      window.history.state && typeof window.history.state === "object"
+        ? window.history.state
+        : {};
+    window.history.pushState({ ...currentState }, "", `/contact#${nextIntent}`);
+    revealNextStep();
   }
 
   return (
@@ -153,7 +181,7 @@ export default function ContactConceptHero() {
     <section className="relative isolate overflow-hidden bg-ink">
       <Image
         src={HERO_IMAGE}
-        alt="A doctor speaking with a patient in a consulting room"
+        alt=""
         fill
         priority
         sizes="100vw"
@@ -200,19 +228,18 @@ export default function ContactConceptHero() {
             className="rounded-[2rem] border border-white/55 bg-[#fbfaf5]/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
           >
             <p className="text-[13px] leading-relaxed text-ink-muted">
-              {cancerLabel ? (
-                <>You&apos;re enquiring about <span className="font-medium text-ink">{cancerLabel}</span>. We&apos;ll show you the right form or online service next.</>
-              ) : (
-                <>We&apos;ll show you the right form or online service next.</>
-              )}
+              We&apos;ll show you the right form or online service next.
             </p>
 
-            <div className="mt-4">
+            <div
+              role="group"
+              aria-label="Choose what you need help with"
+              className="mt-4"
+            >
               <RouteLink
                 intent="consultation"
                 title="Arrange a consultation"
                 description="Request or arrange an appointment online."
-                cancerId={cancerId}
                 selected={intent === "consultation"}
                 onSelect={selectIntent}
               />
@@ -220,15 +247,13 @@ export default function ContactConceptHero() {
                 intent="guidance"
                 title="Not sure where to start?"
                 description="Ask the practice for guidance with a short message."
-                cancerId={cancerId}
                 selected={intent === "guidance"}
                 onSelect={selectIntent}
               />
               <RouteLink
                 intent="patient-portal"
                 title="Open the patient portal"
-                description="Manage appointments and documents securely."
-                cancerId={cancerId}
+                description="Access appointments and documents."
                 selected={intent === "patient-portal"}
                 onSelect={selectIntent}
               />
@@ -236,7 +261,6 @@ export default function ContactConceptHero() {
                 intent="referral"
                 title="Make a referral"
                 description="Use the healthcare professional referral route."
-                cancerId={cancerId}
                 selected={intent === "referral"}
                 onSelect={selectIntent}
               />
@@ -244,7 +268,6 @@ export default function ContactConceptHero() {
                 intent="professional"
                 title="Professional and career enquiries"
                 description="For consultants interested in the partnership and people interested in practice roles."
-                cancerId={cancerId}
                 selected={intent === "professional"}
                 onSelect={selectIntent}
               />
@@ -254,14 +277,10 @@ export default function ContactConceptHero() {
       </div>
 
     </section>
-    {intent && (
-      <ContactNextStep
-        intent={intent}
-        onChooseAgain={chooseAgain}
-        cancerLabel={cancerLabel}
-        professionalSubject={professionalSubject}
-      />
-    )}
+    <ContactNextStep
+      intent={intent}
+      professionalSubject={professionalSubject}
+    />
     </>
   );
 }

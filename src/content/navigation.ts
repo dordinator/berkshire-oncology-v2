@@ -588,13 +588,13 @@ const about: NavSection = {
         },
         {
           label: "Referring professionals",
-          href: "/contact?intent=referral#next-step",
+          href: "/contact#referral",
           description: "Use the secure healthcare professional referral route.",
           built: true,
         },
         {
           label: "Professional and career enquiries",
-          href: "/contact?intent=professional#next-step",
+          href: "/contact#professional",
           description: "Contact the practice about joining or working with us.",
           built: true,
         },

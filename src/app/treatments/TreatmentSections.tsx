@@ -421,7 +421,7 @@ export default function TreatmentSections({
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
-                href="/contact?intent=guidance"
+                href="/contact#guidance"
                 className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-white px-6 text-sm font-medium text-ink transition-colors hover:bg-[#e5eef6]"
               >
                 Contact the practice

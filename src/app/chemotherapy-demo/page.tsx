@@ -292,7 +292,7 @@ export default function ChemotherapyDemoPage() {
                 Start with the diagnosis, letter or information you already have. The practice team can help you find the appropriate consultant.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-6">
-                <Button href="/contact" variant="light">
+                <Button href="/contact#guidance" variant="light">
                   Contact the practice
                 </Button>
                 <a

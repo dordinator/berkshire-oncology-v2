@@ -102,7 +102,7 @@ export default function ChemotherapyDemoHero() {
               Anti-cancer medicines given in cycles, with rest periods in between.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-start gap-5">
-              <Button href="/contact" variant="sage">
+              <Button href="/contact#guidance" variant="sage">
                 Talk to the practice
               </Button>
               <span aria-hidden className="hidden h-10 w-px bg-ink/15 sm:block" />
