@@ -12,7 +12,7 @@ import PageMotion from "@/components/sections/resources/PageMotion";
 export const metadata: Metadata = pageMeta({
   title: "Tariffs & Fees",
   description:
-    "Guidance on the cost of private oncology treatment with Berkshire Oncology Partnership in Reading, Berkshire, for self-funding and insured patients.",
+    "Tariff guidance for self-funding and insured patients, including quotes, estimates and insurance shortfalls.",
   path: "/tariffs",
 });
 

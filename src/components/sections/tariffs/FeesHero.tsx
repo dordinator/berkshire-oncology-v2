@@ -29,12 +29,13 @@ import { useCenterGap } from "./useCenterGap";
   uses — two gradients intersected, one for the left edge under the text,
   one for the bottom edge.
 
-  Motion: an entrance sequence on load (headline lines, copy, pills, then
-  the photograph drifting in from the right), and a slight upward parallax
-  on the photograph as the hero scrolls out. The parallax moves the image
-  INSIDE the static mask — faster than the page, so the gap it opens is at
-  the bottom edge, where the mask has already dissolved to nothing. At rest
-  the framing is exactly the approved one. On exit, the blue strip's
+  Motion: an entrance sequence on load for the headline, copy and pills, and
+  a slight upward parallax on the photograph as the hero scrolls out. The
+  photograph itself is visible immediately so the largest visual does not
+  wait for an entrance animation. The parallax moves the image INSIDE the
+  static mask — faster than the page, so the gap it opens is at the bottom
+  edge, where the mask has already dissolved to nothing. At rest the framing
+  is exactly the approved one. On exit, the blue strip's
   surface unrounds and stretches edge to edge (see below) — the box opening
   into the page. Everything uses the site's Reveal vocabulary (0.7s, ease
   [0.22,1,0.36,1]) and collapses under prefers-reduced-motion.
@@ -49,7 +50,7 @@ const GROUND = "#f7f5f1";
 const SAGE = "#6f7f55";
 
 const pill =
-  "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-medium transition-colors";
+  "inline-flex items-center justify-center rounded-full px-6 py-3.5 text-[15px] font-medium transition-colors md:px-4 lg:px-7";
 
 const MASK = {
   WebkitMaskImage:
@@ -60,6 +61,13 @@ const MASK = {
   maskComposite: "intersect",
 } as const;
 
+const MOBILE_MASK = {
+  WebkitMaskImage:
+    "linear-gradient(to bottom, transparent 36%, #000 68%, #000 84%, transparent 100%)",
+  maskImage:
+    "linear-gradient(to bottom, transparent 36%, #000 68%, #000 84%, transparent 100%)",
+} as const;
+
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const rise: Variants = {
@@ -67,47 +75,24 @@ const rise: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
 };
 
-const riseSoft: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-};
-
 const CARDS = [
   {
-    title: "What you pay for",
-    body: "Consultation, records review and treatment planning—clearly itemised.",
-    href: "#tailored",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7 text-ink" aria-hidden>
-        <path d="M7 3.5h7l3.5 3.5v13a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5v-16a.5.5 0 0 1 .5-.5Z" />
-        <path d="M14 3.5V7h3.5M9.5 11h5M9.5 14.5h5" />
-      </svg>
-    ),
+    title: "Self-funding",
+    body: "Receive a comprehensive tariff before your treatment starts.",
+    href: "#self-funding",
+    cta: "Self-funding details",
   },
   {
-    title: "What may vary",
-    body: "Factors that can influence fees, explained upfront.",
+    title: "Using insurance",
+    body: "Obtain a quote to check whether your treatment is covered in full.",
+    href: "#insurance",
+    cta: "Insurance guidance",
+  },
+  {
+    title: "Quotes and changes",
+    body: "Quotes are estimates and may change depending on the treatment given.",
     href: "#estimates",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7 text-ink" aria-hidden>
-        <path d="M4 7.5h16M4 12h16M4 16.5h16" />
-        <circle cx="9.5" cy="7.5" r="1.6" fill="#dfe9f5" />
-        <circle cx="14.5" cy="12" r="1.6" fill="#dfe9f5" />
-        <circle cx="8" cy="16.5" r="1.6" fill="#dfe9f5" />
-      </svg>
-    ),
-  },
-  {
-    title: "How we help",
-    body: "Our team is here to guide you with clarity and compassion.",
-    href: "/contact",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7 text-ink" aria-hidden>
-        <circle cx="12" cy="12" r="9" />
-        <circle cx="12" cy="10" r="2.6" />
-        <path d="M7.2 18.4a5.4 5.4 0 0 1 9.6 0" />
-      </svg>
-    ),
+    cta: "How estimates work",
   },
 ];
 
@@ -153,26 +138,49 @@ export default function FeesHero() {
       className="relative overflow-hidden"
       style={{ backgroundColor: GROUND }}
     >
+      {/* On phones the photograph belongs to the hero rather than becoming a
+          separate full-width content block. A long vertical mask keeps the
+          heading and copy on quiet ground, then reveals the care-plan scene
+          beneath the actions before dissolving into the summary panel. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[680px] md:hidden"
+        style={MOBILE_MASK}
+      >
+        <motion.div
+          className="absolute inset-0"
+          style={reduce ? undefined : { y: parallaxY }}
+        >
+          <Image
+            src="/tariffs/hero-plan-a.webp"
+            alt=""
+            fill
+            priority
+            unoptimized
+            sizes="100vw"
+            className="object-cover object-[58%_center]"
+          />
+        </motion.div>
+      </div>
+
       {/* The photograph: 80% wide, from the top edge down to mid-strip, its
           left and bottom edges thinned away by the mask. The mask stays put;
           the image drifts in and parallaxes inside it. */}
       <div
         aria-hidden
-        className="absolute right-0 top-0 hidden lg:bottom-[17%] lg:block lg:w-[80%]"
+        className="absolute right-0 top-0 hidden md:bottom-[18%] md:block md:w-[74%] lg:bottom-[17%] lg:w-[80%]"
         style={MASK}
       >
         <motion.div
           className="absolute inset-0"
-          initial={{ opacity: 0, x: 48 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: EASE, delay: 0.15 }}
           style={reduce ? undefined : { y: parallaxY }}
         >
           <Image
-            src="/tariffs/hero-plan-a.jpg"
+            src="/tariffs/hero-plan-a.webp"
             alt=""
             fill
             priority
+            unoptimized
             sizes="80vw"
             className="object-cover object-[50%_38%]"
           />
@@ -180,7 +188,7 @@ export default function FeesHero() {
       </div>
 
       {/* ── Hero — text on clean ground left ── */}
-      <div className="relative flex min-h-[62svh] items-center pt-28 md:min-h-[70svh]">
+      <div className="relative flex min-h-[640px] items-start pt-28 sm:min-h-[680px] sm:pt-32 md:min-h-[600px] md:items-center md:pt-24 lg:min-h-[70svh] lg:pt-28">
         <motion.div
           className="container-wide relative z-10 w-full pb-12"
           initial="hidden"
@@ -189,15 +197,15 @@ export default function FeesHero() {
             show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
           }}
         >
-          <div className="max-w-xl lg:max-w-[44%]">
+          <div className="max-w-xl md:max-w-[50%] lg:max-w-[48%] xl:max-w-[44%]">
             {/* the contact hero's exact treatment: display face, ink first
                 line, house gradient on the second */}
-            <h1 className="font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-6xl">
+            <h1 className="font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] xl:text-6xl">
               <motion.span variants={rise} className="block">
-                Clear fees
+                How treatment
               </motion.span>
               <motion.span variants={rise} className="block text-gradient">
-                for complex care
+                fees work
               </motion.span>
             </h1>
 
@@ -205,8 +213,8 @@ export default function FeesHero() {
               variants={rise}
               className="mt-6 max-w-md text-[17px] leading-relaxed text-ink/75 md:text-lg"
             >
-              We explain the cost of consultation, records review and treatment
-              planning before care begins.
+              Tariffs are a guide. Self-funding packages are tailored to
+              individual needs, while insurance cover varies by policy.
             </motion.p>
 
             <motion.div
@@ -223,55 +231,19 @@ export default function FeesHero() {
                 href="/contact#guidance"
                 className={`${pill} border border-ink/20 bg-white/60 text-ink backdrop-blur-sm focus-visible:border-ink/45 focus-visible:bg-white`}
               >
-                Talk to our team
+                Request tariff details
               </Link>
             </motion.div>
           </div>
 
-          {/* phone/tablet: photograph below the copy, bleeding to the right
-              edge, left edge thinned by the same kind of mask */}
-          <motion.div
-            variants={rise}
-            className="relative -mr-6 mt-10 aspect-[16/10] overflow-hidden md:-mr-10 lg:hidden"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent 0%, #000 18%)",
-              maskImage: "linear-gradient(to right, transparent 0%, #000 18%)",
-            }}
-          >
-            <Image
-              src="/tariffs/hero-plan-a.jpg"
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
-          </motion.div>
         </motion.div>
       </div>
 
       {/* ── Three-up strip — floats over the photograph's lower reach ── */}
-      <div ref={stripWrapRef} className="container-wide relative z-10 pb-14 md:pb-20">
+      <div ref={stripWrapRef} className="container-wide relative z-10 -mt-8 pb-14 md:mt-0 md:pb-20">
         <motion.div
           ref={stripBoxRef}
-          className="relative grid gap-8 px-7 py-9 lg:grid-cols-3 lg:gap-0 lg:px-0 lg:py-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-40px" }}
-          variants={{
-            hidden: { opacity: 0, y: 32 },
-            show: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.8,
-                ease: EASE,
-                delay: 0.4,
-                staggerChildren: 0.1,
-                delayChildren: 0.55,
-              },
-            },
-          }}
+          className="relative grid gap-6 px-6 py-8 md:grid-cols-3 md:gap-0 md:px-0 md:py-8 lg:py-10"
         >
           {/* the strip's surface: full-bleed, clipped back to the box at
               rest; the scroll scrub releases the clip on exit */}
@@ -288,31 +260,25 @@ export default function FeesHero() {
           {CARDS.map((card, i) => (
             <motion.div
               key={card.title}
-              variants={riseSoft}
-              className={`relative flex gap-5 lg:px-9 ${
-                i > 0 ? "lg:border-l lg:border-ink/10" : ""
+              className={`relative grid h-full grid-rows-[auto_1fr_auto] justify-items-center px-2 text-center md:px-5 lg:px-6 xl:px-9 ${
+                i > 0 ? "md:border-l md:border-ink/10" : ""
               }`}
             >
-              <div className="mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-ink/20">
-                {card.icon}
-              </div>
-              <div>
-                <h2 className="font-display text-[1.3rem] leading-snug text-ink">
-                  {card.title}
-                </h2>
-                <p className="mt-2 max-w-[26ch] text-sm leading-relaxed text-ink/70">
-                  {card.body}
-                </p>
-                <Link
-                  href={card.href}
-                  className="relative mt-4 inline-flex items-center gap-2 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-['']"
-                >
-                  Explore
-                  <svg viewBox="0 0 20 12" fill="none" className="h-3 w-6" aria-hidden>
-                    <path d="M1 6h16M13 1.5 17.5 6 13 10.5" stroke={SAGE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-              </div>
+              <h2 className="font-display text-[1.3rem] leading-snug text-ink">
+                {card.title}
+              </h2>
+              <p className="mt-2 max-w-[28ch] text-sm leading-relaxed text-ink/70">
+                {card.body}
+              </p>
+              <Link
+                href={card.href}
+                className="relative mt-4 inline-flex items-center gap-2 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-['']"
+              >
+                {card.cta}
+                <svg viewBox="0 0 20 12" fill="none" className="h-3 w-6" aria-hidden>
+                  <path d="M1 6h16M13 1.5 17.5 6 13 10.5" stroke={SAGE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
