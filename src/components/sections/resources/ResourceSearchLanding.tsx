@@ -61,9 +61,9 @@ const suggestedSearches = [
   },
   {
     title: "Healthcare at Home (Sciensus)",
-    detail: "Medicines and clinical care delivered at home",
+    detail: "Medicines and cancer care at home when arranged by your care team",
     query: "Sciensus",
-    category: "Home care",
+    category: "Home cancer care",
   },
   {
     title: "Hospitals and treatment centres",
@@ -83,7 +83,7 @@ const resourceFaqs = [
   {
     question: "Where can I read trusted information about cancer and treatment?",
     answer:
-      "The NHS provides official cancer information, while Cancer Research UK covers cancer types, treatments and clinical trials in plain English.",
+      "The NHS explains symptoms, cancer types and common treatments. Cancer Research UK has detailed information about cancer types, tests, treatments and clinical trials. For advice about your own situation, speak to your consultant or clinical team.",
     resources: ["NHS cancer information", "Cancer Research UK"],
   },
   {
@@ -95,13 +95,13 @@ const resourceFaqs = [
   {
     question: "How can I find support close to home?",
     answer:
-      "Cancer Care Map lets you search for cancer support services across the UK.",
+      "Cancer Care Map lets you search for cancer support services near you, anywhere in the UK.",
     resources: ["Cancer Care Map"],
   },
   {
     question: "Can some care be provided at home?",
     answer:
-      "Sciensus provides medicines and clinical care at home when this is arranged by a patient’s care team.",
+      "Sciensus provides some medicines and cancer care at home when this is arranged by your care team.",
     resources: ["Healthcare at Home (Sciensus)"],
   },
   {
@@ -114,7 +114,7 @@ const resourceFaqs = [
   {
     question: "Where can I find specialist urology services?",
     answer:
-      "The Forbury Clinic is the Reading Urology Partnership’s own clinic.",
+      "The Forbury Clinic is run by the Reading Urology Partnership. Contact the clinic directly to ask which services are available.",
     resources: ["The Forbury Clinic (Reading Urology Partnership)"],
   },
 ];
@@ -298,8 +298,8 @@ export default function ResourceSearchLanding() {
             What can we help you find?
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-ink-muted sm:text-[17px]">
-            Search trusted organisations, support services and treatment
-            locations.
+            Find information from national cancer organisations, practical
+            support and the hospitals where our consultants provide care.
           </p>
 
           <div className="mx-auto mt-8 w-full max-w-[860px] overflow-hidden rounded-[1.75rem] border border-ink/[0.08] bg-white text-left shadow-[0_2px_8px_rgba(6,28,70,0.05),0_28px_75px_-38px_rgba(6,28,70,0.36)] sm:mt-10 sm:rounded-[2rem]">
@@ -426,6 +426,13 @@ export default function ResourceSearchLanding() {
             if you would rather look around
             <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
           </button>
+          <p className="mx-auto mt-4 max-w-xl text-[12px] leading-relaxed text-ink-muted sm:text-[13px]">
+            Questions about your own care? Speak to your consultant or{" "}
+            <Link href="/contact" className="font-medium text-accent hover:underline">
+              contact the practice
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
@@ -450,8 +457,9 @@ export default function ResourceSearchLanding() {
                   Information and support.
                 </h2>
                 <p className="mt-7 max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-[17px]">
-                  National organisations offering cancer information, practical
-                  support and services beyond the hospital.
+                  National organisations offering cancer information and
+                  practical support, plus services that may be arranged as part
+                  of your care.
                 </p>
                 <p className="mt-6 flex items-center gap-2 text-[12px] text-ink-muted">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -511,8 +519,8 @@ export default function ResourceSearchLanding() {
                 Where you may be treated.
               </h2>
               <p className="mt-7 max-w-xl text-[16px] leading-relaxed text-ink/75 sm:text-[18px]">
-                Five hospitals and cancer centres across Reading, Windsor and
-                Oxford.
+                {hospitals.length} hospitals and cancer centres across Reading,
+                Windsor and Oxford.
               </p>
               <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
                 Which location applies depends on your consultant and treatment;

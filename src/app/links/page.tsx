@@ -12,7 +12,7 @@ import ResourceSearchLanding from "@/components/sections/resources/ResourceSearc
 export const metadata: Metadata = pageMeta({
   title: "Resources and support",
   description:
-    "Trusted charities, support services, hospitals and treatment locations recommended by Berkshire Oncology.",
+    "Links to cancer information, practical support and hospitals where Berkshire Oncology Partnership consultants provide care.",
   path: "/resources",
 });
 

@@ -45,7 +45,7 @@ export const organisationGroups: OrganisationGroup[] = [
   {
     id: "information-and-support",
     title: "Information and support",
-    note: "National organisations offering cancer information, practical support and services beyond the hospital.",
+    note: "National organisations offering cancer information and practical support, plus services that may be arranged as part of your care.",
     entries: [
       {
         link: byName("Macmillan Cancer Support"),
@@ -55,12 +55,12 @@ export const organisationGroups: OrganisationGroup[] = [
       {
         link: byName("Cancer Research UK"),
         reason:
-          "Plain-English information about cancer types, treatments and clinical trials.",
+          "Information about cancer types, tests, treatments and clinical trials.",
       },
       {
         link: byName("NHS cancer information"),
         reason:
-          "Official NHS information about cancer, diagnosis and common treatments.",
+          "Official NHS information about symptoms, cancer types and common treatments.",
       },
       {
         link: byName("Maggie’s"),
@@ -75,7 +75,7 @@ export const organisationGroups: OrganisationGroup[] = [
       {
         link: byName("Healthcare at Home (Sciensus)"),
         reason:
-          "Medicines and clinical care delivered at home rather than at a hospital.",
+          "Medicines and cancer care at home when arranged by your care team.",
       },
     ],
   },

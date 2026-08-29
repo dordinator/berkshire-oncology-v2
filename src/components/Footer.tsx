@@ -10,7 +10,10 @@ import { hasFooterContact } from "@/lib/footerContact";
 // The eight sections of the information architecture, split across two columns
 // so the footer stays readable. Labels and hrefs come from navigation.ts, so a
 // rename there flows through here — the children stay in the navbar only.
-const sectionLinks = navSections.map((s) => ({ label: s.label, href: s.href }));
+const sectionLinks = navSections.map((s) => ({
+  label: s.label,
+  href: s.id === "about" ? "/about/the-partnership" : s.href,
+}));
 
 const exploreLinks = [{ label: "Home", href: "/" }, ...sectionLinks.slice(0, 4)];
 const practiceLinks = [...sectionLinks.slice(4), { label: "Contact", href: "/contact" }];
