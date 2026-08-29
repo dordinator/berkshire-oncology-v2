@@ -291,10 +291,7 @@ export default function ResourceSearchLanding() {
           className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_14%_22%,rgba(207,225,230,0.62),transparent_27%),radial-gradient(circle_at_87%_80%,rgba(200,153,47,0.09),transparent_24%)]"
         />
         <div className="relative mx-auto w-full max-w-[940px] text-center lg:-translate-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#a9791a] sm:text-xs">
-            Resources and support
-          </p>
-          <h1 className="mx-auto mt-5 max-w-4xl font-display text-[clamp(2.55rem,6vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink">
+          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.55rem,6vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink">
             What can we help you find?
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-ink-muted sm:text-[17px]">
@@ -447,12 +444,9 @@ export default function ResourceSearchLanding() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start lg:gap-16 xl:gap-24">
             <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center">
               <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted sm:text-xs">
-                  External resources
-                </div>
                 <h2
                   id="information-support-heading"
-                  className="mt-6 max-w-[9ch] font-display text-[clamp(3rem,5vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                  className="max-w-[9ch] font-display text-[clamp(3rem,5vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
                 >
                   Information and support.
                 </h2>
@@ -509,12 +503,9 @@ export default function ResourceSearchLanding() {
         <div className="container-wide relative">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] lg:items-start lg:gap-16">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted sm:text-xs">
-                Treatment locations
-              </div>
               <h2
                 id="treatment-locations-heading"
-                className="mt-6 max-w-[10ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                className="max-w-[10ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
               >
                 Where you may be treated.
               </h2>
@@ -564,12 +555,9 @@ export default function ResourceSearchLanding() {
         <div className="container-wide relative">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-20 xl:gap-28">
             <div className="text-center">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted sm:text-xs">
-                Frequently asked
-              </div>
               <h2
                 id="resource-faq-heading"
-                className="mx-auto mt-6 max-w-[10ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                className="mx-auto max-w-[10ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
               >
                 Not sure where to start?
               </h2>
