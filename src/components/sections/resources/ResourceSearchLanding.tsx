@@ -54,6 +54,14 @@ const resourceLogoSizes: Record<string, string> = {
   "/links/cancer-care-map.png": "w-[88%] max-w-[430px]",
 };
 
+const compactResourceLogoSizes: Record<string, string> = {
+  "/links/macmillan.png": "w-full",
+  "/links/cancer-research-uk.png": "w-[78%] max-w-[100px]",
+  "/links/nhs.png": "w-[82%] max-w-[105px]",
+  "/links/maggies.png": "w-full",
+  "/links/cancer-care-map.png": "w-full",
+};
+
 const suggestedSearches = [
   {
     title: "Macmillan Cancer Support",
@@ -216,31 +224,7 @@ function FeatureResourceCard({
       </span>
 
       <span className="mt-4 flex min-h-28 flex-1 items-center justify-center overflow-hidden py-2 sm:mt-5 sm:min-h-32 lg:min-h-36">
-        {result.logo ? (
-          result.logo === "/links/sciensus.png" ? (
-            <span className="relative block aspect-[540/103] w-[84%] max-w-[290px] overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={result.logo}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover object-center mix-blend-multiply"
-              />
-            </span>
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={result.logo}
-              alt=""
-              className={`block h-auto object-contain ${
-                resourceLogoSizes[result.logo] ?? "w-[82%] max-w-[300px]"
-              }`}
-            />
-          )
-        ) : (
-          <span className="font-display text-4xl font-semibold text-ink">
-            {result.title.charAt(0)}
-          </span>
-        )}
+        <ResourceLogo result={result} />
       </span>
 
       <span className="block pt-2 sm:pt-3">
@@ -256,6 +240,105 @@ function FeatureResourceCard({
             ↗
           </span>
         </span>
+      </span>
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  );
+}
+
+function ResourceLogo({
+  result,
+  compact = false,
+}: {
+  result: ResourceResult;
+  compact?: boolean;
+}) {
+  if (!result.logo) {
+    return (
+      <span
+        className={`font-display font-semibold text-ink ${
+          compact ? "text-3xl" : "text-4xl"
+        }`}
+      >
+        {result.title.charAt(0)}
+      </span>
+    );
+  }
+
+  if (result.logo === "/links/sciensus.png") {
+    return (
+      <span
+        className={`relative block aspect-[540/103] overflow-hidden ${
+          compact ? "w-full max-w-[118px]" : "w-[84%] max-w-[290px]"
+        }`}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={result.logo}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-center mix-blend-multiply"
+        />
+      </span>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={result.logo}
+      alt=""
+      className={`block h-auto object-contain ${
+        compact
+          ? `max-h-16 ${
+              compactResourceLogoSizes[result.logo] ?? "w-[86%] max-w-[110px]"
+            }`
+          : resourceLogoSizes[result.logo] ?? "w-[82%] max-w-[300px]"
+      }`}
+    />
+  );
+}
+
+function CompactResourceRow({
+  result,
+  index,
+}: {
+  result: ResourceResult;
+  index: number;
+}) {
+  return (
+    <a
+      href={result.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group grid min-h-[138px] w-full grid-cols-[7.5rem_minmax(0,1fr)_2.75rem] items-center gap-5 rounded-[1.5rem] border border-ink/[0.07] bg-[#f8f7f4] p-5 text-ink shadow-[0_18px_55px_-36px_rgba(6,28,70,0.3)] transition duration-300 hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-[0_22px_60px_-34px_rgba(6,28,70,0.36)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+    >
+      <span className="relative flex h-20 w-full items-center justify-center overflow-hidden">
+        <span className="absolute left-0 top-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+          0{index + 1}
+        </span>
+        <ResourceLogo result={result} compact />
+      </span>
+
+      <span className="min-w-0">
+        <span className="block font-display text-[19px] font-semibold leading-tight tracking-tight text-ink">
+          {result.title}
+        </span>
+        <span className="mt-1.5 block text-[12px] leading-relaxed text-ink-muted">
+          {result.description}
+        </span>
+        <span className="mt-2 inline-flex items-center gap-2 text-[11px] font-semibold text-accent">
+          Visit {domain(result.href)}
+          <span
+            aria-hidden
+            className="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1"
+          >
+            ↗
+          </span>
+        </span>
+      </span>
+
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-ink/10 text-ink transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white group-focus-visible:border-ink group-focus-visible:bg-ink group-focus-visible:text-white">
+        <ArrowIcon external />
       </span>
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
@@ -462,8 +545,8 @@ export default function ResourceSearchLanding() {
         <ChapterTint colour={SUPPORT_CHAPTER_BLUE} />
 
         <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10">
-          <div className="grid gap-12 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:items-start 2xl:gap-24">
-            <div className="2xl:sticky 2xl:top-0 2xl:flex 2xl:h-screen 2xl:items-center">
+          <div className="grid gap-12 xl:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)] xl:items-start xl:gap-16 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:gap-24">
+            <div className="xl:sticky xl:top-0 xl:flex xl:min-h-svh xl:items-center">
               <div>
                 <h2
                   id="information-support-heading"
@@ -483,9 +566,17 @@ export default function ResourceSearchLanding() {
               </div>
             </div>
 
+            <ul className="hidden gap-4 xl:grid 2xl:hidden">
+              {informationResources.map((result, index) => (
+                <li key={result.id}>
+                  <CompactResourceRow result={result} index={index} />
+                </li>
+              ))}
+            </ul>
+
             <div
               data-lenis-prevent-horizontal
-              className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-auto md:grid md:w-full md:max-w-[1040px] md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 2xl:max-w-none"
+              className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-auto md:grid md:w-full md:max-w-[1040px] md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 xl:hidden 2xl:grid 2xl:max-w-none"
             >
               {informationColumns.map((column, columnIndex) => (
                 <ul
