@@ -177,13 +177,13 @@ export default function PatientsPage() {
             <div className="order-1 lg:order-2">
               <Reveal>
                 <h2 className="max-w-xl font-display text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.97] tracking-[-0.055em] text-ink">
-                  The details that make the next step easier.
+                  Find the practical information you need.
                 </h2>
               </Reveal>
               <Reveal delay={1}>
                 <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
-                  Useful detail, kept separate from the bigger decisions so it is
-                  easy to find when you need it.
+                  Prepare for your first appointment, read answers to common
+                  questions or find support during treatment and beyond.
                 </p>
               </Reveal>
             </div>
