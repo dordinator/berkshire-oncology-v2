@@ -11,7 +11,12 @@ import Button from "@/components/ui/Button";
 import { attribution } from "@/content/mapPaths.generated";
 import { journeyStops } from "@/content/journey";
 import { site } from "@/content/site";
-import { getLenis } from "@/components/SmoothScroll";
+import {
+  getLenis,
+  resizeSmoothScroll,
+  startPageSnap,
+  stopPageSnap,
+} from "@/components/SmoothScroll";
 
 export interface CancerTypePrototypeItem {
   id: string;
@@ -88,6 +93,7 @@ function Finder({
   onQuery,
   onSelect,
   onUnsure,
+  onBrowseAll,
 }: {
   items: CancerTypePrototypeItem[];
   query: string;
@@ -95,6 +101,7 @@ function Finder({
   onQuery: (value: string) => void;
   onSelect: (item: CancerTypePrototypeItem) => void;
   onUnsure: () => void;
+  onBrowseAll: () => void;
 }) {
   const term = query.trim().toLowerCase();
   const open = Boolean(term) && query !== committedTitle;
@@ -109,7 +116,7 @@ function Finder({
         What have you been told?
       </label>
       <p className="mt-1 px-1 text-xs leading-relaxed text-ink-muted md:text-sm">
-        Use a cancer name, a body area or words from a letter.
+        Enter a cancer type to see possible matches.
       </p>
 
       <div className="relative mt-4">
@@ -181,7 +188,7 @@ function Finder({
         <button type="button" onClick={onUnsure} className="text-left text-sm text-ink-muted transition-colors hover:text-ink focus-visible:text-ink">
           I’m not sure what type it is
         </button>
-        <button type="button" onClick={() => document.getElementById("browse-all")?.scrollIntoView({ behavior: "smooth" })} className="text-sm font-medium text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
+        <button type="button" onClick={onBrowseAll} className="text-sm font-medium text-ink underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
           Browse all
         </button>
       </div>
@@ -190,16 +197,16 @@ function Finder({
 }
 
 const consultantSnapshots: Record<string, string> = {
-  "joss-adams": "Joss treats breast and lung cancers as well as lymphoma. He has led clinical trials in breast and lung cancer and brings experience across radiotherapy and drug treatments.",
-  "nicola-dallas": "Nicola specialises in urological, head and neck, and thyroid cancers. Her work includes highly targeted radiotherapy techniques designed to shape treatment closely around each patient.",
-  "gelareh-eslamian": "Gelareh treats breast and upper gastrointestinal cancers, including pancreatic and oesophageal cancers. She has extensive experience in chemotherapy, immunotherapy, endocrine treatments and targeted antibodies.",
-  "alice-freebairn": "Alice focuses on colorectal, head and neck, and skin cancers. She has helped introduce advanced radiotherapy techniques in Reading and works closely with regional multidisciplinary teams.",
-  "helen-odonnell": "Helen treats gynaecological, prostate, bladder and kidney cancers. She is Clinical Director and Lead Cancer Physician at the Berkshire Cancer Centre, with particular expertise in prostate brachytherapy.",
-  "madhumita-bhattacharyya": "Madhumita specialises in breast and ovarian cancers and melanoma using systemic treatments. She is closely involved in clinical trials and leads acute oncology work across the Thames Valley.",
-  "ruth-davis": "Ruth treats breast and brain cancers and is Radiotherapy Clinical Lead at the Berkshire Cancer Centre. She has helped introduce breath-hold breast radiotherapy and IMRT for brain treatment in Reading.",
-  "ayman-madi": "Ayman treats breast and colorectal cancers and is Research Lead at the Berkshire Cancer Centre. His work includes clinical trials and research into the treatment of advanced colorectal cancer.",
-  "esme-hill": "Esme treats upper gastrointestinal, liver, pancreatic and cancers of unknown primary. She works closely with Reading and Oxford multidisciplinary teams across radiotherapy and systemic treatment.",
-  "paul-rogers": "Paul treats prostate, bladder, kidney and testicular cancers. His experience includes prostate brachytherapy, therapeutic radioisotopes and national clinical trials in urological cancers.",
+  "joss-adams": "Dr Adams treats breast and lung cancers as well as lymphoma. He has led clinical trials in breast and lung cancer and brings experience across radiotherapy and drug treatments.",
+  "nicola-dallas": "Dr Dallas specialises in urological, head and neck, and thyroid cancers. Her work includes highly targeted radiotherapy techniques designed to shape treatment closely around each patient.",
+  "gelareh-eslamian": "Dr Eslamian treats breast and upper gastrointestinal cancers, including pancreatic and oesophageal cancers. She has extensive experience in chemotherapy, immunotherapy, endocrine treatments and targeted antibodies.",
+  "alice-freebairn": "Dr Freebairn focuses on colorectal, head and neck, and skin cancers. She has helped introduce advanced radiotherapy techniques in Reading and works closely with regional multidisciplinary teams.",
+  "helen-odonnell": "Dr O’Donnell treats gynaecological, prostate, bladder and kidney cancers. She is Clinical Director and Lead Cancer Physician at the Berkshire Cancer Centre, with particular expertise in prostate brachytherapy.",
+  "madhumita-bhattacharyya": "Dr Bhattacharyya specialises in breast and ovarian cancers and melanoma using systemic treatments. She is closely involved in clinical trials and leads acute oncology work across the Thames Valley.",
+  "ruth-davis": "Dr Davis treats breast and brain cancers and is Radiotherapy Clinical Lead at the Berkshire Cancer Centre. She has helped introduce breath-hold breast radiotherapy and IMRT for brain treatment in Reading.",
+  "ayman-madi": "Dr Madi treats breast and colorectal cancers and is Research Lead at the Berkshire Cancer Centre. His work includes clinical trials and research into the treatment of advanced colorectal cancer.",
+  "esme-hill": "Dr Hill treats upper gastrointestinal, liver, pancreatic and cancers of unknown primary. She works closely with Reading and Oxford multidisciplinary teams across radiotherapy and systemic treatment.",
+  "paul-rogers": "Dr Rogers treats prostate, bladder, kidney and testicular cancers. His experience includes prostate brachytherapy, therapeutic radioisotopes and national clinical trials in urological cancers.",
 };
 
 function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTypePrototypeItem; general?: boolean }) {
@@ -833,7 +840,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showUnsure, setShowUnsure] = useState(false);
-  const browseRef = useRef<HTMLElement>(null);
+  const browseSnapTimerRef = useRef<number | null>(null);
   const reducedMotion = useReducedMotion();
   const selected = items.find((item) => item.id === selectedId);
   const generalItem = useMemo<CancerTypePrototypeItem>(() => {
@@ -894,6 +901,78 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     [reducedMotion],
   );
 
+  const alignBrowseAll = useCallback(
+    (immediate: boolean, moveFocus: boolean) => {
+      const target = document.getElementById("browse-all");
+      if (!target) return;
+
+      if (browseSnapTimerRef.current !== null) {
+        window.clearTimeout(browseSnapTimerRef.current);
+      }
+
+      resizeSmoothScroll();
+      stopPageSnap();
+      browseSnapTimerRef.current = window.setTimeout(() => {
+        startPageSnap();
+        browseSnapTimerRef.current = null;
+      }, 1500);
+
+      const complete = () => {
+        if (browseSnapTimerRef.current !== null) {
+          window.clearTimeout(browseSnapTimerRef.current);
+        }
+        if (moveFocus) target.focus({ preventScroll: true });
+        browseSnapTimerRef.current = window.setTimeout(() => {
+          startPageSnap();
+          browseSnapTimerRef.current = null;
+        }, 250);
+      };
+
+      const lenis = getLenis();
+      if (lenis && !reducedMotion) {
+        lenis.scrollTo(target, {
+          offset: -96,
+          duration: 0.9,
+          immediate,
+          force: true,
+          onComplete: complete,
+        });
+      } else {
+        const top = target.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior: immediate || reducedMotion ? "auto" : "smooth",
+        });
+        window.setTimeout(complete, immediate || reducedMotion ? 0 : 500);
+      }
+    },
+    [reducedMotion],
+  );
+
+  useEffect(() => {
+    let resizeTimer: number | null = null;
+
+    const realignAfterResize = () => {
+      if (window.location.hash !== "#browse-all") return;
+      if (resizeTimer !== null) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(
+        () => alignBrowseAll(true, false),
+        180,
+      );
+    };
+
+    window.addEventListener("resize", realignAfterResize);
+    return () => {
+      window.removeEventListener("resize", realignAfterResize);
+      if (resizeTimer !== null) window.clearTimeout(resizeTimer);
+      if (browseSnapTimerRef.current !== null) {
+        window.clearTimeout(browseSnapTimerRef.current);
+        browseSnapTimerRef.current = null;
+        startPageSnap();
+      }
+    };
+  }, [alignBrowseAll]);
+
   useEffect(() => {
     const syncSelectionFromUrl = () => {
       const type = new URL(window.location.href).searchParams.get("type");
@@ -927,13 +1006,20 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
             60,
           ),
         );
+      } else if (!item && window.location.hash === "#browse-all") {
+        requestAnimationFrame(() =>
+          window.setTimeout(
+            () => alignBrowseAll(true, false),
+            60,
+          ),
+        );
       }
     };
 
     syncSelectionFromUrl();
     window.addEventListener("popstate", syncSelectionFromUrl);
     return () => window.removeEventListener("popstate", syncSelectionFromUrl);
-  }, [items, scrollTo]);
+  }, [alignBrowseAll, items, scrollTo]);
 
   function selectItem(item: CancerTypePrototypeItem) {
     const url = new URL(window.location.href);
@@ -956,6 +1042,19 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     scrollTo("not-sure");
   }
 
+  function browseAll() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("type");
+    url.hash = "browse-all";
+    window.history.pushState({}, "", url);
+    setSelectedId(null);
+    setShowUnsure(false);
+    setQuery("");
+    requestAnimationFrame(() =>
+      window.setTimeout(() => alignBrowseAll(false, true), 60),
+    );
+  }
+
   function resetJourney() {
     const url = new URL(window.location.href);
     url.searchParams.delete("type");
@@ -976,9 +1075,9 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
               Start with what you’ve been told.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-muted md:mt-6 md:text-xl">
-              You do not need the exact clinical words. We can start with a cancer name, a body area or something from a letter.
+              You do not need the exact clinical name. Try a cancer type such as breast, bowel, prostate or lung, or browse the full list below.
             </p>
-            <Finder items={items} query={query} committedTitle={selected?.title} onQuery={setQuery} onSelect={selectItem} onUnsure={showNotSure} />
+            <Finder items={items} query={query} committedTitle={selected?.title} onQuery={setQuery} onSelect={selectItem} onUnsure={showNotSure} onBrowseAll={browseAll} />
           </div>
 
           <div className="relative hidden min-h-[610px] lg:block">
@@ -1039,7 +1138,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
                 <p className="text-base leading-relaxed text-ink/75">If you have a referral letter, scan report or consultant’s name, send us what you have. The practice team can help work out who you need to speak to.</p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Button href="/contact#guidance">Ask the practice team</Button>
-                  <button type="button" onClick={() => browseRef.current?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" })} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink hover:border-ink/40">Browse all cancer types</button>
+                  <button type="button" onClick={browseAll} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink hover:border-ink/40">Browse all cancer types</button>
                 </div>
               </div>
             </div>
@@ -1048,10 +1147,10 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
       </AnimatePresence>
 
       {!selected && (
-        <section ref={browseRef} id="browse-all" className={`scroll-mt-28 bg-white ${sectionPadding}`}>
+        <section id="browse-all" tabIndex={-1} aria-labelledby="browse-all-heading" className={`scroll-mt-28 bg-white focus:outline-none ${sectionPadding}`}>
           <div className="w-full px-5 sm:px-8 md:px-10 lg:px-[5vw]">
             <div className="flex flex-col items-center border-b border-ink/10 pb-10 text-center">
-              <h2 className="max-w-4xl font-display text-3xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">Browse all cancer types.</h2>
+              <h2 id="browse-all-heading" className="max-w-4xl font-display text-3xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">Browse all cancer types.</h2>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted">Choose the name that looks closest to what you have been told. You can check the details on the next page.</p>
             </div>
 
