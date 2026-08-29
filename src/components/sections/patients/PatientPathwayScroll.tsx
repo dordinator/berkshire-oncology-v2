@@ -110,8 +110,8 @@ export default function PatientPathwayScroll() {
             Find the route that sounds most like you.
           </h2>
           <p className="mx-auto mt-7 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
-            Each route gives you a useful first step. You do not need to read
-            all five, and you do not need to know the right clinical language.
+            Each route explains what you can do next and what information may be
+            useful.
           </p>
         </header>
 
