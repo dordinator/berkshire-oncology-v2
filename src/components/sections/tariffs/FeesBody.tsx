@@ -27,14 +27,12 @@ import { useCenterGap } from "./useCenterGap";
   reader's thumb and composes with the Lenis lerp — the same texture as
   the home, patients and resources pages.
 
-  Framer stays for exactly three things: the two approved full-bleed
-  signatures (the pale-blue shortfalls band stretching from rounded panel
-  to full bleed, and the navy close docking like a sheet) and the FAQ
-  accordion's sprung open/close — interaction, not scroll.
+  Framer stays for the navy close docking like a sheet and the FAQ
+  accordions' sprung open/close — interaction, not scroll.
 
   Type is the patients register: clamp statements (semibold, tight
-  leading, −0.05em family tracking), the site .eyebrow with its ink
-  hairline, one statement + one short support paragraph per band.
+  leading, −0.05em family tracking), with one task-led heading and one
+  short support paragraph per band.
 
   Measure refs: the clip scrubs rest at the CONTENT edge of the container,
   so the measured element must be a child inside .container-wide — the
@@ -61,37 +59,10 @@ const EASE = [0.22, 1, 0.36, 1] as const;
    nothing is ever moving while it is being read. */
 const LOCK = "top 78%";
 
-/** The site eyebrow: hairline + small caps, exactly as patients types it. */
-function Eyebrow({
-  children,
-  light = false,
-  center = false,
-}: {
-  children: React.ReactNode;
-  light?: boolean;
-  center?: boolean;
-}) {
-  return (
-    <p
-      className={`eyebrow ${light ? "text-white/55" : ""} ${
-        center ? "justify-center" : ""
-      }`}
-    >
-      <span
-        aria-hidden
-        className={`h-px w-8 ${light ? "bg-white/35" : "bg-ink-muted"}`}
-      />
-      {children}
-    </p>
-  );
-}
-
 /* Heading tiers. Splits carry the column statement tier; the two
    full-bleed moments keep their own cuts, and the navy close crescendos. */
 const H_SPLIT =
   "font-display text-[clamp(2.25rem,4.1vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink";
-const H_LONG =
-  "font-display text-[clamp(2.4rem,4.2vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink";
 const H_CLOSE =
   "font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-white";
 
@@ -226,20 +197,20 @@ function RowPanel({
 
 const STAGES = [
   {
-    title: "Discuss your care",
-    body: "Your consultant sets out the treatment being proposed and what it involves.",
+    title: "Ask for tariff details",
+    body: "Contact the practice if you are self-funding or need information about fees.",
   },
   {
-    title: "Confirm how you are paying",
-    body: "Self-funding, or through a private medical insurance policy.",
+    title: "Receive a self-funding tariff",
+    body: "The practice provides a comprehensive tariff before treatment starts.",
   },
   {
-    title: "Receive your tariff or estimate",
-    body: "A personalised tariff or written estimate, before treatment begins.",
+    title: "Obtain an insurance quote",
+    body: "Ask your insurer whether the treatment cost will be covered in full.",
   },
   {
-    title: "Ask questions before proceeding",
-    body: "The practice team will go through anything that is unclear.",
+    title: "Ask about anything unclear",
+    body: "Contact the practice about your tariff and your insurer about policy cover.",
   },
 ];
 
@@ -289,12 +260,10 @@ function Pathway() {
 
 const FAQS = [
   {
-    q: "How do I request a tariff?",
+    q: "How do I request tariff details?",
     a: (
       <>
-        Contact the practice team and tell us which consultant you are seeing.
-        A personalised tariff is prepared for your treatment plan and provided
-        before treatment starts.
+        Contact the practice by phone or email for details of your tariff.
       </>
     ),
   },
@@ -312,16 +281,26 @@ const FAQS = [
     q: "Can an estimate change?",
     a: (
       <>
-        Yes. Estimates are based on the treatment plan at the time they are
-        prepared, and may change if your treatment or circumstances change.
+        Yes. All quotes are estimates and may change depending on the
+        treatment given.
       </>
     ),
   },
   {
-    q: "Who can help me understand the costs?",
+    q: "Why are fixed prices not listed?",
     a: (
       <>
-        The practice team. Call{" "}
+        Each consultant is an independent practitioner and sets their own
+        tariff. Self-funding packages are also tailored to individual needs,
+        so contact the practice for the tariff that applies to you.
+      </>
+    ),
+  },
+  {
+    q: "Who should I contact about fees?",
+    a: (
+      <>
+        Contact the practice for tariff details. Call{" "}
         <a
           href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
           className="text-accent underline underline-offset-2"
@@ -334,41 +313,41 @@ const FAQS = [
           className="text-accent underline underline-offset-2"
         >
           {site.contact.email}
-        </a>{" "}
-        for consultant-specific information.
+        </a>. If you are insured, contact your insurer to check what your policy
+        covers.
       </>
     ),
   },
 ];
 
-/* The two shortfall topics that expand inside the blue band — the patients
-   support-band device. Same approved wording the FAQ list used to carry. */
+/* The two shortfall topics that expand inside the mint section. Same approved
+   wording the FAQ list used to carry. */
 const BAND_ROWS = [
   {
     q: "What is a shortfall?",
-    a: "If your insurer does not settle an account in full, the remaining amount — the shortfall — is the patient's responsibility.",
+    a: "A shortfall is the balance left when an insurer does not settle an account in full. The patient is responsible for paying it.",
   },
   {
-    // The row the nav's "Insurance authorisation" entry deep-links to.
+    // The navigation's insurance-cover entry deep-links to this row.
     id: "authorisation",
-    q: "Do I need insurance authorisation?",
-    a: "If you are insured, confirm your cover and obtain authorisation from your insurer before treatment begins — policies and fee schedules vary between insurers and between individual policies.",
+    q: "How do I check my insurance cover?",
+    a: "Ask your insurer whether the treatment will be covered in full before it starts. Fee schedules and policy benefits vary.",
   },
 ];
 
-/** The expandable topic rows inside the blue band, in the patients
- *  register: bordered rounded rows, the plus rotating 45° when open. */
+/** The expandable topic rows inside the shortfall card. Hairline rules keep
+ *  them part of one calm information panel; the plus rotates when open. */
 function BandRows() {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <div className="mt-8 space-y-3">
+    <div className="mt-10 border-t border-ink/15">
       {BAND_ROWS.map((row, i) => {
         const isOpen = open === i;
         return (
           <div
             key={row.q}
             id={"id" in row ? row.id : undefined}
-            className="scroll-mt-32 rounded-2xl border border-ink/15 bg-white/45"
+            className="scroll-mt-32 border-b border-ink/15"
           >
             <h3 className="m-0">
               <button
@@ -376,7 +355,7 @@ function BandRows() {
                 aria-expanded={isOpen}
                 aria-controls={`fees-band-row-${i}`}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full cursor-pointer items-center justify-between gap-6 px-5 py-4 text-left font-display text-lg font-semibold leading-snug text-ink transition-colors hover:text-accent focus-visible:underline focus-visible:underline-offset-4"
+                className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left font-display text-lg font-semibold leading-snug text-ink transition-colors hover:text-accent focus-visible:underline focus-visible:underline-offset-4 md:text-xl"
               >
                 {row.q}
                 <motion.span
@@ -400,7 +379,7 @@ function BandRows() {
                   transition={{ duration: 0.35, ease: EASE }}
                   className="overflow-hidden"
                 >
-                  <p className="px-5 pb-5 text-[15px] leading-relaxed text-ink/75">
+                  <p className="max-w-xl pb-6 pr-8 text-base leading-relaxed text-ink/75">
                     {row.a}
                   </p>
                 </motion.div>
@@ -482,26 +461,6 @@ export default function FeesBody() {
   const tel = (n: string) => `tel:${n.replace(/\s+/g, "")}`;
   const reduce = useReducedMotion();
 
-  // The shortfalls band: full-bleed layer clipped back to a rounded panel;
-  // scrolling into it releases the clip. Reduced motion freezes the panel.
-  const bandRef = useRef<HTMLDivElement>(null);
-  const bandBoxRef = useRef<HTMLDivElement>(null);
-  const bandGap = useCenterGap(bandBoxRef);
-  const { scrollYProgress: bandProgress } = useScroll({
-    target: bandRef,
-    offset: ["start 0.92", "start 0.45"],
-  });
-  const bandDraw = useSpring(bandProgress, {
-    stiffness: 90,
-    damping: 26,
-    restDelta: 0.001,
-  });
-  const bandInset = useTransform(bandDraw, (v) =>
-    Math.max(0, bandGap * (1 - (reduce ? 0 : v)))
-  );
-  const bandRadius = useTransform(bandDraw, (v) => 16 * (1 - (reduce ? 0 : v)));
-  const bandClip = useMotionTemplate`inset(0px ${bandInset}px 0px ${bandInset}px round ${bandRadius}px)`;
-
   // The navy sheet: inset with rounded shoulders on approach, docking
   // flush as it lands. Reduced motion freezes it flush.
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -531,20 +490,23 @@ export default function FeesBody() {
       <div id="tailored" data-drift-band className="scroll-mt-24 overflow-clip">
         <div className={`container-wide pb-12 pt-24 md:pt-32 ${SPLIT}`}>
           <div>
-            <Eyebrow>How fees are set</Eyebrow>
-            <h2 className={`mt-7 ${H_SPLIT}`}>
-              Fees are tailored to your care.
+            <h2 className={H_SPLIT}>
+              Consultants set their own tariffs.
             </h2>
             <p className={SUPPORT}>
-              Each consultant is an independent practitioner and sets a
-              tariff they feel is fair and reasonable. Cancer care is
-              individual, so we don&rsquo;t publish fixed prices.
+              Berkshire Oncology Partnership is a group of independent
+              practitioners. Tariffs are intended as a guide, so contact the
+              practice for details of the tariff that applies to you.
             </p>
           </div>
           <RowPanel
             tint={SAGE_BLOCK}
-            label="What your tariff covers"
-            rows={["Consultation", "Records review", "Treatment planning"]}
+            label="If you are self-funding"
+            rows={[
+              "Package tailored to your needs",
+              "Comprehensive tariff provided",
+              "Before treatment starts",
+            ]}
             photo="/tariffs/consultation.jpg"
             alt="A consultant listening to a patient during a consultation"
           />
@@ -555,13 +517,13 @@ export default function FeesBody() {
       <div id="funding" data-drift-band className="scroll-mt-24 overflow-clip">
         <div className={`container-wide pb-24 pt-12 md:pb-32 md:pt-20 ${SPLIT}`}>
           <div>
-            <Eyebrow>Funding routes</Eyebrow>
-            <h2 className={`mt-7 ${H_SPLIT}`}>
-              Two ways to pay for treatment.
+            <h2 className={H_SPLIT}>
+              You can self-fund treatment or use private medical insurance.
             </h2>
             <p className={SUPPORT}>
-              Self-funding or insured — either way, you&rsquo;ll know where
-              you stand before treatment begins.
+              Self-funding patients receive a comprehensive tariff. Insured
+              patients should obtain a quote from their provider before
+              treatment.
             </p>
           </div>
           <div className="space-y-6">
@@ -579,11 +541,11 @@ export default function FeesBody() {
                 Paying for your own treatment
               </h3>
               <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/75 md:text-base">
-                Every package is tailored to the patient, with a
-                comprehensive, personalised tariff before treatment starts.
+                Each self-funding package is tailored to individual needs. You
+                will receive a comprehensive tariff before treatment starts.
               </p>
               <ArrowLink href="#request">
-                Request a personalised tariff
+                Request tariff details
               </ArrowLink>
             </article>
 
@@ -601,9 +563,9 @@ export default function FeesBody() {
                 Private medical insurance
               </h3>
               <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/75 md:text-base">
-                Insurers set their own fee schedules, and policies vary.
-                Confirm your cover and obtain authorisation before treatment
-                begins.
+                Insurance providers have their own fee schedules, and policy
+                benefits vary. Obtain a quote before treatment to check
+                whether the cost is covered in full.
               </p>
               <ArrowLink href="#shortfalls">
                 What if my policy doesn&rsquo;t cover everything?
@@ -617,13 +579,13 @@ export default function FeesBody() {
       <div id="before-you-start" className="scroll-mt-24">
         <div className={`container-wide pb-24 md:pb-32 ${SPLIT}`}>
           <div>
-            <Eyebrow>Before you start treatment</Eyebrow>
-            <h2 className={`mt-7 ${H_SPLIT}`}>
-              Four things happen before treatment begins.
+            <h2 className={H_SPLIT}>
+              Check the relevant costs before treatment begins.
             </h2>
             <p className={SUPPORT}>
-              The same four steps, whoever your consultant is and however you
-              are paying.
+              Ask the practice for tariff details if you are self-funding. If
+              you are insured, obtain a quote from your provider and confirm
+              whether the treatment is covered in full.
             </p>
           </div>
           <Pathway />
@@ -634,24 +596,22 @@ export default function FeesBody() {
       <div id="estimates" data-drift-band className="scroll-mt-24 overflow-clip">
         <div className={`container-wide pb-24 md:pb-32 ${SPLIT_FLIP}`}>
           <div className="lg:order-2">
-            <Eyebrow>Estimates and changes</Eyebrow>
-            <h2 className={`mt-7 ${H_SPLIT}`}>
-              An estimate is a starting point, not a contract.
+            <h2 className={H_SPLIT}>
+              Quotes are estimates and may change.
             </h2>
             <p className={SUPPORT}>
-              Estimates reflect your treatment plan as it stands. If your
-              plan changes, the estimate changes with it — and your
-              consultant&rsquo;s team will keep you informed.
+              The amount may change depending on the treatment given. Contact
+              the practice if you have questions about a tariff or estimate.
             </p>
           </div>
           <div className="lg:order-1">
             <RowPanel
               tint={PANEL}
-              label="What can change an estimate"
+              label="Questions to ask about a quote"
               rows={[
-                "Your treatment plan",
-                "The length of a course",
-                "Your circumstances",
+                "What does this quote include?",
+                "Could the amount change?",
+                "Who should I contact?",
               ]}
               photo="/tariffs/estimate.jpg"
               alt="Working through the pages of a written estimate at a desk"
@@ -661,90 +621,63 @@ export default function FeesBody() {
         </div>
       </div>
 
-      {/* ── 5 · Excesses and shortfalls — the pale-blue full-bleed band ── */}
-      <div id="shortfalls" className="scroll-mt-24">
-        <div className="pb-24 md:pb-32">
-          <div ref={bandRef} className="relative">
-            {/* the band's surface: a rounded panel at rest; the scroll
-                scrub stretches it edge to edge */}
-            <motion.div
-              aria-hidden
-              className="absolute inset-y-0 left-1/2 w-screen"
-              style={{
-                marginLeft: "-50vw",
-                backgroundColor: PANEL,
-                clipPath: bandClip,
-              }}
-            />
-            <div className="container-wide">
-              {/* measure ref INSIDE the container: content edge, not the
-                  full-width border box */}
-              <div ref={bandBoxRef}>
-                {/* The patients support-band anatomy: statement left; on the
-                    right a hairline-ruled column carrying the support copy,
-                    the tariff CTA pair, and two expandable topic rows.
-                    Tighter vertical padding than the open bands — the panel
-                    is dense enough to carry a shorter room. */}
-                <div className="relative py-14 md:py-20">
-                  <Eyebrow>Excesses and shortfalls</Eyebrow>
-                  {/* items-START, not center: the right column grows when a
-                      topic row expands, and a centred grid would re-seat the
-                      statement mid-read. */}
-                  <div className="mt-7 grid items-start gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20">
-                    <h2 className={H_LONG}>
-                      If your policy doesn&rsquo;t cover everything, the
-                      difference rests with you.
-                    </h2>
-                    <div className="border-t border-ink/15 pt-7">
-                      <p className="max-w-lg text-lg leading-relaxed text-ink/70">
-                        You may be responsible for an excess, a contribution,
-                        or a shortfall your insurer does not settle. Obtain a
-                        quote from your insurer before treatment begins.
-                      </p>
-                      <div
-                        id="request"
-                        className="mt-8 flex scroll-mt-32 flex-wrap items-center gap-3"
-                      >
-                        <Button href="/contact#guidance">Request a tariff</Button>
-                        <Button href="#faqs" variant="ghost">
-                          More questions
-                        </Button>
-                      </div>
-                      <p className="mt-3 text-sm leading-relaxed text-ink/60">
-                        Your request goes to the practice team — tell them
-                        which consultant you are seeing.
-                      </p>
-                      <BandRows />
-                    </div>
-                  </div>
-                </div>
+      {/* ── 5 · Insurance shortfalls — full-width mint background ── */}
+      <section id="shortfalls" className="scroll-mt-24 bg-mint">
+        <div className="container-wide py-20 md:py-28">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14 xl:gap-20">
+            <div className="flex flex-col items-start text-left">
+              <h2 className="max-w-[13ch] font-display text-[clamp(2.5rem,4.15vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
+                If your insurer does not pay in full, you are responsible for
+                the balance.
+              </h2>
+              <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted md:text-xl">
+                Check what your policy covers before treatment begins.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-ink/10 bg-white/90 p-6 shadow-[0_30px_80px_-45px_rgba(6,28,70,0.3)] sm:p-8 md:p-10 lg:p-12">
+              <p className="max-w-xl text-lg leading-relaxed text-ink/70 md:text-xl">
+                Contact the practice for tariff details, then ask your insurer
+                whether the cost will be covered in full before treatment
+                starts.
+              </p>
+              <div id="request" className="mt-8 scroll-mt-32">
+                <Button
+                  href="/contact#guidance"
+                  className="w-full sm:w-auto sm:px-9 sm:py-4 sm:text-base"
+                >
+                  Request tariff details
+                </Button>
               </div>
+              <BandRows />
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ── 6 · FAQs — text | white panel of questions. items-start so an
              opening answer doesn't re-seat the statement. ── */}
       <div id="faqs" className="scroll-mt-24">
         <div
-          className={`container-wide pb-24 md:pb-32 ${SPLIT.replace(
+          className={`container-wide py-24 md:py-32 ${SPLIT.replace(
             "items-center",
             "items-start"
           )}`}
         >
-          <div>
-            <Eyebrow>Common questions</Eyebrow>
-            <h2 className={`mt-7 ${H_SPLIT}`}>Fees, answered plainly.</h2>
+          <div className="flex flex-col items-start text-left lg:self-center">
+            <h2 className={`max-w-[15ch] ${H_SPLIT}`}>
+              Answers to common questions about fees.
+            </h2>
             <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted">
-              Short answers to the questions patients ask most — and{" "}
+              Find out how to request tariff details, self-fund treatment,
+              check insurance cover and understand changes to a quote. Call{" "}
               <a
                 href={tel(c.phone)}
                 className="inline-block py-2 -my-2 text-accent underline underline-offset-2"
               >
                 {c.phone}
               </a>{" "}
-              for the rest.
+              if your question is not covered.
             </p>
           </div>
           <Faqs />
@@ -769,10 +702,9 @@ export default function FeesBody() {
             {/* content-edge measure ref, same contract as the band */}
             <div ref={sheetBoxRef}>
               <div className="relative py-24 md:py-28">
-                <Eyebrow light>Talk to us about fees</Eyebrow>
-                <div className="mt-7 grid items-end gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+                <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
                   <h2 className={`max-w-3xl ${H_CLOSE}`}>
-                    The practice team will talk you through any of it.
+                    Contact the practice for tariff details.
                   </h2>
                   <div className="lg:text-right">
                     <div className="space-y-1.5 text-lg text-white/85">
