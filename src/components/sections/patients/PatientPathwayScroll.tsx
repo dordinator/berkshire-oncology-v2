@@ -7,71 +7,71 @@ const routes = [
   {
     id: "newly-diagnosed",
     label: "I’m newly diagnosed",
-    eyebrow: "A diagnosis has been confirmed",
-    statement: "You do not need to have everything in order before you call.",
-    body: "The practice team will take a few details, identify the consultant whose specialism matches your diagnosis, and explain what is needed for a first appointment.",
+    eyebrow: "After a cancer diagnosis",
+    statement: "You can contact the practice even if you do not have every document.",
+    body: "Start with the cancer type, if you know it. The consultant directory shows the specialists for each diagnosis, and the practice team can explain what information may be needed before an appointment.",
     points: [
-      "Share any scans, reports or letters you already have",
-      "Tell us which team is currently looking after you",
-      "Have your insurance details nearby if you are insured",
+      "Share any scans, reports or clinic letters you already have",
+      "Name the hospital or clinician looking after you, if applicable",
+      "Check with your insurer before the appointment, if you plan to use insurance",
     ],
-    action: { label: "Newly diagnosed: what happens next", href: "/patients/newly-diagnosed" },
+    action: { label: "Find a consultant by cancer type", href: "/specialities" },
     tone: "bg-[#dce6e1]",
   },
   {
     id: "second-opinion",
     label: "I’m looking for a second opinion",
-    eyebrow: "An independent specialist view",
-    statement: "A second opinion is a normal part of making a careful decision.",
-    body: "Our consultants can review a diagnosis, a proposed treatment plan, or both. The most useful appointment begins with the same records and imaging your current team has seen.",
+    eyebrow: "A review by another specialist",
+    statement: "A second opinion can review your diagnosis, treatment plan or both.",
+    body: "It may confirm what you have already been told or provide a different view. Arranging one can take time, so speak to your current team before changing any tests, appointments or treatment.",
     points: [
-      "Tell us what you would like reviewed",
-      "Share the hospital and team that hold your records",
-      "The practice team will explain how to transfer what is needed",
+      "Decide what you would like the consultant to review",
+      "Ask your current team for relevant letters, test results and imaging",
+      "Keep existing appointments unless your clinical team advises otherwise",
     ],
-    action: { label: "How to arrange a second opinion", href: "/patients/second-opinion" },
+    action: { label: "Contact the practice", href: "/contact" },
     tone: "bg-[#e6edf3]",
   },
   {
     id: "private-treatment",
     label: "I’m looking for private treatment",
-    eyebrow: "Private care, clearly explained",
-    statement: "Start with the consultant and the care you need, not the paperwork.",
-    body: "Care can be funded through private medical insurance or paid for directly. The practice team will explain the route, where appointments and treatment can happen, and how fees are confirmed before you proceed.",
+    eyebrow: "Self-pay and insured care",
+    statement: "Start with a consultation and a clear understanding of the likely costs.",
+    body: "Private care may be self-funded or paid through medical insurance. Any treatment recommendation depends on your diagnosis and a consultant’s review of your clinical information.",
     points: [
-      "Find the consultant who specialises in your diagnosis",
-      "Understand self-funding and insured routes",
-      "Request consultant-specific tariff information",
+      "Ask your insurer whether a referral and authorisation are required",
+      "Request a written estimate and check what it includes",
+      "Confirm where consultations and any agreed treatment would take place",
     ],
-    action: { label: "Explore private treatment", href: "/patients/private-treatment" },
+    action: { label: "Understand fees and insurance", href: "/tariffs" },
     tone: "bg-[#f0ece2]",
   },
   {
     id: "receiving-treatment",
     label: "I’m already receiving treatment",
-    eyebrow: "Support between appointments",
-    statement: "Knowing who to contact is part of feeling supported.",
-    body: "Your treatment team will give you the right route for urgent clinical concerns. The practice team can help with appointments, paperwork and questions about the wider organisation of your care.",
+    eyebrow: "During cancer treatment",
+    statement: "Use the urgent contact details from your treating team if you feel unwell.",
+    body: "For new or worsening symptoms, use the urgent number on your treatment record or alert card. Call NHS 111 if you cannot find that number. Call 999 in a life-threatening emergency.",
     points: [
-      "Keep your treatment team’s urgent contact number close",
-      "Ask early if an appointment needs to change",
-      "Use the support resources selected for patients in treatment",
+      "Keep your treatment team’s urgent number easy to find",
+      "Contact your treating team about symptoms or side effects",
+      "Contact the practice team about appointments or paperwork",
     ],
-    action: { label: "Support while receiving treatment", href: "/patients/receiving-treatment" },
+    action: { label: "Find trusted support services", href: "/resources" },
     tone: "bg-[#dce5ed]",
   },
   {
     id: "supporting-someone",
     label: "I’m supporting someone with cancer",
     eyebrow: "For families, friends and carers",
-    statement: "You are part of the picture, and you are allowed to need support too.",
-    body: "You can help prepare questions, attend appointments where the patient wants you there, and make the practical parts of treatment more manageable. Support is also available for you.",
+    statement: "Ask what support the person wants and how they would like you to be involved.",
+    body: "You can help prepare questions, attend appointments if they would like you there and support practical tasks. Healthcare professionals need the patient’s permission before sharing details about their care.",
     points: [
+      "Agree what they would like help with",
       "Write down questions together before an appointment",
-      "Ask the patient how they would like you to be involved",
-      "Make space for your own practical and emotional support",
+      "Look for practical and emotional support for yourself as well",
     ],
-    action: { label: "Guidance for supporting someone", href: "/patients/supporting-someone" },
+    action: { label: "Find support services for carers", href: "/resources" },
     tone: "bg-[#d7e1dc]",
   },
 ] as const;
@@ -152,11 +152,12 @@ export default function PatientPathwayScroll() {
               <article
                 key={route.id}
                 id={route.id}
+                aria-labelledby={`${route.id}-title`}
                 data-patient-route
                 data-fx="rise"
-                className={`scroll-mt-32 overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
+                className={`flex scroll-mt-32 overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
               >
-                <div className="flex min-h-full flex-col">
+                <div className="flex min-w-0 flex-1 flex-col">
                   <div>
                     {/* ink-soft, not ink-muted: at 11px on the toned sheets
                         the muted grey measures 4.18–4.39:1 — under the 4.5:1
@@ -164,7 +165,10 @@ export default function PatientPathwayScroll() {
                     <p className="text-[11px] font-medium uppercase tracking-[0.19em] text-ink-soft">
                       {route.eyebrow}
                     </p>
-                    <h3 className="mt-6 max-w-3xl font-display text-[clamp(2.25rem,4.1vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+                    <h3
+                      id={`${route.id}-title`}
+                      className="mt-6 max-w-3xl font-display text-[clamp(2.25rem,3.5vw,3.9rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink"
+                    >
                       {route.statement}
                     </h3>
                     <p className="mt-7 max-w-2xl text-base leading-relaxed text-ink/75 md:text-lg">
@@ -172,22 +176,24 @@ export default function PatientPathwayScroll() {
                     </p>
                   </div>
 
-                  <div className="mt-12 grid gap-8 border-t border-ink/15 pt-7 md:mt-auto md:grid-cols-[1fr_auto] md:items-end">
-                    <ul className="space-y-3">
-                      {route.points.map((point) => (
-                        <li key={point} className="flex gap-3 text-sm leading-relaxed text-ink/70">
-                          <span aria-hidden className="mt-[0.55em] h-1.5 w-1.5 flex-none rounded-full bg-[#769187]" />
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link
-                      href={route.action.href}
-                      className="group inline-flex items-center gap-3 text-sm font-medium text-ink"
-                    >
-                      {route.action.label}
-                      <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-                    </Link>
+                  <div className="mt-12 md:mt-auto md:pt-12">
+                    <div className="grid gap-8 border-t border-ink/15 pt-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+                      <ul className="space-y-3">
+                        {route.points.map((point) => (
+                          <li key={point} className="flex gap-3 text-[15px] leading-relaxed text-ink/75">
+                            <span aria-hidden className="mt-[0.55em] h-1.5 w-1.5 flex-none rounded-full bg-[#769187]" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        href={route.action.href}
+                        className="group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 focus-visible:bg-white/30"
+                      >
+                        {route.action.label}
+                        <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </article>
