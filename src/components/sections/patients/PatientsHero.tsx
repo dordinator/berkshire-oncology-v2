@@ -20,22 +20,26 @@ export default function PatientsHero() {
     >
       <div className="container-wide grid min-h-[calc(100svh-8rem)] items-center gap-12 pb-24 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-36">
         <div className="relative z-10 py-8 lg:py-14">
-          <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 text-xs font-medium text-ink-muted shadow-[0_8px_30px_-20px_rgba(6,28,70,0.25)]">
-            <span aria-hidden className="h-2 w-2 rounded-full bg-[#8ca49a]" />
-            Patients & families
-          </span>
-
-          <h1 className="mt-7 max-w-3xl font-display text-[clamp(3.4rem,5.55vw,6.4rem)] font-semibold leading-[0.93] tracking-[-0.06em]">
-            Wherever you are in this, there is a place to start.
+          <h1 className="max-w-3xl font-display text-[clamp(1.8rem,10.5vw,3.4rem)] font-semibold leading-[0.93] tracking-[-0.06em] sm:text-[clamp(3.4rem,5.55vw,6.4rem)] lg:text-[clamp(3.4rem,4.1vw,5.2rem)]">
+            <span className="block whitespace-nowrap">A clear place</span>
+            <span className="block whitespace-nowrap">to start with</span>
+            <span className="block whitespace-nowrap">
+              private cancer care.
+            </span>
           </h1>
 
           <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted md:text-xl">
-            Clear guidance for a new diagnosis, a second opinion, private
-            treatment, ongoing care or supporting someone close to you.
+            Find practical information if you have a new diagnosis, are
+            considering a second opinion or private treatment, are already
+            receiving treatment, or are supporting someone close to you.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
-            <Button href="#start-here" variant="primary">
+            <Button
+              href="#start-here"
+              variant="primary"
+              className="border-2 border-transparent hover:border-white focus-visible:border-white"
+            >
               Find your next step
             </Button>
             <Button href="/contact" variant="ghost" arrow={false}>

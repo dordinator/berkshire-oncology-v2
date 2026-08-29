@@ -4,6 +4,7 @@ import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
+import EditablePageText from "@/components/editing/EditablePageText";
 import PatientsHero from "@/components/sections/patients/PatientsHero";
 import PatientPathwayScroll from "@/components/sections/patients/PatientPathwayScroll";
 // The scroll choreography built for /resources — markup-free and generic, it
@@ -99,8 +100,9 @@ export default function PatientsPage() {
       />
 
       <PageMotion />
-      <PatientsHero />
-      <PatientPathwayScroll />
+      <EditablePageText storageKey="patients-page-v1">
+        <PatientsHero />
+        <PatientPathwayScroll />
 
       {/* The hero's composition, mirrored: panel + photograph + question card
           on the LEFT, text on the RIGHT, and the three practical destinations
@@ -446,6 +448,7 @@ export default function PatientsPage() {
           </div>
         </div>
       </section>
+      </EditablePageText>
     </>
   );
 }
