@@ -105,31 +105,23 @@ export default function PatientPathwayScroll() {
       className="relative z-20 -mt-14 scroll-mt-24 rounded-t-[2.5rem] bg-white pb-24 pt-24 md:-mt-20 md:rounded-t-[3.5rem] md:pb-32 md:pt-32"
     >
       <div className="container-wide">
-        <div className="grid gap-8 border-b border-ink/10 pb-16 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-16 md:pb-20">
-          <span className="eyebrow">
-            <span aria-hidden className="h-px w-8 bg-ink-muted" /> Start here
-          </span>
-          <div>
-            <h2 className="font-display text-[clamp(2.8rem,5.1vw,5.6rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
-              Find the route that sounds most like you.
-            </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
-              Each route gives you a useful first step. You do not need to read
-              all five, and you do not need to know the right clinical language.
-            </p>
-          </div>
-        </div>
+        <header className="mx-auto max-w-5xl text-center">
+          <h2 className="font-display text-[clamp(2.8rem,5.1vw,5.6rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+            Find the route that sounds most like you.
+          </h2>
+          <p className="mx-auto mt-7 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
+            Each route gives you a useful first step. You do not need to read
+            all five, and you do not need to know the right clinical language.
+          </p>
+        </header>
 
-        <div className="mt-16 grid items-start gap-14 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-20 md:mt-20">
+        <div className="mt-20 grid items-start gap-14 md:mt-24 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-20">
           {/* A viewport-tall sticky box with the nav flex-centred inside it,
               rather than pinned near the top: the route list rides the middle
               of the screen for the whole length of the sheets. Same pattern as
               the home page's chapter columns. */}
           <aside className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted">
-              Your starting point
-            </p>
-            <nav aria-label="Patient starting points" className="mt-6">
+            <nav aria-label="Patient starting points">
               {routes.map((route) => {
                 const selected = active === route.id;
                 return (
