@@ -34,8 +34,8 @@ function TextLink({ href, children }: { href: string; children: React.ReactNode 
 
 export default function TreatmentHero() {
   return (
-    <section className="relative overflow-x-clip bg-[#fbfcfd] pt-28 md:pt-32 lg:pt-36">
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] lg:block">
+    <section className="relative overflow-x-clip bg-[#fbfcfd] pt-24 sm:pt-28 md:pt-28 xl:pt-36">
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] xl:block">
         <Image
           src="/home/hero.jpg"
           alt="A consultant speaking with a patient during an appointment"
@@ -55,33 +55,32 @@ export default function TreatmentHero() {
       </div>
 
       <div className="container-wide relative z-10">
-        <div className="grid items-center gap-10 lg:min-h-[580px] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12 2xl:min-h-[760px]">
-          <div className="relative z-10 pb-2 lg:flex lg:min-h-[580px] lg:-translate-y-16 lg:flex-col lg:justify-center lg:pb-0 2xl:min-h-[760px]">
-            <h1 className="max-w-[43rem] font-display text-[clamp(3.75rem,5.2vw,6.25rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink">
-              Clear information about treatment.
+        <div className="grid items-center gap-8 xl:min-h-[clamp(580px,70svh,720px)] xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:gap-12">
+          <div className="relative z-10 xl:flex xl:min-h-[clamp(580px,70svh,720px)] xl:-translate-y-16 xl:flex-col xl:justify-center">
+            <h1 className="max-w-[43rem] font-display text-[clamp(2.8rem,13vw,3.25rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink xl:text-[clamp(4rem,5vw,4.75rem)]">
+              Cancer treatments.
             </h1>
-            <p className="mt-7 max-w-[34rem] text-[17px] leading-[1.65] text-ink-muted md:text-[19px]">
-              Read about treatments our consultants work with, or begin with
-              the cancer type you have.
+            <p className="mt-6 max-w-[34rem] text-[16px] leading-[1.65] text-ink-muted sm:text-[17px] md:text-[18px] xl:mt-7 xl:text-[19px]">
+              Read about cancer treatments and find consultants by cancer type.
             </p>
-            <div className="mt-9 flex flex-col items-start gap-5 text-[15px] md:mt-11 md:text-[16px]">
-              <TextLink href="/specialities#browse-all">
-                Start with your cancer type
+            <div className="mt-7 flex flex-col items-start gap-4 text-[15px] sm:mt-8 md:text-[16px] xl:mt-11 xl:gap-5">
+              <TextLink href="#treatment-index">
+                Browse treatments
               </TextLink>
               <TextLink href="#what-we-do-not-provide">
-                What we do not provide directly
+                How care is provided
               </TextLink>
             </div>
           </div>
 
-          <div className="relative min-h-[340px] sm:min-h-[430px] lg:min-h-[580px] 2xl:min-h-[760px]">
-            <div className="absolute inset-y-0 left-[-3rem] right-[calc(50%-50vw)] overflow-hidden rounded-l-[2.25rem] lg:hidden">
+          <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:h-[360px] lg:h-[400px] xl:h-auto xl:min-h-[clamp(580px,70svh,720px)]">
+            <div className="absolute inset-y-0 -left-6 right-[calc(50%-50vw)] overflow-hidden rounded-l-[1.5rem] sm:rounded-l-[2.25rem] md:-left-10 xl:hidden">
               <Image
                 src="/home/hero.jpg"
                 alt="A consultant speaking with a patient during an appointment"
                 fill
                 priority
-                sizes="(max-width: 640px) 96vw, (max-width: 1024px) 92vw, 70vw"
+                sizes="(max-width: 1279px) 100vw, 70vw"
                 className="object-cover object-[61%_45%]"
               />
             </div>

@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -34,26 +35,26 @@ const PALE_BLUE = "#dfe9f5";
 const boundaryRows = [
   {
     title: "Surgery",
-    body: "Cancer surgery is carried out by surgical specialists. Our consultants work with those teams and plan any oncology treatment needed before or after an operation.",
+    body: "Surgery is carried out by a surgical team. If you also need oncology treatment, your consultant will work with that team to plan when it happens.",
   },
   {
     title: "Tests and scans",
-    body: "Imaging, biopsies and laboratory tests are provided by hospital and diagnostic teams. Your consultant uses the results to help shape the treatment plan.",
+    body: "Hospital and diagnostic teams provide imaging, biopsies and laboratory tests. Your consultant uses the results when discussing and planning treatment with you.",
   },
   {
-    title: "Specialist national services",
-    body: "A small number of treatments, including proton beam therapy, are delivered through national specialist centres. Your consultant can explain whether a referral may be relevant.",
+    title: "Specialist services",
+    body: "Some treatments, such as proton beam therapy, are available through specialist centres. Your consultant will explain the referral process when a specialist treatment applies to your diagnosis.",
   },
 ];
 
 const faqRows = [
   {
     title: "How do I know which treatment I need?",
-    body: "You are not expected to work that out from this website. A consultant considers the cancer type, test results, your general health and what matters to you before explaining which options may be appropriate.",
+    body: "You are not expected to decide this from the website. A consultant will review your diagnosis, test results, general health and what matters to you, then discuss the available options with you.",
   },
   {
     title: "Can more than one treatment be used?",
-    body: "Yes. A plan may use treatments together or in a particular order. For example, medicines may be given before or after surgery, or alongside radiotherapy.",
+    body: "Yes. A treatment plan can include treatments together or in a particular order. For example, medicines can be given before or after surgery, or alongside radiotherapy.",
   },
   {
     title: "What does SACT mean?",
@@ -61,11 +62,11 @@ const faqRows = [
   },
   {
     title: "Where would treatment happen?",
-    body: "That depends on the consultant, the treatment and the facilities needed. Your consultant and the practice team will confirm the location as part of planning your care.",
+    body: "The location depends on the consultant, treatment and facilities needed. The practice team or your consultant will confirm it before treatment is arranged.",
   },
   {
-    title: "Can I ask about a treatment before booking?",
-    body: "Yes. Contact the practice with the diagnosis, letter or treatment name you have. The team can help you identify the most appropriate consultant to speak with.",
+    title: "Can I ask about a treatment before arranging a consultation?",
+    body: "Yes. You can contact the practice first. The team can explain what information they need and pass your enquiry to the relevant person.",
   },
 ];
 
@@ -167,19 +168,52 @@ function TreatmentRows({
   );
 }
 
+function RadiotherapyRows({
+  treatments,
+}: {
+  treatments: TreatmentSummary[];
+}) {
+  return (
+    <div className="border-t border-ink/15">
+      {treatments.map((treatment) => (
+        <Link
+          key={treatment.slug}
+          href={`/treatments/${treatment.slug}`}
+          className="group flex items-center justify-between gap-8 border-b border-ink/15 py-5"
+        >
+          <span className="font-display text-[1.35rem] font-semibold leading-tight tracking-[-0.025em] text-ink transition-transform duration-300 group-hover:translate-x-1 xl:text-[1.55rem]">
+            {treatment.title}
+          </span>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
+            <Arrow />
+          </span>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 function AccordionList({
   rows,
   idPrefix,
   panel = false,
   firstOpen = false,
+  openIndex,
+  onOpenChange,
 }: {
   rows: { title: string; body: string }[];
   idPrefix: string;
   panel?: boolean;
   firstOpen?: boolean;
+  openIndex?: number | null;
+  onOpenChange?: (index: number | null) => void;
 }) {
-  const [open, setOpen] = useState<number | null>(firstOpen ? 0 : null);
+  const [internalOpen, setInternalOpen] = useState<number | null>(
+    firstOpen ? 0 : null,
+  );
   const reduce = useReducedMotion();
+  const open = openIndex === undefined ? internalOpen : openIndex;
+  const setOpen = onOpenChange ?? setInternalOpen;
 
   return (
     <div
@@ -241,11 +275,11 @@ function AccordionList({
 function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
   return (
     <section
-      id="radiotherapy-treatments-mobile"
-      className="scroll-mt-24 overflow-clip bg-[#e7eeeb] lg:hidden"
+      id="radiotherapy-treatments"
+      className="scroll-mt-24 overflow-clip bg-[#e7eeeb]"
     >
-      <div className="container-wide grid items-center gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20">
-        <figure className="relative min-h-[480px] md:min-h-[600px]">
+      <div className="container-wide grid items-center gap-12 py-20 md:py-24 lg:hidden">
+        <figure className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[520px]">
           <div
             aria-hidden
             className="absolute bottom-0 left-0 top-16 w-[58%] rounded-[2.5rem] bg-[#cbdbe8]"
@@ -263,17 +297,44 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
 
         <div>
           <Reveal>
-            <h2 className="max-w-[10ch] font-display text-[clamp(3rem,4.8vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
-              Radiation can be delivered in different ways.
+            <h2 className="max-w-[10ch] font-display text-[clamp(2.7rem,10.5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink lg:text-[clamp(3rem,4.8vw,5.3rem)]">
+              Types of radiotherapy
             </h2>
             <p className="mt-7 max-w-[35rem] text-[16px] leading-[1.75] text-ink-muted md:text-[17px]">
-              The method depends on where the cancer is, the aim of treatment
-              and how precisely the dose needs to be delivered.
+              The type used depends on where the cancer is and the aim of
+              treatment.
             </p>
           </Reveal>
 
           <div className="mt-10">
             <TreatmentRows treatments={group.treatments} compact />
+          </div>
+        </div>
+      </div>
+
+      <div className="container-wide hidden min-h-screen items-center pb-8 pt-28 lg:flex">
+        <div className="grid h-[min(620px,calc(100svh-10rem))] min-h-[420px] w-full items-center gap-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:gap-24">
+          <figure className="relative h-[min(560px,100%)] overflow-hidden rounded-[2.5rem] bg-[#cbdbe8] shadow-[0_35px_90px_-42px_rgba(6,28,70,0.34)]">
+            <Image
+              src="/treatments/radiotherapy-conversation.jpg"
+              alt="A therapeutic radiographer speaking with a patient before radiotherapy"
+              fill
+              sizes="(max-width: 1279px) 52vw, 48vw"
+              className="object-cover object-center"
+            />
+          </figure>
+
+          <div>
+            <h2 className="max-w-[11ch] font-display text-[clamp(2.8rem,4.3vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+              Types of radiotherapy
+            </h2>
+            <p className="mt-6 max-w-[35rem] text-[15px] leading-[1.7] text-ink-muted md:text-[16px]">
+              The type used depends on where the cancer is and the aim of
+              treatment.
+            </p>
+            <div className="mt-7">
+              <RadiotherapyRows treatments={group.treatments} />
+            </div>
           </div>
         </div>
       </div>
@@ -288,6 +349,8 @@ export default function TreatmentSections({
 }) {
   const reduce = useReducedMotion();
   const boundaryRef = useRef<HTMLElement>(null);
+  const boundaryManualScrollRef = useRef<number | null>(null);
+  const [boundaryOpen, setBoundaryOpen] = useState<number | null>(0);
   const { scrollYProgress: boundaryProgress } = useScroll({
     target: boundaryRef,
     offset: ["start 0.98", "start 0.2"],
@@ -305,6 +368,38 @@ export default function TreatmentSections({
       "inset(0rem 0vw round 0rem)",
     ],
   );
+  const { scrollYProgress: boundaryRowsProgress } = useScroll({
+    target: boundaryRef,
+    offset: ["start start", "end end"],
+  });
+
+  const selectBoundaryRow = (index: number | null) => {
+    boundaryManualScrollRef.current = window.scrollY;
+    setBoundaryOpen(index);
+  };
+
+  useMotionValueEvent(boundaryRowsProgress, "change", (latest) => {
+    if (
+      reduce ||
+      !window.matchMedia(
+        "(min-width: 1024px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+      ).matches
+    ) {
+      return;
+    }
+
+    if (boundaryManualScrollRef.current !== null) {
+      if (Math.abs(window.scrollY - boundaryManualScrollRef.current) < 64) {
+        return;
+      }
+      boundaryManualScrollRef.current = null;
+    }
+
+    const nextIndex = latest < 0.34 ? 0 : latest < 0.67 ? 1 : 2;
+    setBoundaryOpen((current) =>
+      current === nextIndex ? current : nextIndex,
+    );
+  });
 
   const medicine = groups.find((group) => group.id === "medicine");
   const radiotherapy = groups.find((group) => group.id === "radiotherapy");
@@ -323,19 +418,19 @@ export default function TreatmentSections({
           <div className="container-wide">
             <div
               data-treatment-route-bar
-              className="grid items-center gap-5 rounded-[1.75rem] border border-white/70 bg-[#e5eef6]/95 px-6 py-5 shadow-[0_24px_70px_-45px_rgba(6,28,70,0.45)] backdrop-blur-md md:grid-cols-[auto_1fr_auto] md:gap-10 md:px-10 lg:mx-4 lg:px-12"
+              className="grid items-center gap-4 rounded-[1.5rem] border border-white/70 bg-[#e5eef6]/95 px-5 py-5 shadow-[0_24px_70px_-45px_rgba(6,28,70,0.45)] backdrop-blur-md sm:px-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-8 md:gap-y-3 md:px-8 lg:mx-4 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:gap-10 xl:px-12"
             >
               <p className="font-display text-xl font-semibold tracking-tight text-ink md:text-2xl">
-                Not sure where to begin?
+                Find information by cancer type
               </p>
-              <p className="text-[14px] leading-relaxed text-ink-muted md:text-[15px]">
-                Your cancer type is usually the clearest starting point.
+              <p className="text-[14px] leading-relaxed text-ink-muted md:col-span-2 md:row-start-2 md:text-[15px] xl:col-span-1 xl:col-start-auto xl:row-start-auto">
+                Browse cancer types to find consultant profiles.
               </p>
               <Link
                 href="/specialities#browse-all"
-                className="ink-cta group inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full px-6 text-sm font-medium"
+                className="ink-cta group inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full px-6 text-sm font-medium md:col-start-2 md:row-start-1 xl:col-start-auto xl:row-start-auto"
               >
-                Find your cancer type
+                Browse cancer types
                 <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
@@ -350,46 +445,50 @@ export default function TreatmentSections({
       <section
         ref={boundaryRef}
         id="what-we-do-not-provide"
-        className="relative scroll-mt-24 overflow-clip"
+        className="treatment-boundary-scene relative scroll-mt-24 overflow-clip"
       >
         <motion.div
+          className="treatment-boundary-focus"
           style={{
             backgroundColor: PALE_BLUE,
             clipPath: reduce ? "inset(0 0vw round 0rem)" : boundaryClip,
           }}
         >
-          <div className="container-wide grid items-start gap-14 py-20 md:py-28 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-20">
+          <div className="container-wide grid items-start gap-14 py-20 md:py-28 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-20">
             <Reveal>
-              <h2 className="max-w-[11ch] font-display text-[clamp(3rem,4.8vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
-                Some parts of care happen elsewhere.
+              <h2 className="max-w-[11ch] font-display text-[clamp(2.7rem,10.5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink lg:text-[clamp(3rem,4.8vw,5.3rem)]">
+                Care provided by other teams
               </h2>
               <p className="mt-7 max-w-[34rem] text-[16px] leading-[1.75] text-ink-muted md:text-[17px]">
                 Berkshire Oncology is a partnership of consultant oncologists,
-                not a hospital. Care may involve hospital teams, surgical
-                specialists and national centres.
+                not a hospital. Tests, surgery and some treatments are provided
+                by hospitals or specialist centres.
               </p>
             </Reveal>
 
-            <Reveal delay={0.08}>
-              <AccordionList
-                rows={boundaryRows}
-                idPrefix="treatment-boundary"
-                firstOpen
-              />
-            </Reveal>
+            <div className="lg:flex lg:min-h-[26rem] lg:items-center">
+              <Reveal className="w-full" delay={0.08}>
+                <AccordionList
+                  rows={boundaryRows}
+                  idPrefix="treatment-boundary"
+                  openIndex={boundaryOpen}
+                  onOpenChange={selectBoundaryRow}
+                />
+              </Reveal>
+            </div>
           </div>
         </motion.div>
       </section>
 
       <section id="treatment-faqs" className="scroll-mt-24">
-        <div className="container-wide grid items-start gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-20">
+        <div className="container-wide grid items-start gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:items-center lg:gap-20">
           <Reveal>
-            <h2 className="max-w-[10ch] font-display text-[clamp(3rem,4.8vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
-              Treatment, explained plainly.
+            <h2 className="max-w-[10ch] font-display text-[clamp(2.7rem,10.5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink lg:text-[clamp(3rem,4.8vw,5.3rem)]">
+              Common questions about treatment
             </h2>
             <p className="mt-7 max-w-md text-[16px] leading-[1.75] text-ink-muted">
-              Short answers to the questions people often have before a
-              consultation.
+              Answers about treatment decisions, terminology and where care
+              takes place.
             </p>
           </Reveal>
 
@@ -408,16 +507,15 @@ export default function TreatmentSections({
           className="container-wide grid gap-12 py-24 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] lg:items-end lg:gap-20"
         >
           <div>
-            <h2 className="max-w-[12ch] font-display text-[clamp(3.2rem,5.2vw,5.8rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-white">
+            <h2 className="max-w-[12ch] font-display text-[clamp(2.75rem,11vw,4.8rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-white lg:text-[clamp(3.2rem,5.2vw,5.8rem)]">
               You do not need to choose a treatment before you contact us.
             </h2>
           </div>
 
           <div className="lg:pb-2">
             <p className="max-w-[34rem] text-[16px] leading-[1.75] text-white/70 md:text-[17px]">
-              Start with the diagnosis, letter or information you already
-              have. The practice team can help you find the appropriate
-              consultant.
+              Contact the practice with the information you have. The team can
+              explain what to do next and help arrange a consultation.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link

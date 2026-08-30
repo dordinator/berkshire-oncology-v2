@@ -118,7 +118,7 @@ function SupportingFigure({ therapy }: { therapy: Therapy }) {
             </div>
             <figcaption className="max-w-lg">
               <p className="font-display text-2xl font-semibold tracking-tight text-ink">
-                A closer look at the treatment
+                About this image
               </p>
               <p className="mt-4 text-base leading-relaxed text-ink-muted">
                 {therapy.image.caption}
@@ -152,10 +152,10 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         featuredConsultants.length +
         " of " +
         consultants.length +
-        " consultants listed for this treatment."
+        " consultants who provide care for this treatment."
       : consultants.length === 1
-        ? "1 consultant is listed for this treatment."
-        : consultants.length + " consultants are listed for this treatment.";
+        ? "1 consultant provides care for this treatment."
+        : consultants.length + " consultants provide care for this treatment.";
   const consultantGrid =
     hasSingleFeaturedConsultant
       ? "mt-6 grid max-w-[39rem] gap-4"
@@ -171,15 +171,13 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         id="understanding"
         className="flex scroll-mt-28 items-center border-t border-ink/[0.06] bg-[#fbfaf7] py-24 md:py-28 lg:min-h-[100svh] lg:py-32"
       >
-        <div className="container-wide grid items-stretch gap-12 lg:grid-cols-[0.76fr_1.24fr] lg:gap-0">
-          <Reveal className="lg:flex lg:flex-col lg:justify-center lg:pr-16 xl:pr-20">
+        <div className="container-wide grid items-center gap-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
+          <Reveal className="lg:flex lg:flex-col lg:justify-center">
             <h2 className="max-w-[11ch] font-display text-[clamp(2.7rem,3.8vw,4.3rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
               Understanding {lowerTitle}
             </h2>
-            <span aria-hidden className="mt-8 block h-0.5 w-14 bg-[#718b7d]" />
             <p className="mt-9 max-w-[25rem] text-lg leading-[1.7] text-ink-muted">
-              What this treatment is, how it is given, and where it can fit
-              within a wider treatment plan.
+              What the treatment is, how it works and how it is given.
             </p>
             <a
               href={therapy.sources[0].url}
@@ -192,28 +190,45 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
             </a>
           </Reveal>
 
-          <Reveal delay={1} className="lg:border-l lg:border-ink/10 lg:pl-16 xl:pl-20">
-            <div className="max-w-[50rem] text-[17px] leading-[1.72] text-ink/85 md:text-lg md:leading-[1.78]">
-              <p>{therapy.what[0]}</p>
-
-              <aside className="mt-9 grid items-center gap-5 bg-[#eef3f0] px-5 py-5 sm:grid-cols-[3.5rem_1px_1fr] sm:px-7">
-                <span
-                  aria-hidden
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[#718b7d] font-display text-xl font-semibold text-[#617f70]"
-                >
-                  i
-                </span>
-                <span aria-hidden className="hidden h-full min-h-14 w-px bg-[#718b7d]/65 sm:block" />
-                <p className="font-semibold leading-[1.55] text-ink">
-                  {presentation.keyPoint}
-                </p>
-              </aside>
-
-              {therapy.what.slice(1).map((paragraph) => (
-                <p key={paragraph} className="mt-9 border-t border-ink/10 pt-8">
-                  {paragraph}
-                </p>
-              ))}
+          <Reveal delay={1}>
+            <div className="relative max-w-[50rem]">
+              <span
+                aria-hidden
+                className="absolute z-0 block w-px"
+                style={{
+                  backgroundColor: "#aebdb5",
+                  bottom: "1.25rem",
+                  left: "0.875rem",
+                  top: "1.25rem",
+                }}
+              />
+              <ol className="relative z-10">
+                {therapy.what.map((paragraph, index) => (
+                  <li
+                    key={paragraph}
+                    className="relative grid py-8 first:pt-0 last:pb-0"
+                    style={{
+                      columnGap: "1.75rem",
+                      gridTemplateColumns: "1.75rem minmax(0, 1fr)",
+                    }}
+                  >
+                    <span
+                      aria-hidden
+                      className="relative z-10 mt-1.5 flex h-7 w-7 items-center justify-center rounded-full border border-[#718b7d]/45 bg-[#fbfaf7]"
+                    >
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#718b7d]" />
+                    </span>
+                    <div>
+                      <h3 className="max-w-[31rem] font-display text-[clamp(1.45rem,2vw,2rem)] font-semibold leading-[1.12] tracking-[-0.025em] text-ink">
+                        {presentation.understandingHeadings[index]}
+                      </h3>
+                      <p className="mt-4 max-w-[38rem] text-[16px] leading-[1.7] text-ink-muted md:text-[17px]">
+                        {paragraph}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
           </Reveal>
         </div>
@@ -228,13 +243,11 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         <div className="container-wide grid items-center gap-14 lg:grid-cols-[1.18fr_0.82fr] lg:gap-16 xl:gap-20">
           <Reveal className="lg:order-2">
             <h2 className="max-w-[10ch] font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
-              When it may be considered
+              When it is used
             </h2>
             <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
-              These are general situations in which this treatment may be used.
-              Your consultant will consider the cancer, the aim of treatment
-              and how it fits with other care. Whether any of these situations
-              applies to you is a matter for your consultant, not for this page.
+              These are common reasons for using this treatment. Your consultant
+              will explain whether it is an option for you.
             </p>
           </Reveal>
 
@@ -266,8 +279,8 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 What to expect
               </h2>
               <p className="max-w-xl text-lg leading-relaxed text-ink-muted lg:justify-self-end">
-                A general picture of how treatment tends to run. Your own plan
-                may differ, and your team will explain it before you begin.
+                Your appointments and checks depend on the treatment plan. The
+                team caring for you will explain what happens and when.
               </p>
             </div>
           </Reveal>
@@ -326,25 +339,23 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         className="scroll-mt-28 border-t border-ink/[0.06] bg-[#edf2ef] py-20 md:py-24 lg:py-28"
       >
         <div className="container-wide">
-          <Reveal>
-            <h2 className="max-w-5xl font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
-              Consultants and
-              <br className="hidden sm:block" /> treatment locations
-            </h2>
-          </Reveal>
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16 xl:gap-20">
+            <div>
+              <Reveal>
+                <h2 className="max-w-5xl font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+                  Consultants and
+                  <br className="hidden sm:block" /> treatment locations
+                </h2>
+              </Reveal>
 
-          <div className="mt-12 grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 xl:gap-20">
-            <Reveal>
+              <Reveal>
+                <div className="mt-12">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <h3 className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
                     Our consultants
                   </h3>
                   <p className="mt-2 text-sm text-ink-muted">{consultantCount}</p>
-                  <p className="mt-2 max-w-lg text-xs leading-relaxed text-ink-muted/80">
-                    This list reflects the treatment wording each consultant
-                    uses on their own profile.
-                  </p>
                 </div>
                 <TextLink href="/consultants/by-treatment">
                   See all consultants
@@ -396,9 +407,6 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                           <p className="mt-1 text-xs text-ink-muted">
                             {consultant.shortRole ?? consultant.role}
                           </p>
-                          <p className="mt-2 text-[11px] leading-relaxed text-ink-muted/80">
-                            Listed as {consultant.listedAs.join(", ")}
-                          </p>
                           <span className="mt-3 inline-flex items-center gap-2 text-xs font-medium text-accent">
                             View profile <Arrow />
                           </span>
@@ -409,28 +417,24 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 </ul>
               ) : (
                 <Caveat label="Consultant details">
-                  The consultant list for this treatment is being confirmed.
-                  Please contact the practice and the team will help route your
-                  enquiry.
+                  Contact the practice for help arranging a consultation about
+                  this treatment.
                 </Caveat>
               )}
-
-              {therapy.note && (
-                <Caveat label="How this list was compiled">{therapy.note}</Caveat>
-              )}
-            </Reveal>
+                </div>
+              </Reveal>
+            </div>
 
             <Reveal delay={1}>
               <div className="h-full lg:pt-1">
                 <h3 className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
-                  Where treatment may happen
+                  Possible treatment locations
                 </h3>
                 <p className="mt-3 max-w-lg text-sm leading-relaxed text-ink-muted">
                   Our consultants are independent practitioners who treat at
-                  partner hospitals rather than at a centre owned by the
-                  partnership. These locations are based on published service
-                  information; your consultant will confirm the right site for
-                  your individual plan.
+                  partner hospitals. The partnership does not operate its own
+                  treatment centre. Your consultant will confirm where your
+                  treatment will take place.
                 </p>
 
                 {featuredLocations.length > 0 ? (
@@ -486,14 +490,11 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
             </p>
             <div className="mt-8 max-w-[31rem] border-t border-[#718b7d]/35 pt-7">
               <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
-                How this information was prepared
+                Information review
               </h3>
               <p className="mt-4 text-sm leading-[1.7] text-ink-muted">
-                The clinical overview uses the trusted UK sources linked on
-                this page. Consultant and location details are based on
-                currently published information from the partnership and
-                treatment providers. Your consultant will confirm the
-                arrangements for your individual care at consultation.
+                Clinical information on this page was checked against the UK
+                sources linked below.
               </p>
               <p className="mt-3 text-xs leading-relaxed text-ink-muted/75">
                 Sources checked: 29 August 2026.
@@ -505,7 +506,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
             <div className="grid gap-10 sm:grid-cols-2 lg:gap-12 xl:gap-16">
               <div>
                 <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
-                  Read more from trusted sources
+                  Sources and further information
                 </h3>
                 <ul className="mt-5 space-y-3">
                   {therapy.sources.map((source) => (
@@ -539,12 +540,12 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
             {cancerTypes.length > 0 && (
               <div className="mt-12 border-t border-[#718b7d]/35 pt-10">
                 <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
-                  Cancer types looked after by these consultants
+                  Find consultants by cancer type
                 </h3>
                 <p className="mt-4 max-w-3xl text-sm leading-[1.7] text-ink-muted">
-                  This is a route to the right consultant information, not a
-                  statement that this treatment is used for every cancer listed.
-                  Whether it applies to you is for your consultant to assess.
+                  These links take you to consultants who treat each cancer type.
+                  Your consultant will explain which treatments are relevant to
+                  you.
                 </p>
                 <ul className="mt-6 flex flex-wrap gap-2.5">
                   {cancerTypes.map((cancerType) => (
@@ -568,12 +569,12 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         <div className="container-wide grid gap-12 lg:grid-cols-[0.54fr_0.46fr] lg:items-center lg:gap-20 xl:gap-28">
           <Reveal>
             <h2 className="max-w-3xl font-display text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-white md:text-6xl lg:text-7xl">
-              Ready to speak to the practice?
+              Contact the practice
             </h2>
             <p className="mt-7 max-w-xl text-[17px] leading-[1.72] text-white/72">
-              You do not need to know whether this treatment is right for you.
-              The practice team can route your enquiry and help arrange a
-              consultation with a consultant.
+              You do not need to decide whether this treatment is right for you
+              before getting in touch. The practice team can take your details
+              and help arrange a consultation.
             </p>
             <p className="mt-5 max-w-xl text-[15px] leading-[1.7] text-white/55">
               If a referral letter or recent results are needed, the practice
@@ -583,18 +584,18 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
           <Reveal delay={1}>
             <div className="rounded-[2.5rem] border border-white/10 bg-[#f8f5ef] p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
-              <p className="text-sm text-ink-muted">What would help now?</p>
+              <p className="text-sm text-ink-muted">Contact options</p>
               <Link
                 href="/contact?intent=consultation#next-step"
                 className="group mt-5 grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-y border-ink/[0.12] py-6"
               >
                 <span>
                   <span className="block font-display text-2xl font-medium leading-tight">
-                    Contact the practice about a consultation
+                    Contact us about a consultation
                   </span>
                   <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
-                    Share the details of your enquiry so the team can contact
-                    you about arranging an appointment.
+                    Leave your contact details and a brief outline of your
+                    enquiry.
                   </span>
                 </span>
                 <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#718b7d]/45 text-[#617f70] transition-transform duration-300 group-hover:translate-x-1">
@@ -610,8 +611,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                     I&rsquo;m not sure what happens next
                   </span>
                   <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
-                    The practice team can route your enquiry and explain how to
-                    arrange a consultation.
+                    The practice team can explain how to arrange a consultation.
                   </span>
                 </span>
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white transition-transform duration-300 group-hover:translate-x-1">
@@ -620,7 +620,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
               </Link>
               <div className="mt-7 flex flex-col gap-2 border-t border-ink/[0.08] pt-6 sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-sm text-ink-muted">
-                  Prefer to speak to someone?
+                  Call the practice
                 </span>
                 <a
                   href={"tel:" + site.contact.phone.replace(/\s+/g, "")}

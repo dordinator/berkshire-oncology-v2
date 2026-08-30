@@ -49,8 +49,8 @@ export const therapyLocationMap: Record<
   chemotherapy: [
     { slug: "spire-dunedin-reading", note: "Chemotherapy day treatment" },
     { slug: "princess-margaret-windsor", note: "Consultant-led oncology suite" },
-    { slug: "genesiscare-windsor", note: "Chemotherapy & systemic therapy" },
-    { slug: "genesiscare-oxford", note: "Chemotherapy & systemic therapy" },
+    { slug: "genesiscare-windsor", note: "Chemotherapy and systemic therapy" },
+    { slug: "genesiscare-oxford", note: "Chemotherapy and systemic therapy" },
     { slug: "royal-berkshire-hospital", note: "NHS chemotherapy services" },
   ],
   // The three other drug treatments are delivered as systemic anti-cancer
@@ -58,19 +58,19 @@ export const therapyLocationMap: Record<
   // and Circle pages say "chemotherapy", so those two are not claimed here.
   immunotherapy: [
     { slug: "genesiscare-windsor", note: "Systemic anti-cancer therapy" },
-    { slug: "genesiscare-oxford", note: "Named in the centre's own services" },
+    { slug: "genesiscare-oxford", note: "Immunotherapy" },
   ],
   "targeted-therapies": [
     { slug: "genesiscare-windsor", note: "Systemic anti-cancer therapy" },
-    { slug: "genesiscare-oxford", note: "Named in the centre's own services" },
+    { slug: "genesiscare-oxford", note: "Targeted therapy" },
   ],
   "hormone-therapy": [
     { slug: "genesiscare-windsor", note: "Systemic anti-cancer therapy" },
-    { slug: "genesiscare-oxford", note: "Named in the centre's own services" },
+    { slug: "genesiscare-oxford", note: "Hormone therapy" },
   ],
   radiotherapy: [
-    { slug: "genesiscare-windsor", note: "VMAT, surface-guided, breath-hold" },
-    { slug: "genesiscare-oxford", note: "MR Linac, SABR, image-guided" },
+    { slug: "genesiscare-windsor", note: "External beam radiotherapy services" },
+    { slug: "genesiscare-oxford", note: "External beam radiotherapy services" },
     { slug: "royal-berkshire-hospital", note: "NHS radiotherapy services" },
   ],
   // Brachytherapy: treatment and consultants confirmed by the practice's own
@@ -78,13 +78,13 @@ export const therapyLocationMap: Record<
   // the UI shows the generic fallback.
   brachytherapy: [],
   "radioisotope-therapy": [
-    { slug: "genesiscare-windsor", note: "Theranostics" },
+    { slug: "genesiscare-windsor", note: "Radioisotope treatment" },
   ],
 };
 
 /** Shown when a therapy has no officially-stated locations. */
 export const locationFallback =
-  "Where your treatment would be delivered depends on what is planned for you. The partnership practises across five hospitals in Reading, Windsor and Oxford — your consultant will confirm the arrangements at consultation.";
+  "The treatment location depends on what is planned for you. Your consultant will confirm where treatment will take place.";
 
 export function getLocationsForTherapy(
   slug: string
@@ -106,13 +106,13 @@ export function getLocationsForTherapy(
 
 export const protonReferral = {
   id: "proton-referrals",
-  label: "Proton beam therapy & national referrals",
+  label: "Proton beam therapy and national referrals",
   title: "Specialist treatments elsewhere",
   summary:
-    "Some treatments are delivered through national specialist centres rather than at the hospitals where the partnership practises.",
+    "Some treatments are provided through national specialist centres.",
   body: [
-    "A small number of cancer treatments — proton beam therapy among them — are provided through national NHS specialist centres, with referral decided by national clinical panels rather than by any single consultant or hospital.",
-    "If a specialist treatment of this kind may be relevant to your diagnosis, your consultant can explain what it involves, whether a referral could apply to you, and how the referral route works.",
+    "Proton beam therapy and certain other treatments are provided through national NHS specialist centres. National clinical panels assess referrals.",
+    "Your consultant will explain what a specialist treatment involves and how referral works when it applies to your diagnosis.",
   ],
-  note: "The partnership does not provide proton beam therapy at its practising locations.",
+  note: "Berkshire Oncology does not provide proton beam therapy at the hospitals listed on this site.",
 };

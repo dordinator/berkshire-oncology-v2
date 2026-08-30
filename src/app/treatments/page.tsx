@@ -10,7 +10,7 @@ import TreatmentSections, {
 export const metadata: Metadata = pageMeta({
   title: "Treatments",
   description:
-    "Clear information about cancer treatments, how treatment decisions are made and which parts of care may be provided by other teams or specialist centres.",
+    "Information about cancer treatments, how treatment options are discussed and how hospitals and specialist centres provide different parts of care.",
   path: "/treatments",
 });
 
@@ -43,7 +43,7 @@ const treatmentGroups: TreatmentGroupData[] = [
     number: "02",
     title: "Radiotherapy treatments",
     description:
-      "Radiation can be delivered from outside the body or from a source placed inside it.",
+      "Radiotherapy can be delivered from outside the body or from a radioactive source placed inside the body.",
     treatments: treatmentLinks.filter(
       (treatment) => treatment.group === "radiotherapy",
     ),

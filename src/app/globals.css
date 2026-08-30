@@ -433,6 +433,66 @@ summary:focus-visible {
   }
 }
 
+/* Treatments landing: use the cinematic medicine index only when there is
+   enough width and height to contain it comfortably. Tablet, short laptop and
+   reduced-motion layouts keep the same content in normal document flow. */
+.treatment-desktop-stage,
+.treatment-desktop-anchor,
+.treatment-desktop-medicine-link {
+  display: none;
+}
+
+.treatment-static-overview {
+  display: block;
+}
+
+.treatment-static-medicine-link {
+  display: inline-flex;
+}
+
+@media (min-width: 1280px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  .treatment-scroll-scene {
+    height: 400svh;
+  }
+
+  .treatment-static-overview,
+  .treatment-static-medicine-link {
+    display: none;
+  }
+
+  .treatment-desktop-stage,
+  .treatment-desktop-anchor {
+    display: block;
+  }
+
+  .treatment-desktop-medicine-link {
+    display: inline-flex;
+  }
+}
+
+/* Give the treatment-boundary explanation one short beat in focus while its
+   three disclosures advance. This is intentionally much shorter than the main
+   medicine scene: only one viewport of pinned travel, enough to read each row
+   without making the page feel held back. Narrow, short and reduced-motion
+   layouts remain ordinary document flow. */
+@media (min-width: 1024px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .treatment-boundary-scene {
+    height: 200svh;
+  }
+
+  .treatment-boundary-focus {
+    position: sticky;
+    top: 0;
+    display: flex;
+    min-height: 100svh;
+    align-items: center;
+  }
+
+  .treatment-boundary-focus > .container-wide {
+    width: 100%;
+  }
+}
+
 /* ── Scroll cue on /locations ──
    A slow eased drift, deliberately not Tailwind's bouncing preset: a springy
    arrival lands like a rubber ball in a site whose every other motion

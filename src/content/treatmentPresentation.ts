@@ -4,66 +4,87 @@ export interface TreatmentPresentation {
     alt: string;
     objectPosition?: string;
   };
-  keyPoint: string;
+  understandingHeadings: readonly [string, string, string];
 }
 
 const treatmentPresentation: Record<string, TreatmentPresentation> = {
   chemotherapy: {
     hero: {
       src: "/treatments/chemotherapy-consultation.png",
-      alt: "Illustrative image of a consultant speaking with a patient in a consultation room.",
+      alt: "A consultant and patient speaking in a consultation room.",
       objectPosition: "20% center",
     },
-    keyPoint:
-      "Chemotherapy acts on cells while they are dividing, so some healthy tissues that renew quickly can also be affected.",
+    understandingHeadings: [
+      "How chemotherapy works",
+      "How chemotherapy is given",
+      "How chemotherapy fits into treatment",
+    ],
   },
   immunotherapy: {
     hero: {
       src: "/treatments/heroes/immunotherapy.jpg",
-      alt: "Illustrative image of a consultant discussing immunotherapy with a patient in a treatment lounge.",
+      alt: "A consultant speaking with a patient in a treatment lounge.",
     },
-    keyPoint:
-      "Checkpoint inhibitors can cause immune-related effects during treatment or afterwards, so new or worsening symptoms should be reported straight away.",
+    understandingHeadings: [
+      "How checkpoint inhibitors work",
+      "How treatment is given",
+      "Side effects to be aware of",
+    ],
   },
   "targeted-therapies": {
     hero: {
       src: "/treatments/heroes/targeted-therapies.jpg",
-      alt: "Illustrative image of a consultant and patient reviewing treatment information together.",
+      alt: "A consultant and patient looking at information together.",
     },
-    keyPoint:
-      "Some targeted therapies depend on a particular feature in the cancer, so testing may form part of deciding whether a treatment is an option.",
+    understandingHeadings: [
+      "How targeted therapies work",
+      "Tests that guide treatment",
+      "How treatment is given",
+    ],
   },
   "hormone-therapy": {
     hero: {
       src: "/treatments/heroes/hormone-therapy.jpg",
-      alt: "Illustrative image of a consultant and patient discussing a long-term treatment plan.",
+      alt: "A consultant speaking with a patient in a consultation room.",
     },
-    keyPoint:
-      "Hormone therapy lowers hormone levels or blocks their effects; the type and length of treatment depend on the cancer and treatment aim.",
+    understandingHeadings: [
+      "How hormone therapy works",
+      "When hormone therapy is used",
+      "Side effects and monitoring",
+    ],
   },
   radiotherapy: {
     hero: {
       src: "/treatments/radiotherapy-conversation.jpg",
-      alt: "Illustrative image of a radiotherapy professional speaking with a patient in a treatment room.",
+      alt: "A radiotherapy professional speaking with a patient in a treatment room.",
     },
-    keyPoint:
-      "This page focuses on external beam radiotherapy. The treatment area, dose and schedule are planned for your individual situation.",
+    understandingHeadings: [
+      "How external radiotherapy works",
+      "How treatment is planned",
+      "How the schedule is set",
+    ],
   },
   brachytherapy: {
     hero: {
       src: "/treatments/heroes/brachytherapy.jpg",
-      alt: "Illustrative image of a radiotherapy specialist preparing a patient for a treatment-planning conversation.",
+      alt: "A radiotherapy specialist speaking with a patient in a treatment room.",
     },
-    keyPoint:
-      "Brachytherapy may use a temporary source that is removed, or permanent seeds whose radiation gradually fades. The pathway depends on the cancer and technique.",
+    understandingHeadings: [
+      "How brachytherapy works",
+      "Temporary and permanent treatment",
+      "When brachytherapy is used",
+    ],
   },
   "radioisotope-therapy": {
     hero: {
       src: "/treatments/heroes/radioisotope-therapy.jpg",
-      alt: "Illustrative image of a nuclear medicine professional speaking with a patient before treatment.",
+      alt: "A nuclear medicine professional speaking with a patient.",
     },
-    keyPoint:
-      "Radioisotope therapy includes several different medicines, so preparation, delivery, follow-up and radiation-safety advice depend on the treatment prescribed.",
+    understandingHeadings: [
+      "How radioisotope therapy works",
+      "Different medicines target different cells",
+      "Preparation and safety",
+    ],
   },
 };
 

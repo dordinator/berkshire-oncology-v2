@@ -108,13 +108,13 @@ export interface Therapy {
 
 // ── Standing disclaimer, shown on every treatment page ───────────────────────
 export const treatmentDisclaimer =
-  "This page is general information, not medical advice. Whether any treatment is suitable for you — and if so which form, dose and schedule — depends on your individual diagnosis and clinical review by your consultant. Nothing on this page should be used to make a decision about your own care, or to delay contacting your treating team.";
+  "This page gives general information, not medical advice. Whether a treatment is suitable for you, and its form, dose and schedule, depends on your diagnosis and a clinical review by your consultant. Do not use this page to make decisions about your care or delay contacting your treating team.";
 
 export const trialsNote =
-  "We are sometimes asked about clinical trials. Trial availability changes constantly and depends on your diagnosis, your previous treatment and where you are being treated. Ask your consultant directly whether a trial may be suitable for you — they will know what is open and relevant at the time.";
+  "Clinical trial availability changes according to the diagnosis, previous treatment and treating centre. Ask your consultant about trial options. They will know which trials are open and relevant at the time.";
 
 export const sactNote =
-  "You may see the term systemic anti-cancer treatment, or SACT, on letters and appointment records. It is an umbrella term rather than a treatment in itself: it covers the drug treatments that travel through the whole body — chemotherapy, immunotherapy, targeted therapies and hormone therapy. If a letter refers to SACT, the treatment being described is one of the four above.";
+  "Systemic anti-cancer treatment, or SACT, is a term used on letters and appointment records. It is an umbrella term, not a treatment in itself. It covers drug treatments that travel through the body, including chemotherapy, immunotherapy, targeted therapies and hormone therapy.";
 
 export const therapies: Therapy[] = [
   // ── Drug treatments ────────────────────────────────────────────────────────
@@ -123,54 +123,54 @@ export const therapies: Therapy[] = [
     title: "Chemotherapy",
     group: "drug",
     summary:
-      "Drug treatment that damages cancer cells as they grow and divide. How it is given and how often depends on the medicines and treatment plan.",
+      "Chemotherapy uses anti-cancer medicines to destroy cancer cells. The medicines, how they are given and the treatment schedule depend on the cancer and your treatment plan.",
     matches: ["Chemotherapy"],
     related: ["immunotherapy", "targeted-therapies", "hormone-therapy"],
     what: [
-      "Chemotherapy uses anti-cancer drugs to damage cancer cells as they grow and divide. It can also affect healthy cells that renew quickly, including cells in the mouth and gut, bone marrow and hair follicles. This is why side effects can occur, although the effects and their severity vary from person to person and between medicines.",
-      "Chemotherapy may be given into a vein, as tablets or capsules, or less commonly in another way. Many treatments are arranged in cycles, with treatment followed by a rest period, but the route, timing and number of cycles depend on the medicines and the individual plan.",
-      "It may be used on its own or alongside surgery, radiotherapy, immunotherapy or targeted treatment. The aim may be to reduce the chance of cancer returning, shrink or control a cancer, or relieve symptoms. Your consultant will explain the intended aim in your situation.",
+      "Many chemotherapy medicines act on cells while they are growing and dividing. Cancer cells often divide more quickly than healthy cells. Some healthy cells also divide quickly and can be affected, which is why treatment can cause side effects.",
+      "Chemotherapy can be given into a vein, by injection, through a pump, or as tablets or capsules. Treatment can take place in a hospital, clinic or at home. Many plans use cycles, with treatment followed by a break to allow the body to recover.",
+      "Chemotherapy can be used on its own or with surgery, radiotherapy or other cancer medicines. Its aim can be to cure a cancer, lower the chance of it returning, shrink or control it, or relieve symptoms. Your consultant will explain the aim of your treatment.",
     ],
     whenConsidered: [
-      "Where the cancer type is one that responds well to drug treatment",
-      "Before surgery or radiotherapy, to reduce the size of a tumour first",
-      "After surgery, to lower the risk of the cancer coming back",
-      "Where a cancer has spread, to control it and relieve symptoms",
-      "In combination with immunotherapy or targeted treatment, for some cancers",
+      "When chemotherapy is an established treatment for the type and stage of cancer",
+      "Before surgery or radiotherapy, to shrink a cancer before the next treatment",
+      "After surgery, to lower the chance of the cancer returning",
+      "To shrink or control cancer that has spread, or to relieve symptoms",
+      "With immunotherapy or targeted treatment as part of some treatment plans",
     ],
     expect: [
       {
         title: "Before you start",
-        body: "Your consultant will explain the treatment aim, possible benefits and risks, alternatives and what matters to you before you consent. Blood tests help the team decide whether treatment can go ahead; other checks, such as heart, kidney or liver tests, depend on the medicines being considered. The treating unit should give you a 24-hour advice number to keep with you.",
+        body: "Before you agree to treatment, your consultant will explain its aim, possible benefits, risks and alternatives. Blood tests check whether treatment can go ahead. Other tests depend on the medicines in your plan. The treating unit will give you a 24-hour advice number.",
       },
       {
         title: "On a treatment day",
-        body: "Blood tests are carried out before treatment and may be arranged on the day or earlier. The appointment length varies from a short visit to much of the day, depending on the medicines and checks required. If sickness is expected, anti-sickness treatment may be given before chemotherapy or supplied to take at home. Ask the treating team about driving and travel arrangements.",
+        body: "Blood tests can be done on the day or earlier. The length of the appointment depends on the medicines and checks required. Anti-sickness medicine can be given before chemotherapy or supplied for you to take at home.",
       },
       {
         title: "Between cycles",
-        body: "The timing and severity of side effects vary and can change between cycles. Infection during chemotherapy can become serious quickly. If you develop a temperature, shivering, feel suddenly unwell or have another symptom your team has told you is urgent, contact the treating unit's 24-hour advice line immediately rather than waiting for the next appointment. Call 999 for a life-threatening emergency.",
+        body: "Infection during chemotherapy can become serious quickly. If you develop a temperature, start shivering or suddenly feel unwell, call the treating unit's 24-hour advice line immediately. Call the same number for any other symptom that your team has said is urgent. Do not wait for the next appointment. Call 999 in a life-threatening emergency.",
       },
       {
         title: "Reviews and follow-up",
-        body: "Before further treatment, the team reviews how you are feeling and checks relevant blood results. Depending on the treatment aim, scans or other tests may be used to assess what is happening. The plan may be delayed, adjusted or reconsidered according to side effects, test results and how the cancer is responding.",
+        body: "Before each cycle, the team will ask about side effects and check the blood results required for your plan. Scans or other tests can be used to assess how the cancer is responding. The team can delay treatment, change the dose or discuss a different approach in response to side effects, test results or the cancer's response.",
       },
     ],
     sources: [
       {
-        label: "Cancer Research UK — How chemotherapy works",
+        label: "Cancer Research UK: How chemotherapy works",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/chemotherapy/how-chemotherapy-works",
       },
       {
-        label: "NHS — Chemotherapy",
+        label: "NHS: Chemotherapy",
         url: "https://www.nhs.uk/tests-and-treatments/chemotherapy/",
       },
       {
-        label: "Cancer Research UK — Your chemotherapy plan",
+        label: "Cancer Research UK: Your chemotherapy plan",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/chemotherapy/planning/your-chemotherapy-plan",
       },
       {
-        label: "Cancer Research UK — Chemotherapy side effects",
+        label: "Cancer Research UK: Chemotherapy side effects",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/chemotherapy/side-effects",
       },
     ],
@@ -180,54 +180,54 @@ export const therapies: Therapy[] = [
     title: "Immunotherapy",
     group: "drug",
     summary:
-      "Treatment that uses the immune system to recognise and attack cancer cells. This page focuses mainly on checkpoint inhibitors.",
+      "Immunotherapy uses the immune system to recognise and attack cancer cells. This page focuses on checkpoint inhibitors.",
     matches: ["Immunotherapy", "Biological and immunotherapy"],
     related: ["targeted-therapies", "chemotherapy"],
     what: [
-      "Immunotherapy is a broad group of treatments that work with the immune system. This page focuses mainly on immune checkpoint inhibitors, which block signals that some cancers use to dampen an immune response and can help immune cells recognise and act against cancer cells.",
-      "Checkpoint inhibitors may be given into a vein or, for some medicines, as an injection under the skin. The interval between treatments and the length of the course depend on the medicine, cancer, treatment aim, response and side effects. Other forms of immunotherapy can follow different pathways.",
-      "Checkpoint inhibitors can cause immune-related side effects in almost any organ, including the skin, bowel, lungs, liver, joints, thyroid and other hormone glands. These effects can begin during treatment or after it has finished. A symptom that starts mildly can become serious, so new or worsening symptoms should be reported to the treating team straight away.",
+      "There are several types of immunotherapy. Checkpoint inhibitors block proteins that can stop immune cells from attacking cancer cells. This helps the immune system find and attack the cancer.",
+      "Checkpoint inhibitors are usually given through a drip into a vein. Some can be given as an injection under the skin. The medicine and treatment plan determine how often treatment is given and how long it continues.",
+      "Checkpoint inhibitors can also make the immune system attack healthy parts of the body. These immune-related side effects can affect any part of the body. They can start during treatment or after it ends and can become serious quickly.",
     ],
     whenConsidered: [
-      "Where evidence supports an immune checkpoint treatment for the cancer type and stage",
-      "Where the overall clinical picture, and sometimes tests on the tumour, suggest it may be relevant",
-      "Alongside chemotherapy, for some cancers",
-      "After surgery, for some cancers, to reduce the risk of recurrence",
-      "Where a cancer has spread and slowing or controlling it is the treatment aim",
+      "When checkpoint inhibitor treatment is established for the type and stage of cancer",
+      "When a tumour or blood test supports use of a particular checkpoint inhibitor",
+      "Alongside chemotherapy as part of some treatment plans",
+      "Before or after surgery as part of treatment for some cancers",
+      "To slow or control some cancers that have spread",
     ],
     expect: [
       {
         title: "Before you start",
-        body: "The team considers the cancer, previous treatment, your general health and other factors such as autoimmune conditions, an organ transplant and the medicines you take. Blood tests provide a baseline for later monitoring, and tumour tests may sometimes help with treatment decisions. No single test can guarantee that immunotherapy will help.",
+        body: "Your consultant will consider the cancer type and stage, previous treatment and your general health. You will have blood tests before treatment. Some people also need a test on a tumour or blood sample to see whether a particular checkpoint inhibitor is an option.",
       },
       {
-        title: "How it may be given",
-        body: "Depending on the medicine, treatment may be given through an intravenous infusion or as an injection. Appointment length, observation and the interval between treatments vary. The treating unit will explain what applies, including any advice about travel or driving afterwards.",
+        title: "On a treatment day",
+        body: "The team will ask about new symptoms and review the blood results required for your plan. The length of the appointment depends on the medicine. Keep the treatment alert card and 24-hour advice number supplied by the treating unit with you.",
       },
       {
         title: "During treatment",
-        body: "Blood tests and symptom checks help look for immune-related effects. Contact the treating unit's 24-hour advice line straight away about any new or worsening symptom, even if it seems mild — examples include diarrhoea, rash, breathlessness, chest pain, unusual thirst, weakness or marked fatigue. Do not wait for the next appointment or try to treat a suspected immune effect yourself unless your team has advised it. Call 999 for a life-threatening emergency.",
+        body: "Call the treating unit's 24-hour advice line straight away about any new or worsening symptom, even if it seems mild. Examples include diarrhoea, a rash, breathlessness, a persistent cough, unusual thirst, weakness or feeling much more tired than usual. Do not wait for the next appointment or try to treat the symptom yourself unless your team has told you how. Call 999 for chest pain, severe breathing difficulty or another life-threatening emergency.",
       },
       {
         title: "Reviews and follow-up",
-        body: "Scans, blood tests or other assessments may be used to review the cancer and decide whether treatment should continue. Monitoring for immune-related effects continues after treatment ends because some can appear later or require longer-term care. Keep the treatment alert information and contact details supplied by your treating unit.",
+        body: "Your treatment plan sets out when scans, blood tests and other checks are needed. The team will use these results, the cancer's response and any side effects to decide whether treatment should continue. Monitoring continues after treatment because immune-related side effects can appear later.",
       },
     ],
     sources: [
       {
-        label: "Cancer Research UK — What is immunotherapy?",
+        label: "Cancer Research UK: What is immunotherapy?",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/targeted-cancer-drugs-immunotherapy/what-is-immunotherapy",
       },
       {
-        label: "Cancer Research UK — Checkpoint inhibitors",
+        label: "Cancer Research UK: Checkpoint inhibitors",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/targeted-cancer-drugs-immunotherapy/checkpoint-inhibitors",
       },
       {
-        label: "Macmillan Cancer Support — Immunotherapy",
-        url: "https://www.macmillan.org.uk/cancer-information-and-support/treatment/types-of-treatment/immunotherapy",
+        label: "UCLH: Cancer immunotherapy treatment",
+        url: "https://www.uclh.nhs.uk/patients-and-visitors/patient-information-pages/cancer-immunotherapy-treatment",
       },
       {
-        label: "Cancer Research UK — Immunotherapy side effects",
+        label: "Cancer Research UK: Immunotherapy side effects",
         url: "https://www.cancerresearchuk.org/health-professional/treatment-and-other-post-diagnosis-issues/immunotherapy-and-its-side-effects",
       },
     ],
@@ -237,54 +237,53 @@ export const therapies: Therapy[] = [
     title: "Targeted therapies",
     group: "drug",
     summary:
-      "A varied group of cancer medicines that act on particular features or processes involved in cancer growth and survival.",
+      "Medicines that act on particular differences in cancer cells or processes that help a cancer grow and survive.",
     // "Biological and immunotherapy" is deliberately NOT matched here. Seven
     // consultants list that phrase, and it already maps to Immunotherapy above;
     // reading it as targeted therapy as well would be our inference, not their
     // wording. Only "Targeted and endocrine treatments" says it outright.
     matches: ["Targeted therapies", "Targeted and endocrine treatments"],
-    note: "Some published consultant information uses overlapping terms such as 'biological and immunotherapy'. That wording does not by itself confirm targeted-therapy provision, so this page only shows consultants whose published treatment wording explicitly includes targeted treatment.",
     related: ["immunotherapy", "hormone-therapy", "chemotherapy"],
     what: [
-      "Targeted therapies are a varied group of cancer medicines. They act on particular differences in cancer cells, or on processes that help a cancer grow and survive. The way they work and the side effects they can cause differ from one medicine to another; targeted does not mean side-effect free or necessarily milder than another treatment.",
-      "Some targeted medicines are considered only when testing finds a relevant biomarker — a feature such as a protein, receptor or gene change — in a tumour or blood sample. A matching result may show that a medicine could be relevant, but it does not guarantee benefit or decide suitability on its own.",
-      "Some targeted medicines are tablets or capsules taken at home; others are given by injection or intravenous infusion. Monitoring can still involve regular appointments and tests. It is important to follow the medicine instructions and tell the team about other prescribed medicines, over-the-counter products and supplements because interactions can occur.",
+      "Targeted therapies are cancer medicines that act on particular differences in cancer cells or processes that help a cancer grow and survive. Different targeted medicines work in different ways, so their uses and side effects are not all the same.",
+      "Some targeted therapies require tests on a tumour sample or blood sample. These tests look for a particular protein or gene change that the medicine targets. Not every targeted therapy requires this type of test. The result shows whether the target is present. Your consultant considers it with your diagnosis and other clinical information when planning treatment.",
+      "Targeted therapies can be taken as tablets or capsules, given by injection or given through a drip into a vein. If you take treatment at home, follow the instructions carefully. Check with the treating team before taking new medicines or supplements because they can affect how some cancer medicines work.",
     ],
     whenConsidered: [
-      "Where a relevant biomarker is present, when the medicine requires one",
-      "Where evidence supports the medicine for the cancer type, stage and treatment setting",
-      "Alongside chemotherapy or hormone therapy, for some cancers",
-      "As one possible option after considering previous treatment, general health and the aim of care",
+      "For cancers where a targeted medicine is an established treatment option",
+      "When any test required for the medicine finds the relevant protein or gene change",
+      "On its own or alongside chemotherapy, hormone therapy or another treatment",
+      "After considering previous treatment, other health conditions and the aim of treatment",
     ],
     expect: [
       {
-        title: "Testing and assessment",
-        body: "For some medicines, a tumour sample or blood sample is tested for a biomarker. Other targeted medicines do not require this type of test. Your consultant considers any result alongside the cancer type and stage, previous treatment, other health conditions, the treatment aim and your preferences.",
+        title: "Tests and treatment decision",
+        body: "Your consultant will confirm whether testing is needed. Depending on the test, it can use tissue from an earlier biopsy or operation, a new tumour sample or a blood sample. Your consultant will explain what the result means for your treatment options.",
       },
       {
         title: "Starting treatment",
-        body: "The team will explain how the medicine is given and any instructions about food, missed doses or storage. Some targeted medicines interact with common medicines, supplements or particular foods, so provide a complete list of everything you take and check before starting anything new.",
+        body: "The team will explain whether the medicine is taken at home or given in hospital, the schedule, and any instructions about food, missed doses and storage. Tell them about all prescribed medicines, medicines bought without a prescription and supplements. Check with the team before starting anything new.",
       },
       {
         title: "During treatment",
-        body: "Side effects and monitoring depend on the medicine and any combination treatment. They may include skin changes, diarrhoea, tiredness or blood-pressure changes, but your team will explain the relevant effects and urgent symptoms. Treatment may be paused, reduced or changed if clinically needed.",
+        body: "The possible side effects and checks are specific to the medicine. The team will tell you what to look out for and who to contact. Report side effects using the contact instructions they give you. Do not wait until the next appointment if they have told you to seek advice sooner.",
       },
       {
-        title: "Reviews and follow-up",
-        body: "Reviews consider side effects and whether treatment is meeting its intended aim. Depending on the cancer and medicine, assessment may use scans, blood tests or other measures. Some courses have a fixed duration; others may continue while they are helping and remain tolerable.",
+        title: "Reviews",
+        body: "Reviews check for side effects and whether treatment is meeting its aim. They can include blood tests, scans or other checks. Your consultant will explain how long treatment is planned for and when the plan will be reviewed.",
       },
     ],
     sources: [
       {
-        label: "Cancer Research UK — What are targeted cancer drugs?",
+        label: "Cancer Research UK: What are targeted cancer drugs?",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/targeted-cancer-drugs-immunotherapy/what-are-targeted-cancer-drugs",
       },
       {
-        label: "Macmillan Cancer Support — Targeted therapies",
+        label: "Macmillan Cancer Support: Targeted therapies",
         url: "https://www.macmillan.org.uk/cancer-information-and-support/treatments-and-drugs/targeted-therapies",
       },
       {
-        label: "Cancer Research UK — Taking cancer medicines",
+        label: "Cancer Research UK: Taking cancer medicines",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/cancer-drugs/how-you-have/taking-medicines",
       },
     ],
@@ -294,49 +293,49 @@ export const therapies: Therapy[] = [
     title: "Hormone therapy",
     group: "drug",
     summary:
-      "Treatment that lowers hormone levels or blocks their effects for cancers that use hormones to grow. The treatment and duration vary.",
+      "Treatment that lowers hormone levels or blocks their effects to slow or stop the growth of hormone-sensitive cancers.",
     matches: ["Hormone treatment", "Hormone therapy", "Targeted and endocrine treatments"],
     related: ["targeted-therapies", "chemotherapy", "radiotherapy"],
     what: [
-      "Some cancers use the body's hormones as growth signals — most commonly oestrogen in many breast cancers and testosterone in prostate cancer. Hormone therapy, also called endocrine therapy, can lower the amount of a hormone in the body or block its effect on cancer cells. It is different from hormone replacement therapy used for menopausal symptoms.",
-      "Treatment may involve tablets, injections or implants; less commonly, an operation is used to reduce hormone production. A course may last for months or years, or continue while it is helping and remains tolerable. The route and duration depend on the cancer, treatment aim and medicine.",
-      "Side effects vary by treatment and can significantly affect daily life. They may include hot flushes, tiredness, mood or weight changes, joint or muscle symptoms, sexual difficulties and effects on bone strength. Your team will explain the effects relevant to the proposed treatment and how they can be monitored or managed.",
+      "Some cancers depend on hormones to grow. Hormone therapy lowers the amount of a hormone in the body or blocks its effect on cancer cells. It is also called endocrine therapy.",
+      "Hormone therapy is commonly used for breast and prostate cancers and for some other cancers that are hormone sensitive. It can be given as tablets, injections or implants. The treatment, schedule and duration depend on the cancer and the aim of treatment.",
+      "Side effects depend on the treatment and the hormones it affects. They can include hot flushes, tiredness, changes in mood, joint or muscle pain, sexual problems and reduced bone strength. Your team will explain the side effects linked to your treatment and the support or monitoring available.",
     ],
     whenConsidered: [
-      "For breast cancer where tumour testing shows relevant hormone receptors",
-      "After surgery or radiotherapy, to reduce the risk of the cancer returning",
-      "Before or alongside radiotherapy, for some prostate cancers",
-      "For some breast, prostate or other hormone-sensitive cancers that have spread, to slow or help control them",
+      "When testing shows that breast cancer has hormone receptors",
+      "Before or after surgery for some hormone-sensitive breast cancers",
+      "Before, during or after radiotherapy for some prostate cancers",
+      "To control hormone-sensitive cancer that has spread or returned",
     ],
     expect: [
       {
         title: "Before you start",
-        body: "For breast cancer, tumour cells are tested for hormone receptors. For prostate cancer and other cancers, decisions depend on factors such as the cancer type, stage or risk group, treatment aim, previous treatment, other health conditions and your preferences. Your consultant will discuss possible benefits, risks, alternatives and likely duration with you.",
+        body: "For breast cancer, the cancer cells are tested for hormone receptors. For prostate cancer, your consultant considers the stage or risk group and whether hormone therapy would be used with radiotherapy or for cancer that has spread. They will explain the aim of treatment, the alternatives, the likely duration and the possible side effects.",
       },
       {
         title: "Starting treatment",
-        body: "If the treatment is a tablet, injection or implant, the schedule depends on the medicine. Follow the instructions supplied with your own treatment rather than a general timetable. Some treatments can weaken bones, so the team may assess fracture risk and explain whether a DEXA scan, monitoring or bone-strengthening treatment is appropriate.",
+        body: "Tablets, injections and implants have different schedules. Follow the instructions supplied for your treatment. Ask the team what to do if you miss a dose or appointment, and check with them before starting another medicine or supplement.",
       },
       {
         title: "During treatment",
-        body: "The type, timing and persistence of side effects vary. Tell the treating team about effects that are new, troublesome or affecting daily life; they can discuss supportive measures and, where clinically appropriate, other treatment options. Do not stop, miss or change treatment without advice from the team.",
+        body: "Tell the treating team about side effects that are new, troublesome or affecting daily life. Some hormone therapies can reduce bone strength. The team will assess your risk and arrange bone health checks or treatment when needed. Do not stop or change hormone therapy without advice from the team.",
       },
       {
         title: "Reviews and follow-up",
-        body: "Follow-up depends on the cancer and the aim of treatment. It may include review of side effects and how medicines are being taken, blood tests such as PSA, routine breast follow-up, bone-health assessment or scans when clinically indicated. The team responsible for each part of follow-up will be explained to you.",
+        body: "Follow-up is planned around the cancer and the aim of treatment. It can include a review of side effects, PSA blood tests for prostate cancer, breast cancer follow-up, bone health checks or scans. The team will tell you which checks apply and who will arrange them.",
       },
     ],
     sources: [
       {
-        label: "Cancer Research UK — Hormone therapy for cancer",
+        label: "Cancer Research UK: Hormone therapy for cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/hormone-therapy/for-cancer",
       },
       {
-        label: "Cancer Research UK — Hormone therapy for breast cancer",
+        label: "Cancer Research UK: Hormone therapy for breast cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/breast-cancer/treatment/hormone-therapy",
       },
       {
-        label: "Cancer Research UK — Hormone therapy for prostate cancer",
+        label: "Cancer Research UK: Hormone therapy for prostate cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/prostate-cancer/treatment/hormone-therapy/about-hormone-therapy",
       },
     ],
@@ -348,37 +347,37 @@ export const therapies: Therapy[] = [
     title: "Radiotherapy",
     group: "radiotherapy",
     summary:
-      "This page focuses on external beam radiotherapy: radiation directed from a machine outside the body, sometimes in one treatment and sometimes over a course.",
+      "External beam radiotherapy uses a machine to direct radiation at the treatment area. Treatment can involve one session or a course of sessions.",
     matches: ["Radiotherapy"],
     related: ["brachytherapy", "radioisotope-therapy", "chemotherapy"],
     what: [
-      "Radiotherapy uses carefully measured radiation to damage cancer cells. This page focuses on external beam radiotherapy, which is delivered from a machine outside the body, often a linear accelerator. External beam treatment does not make you radioactive, so it is safe to be around other people afterwards. Brachytherapy and radioisotope therapy are covered separately on this site.",
-      "External beam treatment is planned before it starts. A CT scan is commonly used and other imaging may also contribute. The radiotherapy planning team works out the dose, beam shape and treatment position, aiming to treat the intended area while limiting the dose to surrounding healthy tissue. Supports, masks or small skin marks may be used to reproduce the position accurately.",
-      "The number and frequency of appointments depend on the cancer, treatment aim, dose and technique. Treatment may be given once, on selected days, or as a course over several weeks. You cannot feel the radiation itself, although holding the treatment position or using a mask can sometimes be uncomfortable.",
+      "External beam radiotherapy uses carefully measured radiation from a machine outside the body to damage cancer cells. A linear accelerator is the most common type of machine. Treatment does not make you radioactive, so you can be around other people afterwards.",
+      "The radiotherapy team plans the treatment before it starts. They use scans to calculate the dose and direct the radiation at the treatment area while limiting the dose to nearby healthy tissue. The plan is specific to your cancer and the part of the body being treated.",
+      "The prescribed dose is often divided into smaller treatments called fractions. A course can range from a single session to treatment over several weeks. The schedule is set by the type and purpose of treatment.",
     ],
     whenConsidered: [
-      "As the main treatment for some cancers, depending on the diagnosis and treatment aim",
-      "After surgery, where treating the surrounding area may reduce the risk of recurrence",
-      "Before surgery, where reducing the size of a tumour may help the wider treatment plan",
-      "Alongside chemotherapy or another treatment, for selected cancers",
-      "To relieve symptoms such as pain, pressure or bleeding — see palliative radiotherapy below",
+      "As the main treatment for some cancers",
+      "After surgery, to reduce the risk of cancer returning in the treated area",
+      "Before surgery, to shrink a tumour",
+      "Alongside chemotherapy for some cancers",
+      "To control symptoms such as pain, bleeding, pressure or a blockage",
     ],
     expect: [
       {
         title: "Planning appointment",
-        body: "A planning CT scan is commonly carried out in the position used for treatment, and other imaging may also be reviewed. Supports or a moulded mask may be prepared when needed, and small temporary or permanent skin marks are sometimes used as alignment points. The exact process depends on the body area and technique.",
+        body: "Most people have a planning scan, usually a CT scan. Depending on the area being treated, the team uses a mask, mould or small skin marks to help position you accurately. They will explain what the planning appointment involves for you.",
       },
       {
         title: "Creating the plan",
-        body: "After planning, the specialist team creates and independently checks the treatment plan before radiation is delivered. The time this takes varies with the complexity and urgency of treatment. The treating service will confirm the start date rather than the website estimating a waiting period.",
+        body: "After the planning appointment, the radiotherapy team creates and checks your treatment plan. The plan sets out the treatment area, dose and beam positions. The radiotherapy service will tell you when treatment starts.",
       },
       {
-        title: "During the course",
-        body: "Appointment length and frequency vary. Positioning and imaging often take longer than the radiation delivery itself. Side effects depend on the area treated, dose, schedule, technique and other treatments. Tiredness or a skin reaction can occur, while other effects are specific to the part of the body being treated.",
+        title: "During treatment",
+        body: "Radiographers position you carefully and leave the room while the machine delivers the radiation. They can see and speak to you throughout. The machine does not touch you, and you do not feel the radiation.",
       },
       {
-        title: "After treatment",
-        body: "Some short-term effects can continue or temporarily worsen after treatment, and some effects can begin or persist months or years later. The team will explain the risks relevant to your treatment, what to report and who to contact. Follow-up may be with the radiotherapy centre, your consultant or another part of the cancer team.",
+        title: "Side effects and follow-up",
+        body: "Side effects depend on the area treated and the type of radiotherapy. The team will explain which effects apply to your plan and what to report. Some effects continue after the last session, and others can appear later. Follow-up is arranged by your cancer team.",
       },
     ],
     sections: [
@@ -386,11 +385,11 @@ export const therapies: Therapy[] = [
         id: "palliative-radiotherapy",
         title: "Palliative radiotherapy",
         body: [
-          "Radiotherapy may be used to relieve symptoms rather than to try to cure the cancer. This is called palliative radiotherapy. It may be considered for symptoms such as pain from cancer in the bone, bleeding, pressure or blockage, depending on the cancer and the part of the body affected.",
-          "External beam palliative radiotherapy often uses fewer sessions and may sometimes be given in one appointment. Side effects can still occur and depend on the treatment area and schedule. Symptom improvement is not always immediate, and not every cancer or symptom responds in the same way.",
-          "In this context, palliative describes the aim of this particular treatment. It is not the same as saying that someone is receiving end-of-life care. Your consultant will explain the intended benefit, possible side effects and alternatives in your individual situation.",
+          "Palliative radiotherapy aims to shrink a cancer, slow its growth or control symptoms. It does not aim to cure the cancer. It can be used for bone pain, bleeding, pressure or a blockage.",
+          "External beam palliative radiotherapy usually involves fewer sessions than treatment intended to cure cancer. A course can consist of a single treatment. Side effects depend on the area treated, and symptom relief is not always immediate.",
+          "The word palliative describes the aim of this treatment. Your consultant will explain what the treatment is intended to achieve, the possible side effects and the other options available.",
         ],
-        note: "Whether palliative radiotherapy may help depends on the symptom, cancer, wider treatment plan and what matters to you. This page cannot determine whether it is appropriate for an individual.",
+        note: "Your consultant will discuss whether palliative radiotherapy is suitable for you and how it fits with your other care.",
       },
     ],
     // Caption wording matters here: this is a linac at another hospital
@@ -398,26 +397,30 @@ export const therapies: Therapy[] = [
     // equipment or our room. See public/treatments/CREDITS.md.
     image: {
       src: "/treatments/linear-accelerator.jpg",
-      alt: "A linear accelerator in a radiotherapy treatment room: a large gantry arm with a treatment head above a motorised couch, in an otherwise empty, plainly furnished room.",
+      alt: "A linear accelerator above a treatment couch in an empty radiotherapy room.",
       caption:
-        "An example of a linear accelerator used to deliver external beam radiotherapy. This is not equipment or a room at a Berkshire Oncology treatment location. During treatment, staff monitor the patient from outside the room.",
+        "An example of a linear accelerator used for external beam radiotherapy. This is not a room or equipment at a Berkshire Oncology treatment location. Staff monitor the patient from outside the room during treatment.",
       credit: "Photograph: Narenfox, CC BY-SA 4.0, via Wikimedia Commons.",
     },
     sources: [
       {
-        label: "Cancer Research UK — External radiotherapy",
+        label: "Cancer Research UK: External radiotherapy",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/radiotherapy/external/what",
       },
       {
-        label: "NHS — What happens during radiotherapy",
+        label: "Cancer Research UK: Planning external radiotherapy",
+        url: "https://www.cancerresearchuk.org/about-cancer/treatment/radiotherapy/external/planning/your-planning",
+      },
+      {
+        label: "NHS: What happens during radiotherapy",
         url: "https://www.nhs.uk/tests-and-treatments/radiotherapy/what-happens/",
       },
       {
-        label: "NHS — Radiotherapy side effects",
+        label: "NHS: Radiotherapy side effects",
         url: "https://www.nhs.uk/tests-and-treatments/radiotherapy/side-effects/",
       },
       {
-        label: "Cancer Research UK — Radiotherapy to relieve symptoms",
+        label: "Cancer Research UK: Radiotherapy to relieve symptoms",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/radiotherapy/symptoms/what-is-radiotherapy-to-relieve-symptoms",
       },
     ],
@@ -427,49 +430,53 @@ export const therapies: Therapy[] = [
     title: "Brachytherapy",
     group: "radiotherapy",
     summary:
-      "Internal radiotherapy delivered by placing a radioactive source inside or close to the treatment area. The source may be temporary or permanent.",
+      "Brachytherapy is radiotherapy delivered from a radioactive source placed inside or close to the treatment area. The source is temporary or permanent.",
     matches: ["Brachytherapy", "Prostate brachytherapy"],
     related: ["radiotherapy", "radioisotope-therapy"],
     what: [
-      "Brachytherapy is a type of internal radiotherapy. A sealed radioactive source is placed inside or close to the area being treated, allowing radiation to be delivered over a short distance and helping to limit the dose to surrounding tissue. The technique depends on the cancer and treatment area.",
-      "With temporary brachytherapy, applicators, tubes or needles are positioned first and the radioactive source is placed for a set time before being removed. With permanent brachytherapy, small seeds remain in the body while their radiation gradually fades. Treatment may involve one procedure or several sessions.",
-      "Published consultant information lists brachytherapy in relation to prostate and gynaecological cancer care within the partnership. The exact technique, treatment site and whether it could form part of an individual's plan need specialist assessment.",
+      "Brachytherapy delivers radiation over a short distance from inside the body. This concentrates the treatment in the intended area and limits the dose to nearby healthy tissue.",
+      "High dose rate brachytherapy uses a temporary source that stays in place for a short time. Low dose rate brachytherapy delivers radiation over a longer period. Some low dose rate sources are removed after treatment. Permanent seeds remain in the body and lose their radioactivity over time.",
+      "Brachytherapy is used most often for cancers of the prostate, cervix, womb and vagina. It can be the only radiotherapy treatment or be given with external beam radiotherapy.",
     ],
     whenConsidered: [
-      "For some prostate cancers, using permanent seeds or temporary brachytherapy depending on the individual case",
-      "For some cervical, womb or vaginal cancers, sometimes alongside external beam radiotherapy",
-      "Where a radioactive source can be positioned safely inside or close to the treatment area",
-      "As one possible treatment for selected cancers, on its own or with another treatment",
+      "For certain prostate cancers, using permanent seeds or temporary high dose rate brachytherapy",
+      "For cancers of the cervix, womb or vagina",
+      "As the main radiotherapy treatment for certain cancers",
+      "Alongside external beam radiotherapy as part of a combined treatment plan",
     ],
     expect: [
       {
         title: "Assessment and planning",
-        body: "The team considers the diagnosis, position of the treatment area, general health and any other treatment being given. Planning may involve CT, ultrasound or another type of imaging. The team should explain which form of brachytherapy is being considered and why.",
+        body: "Your consultant considers the diagnosis, the treatment area and any other planned care before recommending brachytherapy. A CT scan, ultrasound scan or other imaging is used to plan the dose and position of the radioactive source. The team will explain which type of brachytherapy is being considered and why.",
       },
       {
         title: "Temporary brachytherapy",
-        body: "Applicators, tubes or needles are positioned in or close to the treatment area, sometimes with a general, spinal or local anaesthetic or sedation. Imaging helps check their position. The radioactive source is placed for a set time and removed. There may be one or several treatments, as an outpatient, day case or inpatient. Once a temporary source has been removed, you are not radioactive.",
+        body: "A temporary radioactive source is placed inside or close to the treatment area for a set time and then removed. The source is removed after each session or at the end of the treatment course, depending on the type of brachytherapy. Once it has been removed, you are not radioactive.",
       },
       {
         title: "Permanent seed brachytherapy",
-        body: "Permanent seeds are most commonly used for some prostate cancers. They are positioned using imaging, usually during a procedure with an anaesthetic, and remain in place while their radiation gradually fades. If this treatment applies, the team will supply written safety advice with clear time limits, including any precautions around prolonged close contact with children or anyone pregnant.",
+        body: "Permanent seed brachytherapy is used mainly for prostate cancer. The seeds remain in the prostate and release radiation over a number of months. The team will give you written safety instructions, including any temporary limits on close contact with children or anyone who is pregnant.",
       },
       {
-        title: "Recovery and follow-up",
-        body: "Possible effects depend on the treatment area and type of brachytherapy. There may be effects from placing the applicators, needles or seeds as well as short- or longer-term effects from radiotherapy. The team should explain what to expect, which symptoms to report and how follow-up will be arranged. Follow-up may include examination, blood tests or imaging where relevant.",
+        title: "After treatment",
+        body: "Treatment can be given as an outpatient or involve a hospital stay. Side effects depend on the treatment area and the type of brachytherapy. The team will explain what to expect, which symptoms to report and how follow-up will be arranged.",
       },
     ],
     sources: [
       {
-        label: "Cancer Research UK — What is internal radiotherapy?",
+        label: "Cancer Research UK: What is internal radiotherapy?",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/radiotherapy/internal/what-is",
       },
       {
-        label: "Cancer Research UK — Permanent seed brachytherapy",
+        label: "Cancer Research UK: Temporary brachytherapy for prostate cancer",
+        url: "https://www.cancerresearchuk.org/about-cancer/prostate-cancer/treatment/radiotherapy/brachytherapy/temporary-brachytherapy",
+      },
+      {
+        label: "Cancer Research UK: Permanent seed brachytherapy",
         url: "https://www.cancerresearchuk.org/about-cancer/prostate-cancer/treatment/radiotherapy/brachytherapy/permanent-seed-brachytherapy",
       },
       {
-        label: "Cancer Research UK — Brachytherapy for cervical cancer",
+        label: "Cancer Research UK: Brachytherapy for cervical cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/cervical-cancer/treatment/radiotherapy/internal-radiotherapy-brachytherapy",
       },
     ],
@@ -479,54 +486,62 @@ export const therapies: Therapy[] = [
     title: "Radioisotope therapy",
     group: "radiotherapy",
     summary:
-      "Treatment with a radioactive medicine selected to collect in particular tissues or attach to features on certain cancer cells.",
+      "Radioisotope therapy uses a radioactive medicine that travels through the body and is taken up by particular cells or tissues.",
     matches: ["Therapeutic radioisotopes", "Radio-isotope therapy"],
     related: ["radiotherapy", "brachytherapy"],
     what: [
-      "Radioisotope therapy, also called radionuclide therapy, uses a radioactive medicine given as a capsule, drink or injection. The medicine travels through the bloodstream and is selected because it is taken up by a particular tissue or attaches to a feature on certain cancer cells. This delivers radiation from inside the body.",
-      "Different medicines work in different ways. Radioiodine is taken up by thyroid cells; radium-223 travels to areas of bone affected by prostate cancer; and peptide receptor radionuclide therapy, or PRRT, targets particular receptors on some neuroendocrine tumours. Other radioisotope treatments are also available for selected cancers.",
-      "Treatment takes place through a nuclear medicine service. Whether you need to stay in hospital and which temporary radiation-safety precautions apply depend on the medicine and dose. The team will give you written instructions for your treatment, with clear time limits.",
+      "Radioisotope therapy, also called radionuclide therapy, uses a radioactive medicine given as a drink, capsule or injection. The medicine travels through the bloodstream and delivers radiation to the cells or tissues that take it up.",
+      "Different medicines treat different cancers. Radioiodine is taken up by thyroid cells. Radium-223 collects in areas of bone affected by prostate cancer. Peptide receptor radionuclide therapy, or PRRT, targets receptors found on certain neuroendocrine tumours.",
+      "A nuclear medicine team gives the treatment. Some radioisotope treatments require a hospital stay or temporary precautions to protect other people from radiation. The team will give you written instructions explaining what applies and when the precautions end.",
     ],
     whenConsidered: [
-      "For selected differentiated thyroid cancers, often after surgery",
-      "For selected people with prostate cancer that has spread to the bones",
-      "For some neuroendocrine tumours whose cells have features that the medicine can target",
-      "For certain cancers where a suitable radioactive medicine can reach cancer cells at more than one site",
+      "For papillary and follicular thyroid cancers that take up radioactive iodine, often after surgery",
+      "For prostate cancer that has spread to the bones and meets the clinical criteria for radium-223",
+      "For certain pancreatic or digestive-system neuroendocrine tumours with the receptors needed for PRRT",
+      "For certain neuroendocrine tumours that can be treated with radioactive MIBG",
     ],
     expect: [
       {
         title: "Before treatment",
-        body: "The assessment depends on the medicine being considered. It may include blood tests and scans to check whether the treatment is suitable and how safely it can be given. You may receive instructions about medicines, food or drink, but these are treatment-specific. Follow the instructions from your nuclear medicine team rather than making changes yourself.",
+        body: "Your consultant and nuclear medicine team confirm which treatment is being considered. Preparation can include blood tests and scans. Follow the instructions you are given about food, drink and medicines, and do not stop or change medicines without checking with the team.",
       },
       {
         title: "Radioiodine",
-        body: "Radioiodine is usually taken as a capsule or drink for some thyroid cancers. Some people are asked to follow a low-iodine diet or change thyroid medicines beforehand. Depending on the treatment and service, you may go home the same day or stay in a single hospital room until radiation levels have fallen. Your team will explain the arrangements that apply to you.",
+        body: "Radioiodine is taken as a capsule or drink. The team will tell you whether to follow a low-iodine diet or change thyroid medicines before treatment. Treatment is given in hospital. The nuclear medicine team checks your radiation level and tells you when it is safe to leave. They will also explain the safety precautions to follow afterwards.",
       },
       {
-        title: "Radium-223 and PRRT",
-        body: "Radium-223 is given by injection for selected prostate cancers that have spread to bone. PRRT is given through a drip for some neuroendocrine tumours and is usually given alongside an amino-acid infusion to help protect the kidneys. The length and number of visits, and whether a hospital stay is needed, differ between treatments.",
+        title: "Radium-223, PRRT and MIBG",
+        body: "Radium-223 is given as an injection into a vein. PRRT and MIBG are given through a drip. Each treatment has its own schedule and monitoring, which the nuclear medicine team will explain before treatment starts.",
       },
       {
-        title: "After treatment and follow-up",
-        body: "If radiation-safety precautions are needed at home, you will receive written advice covering exactly what to do and for how long. Do not assume that precautions for another radioisotope treatment apply to yours. Blood tests, scans and the possibility of further doses also vary by treatment. Your team should explain the follow-up plan and who to contact with concerns.",
+        title: "After treatment",
+        body: "Some radioisotope treatments make body fluids temporarily radioactive and require safety precautions after treatment. You will receive written advice explaining what to do and when the precautions end. Follow-up can include blood tests and scans, depending on the treatment.",
       },
     ],
     sources: [
       {
-        label: "Cancer Research UK — Radioisotope therapy",
+        label: "Cancer Research UK: Radioisotope therapy",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/radioisotopes",
       },
       {
-        label: "Cancer Research UK — Radioactive iodine therapy",
+        label: "Cancer Research UK: What is radioisotope therapy?",
+        url: "https://www.cancerresearchuk.org/about-cancer/treatment/radioisotopes/what-is",
+      },
+      {
+        label: "Cancer Research UK: Radioactive iodine therapy",
         url: "https://www.cancerresearchuk.org/about-cancer/treatment/radioisotopes/radioactive-iodine-therapy",
       },
       {
-        label: "Cancer Research UK — Radium-223 for metastatic prostate cancer",
+        label: "Cancer Research UK: Radium-223 for metastatic prostate cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/prostate-cancer/metastatic-cancer/treatment/radium-223",
       },
       {
-        label: "Cancer Research UK — PRRT for neuroendocrine tumours",
+        label: "Cancer Research UK: PRRT for neuroendocrine tumours",
         url: "https://www.cancerresearchuk.org/about-cancer/neuroendocrine-tumours-nets/treatment/peptide-receptor-radionuclide-therapy-prrt",
+      },
+      {
+        label: "Cancer Research UK: Radioactive iodine MIBG",
+        url: "https://www.cancerresearchuk.org/about-cancer/treatment/radioisotopes/131-i-mibg",
       },
     ],
   },
@@ -543,13 +558,13 @@ export const therapyGroups: { id: TherapyGroupId; title: string; blurb: string }
     id: "drug",
     title: "Drug treatments",
     blurb:
-      "Treatments that travel through the body. Given as infusions or as tablets, over cycles or continuously.",
+      "Cancer medicines can be given through a drip, by injection or as tablets or capsules. The schedule depends on the treatment.",
   },
   {
     id: "radiotherapy",
     title: "Radiotherapy",
     blurb:
-      "Treatments that use radiation, delivered from outside the body, from a source placed within it, or as a radioactive medicine.",
+      "Radiotherapy can be delivered from outside the body, from a source placed inside it or as a radioactive medicine.",
   },
 ];
 

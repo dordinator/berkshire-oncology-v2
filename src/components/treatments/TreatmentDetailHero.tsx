@@ -32,17 +32,17 @@ function GuidePanel({
   const routes = [
     {
       label: `Understanding ${therapy.title.toLowerCase()}`,
-      description: "A clear introduction to how this treatment works.",
+      description: "What the treatment is, how it works and how it is given.",
       href: "#understanding",
     },
     {
-      label: "When it may be considered",
-      description: "Why your consultant might recommend it.",
+      label: "When it is used",
+      description: "Common reasons for using this treatment.",
       href: "#when-considered",
     },
     {
       label: "What to expect",
-      description: "How planning, treatment and follow-up may work.",
+      description: "How appointments, checks and follow-up are planned.",
       href: "#what-to-expect",
     },
   ];
@@ -54,7 +54,7 @@ function GuidePanel({
       className={`flex flex-col rounded-[2rem] border border-ink/[0.09] bg-[#fbfaf7]/[0.985] px-6 py-5 shadow-[0_24px_60px_-34px_rgba(6,28,70,0.38)] lg:px-5 lg:py-4 xl:px-8 xl:py-5 ${className}`}
     >
       <h2 className="font-display text-[1.45rem] font-semibold leading-tight tracking-[-0.035em] text-ink lg:text-xl xl:text-[1.75rem] 2xl:text-[2rem]">
-        Your guide to {therapy.title.toLowerCase()}
+        On this page
       </h2>
 
       <ul className="mt-4 flex flex-1 flex-col divide-y divide-ink/10 lg:mt-2 xl:mt-4">
@@ -138,7 +138,7 @@ export default function TreatmentDetailHero({
             <p className="body-lg mt-6 max-w-[32rem]">{therapy.summary}</p>
             <div className="mt-8 flex flex-wrap items-center justify-start gap-5">
               <Button href="/contact#guidance" variant="sage">
-                Talk to the practice
+                Contact the practice
               </Button>
               <span aria-hidden className="hidden h-10 w-px bg-ink/15 sm:block" />
               <a
