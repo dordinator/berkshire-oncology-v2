@@ -175,7 +175,7 @@ export default function CopyReviewEditor() {
 
           const onInput = () => {
             element.dataset.copyDirty = "true";
-            setStatus("Unsaved change — click away or press Cmd/Ctrl+Enter");
+            setStatus("Unsaved change: click away or press Cmd/Ctrl+Enter");
           };
           const onBlur = () => void save(element);
           const onClick = (event: Event) => event.stopPropagation();

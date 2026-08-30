@@ -286,7 +286,7 @@ export default function SearchBar({
               <div className="px-2 py-8 text-center">
                 <p className="text-[15px] text-ink">No matches for &ldquo;{trimmed}&rdquo;.</p>
                 <p className="mt-2 text-sm text-ink-muted">
-                  Try a cancer type, a treatment or a consultant&rsquo;s name — or ask us
+                  Try a cancer type, a treatment or a consultant&rsquo;s name. You can also ask us
                   directly.
                 </p>
                 <Link

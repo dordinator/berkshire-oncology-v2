@@ -485,7 +485,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
               {general
                 ? "You do not need to compare or choose treatments yourself. This section explains some of the language you may hear during a consultation."
                 : item.treatmentBasis === "cancer-specific"
-                  ? item.treatmentIntro ?? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which — if any — are suitable for you.`
+                  ? item.treatmentIntro ?? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which, if any, are suitable for you.`
                   : `We do not yet have a clinically reviewed treatment guide for ${item.title.toLowerCase()}. You can read general information about treatment types, but their inclusion on this site does not mean they would form part of your care. A consultant would need to review your diagnosis and test results before explaining what, if anything, may be relevant.`}
             </p>
             {general && (

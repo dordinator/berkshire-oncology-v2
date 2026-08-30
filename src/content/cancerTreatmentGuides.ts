@@ -18,7 +18,7 @@ export interface CancerTreatmentGuide {
 export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
   colorectal: {
     groupId: "colorectal",
-    intro: "Treatment for bowel cancer depends on whether it started in the colon or rectum, its stage, whether it has spread, relevant molecular test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which — if any — are suitable for you.",
+    intro: "Treatment for bowel cancer depends on whether it started in the colon or rectum, its stage, whether it has spread, relevant molecular test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which, if any, are suitable for you.",
     approaches: [
       {
         title: "Surgery",
@@ -48,22 +48,22 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG151 — Colorectal cancer",
+        label: "NICE NG151: Colorectal cancer",
         url: "https://www.nice.org.uk/guidance/ng151",
       },
       {
-        label: "NHS — Treatment for bowel cancer",
+        label: "NHS: Treatment for bowel cancer",
         url: "https://www.nhs.uk/conditions/bowel-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Treatment for bowel cancer",
+        label: "Cancer Research UK: Treatment for bowel cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/bowel-cancer/treatment",
       },
     ],
   },
   "bladder-and-kidney": {
     groupId: "bladder-and-kidney",
-    intro: "Bladder and kidney cancers are different diseases and are treated differently. What may be discussed depends on where the cancer started, its exact type and stage, whether a bladder cancer has reached the muscle, kidney function, relevant test results, previous treatment, your general health and what matters to you. This page cannot show which — if any — approaches are suitable for you.",
+    intro: "Bladder and kidney cancers are different diseases and are treated differently. What may be discussed depends on where the cancer started, its exact type and stage, whether a bladder cancer has reached the muscle, kidney function, relevant test results, previous treatment, your general health and what matters to you. This page cannot show which, if any, approaches are suitable for you.",
     approaches: [
       {
         title: "Surgery and other local treatments",
@@ -98,26 +98,26 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG2 — Bladder cancer",
+        label: "NICE NG2: Bladder cancer",
         url: "https://www.nice.org.uk/guidance/ng2/chapter/Recommendations",
       },
       {
-        label: "NICE NG256 — Kidney cancer",
+        label: "NICE NG256: Kidney cancer",
         url: "https://www.nice.org.uk/guidance/ng256",
       },
       {
-        label: "NHS — Bladder cancer treatment",
+        label: "NHS: Bladder cancer treatment",
         url: "https://www.nhs.uk/conditions/bladder-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Kidney cancer treatment",
+        label: "Cancer Research UK: Kidney cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/kidney-cancer/treatment/decisions",
       },
     ],
   },
   lung: {
     groupId: "lung",
-    intro: "Lung cancer treatment differs substantially between non-small-cell and small-cell lung cancer. It depends on the exact type, stage and position, lung function and overall fitness, relevant molecular or immune-marker results, previous treatment and what matters to you. This page cannot identify which treatment — if any — is suitable for you.",
+    intro: "Lung cancer treatment differs substantially between non-small-cell and small-cell lung cancer. It depends on the exact type, stage and position, lung function and overall fitness, relevant molecular or immune-marker results, previous treatment and what matters to you. This page cannot identify which treatment, if any, is suitable for you.",
     approaches: [
       {
         title: "Surgery",
@@ -147,26 +147,26 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG122 — Lung cancer",
+        label: "NICE NG122: Lung cancer",
         url: "https://www.nice.org.uk/guidance/ng122/chapter/Management",
       },
       {
-        label: "NHS — Lung cancer treatment",
+        label: "NHS: Lung cancer treatment",
         url: "https://www.nhs.uk/conditions/lung-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Non-small-cell lung cancer",
+        label: "Cancer Research UK: Non-small-cell lung cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/lung-cancer/treatment/non-small-cell-lung-cancer",
       },
       {
-        label: "Cancer Research UK — Small-cell lung cancer",
+        label: "Cancer Research UK: Small-cell lung cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/lung-cancer/treatment/small-cell-lung-cancer",
       },
     ],
   },
   "head-and-neck": {
     groupId: "head-and-neck",
-    intro: "Head and neck is not one cancer: this group includes cancers of the mouth, throat, voice box, salivary glands, nose and sinuses. Treatment depends on the exact site and cell type, stage, test results, previous treatment, general health, likely effects on speech or swallowing and what matters to you. This page cannot show which — if any — approaches are suitable for you.",
+    intro: "Head and neck is not one cancer: this group includes cancers of the mouth, throat, voice box, salivary glands, nose and sinuses. Treatment depends on the exact site and cell type, stage, test results, previous treatment, general health, likely effects on speech or swallowing and what matters to you. This page cannot show which, if any, approaches are suitable for you.",
     approaches: [
       {
         title: "Surgery",
@@ -201,26 +201,26 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG36 — Head and neck cancer",
+        label: "NICE NG36: Head and neck cancer",
         url: "https://www.nice.org.uk/guidance/ng36/chapter/recommendations",
       },
       {
-        label: "NHS — Mouth cancer treatment",
+        label: "NHS: Mouth cancer treatment",
         url: "https://www.nhs.uk/conditions/mouth-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Head and neck cancer",
+        label: "Cancer Research UK: Head and neck cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/head-neck-cancer",
       },
       {
-        label: "Cancer Research UK — Salivary gland cancer",
+        label: "Cancer Research UK: Salivary gland cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/salivary-gland-cancer/treatment/decisions",
       },
     ],
   },
   gynaecological: {
     groupId: "gynaecological",
-    intro: "Gynaecological cancer covers cancers that start in the ovary, womb, cervix, vulva or vagina, and they are not treated in the same way. Discussions depend on the exact site and cell type, stage and grade, test results, previous treatment, general health, possible effects on fertility or menopause, and what matters to you. This page cannot show which — if any — approaches may form part of your care.",
+    intro: "Gynaecological cancer covers cancers that start in the ovary, womb, cervix, vulva or vagina, and they are not treated in the same way. Discussions depend on the exact site and cell type, stage and grade, test results, previous treatment, general health, possible effects on fertility or menopause, and what matters to you. This page cannot show which, if any, approaches may form part of your care.",
     approaches: [
       {
         title: "Surgery",
@@ -255,27 +255,27 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "Cancer Research UK — Gynaecological cancers",
+        label: "Cancer Research UK: Gynaecological cancers",
         url: "https://www.cancerresearchuk.org/about-cancer/womens-cancer",
       },
       {
-        label: "NHS — Ovarian cancer treatment",
+        label: "NHS: Ovarian cancer treatment",
         url: "https://www.nhs.uk/conditions/ovarian-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Womb cancer treatment",
+        label: "Cancer Research UK: Womb cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/womb-cancer/treatment/decisions-about-treatment",
       },
       {
-        label: "NHS — Cervical cancer treatment",
+        label: "NHS: Cervical cancer treatment",
         url: "https://www.nhs.uk/conditions/cervical-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Vulval cancer treatment",
+        label: "Cancer Research UK: Vulval cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/vulval-cancer/treatment",
       },
       {
-        label: "Cancer Research UK — Vaginal cancer treatment",
+        label: "Cancer Research UK: Vaginal cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/vaginal-cancer/treatment/treatment-decisions",
       },
     ],
@@ -311,23 +311,23 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG99 — Brain tumours and brain metastases",
+        label: "NICE NG99: Brain tumours and brain metastases",
         url: "https://www.nice.org.uk/guidance/ng99/chapter/recommendations",
       },
       {
-        label: "NHS — Malignant brain tumour treatment",
+        label: "NHS: Malignant brain tumour treatment",
         url: "https://www.nhs.uk/conditions/malignant-brain-tumour/treatment/",
       },
       {
-        label: "Cancer Research UK — Brain tumour treatment",
+        label: "Cancer Research UK: Brain tumour treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/brain-tumours/treatment/treatment-decisions",
       },
       {
-        label: "Cancer Research UK — Secondary brain cancer",
+        label: "Cancer Research UK: Secondary brain cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/secondary-cancer/secondary-brain-cancer/treatment",
       },
       {
-        label: "Cancer Research UK — Primary spinal cord tumours",
+        label: "Cancer Research UK: Primary spinal cord tumours",
         url: "https://www.cancerresearchuk.org/about-cancer/brain-tumours/types/treatment-spinal-cord-tumours",
       },
     ],
@@ -369,15 +369,15 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG83 — Oesophago-gastric cancer",
+        label: "NICE NG83: Oesophago-gastric cancer",
         url: "https://www.nice.org.uk/guidance/ng83/",
       },
       {
-        label: "Cancer Research UK — Oesophageal cancer treatment",
+        label: "Cancer Research UK: Oesophageal cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/oesophageal-cancer/treatment/decisions-about-your-treatment",
       },
       {
-        label: "Cancer Research UK — Stomach cancer treatment",
+        label: "Cancer Research UK: Stomach cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/stomach-cancer/treatment",
       },
     ],
@@ -419,26 +419,26 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG85 — Pancreatic cancer",
+        label: "NICE NG85: Pancreatic cancer",
         url: "https://www.nice.org.uk/guidance/ng85",
       },
       {
-        label: "Cancer Research UK — Primary liver cancer",
+        label: "Cancer Research UK: Primary liver cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/liver-cancer/treatment/treatment-options",
       },
       {
-        label: "Cancer Research UK — Pancreatic cancer",
+        label: "Cancer Research UK: Pancreatic cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/pancreatic-cancer/treatment/treatment-decisions",
       },
       {
-        label: "Cancer Research UK — Bile-duct cancer",
+        label: "Cancer Research UK: Bile-duct cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/bile-duct-cancer/treatment/treatment-options",
       },
     ],
   },
   "skin-and-melanoma": {
     groupId: "skin-and-melanoma",
-    intro: "This group includes melanoma and non-melanoma skin cancers, most commonly basal cell carcinoma (BCC) and squamous cell carcinoma (SCC). They behave differently, and treatment depends on the exact type, depth or thickness, position, stage and spread, previous treatment, relevant tumour tests, general health and your preferences. This page cannot show which — if any — approaches are suitable for you.",
+    intro: "This group includes melanoma and non-melanoma skin cancers, most commonly basal cell carcinoma (BCC) and squamous cell carcinoma (SCC). They behave differently, and treatment depends on the exact type, depth or thickness, position, stage and spread, previous treatment, relevant tumour tests, general health and your preferences. This page cannot show which, if any, approaches are suitable for you.",
     approaches: [
       {
         title: "Surgery",
@@ -468,26 +468,26 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG14 — Melanoma",
+        label: "NICE NG14: Melanoma",
         url: "https://www.nice.org.uk/guidance/ng14",
       },
       {
-        label: "Cancer Research UK — Melanoma treatment",
+        label: "Cancer Research UK: Melanoma treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/melanoma/treatment/treatment-decisions",
       },
       {
-        label: "Cancer Research UK — Non-melanoma skin cancer",
+        label: "Cancer Research UK: Non-melanoma skin cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/skin-cancer/treatment",
       },
       {
-        label: "NHS — Melanoma treatment",
+        label: "NHS: Melanoma treatment",
         url: "https://www.nhs.uk/conditions/melanoma-skin-cancer/treatment-for-melanoma-skin-cancer/",
       },
     ],
   },
   testicular: {
     groupId: "testicular",
-    intro: "Treatment for testicular cancer depends particularly on whether it is a seminoma or non-seminoma, its stage, tumour-marker results, whether it has spread, previous treatment, general health and what matters to you. Fertility and sperm storage should be discussed before treatment where relevant. This page cannot show which — if any — approaches are suitable for you.",
+    intro: "Treatment for testicular cancer depends particularly on whether it is a seminoma or non-seminoma, its stage, tumour-marker results, whether it has spread, previous treatment, general health and what matters to you. Fertility and sperm storage should be discussed before treatment where relevant. This page cannot show which, if any, approaches are suitable for you.",
     approaches: [
       {
         title: "Surgery",
@@ -512,15 +512,15 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NHS — Testicular cancer treatment",
+        label: "NHS: Testicular cancer treatment",
         url: "https://www.nhs.uk/conditions/testicular-cancer/treatment/",
       },
       {
-        label: "Cancer Research UK — Testicular cancer treatment",
+        label: "Cancer Research UK: Testicular cancer treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/testicular-cancer/treatment",
       },
       {
-        label: "Cancer Research UK — Testicular radiotherapy",
+        label: "Cancer Research UK: Testicular radiotherapy",
         url: "https://www.cancerresearchuk.org/about-cancer/testicular-cancer/treatment/radiotherapy-treatment",
       },
     ],
@@ -562,19 +562,19 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE NG52 — Non-Hodgkin lymphoma",
+        label: "NICE NG52: Non-Hodgkin lymphoma",
         url: "https://www.nice.org.uk/guidance/ng52/chapter/Recommendations",
       },
       {
-        label: "NHS — Hodgkin lymphoma treatment",
+        label: "NHS: Hodgkin lymphoma treatment",
         url: "https://www.nhs.uk/conditions/hodgkin-lymphoma/treatment/",
       },
       {
-        label: "NHS — Non-Hodgkin lymphoma treatment",
+        label: "NHS: Non-Hodgkin lymphoma treatment",
         url: "https://www.nhs.uk/conditions/non-hodgkin-lymphoma/treatment/",
       },
       {
-        label: "Cancer Research UK — Hodgkin lymphoma treatment",
+        label: "Cancer Research UK: Hodgkin lymphoma treatment",
         url: "https://www.cancerresearchuk.org/about-cancer/hodgkin-lymphoma/treatment/treatment-decisions",
       },
     ],
@@ -609,19 +609,19 @@ export const cancerTreatmentGuides: Record<string, CancerTreatmentGuide> = {
     ],
     sources: [
       {
-        label: "NICE QS78 — Sarcoma",
+        label: "NICE QS78: Sarcoma",
         url: "https://www.nice.org.uk/guidance/qs78",
       },
       {
-        label: "NHS — Soft-tissue sarcoma treatment",
+        label: "NHS: Soft-tissue sarcoma treatment",
         url: "https://www.nhs.uk/conditions/soft-tissue-sarcoma/treatment/",
       },
       {
-        label: "Cancer Research UK — Soft-tissue sarcoma",
+        label: "Cancer Research UK: Soft-tissue sarcoma",
         url: "https://www.cancerresearchuk.org/about-cancer/soft-tissue-sarcoma/treatment",
       },
       {
-        label: "Cancer Research UK — Primary bone cancer",
+        label: "Cancer Research UK: Primary bone cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/bone-cancer/treatment/treatment-options-for-bone-cancer",
       },
     ],

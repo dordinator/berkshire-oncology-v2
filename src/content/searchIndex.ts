@@ -202,7 +202,7 @@ const treatmentEntries: SearchEntry[] = [
 const locationEntries: SearchEntry[] = locations.map((l) => ({
   id: `location:${l.slug}`,
   title: l.name,
-  subtitle: l.provider ? `${l.area} — ${l.provider}` : l.area,
+  subtitle: l.provider ? `${l.area}: ${l.provider}` : l.area,
   href: `/locations/${l.slug}`,
   kind: "location",
   keywords: [l.area, l.provider ?? "", "hospital", ...locationKeywords].filter(Boolean),

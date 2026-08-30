@@ -174,15 +174,15 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
     sources: [
       {
         label:
-          "NICE NG101 — Early and locally advanced breast cancer: diagnosis and management",
+          "NICE NG101: Early and locally advanced breast cancer: diagnosis and management",
         url: "https://www.nice.org.uk/guidance/ng101",
       },
       {
-        label: "NICE CG81 — Advanced breast cancer: diagnosis and treatment",
+        label: "NICE CG81: Advanced breast cancer: diagnosis and treatment",
         url: "https://www.nice.org.uk/guidance/cg81",
       },
       {
-        label: "Cancer Research UK — breast cancer",
+        label: "Cancer Research UK: breast cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/breast-cancer",
       },
     ],
@@ -289,11 +289,11 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
     ],
     sources: [
       {
-        label: "NICE NG131 — Prostate cancer: diagnosis and management",
+        label: "NICE NG131: Prostate cancer: diagnosis and management",
         url: "https://www.nice.org.uk/guidance/ng131",
       },
       {
-        label: "Cancer Research UK — prostate cancer",
+        label: "Cancer Research UK: prostate cancer",
         url: "https://www.cancerresearchuk.org/about-cancer/prostate-cancer",
       },
     ],
@@ -392,11 +392,11 @@ export const cancerInfo: Record<Slug, CancerInfo> = {
     sources: [
       {
         label:
-          "NICE CG104 — Metastatic malignant disease of unknown primary origin in adults",
+          "NICE CG104: Metastatic malignant disease of unknown primary origin in adults",
         url: "https://www.nice.org.uk/guidance/cg104",
       },
       {
-        label: "Cancer Research UK — cancer of unknown primary",
+        label: "Cancer Research UK: cancer of unknown primary",
         url: "https://www.cancerresearchuk.org/about-cancer/cancer-unknown-primary-cup",
       },
     ],
