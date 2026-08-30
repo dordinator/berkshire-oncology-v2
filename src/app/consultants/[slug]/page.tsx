@@ -231,10 +231,13 @@ function ProfileRow({
   );
 }
 
-function Fact({ children }: { children: React.ReactNode }) {
+function Fact({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex min-h-16 items-center justify-center px-5 py-4 text-center text-[13px] leading-snug text-ink md:min-h-[76px] md:text-sm">
-      {children}
+    <div className="flex min-h-[86px] flex-col items-center justify-center gap-1.5 px-5 py-4 text-center text-ink md:min-h-[96px]">
+      <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+        {label}
+      </dt>
+      <dd className="text-[13px] leading-snug md:text-sm">{value}</dd>
     </div>
   );
 }
@@ -355,15 +358,23 @@ export default function ConsultantProfile({
   });
 
   const facts = [
-    c.qualifications,
-    c.gmc ? `GMC ${c.gmc}` : undefined,
+    c.qualifications
+      ? { label: "Qualifications", value: c.qualifications }
+      : undefined,
+    c.gmc ? { label: "GMC registration", value: c.gmc } : undefined,
     c.consultantInReadingSince
-      ? `Consultant in Reading since ${c.consultantInReadingSince}`
+      ? {
+          label: "Consultant in Reading",
+          value: `Since ${c.consultantInReadingSince}`,
+        }
       : undefined,
     c.medicalSchool
-      ? `${c.medicalSchool.name}${c.medicalSchool.year ? `, ${c.medicalSchool.year}` : ""}`
+      ? {
+          label: "Medical school",
+          value: `${c.medicalSchool.name}${c.medicalSchool.year ? `, ${c.medicalSchool.year}` : ""}`,
+        }
       : undefined,
-  ].filter((fact): fact is string => Boolean(fact));
+  ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
 
   return (
     <article
@@ -413,7 +424,7 @@ export default function ConsultantProfile({
                   {c.name}
                 </h1>
                 <p className="mt-4 font-display text-xl font-medium text-ink sm:text-2xl">
-                  {c.shortRole ?? c.role}
+                  {c.role}
                 </p>
                 <p className="mt-4 max-w-[640px] text-[15px] leading-[1.65] text-ink/80 sm:text-base">
                   {intro}
@@ -424,7 +435,7 @@ export default function ConsultantProfile({
                   arrow={false}
                   className="mt-6 rounded-lg px-6 py-3"
                 >
-                  Arrange a consultation
+                  Request an appointment
                 </Button>
               </div>
 
@@ -453,9 +464,12 @@ export default function ConsultantProfile({
           <div className="container-wide mt-8 md:mt-10">
             <dl className="grid overflow-hidden rounded-[24px] border border-ink/[0.06] bg-[#e7eeea] divide-y divide-ink/[0.12] shadow-[0_18px_45px_-42px_rgba(6,28,70,0.28)] md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-4">
               {facts.map((fact) => (
-                <Fact key={fact}>{fact}</Fact>
+                <Fact key={fact.label} label={fact.label} value={fact.value} />
               ))}
             </dl>
+            <p className="mt-3 text-center text-[11px] leading-relaxed text-ink-muted">
+              Berkshire profile sources checked 30 August 2026.
+            </p>
           </div>
         )}
       </section>
@@ -566,7 +580,7 @@ export default function ConsultantProfile({
             >
               <span>
                 <span className="block font-display text-2xl font-medium leading-tight">
-                  Arrange a consultation
+                  Request an appointment
                 </span>
                 <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
                   Request an appointment with {name} and share the details you have.

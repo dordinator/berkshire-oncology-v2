@@ -8,7 +8,6 @@ export const modalitiesByConsultant: Record<Slug, string[]> = {
   "joss-adams": ["Chemotherapy", "Radiotherapy", "Immunotherapy", "Hormone treatment"],
   "madhumita-bhattacharyya": [
     "Chemotherapy",
-    "Radiotherapy",
     "Biological and immunotherapy",
     "Hormone treatment",
   ],
@@ -42,7 +41,6 @@ export const modalitiesByConsultant: Record<Slug, string[]> = {
     "Radiotherapy",
     "Systemic therapy",
     "Biological and immunotherapy",
-    "Hormone treatment",
   ],
   "ayman-madi": ["Chemotherapy", "Biological and immunotherapy", "Hormone treatment"],
   "helen-odonnell": [
