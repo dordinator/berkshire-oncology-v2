@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The consultant focus strip — ten portraits sharing one band, the one under
@@ -34,9 +35,6 @@ export interface FocusConsultant {
   sites: string[];
 }
 
-/** The site's established gold — the pathway waves and tariffs field use it. */
-const GOLD = "#c8992f";
-
 /** The desktop portrait is sized from the same viewport-height range as its
  * strip, preserving the source image's natural 800:1700 proportion. The open
  * panel then reserves a further 29rem for the details and their padding. This
@@ -55,39 +53,39 @@ function Card({
 }) {
   return (
     <div className="w-full max-w-[320px]">
-      <h3 className="font-display text-2xl font-semibold leading-tight text-ink xl:text-[2rem]">
+      <h3 className="type-card-title text-ink">
         {c.name}
       </h3>
-      <p className="mt-1.5 text-[15px] text-ink-muted">{c.shortRole}</p>
-      <div aria-hidden className="mt-3.5 h-px w-10" style={{ backgroundColor: GOLD }} />
+      <p className="type-body mt-1.5 text-ink-muted">{c.shortRole}</p>
+      <div aria-hidden className="mt-3.5 h-px w-10 bg-gold" />
 
       <dl className="mt-4 divide-y divide-ink/10 border-t border-ink/10">
         {c.cancerTypes.length > 0 && (
           <div className="py-2.5">
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+            <dt className="type-label text-ink">
               Cancer types
             </dt>
-            <dd className="mt-1 break-words text-sm leading-snug text-ink-muted">
+            <dd className="type-supporting mt-1 break-words leading-snug text-ink-muted">
               {c.cancerTypes.join(" · ")}
             </dd>
           </div>
         )}
         {c.treatments.length > 0 && (
           <div className="py-2.5">
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+            <dt className="type-label text-ink">
               Treatments
             </dt>
-            <dd className="mt-1 break-words text-sm leading-snug text-ink-muted">
+            <dd className="type-supporting mt-1 break-words leading-snug text-ink-muted">
               {c.treatments.join(" · ")}
             </dd>
           </div>
         )}
         {c.sites.length > 0 && (
           <div className="py-2.5">
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+            <dt className="type-label text-ink">
               Locations
             </dt>
-            <dd className="mt-1 break-words text-sm leading-snug text-ink-muted">
+            <dd className="type-supporting mt-1 break-words leading-snug text-ink-muted">
               {c.sites.join(" · ")}
             </dd>
           </div>
@@ -98,14 +96,14 @@ function Card({
         <Link
           href={`/consultants/${c.slug}`}
           tabIndex={interactive ? undefined : -1}
-          className="inline-flex max-w-full items-center justify-center rounded-full border border-ink/20 bg-white/70 px-4 py-1.5 text-center text-sm font-medium leading-tight text-ink transition-colors hover:border-ink/45 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
+          className="type-button inline-flex max-w-full items-center justify-center rounded-full border border-ink/20 bg-white/70 px-4 py-1.5 text-center leading-tight text-ink transition-colors hover:border-ink/45 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
         >
           Read full profile
         </Link>
         <Link
           href="/contact#consultation"
           tabIndex={interactive ? undefined : -1}
-          className="ink-cta group/cta inline-flex max-w-full items-center justify-center gap-2 rounded-full px-4 py-1.5 text-center text-sm font-medium leading-tight"
+          className="ink-cta type-button group/cta inline-flex max-w-full items-center justify-center gap-2 rounded-full px-4 py-1.5 text-center leading-tight"
         >
           Arrange a consultation
           <span
@@ -128,6 +126,7 @@ export default function ConsultantFocusStrip({
   const [active, setActive] = useState(3);
   const [desktopReady, setDesktopReady] = useState(3);
   const [mobileOpen, setMobileOpen] = useState<number | null>(null);
+  const reducedMotion = useReducedMotion();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tabletTabs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -243,7 +242,7 @@ export default function ConsultantFocusStrip({
                   onClick={() => setActive(i)}
                   tabIndex={-1}
                   aria-hidden="true"
-                  className={`absolute inset-0 h-full w-full focus-visible:shadow-[inset_0_0_0_3px_#c8992f] ${
+                  className={`absolute inset-0 h-full w-full focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-gold ${
                     open ? "pointer-events-none" : ""
                   }`}
                 />
@@ -276,21 +275,21 @@ export default function ConsultantFocusStrip({
                 }}
               >
                 <span
-                  className="text-[11px] tabular-nums tracking-[0.14em]"
-                  style={{ color: open ? GOLD : "#5a6884" }}
+                  className={`type-label tabular-nums ${
+                    open ? "text-gold" : "text-ink-muted"
+                  }`}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
-                  className={`mx-auto block overflow-hidden whitespace-nowrap text-[13px] text-ink transition-opacity duration-300 ${
+                  className={`type-supporting mx-auto block overflow-hidden whitespace-nowrap text-ink transition-opacity duration-300 ${
                     open ? "opacity-100" : "h-0 opacity-0"
                   }`}
                 >
                   {c.name}
                   <span
                     aria-hidden
-                    className="mx-auto mt-1 block h-px w-16"
-                    style={{ backgroundColor: GOLD }}
+                    className="mx-auto mt-1 block h-px w-16 bg-gold"
                   />
                 </span>
               </button>
@@ -349,7 +348,7 @@ export default function ConsultantFocusStrip({
                   }}
                   className={`group flex min-w-0 items-center gap-2 border px-2 py-2 text-left transition-colors ${
                     selectedTab
-                      ? "border-[#c8992f]/55 bg-white text-ink"
+                      ? "border-gold/55 bg-white text-ink"
                       : "border-transparent bg-canvas-soft text-ink-muted hover:border-ink/15 hover:bg-white"
                   }`}
                 >
@@ -363,7 +362,7 @@ export default function ConsultantFocusStrip({
                     />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-[10px] tabular-nums tracking-[0.12em] text-ink-muted">
+                    <span className="type-label block tabular-nums text-ink-muted">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="block whitespace-nowrap text-[clamp(0.625rem,1.1vw,0.875rem)] font-medium text-current">
@@ -382,22 +381,24 @@ export default function ConsultantFocusStrip({
             className="mt-3 grid min-h-[460px] overflow-hidden border-y border-ink/10 bg-canvas-soft md:grid-cols-[minmax(220px,0.88fr)_minmax(0,1.12fr)]"
           >
             <div className="relative min-h-[460px] overflow-hidden bg-white">
-              {consultants.map((c, i) => {
-                const visible = i === active;
-                return (
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={selected.photoTall}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.3 }}
+                >
                   <Image
-                    key={c.photoTall}
-                    src={c.photoTall}
-                    alt={visible ? `${c.name}, ${c.shortRole}` : ""}
-                    aria-hidden={!visible}
+                    src={selected.photoTall}
+                    alt={`${selected.name}, ${selected.shortRole}`}
                     fill
                     sizes="45vw"
-                    className={`object-cover transition-opacity duration-300 motion-reduce:transition-none ${
-                      visible ? "opacity-100" : "opacity-0"
-                    }`}
+                    className="object-cover"
                   />
-                );
-              })}
+                </motion.div>
+              </AnimatePresence>
             </div>
             <div className="flex min-w-0 items-center p-6 lg:p-9">
               <Card c={selected} />
@@ -433,10 +434,10 @@ export default function ConsultantFocusStrip({
                   />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-lg font-semibold leading-tight text-ink">
+                  <span className="type-compact-title block text-ink">
                     {c.name}
                   </span>
-                  <span className="mt-0.5 block text-sm text-ink-muted">
+                  <span className="type-supporting mt-0.5 block text-ink-muted">
                     {c.shortRole}
                   </span>
                 </span>
@@ -459,13 +460,26 @@ export default function ConsultantFocusStrip({
               >
                 <div className="min-h-0 overflow-hidden">
                   <div className="relative aspect-[5/4] max-h-[360px] w-full">
-                    <Image
-                      src={c.photo}
-                      alt={`${c.name}, ${c.shortRole}`}
-                      fill
-                      sizes="100vw"
-                      className="object-cover object-[50%_22%]"
-                    />
+                    <AnimatePresence initial={false}>
+                      {open ? (
+                        <motion.div
+                          key={`${c.slug}-mobile-portrait`}
+                          className="absolute inset-0"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: reducedMotion ? 0 : 0.3 }}
+                        >
+                          <Image
+                            src={c.photo}
+                            alt={`${c.name}, ${c.shortRole}`}
+                            fill
+                            sizes="100vw"
+                            className="object-cover object-[50%_22%]"
+                          />
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
                   </div>
                   <div className="p-5">
                     <Card c={c} interactive={open} />

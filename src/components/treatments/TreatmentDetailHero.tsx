@@ -51,9 +51,9 @@ function GuidePanel({
     <nav
       aria-label="On this page"
       style={style}
-      className={`flex flex-col rounded-[2rem] border border-ink/[0.09] bg-[#fbfaf7]/[0.985] px-6 py-5 shadow-[0_24px_60px_-34px_rgba(6,28,70,0.38)] lg:px-5 lg:py-4 xl:px-8 xl:py-5 ${className}`}
+      className={`flex flex-col rounded-[2rem] border border-ink/[0.09] bg-paper/[0.985] px-6 py-5 shadow-[0_24px_60px_-34px_rgba(6,28,70,0.38)] lg:px-5 lg:py-4 xl:px-8 xl:py-5 ${className}`}
     >
-      <h2 className="font-display text-[1.45rem] font-semibold leading-tight tracking-[-0.035em] text-ink lg:text-xl xl:text-[1.75rem] 2xl:text-[2rem]">
+      <h2 className="type-card-title text-ink lg:text-xl xl:text-[1.75rem] 2xl:text-[2rem]">
         On this page
       </h2>
 
@@ -65,14 +65,14 @@ function GuidePanel({
               className="group grid h-full min-h-[46px] grid-cols-[1fr_auto] items-center gap-4 py-1 lg:min-h-[42px] xl:min-h-[50px] xl:py-1.5"
             >
               <span>
-                <span className="block font-display text-base font-semibold leading-tight text-ink xl:text-[1.05rem]">
+                <span className="type-compact-title block text-ink">
                   {route.label}
                 </span>
-                <span className="mt-1 block text-[12px] leading-relaxed text-ink-muted lg:hidden xl:block xl:text-[13px]">
+                <span className="type-supporting mt-1 block text-ink-muted lg:hidden xl:block">
                   {route.description}
                 </span>
               </span>
-              <span className="text-ink-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#617f70]">
+              <span className="text-ink-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-sage">
                 <Arrow />
               </span>
             </Link>
@@ -82,7 +82,7 @@ function GuidePanel({
 
       <Link
         href="#care-team"
-        className="group mt-1 flex items-center justify-center gap-3 border-t border-ink/10 pt-4 text-center text-sm font-medium text-[#617f70] lg:pt-2 lg:text-xs xl:pt-4 xl:text-sm"
+        className="type-button group mt-1 flex items-center justify-center gap-3 border-t border-ink/10 pt-4 text-center text-sage lg:pt-2 lg:text-xs xl:pt-4 xl:text-sm"
       >
         Consultants and treatment locations
         <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -106,7 +106,7 @@ function HeroImage({
         src={presentation.hero.src}
         alt={presentation.hero.alt}
         fill
-        priority
+        fetchPriority="high"
         sizes={
           mobile
             ? "100vw"
@@ -115,7 +115,7 @@ function HeroImage({
         style={{ objectPosition: presentation.hero.objectPosition ?? "center" }}
         className="object-cover"
       />
-      <span className="absolute bottom-3 right-3 rounded-full bg-[#fbfaf7]/90 px-3 py-1 text-[11px] font-medium text-ink-muted backdrop-blur-sm">
+      <span className="absolute bottom-3 right-3 rounded-full bg-paper/90 px-3 py-1 text-xs font-medium text-ink-muted backdrop-blur-sm">
         Illustrative image
       </span>
     </>
@@ -131,11 +131,15 @@ export default function TreatmentDetailHero({
 }) {
   return (
     <header className="mesh-bg noise relative flex flex-col pt-28 lg:h-[100svh] lg:min-h-[700px] lg:pt-24">
-      <div className="relative z-10 flex min-h-0 flex-1 items-center px-6 py-8 sm:px-8 lg:px-[4vw] lg:py-4 xl:px-[6vw]">
+      <div className="site-gutter relative z-10 flex min-h-0 flex-1 items-center py-8 lg:py-4">
         <div className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.2fr)] lg:gap-3 xl:grid-cols-[minmax(21rem,0.84fr)_minmax(0,1.16fr)] xl:gap-5 2xl:gap-8">
           <div className="relative z-30 text-left lg:-translate-y-3 lg:pb-7">
-            <h1 className="heading-lg max-w-[13ch]">{therapy.title}</h1>
-            <p className="body-lg mt-6 max-w-[32rem]">{therapy.summary}</p>
+            <h1 className="type-page-hero max-w-[13ch] text-ink">
+              {therapy.title}
+            </h1>
+            <p className="type-hero-lede mt-6 max-w-[32rem] text-ink-muted">
+              {therapy.summary}
+            </p>
             <div className="mt-8 flex flex-wrap items-center justify-start gap-5">
               <Button href="/contact#guidance" variant="sage">
                 Contact the practice
@@ -143,7 +147,7 @@ export default function TreatmentDetailHero({
               <span aria-hidden className="hidden h-10 w-px bg-ink/15 sm:block" />
               <a
                 href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
-                className="inline-flex min-h-11 items-center text-base font-medium text-[#617f70]"
+                className="type-body inline-flex min-h-11 items-center font-medium text-sage"
               >
                 {site.contact.phone}
               </a>
@@ -154,7 +158,7 @@ export default function TreatmentDetailHero({
             <div className="relative aspect-[800/704] w-full min-w-0 max-w-[800px]">
               <div
                 aria-hidden
-                className="absolute left-[1.2%] top-[4%] z-0 h-[79.5%] w-[39%] rounded-[2.75rem] bg-[#cfddd7]"
+                className="absolute left-[1.2%] top-[4%] z-0 h-[79.5%] w-[39%] rounded-[2.75rem] bg-sage-panel"
               />
 
               <div className="absolute left-[17.5%] top-[8.8%] z-10 h-[66.2%] w-[82.5%] overflow-hidden rounded-[2.5rem] border border-white/70 bg-canvas-soft">
@@ -173,7 +177,7 @@ export default function TreatmentDetailHero({
           </div>
 
           <div className="relative mx-auto mt-2 w-full max-w-xl pb-6 lg:hidden">
-            <div aria-hidden className="absolute -left-3 -top-4 h-52 w-44 rounded-[2rem] bg-[#cfddd7]" />
+            <div aria-hidden className="absolute -left-3 -top-4 h-52 w-44 rounded-[2rem] bg-sage-panel" />
             <div className="relative aspect-[3/2] overflow-hidden rounded-[2rem]">
               <HeroImage presentation={presentation} mobile />
             </div>

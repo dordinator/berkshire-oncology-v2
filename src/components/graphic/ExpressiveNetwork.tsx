@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { palette } from "@/lib/designTokens";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Expressive mode: a visible flowing network.
@@ -71,9 +72,9 @@ export default function ExpressiveNetwork({
       >
         <defs>
           <radialGradient id="en-focus" cx="50%" cy="50%">
-            <stop offset="0%" stopColor="#1a4d8f" stopOpacity="0.22" />
-            <stop offset="60%" stopColor="#1a4d8f" stopOpacity="0.07" />
-            <stop offset="100%" stopColor="#1a4d8f" stopOpacity="0" />
+            <stop offset="0%" stopColor={palette.accent} stopOpacity="0.22" />
+            <stop offset="60%" stopColor={palette.accent} stopOpacity="0.07" />
+            <stop offset="100%" stopColor={palette.accent} stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -85,7 +86,7 @@ export default function ExpressiveNetwork({
             <path
               key={i}
               d={p.d}
-              stroke={p.gold ? "#c9a35a" : "#1a4d8f"}
+              stroke={p.gold ? palette.gold : palette.accent}
               strokeOpacity={p.opacity}
               strokeWidth={p.width}
             />
@@ -99,7 +100,7 @@ export default function ExpressiveNetwork({
               <path
                 key={`f-${i}`}
                 d={p.d}
-                stroke={p.gold ? "#d9b878" : "#3f6fb0"}
+                stroke={p.gold ? palette.goldSoft : palette.accentSoft}
                 strokeOpacity={Math.min(0.5, p.opacity + 0.2)}
                 strokeWidth={p.width + 0.35}
                 pathLength={1}
@@ -113,7 +114,7 @@ export default function ExpressiveNetwork({
           )}
         </g>
 
-        <circle cx={FOCUS.x} cy={FOCUS.y} r="4.5" fill="#061c46" fillOpacity="0.5" />
+        <circle cx={FOCUS.x} cy={FOCUS.y} r="4.5" fill={palette.ink} fillOpacity="0.5" />
       </svg>
     </div>
   );

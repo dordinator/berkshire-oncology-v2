@@ -26,7 +26,7 @@ type Variant =
 // difference being it arrives at once rather than wiping across, which reads as
 // "landed here" rather than "pointer passing over".
 const base =
-  "group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300";
+  "type-button group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 transition-colors duration-300";
 
 // Blue-fill hover states use the button's own two-pixel border. Keeping the
 // border transparent in the resting state prevents movement when its active
@@ -41,7 +41,7 @@ const variants: Record<Variant, string> = {
   onPhotoGhost:
     "border border-white/45 text-white hover:border-white/80",
   // The cancer-types sheet's pill: deep sage, AA against white numerals.
-  sage: "bg-[#5c7767] text-white",
+  sage: "bg-sage text-white",
 };
 
 /** The colour that wipes in behind the label on hover. */
@@ -51,7 +51,7 @@ const fills: Record<Variant, string> = {
   light: "bg-canvas-soft",
   onPhoto: "bg-accent",
   onPhotoGhost: "bg-white/15",
-  sage: "bg-[#4d6659]",
+  sage: "bg-sage-deep",
 };
 
 export default function Button({

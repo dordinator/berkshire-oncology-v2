@@ -6,7 +6,6 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FooterContactCta from "@/components/site/FooterContactCta";
-import PageLoader from "@/components/PageLoader";
 import MotionProvider from "@/components/MotionProvider";
 import CopyReviewEditor from "@/components/site/CopyReviewEditor";
 import HomepageReturnState from "@/components/site/HomepageReturnState";
@@ -82,7 +81,6 @@ export default function RootLayout({
           Skip to content
         </a>
         <MotionProvider>
-          <PageLoader />
           <SmoothScroll />
           <HomepageReturnState />
           <Navbar />

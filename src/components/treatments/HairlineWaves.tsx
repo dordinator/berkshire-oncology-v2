@@ -69,7 +69,7 @@ function marker(t: number, offset: number, key: string, delay: number) {
       <path
         d="M-3.5 -3.5 L 0.5 0 L -3.5 3.5"
         fill="none"
-        stroke="#1a4d8f"
+        stroke="var(--brand-blue)"
         strokeWidth="1.1"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -133,7 +133,7 @@ export default function HairlineWaves({
               key={i}
               d={strandPath(s.offset)}
               fill="none"
-              stroke="#1a4d8f"
+              stroke="var(--brand-blue)"
               strokeWidth={s.width}
               strokeLinecap="round"
               opacity={Math.max(0.06, s.opacity)}
@@ -147,7 +147,7 @@ export default function HairlineWaves({
           <path
             d={strandPath(SPREAD * 0.22)}
             fill="none"
-            stroke="#c8992f"
+            stroke="var(--brand-gold)"
             strokeWidth="0.8"
             strokeLinecap="round"
             opacity="0.28"

@@ -91,8 +91,9 @@ export default function PatientsPage() {
           the panel's scrubbed travel to this section. */}
       <section
         id="practical-information"
+        data-anchor-align="viewport"
         data-drift-band
-        className="scroll-mt-24 overflow-clip bg-[#e7edf1] py-24 md:py-32"
+        className="scroll-mt-24 overflow-clip bg-section-cool pb-24 pt-28 md:py-32"
       >
         <div className="container-wide">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
@@ -103,7 +104,7 @@ export default function PatientsPage() {
                 aria-hidden
                 data-fx="drift"
                 data-drift="0.5"
-                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-[#f3dca2]"
+                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-gold-panel"
               />
 
               <div
@@ -127,7 +128,7 @@ export default function PatientsPage() {
 
               <div
                 data-fx="rise"
-                className="absolute bottom-4 right-0 w-[92%] rounded-[2.25rem] border border-ink/10 bg-[#fbfaf5] p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:bottom-5 sm:p-5 lg:w-[88%]"
+                className="absolute bottom-4 right-0 w-[92%] rounded-[2.25rem] border border-ink/10 bg-paper p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:bottom-5 sm:p-5 lg:w-[88%]"
               >
                 <div className="flex items-center border-b border-ink/10 px-3 pb-4">
                   <p className="font-display text-xl">What would help right now?</p>
@@ -138,12 +139,12 @@ export default function PatientsPage() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="group flex items-center gap-4 px-3 py-4 text-[15px] text-ink transition-colors hover:text-accent"
+                      className="type-body group flex items-center gap-4 px-3 py-4 text-ink transition-colors hover:text-accent"
                     >
                       <span
                         aria-hidden
                         className={`h-3 w-3 flex-none rounded-full ${
-                          index === 0 ? "bg-[#8ca49a]" : "border border-ink/20"
+                          index === 0 ? "bg-sage-soft" : "border border-ink/20"
                         }`}
                       />
                       <span className="min-w-0 flex-1">{item.title}</span>
@@ -161,12 +162,12 @@ export default function PatientsPage() {
 
             <div className="order-1 lg:order-2">
               <Reveal>
-                <h2 className="max-w-xl font-display text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.97] tracking-[-0.055em] text-ink">
+                <h2 className="type-feature-title max-w-xl text-ink">
                   Find the practical information you need.
                 </h2>
               </Reveal>
               <Reveal delay={1}>
-                <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
+                <p className="type-hero-lede mt-7 max-w-md text-ink-muted">
                   Prepare for your first appointment, read answers to common
                   questions or find support during treatment and beyond.
                 </p>
@@ -178,16 +179,17 @@ export default function PatientsPage() {
 
       <section
         id="first-appointment"
-        className="scroll-mt-24 bg-[#f0ece2] py-24 md:py-32"
+        data-anchor-align="viewport"
+        className="scroll-mt-24 bg-section-warm pb-24 pt-28 md:py-32"
       >
         <div className="container-wide">
           <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-24">
             <Reveal>
               <div>
-                <h2 className="max-w-xl font-display text-[clamp(3rem,5.3vw,5.7rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+                <h2 className="type-feature-title max-w-xl text-ink">
                   How to prepare for your first appointment.
                 </h2>
-                <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">
+                <p className="type-hero-lede mt-7 max-w-lg text-ink-muted">
                   Bring the information you already have and the questions you
                   want to ask. You can also bring someone you trust.
                 </p>
@@ -198,10 +200,10 @@ export default function PatientsPage() {
               {appointmentPoints.map((item, index) => (
                 <Reveal key={item.title} delay={index % 2}>
                   <article className="grid gap-3 border-b border-ink/20 py-8 sm:grid-cols-[0.8fr_1.2fr] sm:gap-8 md:py-10">
-                    <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
+                    <h3 className="type-card-title text-ink">
                       {item.title}
                     </h3>
-                    <p className="text-[15px] leading-relaxed text-ink-muted">
+                    <p className="type-body text-ink-muted">
                       {item.body}
                     </p>
                   </article>
@@ -209,12 +211,12 @@ export default function PatientsPage() {
               ))}
               <p className="pt-7 text-sm leading-relaxed text-ink-muted">
                 If you need step-free access, nearby parking or an interpreter,
-                tell the practice team when you book. Read our{" "}
+                tell the practice team when you book. You can also{" "}
                 <Link
-                  href="/locations/parking-and-accessibility"
+                  href="/locations"
                   className="font-medium text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
                 >
-                  parking and accessibility information
+                  view the locations you may be asked to attend
                 </Link>
                 .
               </p>
@@ -225,8 +227,9 @@ export default function PatientsPage() {
 
       <section
         id="faqs"
+        data-anchor-align="viewport"
         aria-labelledby="patients-faq-heading"
-        className="flex min-h-svh scroll-mt-24 items-center bg-white py-24 md:py-28"
+        className="flex min-h-svh scroll-mt-24 items-center bg-white pb-24 pt-28 md:py-28"
       >
         <div className="container-wide">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-20 xl:gap-28">
@@ -234,11 +237,11 @@ export default function PatientsPage() {
               <div className="text-center">
                 <h2
                   id="patients-faq-heading"
-                  className="mx-auto max-w-[11ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                  className="type-feature-title mx-auto max-w-[11ch] text-ink"
                 >
                   The things people ask us most often.
                 </h2>
-                <p className="mx-auto mt-7 max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-[17px]">
+                <p className="type-section-lede mx-auto mt-7 max-w-md text-ink/75">
                   If your question is not here, the practice team would rather
                   you asked than guessed.
                 </p>
@@ -253,7 +256,7 @@ export default function PatientsPage() {
                   className="group border-b border-ink/[0.09] last:border-b-0"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden sm:py-6">
-                    <h3 className="max-w-2xl font-display text-[17px] font-semibold leading-snug text-ink transition-colors group-hover:text-accent sm:text-xl">
+                    <h3 className="type-compact-title max-w-2xl text-ink transition-colors group-hover:text-accent">
                       {faq.q}
                     </h3>
                     <span
@@ -264,7 +267,7 @@ export default function PatientsPage() {
                     </span>
                   </summary>
                   <div className="max-w-2xl pb-6 pr-12">
-                    <p className="text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
+                    <p className="type-supporting text-ink-muted">
                       {faq.a}
                     </p>
                     {faq.link && (

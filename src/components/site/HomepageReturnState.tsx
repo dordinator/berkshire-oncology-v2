@@ -110,7 +110,7 @@ function viewportKind(): ViewportKind {
 }
 
 function normaliseText(element: HTMLElement): string {
-  return element.innerText.replace(/\s+/g, " ").trim();
+  return (element.textContent ?? "").replace(/\s+/g, " ").trim();
 }
 
 function referenceFor(element: Element | null): ElementReference | null {

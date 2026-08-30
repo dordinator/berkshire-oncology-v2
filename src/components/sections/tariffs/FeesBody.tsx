@@ -45,11 +45,11 @@ import { useCenterGap } from "./useCenterGap";
 
 // The constant ground — the SAME ivory the hero sits on, so there is no
 // visible seam where the hero ends and the body begins.
-const OFFWHITE = "#f7f5f1";
-const PANEL = "#dfe9f5"; // the kept pale-blue surface (hero strip's family)
-const SAGE_BLOCK = "#c8d6cf"; // patients' signature sage backdrop block
-const SAGE_NODE = "#8ca49a"; // patients mid sage — node fill
-const SAGE_DOT = "#769187"; // patients deep sage — bullet dots
+const OFFWHITE = "var(--surface-paper-soft)";
+const PANEL = "var(--brand-blue-mist)";
+const SAGE_BLOCK = "var(--brand-sage-panel)";
+const SAGE_NODE = "var(--brand-sage-soft)";
+const SAGE_DOT = "var(--brand-sage-mid)";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -62,9 +62,9 @@ const LOCK = "top 78%";
 /* Heading tiers. Splits carry the column statement tier; the two
    full-bleed moments keep their own cuts, and the navy close crescendos. */
 const H_SPLIT =
-  "font-display text-[clamp(2.25rem,4.1vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink";
+  "type-feature-title text-ink";
 const H_CLOSE =
-  "font-display text-[clamp(3.2rem,5.9vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-white";
+  "type-editorial-hero text-white";
 
 /* The band split: text one side, composition the other. The flipped
    variant mirrors the TRACKS as well as the order — grid auto-placement
@@ -75,7 +75,7 @@ const SPLIT =
 const SPLIT_FLIP =
   "grid items-center gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-20";
 
-const SUPPORT = "mt-7 max-w-lg text-lg leading-relaxed text-ink-muted";
+const SUPPORT = "type-hero-lede mt-7 max-w-lg text-ink-muted";
 
 /** The site's inline text CTA: label + chevron that slides 4px on hover. */
 function ArrowLink({
@@ -173,7 +173,7 @@ function RowPanel({
           right ? "right-0" : "left-0"
         }`}
       >
-        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink-muted">
+        <p className="type-label text-ink-muted">
           {label}
         </p>
         <div className="mt-3 divide-y divide-ink/10">
@@ -248,7 +248,7 @@ function Pathway() {
             <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
               {s.title}
             </h3>
-            <p className="mt-3 max-w-[38ch] text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-3 max-w-[38ch] text-ink-muted">
               {s.body}
             </p>
           </li>
@@ -320,7 +320,7 @@ const FAQS = [
   },
 ];
 
-/* The two shortfall topics that expand inside the mint section. Same approved
+/* The two shortfall topics that expand inside the sage section. Same approved
    wording the FAQ list used to carry. */
 const BAND_ROWS = [
   {
@@ -442,7 +442,7 @@ function Faqs() {
                     transition={{ duration: 0.4, ease: EASE }}
                     className="overflow-hidden"
                   >
-                    <p className="max-w-2xl pb-6 text-[15px] leading-relaxed text-ink-muted md:text-base">
+                    <p className="type-body max-w-2xl pb-6 text-ink-muted">
                       {f.a}
                     </p>
                   </motion.div>
@@ -487,8 +487,8 @@ export default function FeesBody() {
       {/* pb-12 keeps the rows card inside this band's overflow-clip during
           its 55px entrance rise; §2's top padding gives the difference back
           so the §1→§2 gap stays on rhythm. */}
-      <div id="tailored" data-drift-band className="scroll-mt-24 overflow-clip">
-        <div className={`container-wide pb-12 pt-24 md:pt-32 ${SPLIT}`}>
+      <div id="tailored" data-anchor-align="viewport" data-drift-band className="scroll-mt-24 overflow-clip">
+        <div className={`container-wide pb-12 pt-28 md:pt-32 ${SPLIT}`}>
           <div>
             <h2 className={H_SPLIT}>
               Consultants set their own tariffs.
@@ -514,8 +514,8 @@ export default function FeesBody() {
       </div>
 
       {/* ── 2 · Funding routes — text | rising cards ── */}
-      <div id="funding" data-drift-band className="scroll-mt-24 overflow-clip">
-        <div className={`container-wide pb-24 pt-12 md:pb-32 md:pt-20 ${SPLIT}`}>
+      <div id="funding" data-anchor-align="viewport" data-drift-band className="scroll-mt-24 overflow-clip">
+        <div className={`container-wide pb-24 pt-28 md:pb-32 md:pt-32 ${SPLIT}`}>
           <div>
             <h2 className={H_SPLIT}>
               You can self-fund treatment or use private medical insurance.
@@ -532,15 +532,15 @@ export default function FeesBody() {
               data-lock={LOCK}
               id="self-funding"
               className="scroll-mt-24 rounded-[2rem] p-8 md:p-10"
-              style={{ backgroundColor: "#dce6e1" }}
+              style={{ backgroundColor: "var(--brand-sage-mist)" }}
             >
-              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/70">
+              <p className="type-label text-ink/70">
                 Self-funding
               </p>
               <h3 className="mt-5 font-display text-2xl font-semibold leading-tight tracking-tight text-ink">
                 Paying for your own treatment
               </h3>
-              <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/75 md:text-base">
+              <p className="type-body mt-3 max-w-md text-ink/75">
                 Each self-funding package is tailored to individual needs. You
                 will receive a comprehensive tariff before treatment starts.
               </p>
@@ -554,15 +554,15 @@ export default function FeesBody() {
               data-lock={LOCK}
               id="insurance"
               className="scroll-mt-24 rounded-[2rem] p-8 md:p-10"
-              style={{ backgroundColor: "#e6edf3" }}
+              style={{ backgroundColor: "var(--brand-blue-mist)" }}
             >
-              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/70">
+              <p className="type-label text-ink/70">
                 Insured
               </p>
               <h3 className="mt-5 font-display text-2xl font-semibold leading-tight tracking-tight text-ink">
                 Private medical insurance
               </h3>
-              <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/75 md:text-base">
+              <p className="type-body mt-3 max-w-md text-ink/75">
                 Insurance providers have their own fee schedules, and policy
                 benefits vary. Obtain a quote before treatment to check
                 whether the cost is covered in full.
@@ -593,8 +593,8 @@ export default function FeesBody() {
       </div>
 
       {/* ── 4 · Estimates — blue composition | text (sides flipped) ── */}
-      <div id="estimates" data-drift-band className="scroll-mt-24 overflow-clip">
-        <div className={`container-wide pb-24 md:pb-32 ${SPLIT_FLIP}`}>
+      <div id="estimates" data-anchor-align="viewport" data-drift-band className="scroll-mt-24 overflow-clip">
+        <div className={`container-wide pb-24 pt-28 md:pb-32 md:pt-32 ${SPLIT_FLIP}`}>
           <div className="lg:order-2">
             <h2 className={H_SPLIT}>
               Quotes are estimates and may change.
@@ -621,22 +621,22 @@ export default function FeesBody() {
         </div>
       </div>
 
-      {/* ── 5 · Insurance shortfalls — full-width mint background ── */}
-      <section id="shortfalls" className="scroll-mt-24 bg-mint">
-        <div className="container-wide py-20 md:py-28">
+      {/* ── 5 · Insurance shortfalls — full-width sage background ── */}
+      <section id="shortfalls" data-anchor-align="viewport" className="scroll-mt-24 bg-sage-mist">
+        <div className="container-wide pb-20 pt-28 md:py-28">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14 xl:gap-20">
             <div className="flex flex-col items-start text-left">
-              <h2 className="max-w-[13ch] font-display text-[clamp(2.5rem,4.15vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
+              <h2 className="type-feature-title max-w-[13ch] text-ink">
                 If your insurer does not pay in full, you are responsible for
                 the balance.
               </h2>
-              <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted md:text-xl">
+              <p className="type-hero-lede mt-7 max-w-md text-ink-muted">
                 Check what your policy covers before treatment begins.
               </p>
             </div>
 
             <div className="rounded-[2rem] border border-ink/10 bg-white/90 p-6 shadow-[0_30px_80px_-45px_rgba(6,28,70,0.3)] sm:p-8 md:p-10 lg:p-12">
-              <p className="max-w-xl text-lg leading-relaxed text-ink/70 md:text-xl">
+              <p className="type-hero-lede max-w-xl text-ink/70">
                 Contact the practice for tariff details, then ask your insurer
                 whether the cost will be covered in full before treatment
                 starts.
@@ -657,9 +657,9 @@ export default function FeesBody() {
 
       {/* ── 6 · FAQs — text | white panel of questions. items-start so an
              opening answer doesn't re-seat the statement. ── */}
-      <div id="faqs" className="scroll-mt-24">
+      <div id="faqs" data-anchor-align="viewport" className="scroll-mt-24">
         <div
-          className={`container-wide py-24 md:py-32 ${SPLIT.replace(
+          className={`container-wide pb-24 pt-28 md:py-32 ${SPLIT.replace(
             "items-center",
             "items-start"
           )}`}
@@ -694,7 +694,7 @@ export default function FeesBody() {
             className="absolute inset-y-0 left-1/2 w-screen"
             style={{
               marginLeft: "-50vw",
-              backgroundColor: "#061c46",
+              backgroundColor: "var(--brand-ink)",
               clipPath: sheetClip,
             }}
           />

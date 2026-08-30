@@ -68,7 +68,7 @@ export default function MedicalOncologistsPage() {
             <h2 className="font-display text-xl text-ink md:text-2xl">
               Looking for a clinical oncologist?
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-3 max-w-xl text-ink-muted">
               A consultant clinical oncologist treats cancer with radiotherapy as
               well as with drug treatments. If you are not sure which you need,
               browsing by cancer type is usually the quickest route.

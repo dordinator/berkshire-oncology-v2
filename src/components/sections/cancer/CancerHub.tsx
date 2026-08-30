@@ -62,10 +62,10 @@ function GroupCard({ group }: { group: HubGroup }) {
           </span>
         )}
         <div className="min-w-0 flex-1">
-          <h3 className="font-display text-[21px] leading-tight text-ink md:text-[22px]">
+          <h3 className="type-compact-title leading-tight text-ink">
             {group.label}
           </h3>
-          <p className="mt-1 text-[13px] text-ink-muted">
+          <p className="type-supporting mt-1 text-ink-muted">
             {consultantLine(group)}
           </p>
         </div>
@@ -79,7 +79,7 @@ function GroupCard({ group }: { group: HubGroup }) {
         )}
       </div>
 
-      <p className="mt-4 text-[14.5px] leading-relaxed text-ink/75">
+      <p className="type-supporting mt-4 text-ink/75">
         {group.blurb}
       </p>
 
@@ -88,7 +88,7 @@ function GroupCard({ group }: { group: HubGroup }) {
           bottom of the card so the line sits on a shared baseline across a row
           however long the description above it runs. */}
       {group.consultants.length > 0 && (
-        <p className="mt-auto pt-6 text-[13px] leading-relaxed text-ink-muted">
+        <p className="type-supporting mt-auto pt-6 text-ink-muted">
           <span className="text-ink/55">Treated by </span>
           {group.consultants.map((c) => surname(c.name)).join(" · ")}
         </p>
@@ -118,7 +118,7 @@ function GroupCard({ group }: { group: HubGroup }) {
           <li key={e.slug}>
             <Link
               href={`/specialities/${e.slug}`}
-              className="inline-flex min-h-[40px] items-center rounded-full border border-ink/12 px-4 text-[13.5px] text-ink transition-colors hover:border-accent/45 hover:bg-accent/[0.05] hover:text-accent"
+              className="type-button inline-flex min-h-[40px] items-center rounded-full border border-ink/12 px-4 text-ink transition-colors hover:border-accent/45 hover:bg-accent/[0.05] hover:text-accent"
             >
               {e.title}
             </Link>
@@ -151,7 +151,7 @@ export default function CancerHub({
             <span className="eyebrow">
               <span className="h-px w-8 bg-ink-muted" /> How care is joined up
             </span>
-            <p className="mt-4 text-[15px] leading-relaxed text-ink/80 md:text-base">
+            <p className="type-body mt-4 text-ink/80">
               Every cancer type on this page connects to the consultants who
               treat it, the treatments they provide, and the places those
               treatments happen. Radiotherapy only happens at two of our
@@ -187,7 +187,7 @@ export default function CancerHub({
                 role="tab"
                 aria-selected={view === key}
                 onClick={() => setView(key)}
-                className={`rounded-full px-4 py-1.5 text-[13px] font-medium transition-colors ${
+                className={`type-button rounded-full px-4 py-1.5 transition-colors ${
                   view === key
                     ? "bg-ink text-white"
                     : "text-ink-muted hover:bg-black/[0.04] hover:text-ink"
@@ -216,7 +216,7 @@ export default function CancerHub({
               <h3 className="font-display text-lg text-ink md:text-xl">
                 Not treated by the partnership
               </h3>
-              <p className="mt-2 max-w-2xl text-[14.5px] leading-relaxed text-ink/75">
+              <p className="type-supporting mt-2 max-w-2xl text-ink/75">
                 We list this so nobody is left guessing. If you need care for it,
                 the practice can point you towards a centre that provides it.
               </p>

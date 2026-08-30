@@ -279,7 +279,7 @@ export default function SearchBar({
         <div
           data-lenis-prevent
           data-home-return-overlay-scroll="search-results"
-          className="max-h-[calc(100vh-9rem)] w-full overflow-y-auto overscroll-contain rounded-b-[2.25rem] border border-t-0 border-black/[0.06] bg-white/95 px-4 pb-5 pt-3 shadow-[0_28px_80px_-24px_rgba(6,28,70,0.28)] backdrop-blur-xl sm:px-6"
+          className="max-h-[calc(100svh_-_9rem)] w-full overflow-y-auto overscroll-contain rounded-b-[2.25rem] border border-t-0 border-black/[0.06] bg-white/95 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 shadow-[0_28px_80px_-24px_rgba(6,28,70,0.28)] backdrop-blur-xl sm:px-6"
         >
           <div className="mx-auto w-full max-w-3xl">
             {flat.length === 0 ? (

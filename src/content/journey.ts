@@ -45,8 +45,10 @@ function hospitalStop(
   },
 ): JourneyStop {
   const loc = getLocation(slug);
-  if (!loc?.description) {
-    throw new Error(`locations.ts is missing ${slug} or its description`);
+  if (!loc?.description || !loc.url) {
+    throw new Error(
+      `locations.ts is missing ${slug}, its description or its public URL`,
+    );
   }
   return {
     eyebrow: opts.eyebrow,
@@ -57,8 +59,9 @@ function hospitalStop(
     nhs: loc.nhs,
     description: loc.description,
     address: loc.address,
-    href: `/locations/${loc.slug}`,
-    linkLabel: "About this site",
+    href: loc.url,
+    linkLabel: "Visit the hospital website",
+    external: true,
     spanM: opts.spanM,
     ...geoOf(opts.hospitalName, opts.hospitalLocation),
   };

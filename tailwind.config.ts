@@ -5,7 +5,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand navy — #061c46 at the core, with lighter blues for accents/tints.
+        // Canonical brand palette. Public-facing components should use these
+        // names instead of one-off hex values so every route draws from the
+        // same navy/blue, sage and gold families.
         ink: {
           DEFAULT: "#061c46",
           soft: "#123056",
@@ -14,17 +16,37 @@ const config: Config = {
         canvas: {
           DEFAULT: "#fafbfc",
           soft: "#eef2f7",
-          warm: "#f5f7fa",
+          warm: "#f8f8f4",
         },
         accent: {
           DEFAULT: "#1a4d8f",
           soft: "#3f6fb0",
           glow: "#9fb9dc",
+          mist: "color-mix(in srgb, #1a4d8f 12%, white)",
         },
-        // Soft cool tints used for the mesh/gradient stops (kept names for reuse).
-        lilac: "#aec6e6",
-        peach: "#cbdcee",
-        mint: "#cfe1e6",
+        sage: {
+          DEFAULT: "#5c7767",
+          deep: "color-mix(in srgb, #5c7767 82%, #061c46)",
+          mid: "color-mix(in srgb, #5c7767 82%, white)",
+          soft: "color-mix(in srgb, #5c7767 68%, white)",
+          panel: "color-mix(in srgb, #5c7767 32%, white)",
+          mist: "color-mix(in srgb, #5c7767 18%, white)",
+          wash: "color-mix(in srgb, #5c7767 10%, white)",
+        },
+        gold: {
+          DEFAULT: "#c8992f",
+          ink: "#8a6516",
+          soft: "#e3bd6a",
+          panel: "#f3dca2",
+        },
+        paper: {
+          DEFAULT: "#fbfaf5",
+          soft: "#f8f8f4",
+        },
+        section: {
+          warm: "#f0ece2",
+          cool: "#e7edf1",
+        },
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

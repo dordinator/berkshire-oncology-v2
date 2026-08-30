@@ -252,7 +252,7 @@ const TypeCard = memo(function TypeCard({
           <div className="mt-3 flex gap-4">
             {card.consultants.map((c) => (
               <div key={c.slug} className="w-[76px]">
-                <span className="relative block h-[76px] w-[76px] overflow-hidden rounded-2xl bg-gradient-to-br from-accent/10 to-lilac/20">
+                <span className="relative block h-[76px] w-[76px] overflow-hidden rounded-2xl bg-gradient-to-br from-accent/10 to-accent-glow/20">
                   {c.photo ? (
                     // object-top: the portraits are head-and-shoulders
                     // frames; a centred square crop cuts foreheads off.
@@ -1118,7 +1118,7 @@ export default function TypesJourney({ cards }: { cards: TypeCardData[] }) {
             ref={stripRef}
             data-lenis-prevent-horizontal
             aria-label="Cancer types"
-            className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="site-gutter-bleed flex snap-x snap-mandatory gap-6 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {cards.map((card, k) => (
               <button

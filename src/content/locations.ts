@@ -1,29 +1,10 @@
 import { hospitals } from "./hospitals";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// The hospitals and centres the partnership practises from, as their own pages.
-//
-// `services` is deliberately left empty. The brief asks each location page to
-// state whether the site is used for consultations, chemotherapy, radiotherapy,
-// imaging or follow-up — but that is operational detail only the practice can
-// confirm, and getting it wrong would send a patient to the wrong building. The
-// scaffold shows the question; the practice supplies the answer.
+// The hospitals and centres shown in the authored /locations journey.
+// Descriptions and links describe the operator's site, not an unverified claim
+// about which Berkshire Oncology services happen in each building.
 // ─────────────────────────────────────────────────────────────────────────────
-
-export type LocationService =
-  | "Consultations"
-  | "Chemotherapy"
-  | "Radiotherapy"
-  | "Imaging and diagnostics"
-  | "Follow-up appointments";
-
-export const allLocationServices: LocationService[] = [
-  "Consultations",
-  "Chemotherapy",
-  "Radiotherapy",
-  "Imaging and diagnostics",
-  "Follow-up appointments",
-];
 
 export interface Location {
   slug: string;
@@ -43,8 +24,6 @@ export interface Location {
   description?: string;
   /** The operator's own published address for the site. */
   address?: string;
-  /** Confirmed by the practice — empty until then. */
-  services: LocationService[];
   /** Whether this is an NHS site rather than a private one. */
   nhs?: boolean;
 }
@@ -75,7 +54,6 @@ export const locations: Location[] = [
     description:
       "A private hospital on Bath Road run by Spire Healthcare, offering MRI scans, a one-stop breast clinic and cancer investigation and treatment services.",
     address: "16 Bath Road, Reading RG1 6NS",
-    services: [],
   },
   {
     slug: "princess-margaret-windsor",
@@ -86,7 +64,6 @@ export const locations: Location[] = [
     description:
       "A private hospital in central Windsor run by Circle Health Group, with consulting rooms, inpatient beds, diagnostic imaging and an oncology centre.",
     address: "Osborne Road, Windsor SL4 3SJ",
-    services: [],
   },
   {
     slug: "genesiscare-windsor",
@@ -97,7 +74,6 @@ export const locations: Location[] = [
     description:
       "A private outpatient cancer centre on Alma Road run by GenesisCare, offering radiotherapy, chemotherapy and diagnostic scans, including PET-CT and MRI.",
     address: "69 Alma Road, Windsor SL4 3HD",
-    services: [],
   },
   {
     slug: "genesiscare-oxford",
@@ -110,7 +86,6 @@ export const locations: Location[] = [
     description:
       "A private outpatient cancer centre south of Oxford run by GenesisCare, offering radiotherapy, including MRI-guided treatment using an MR Linac, as well as chemotherapy and diagnostic services.",
     address: "Peters Way, Sandy Lane West, Oxford OX4 6LB",
-    services: [],
   },
   {
     slug: "royal-berkshire-hospital",
@@ -121,7 +96,6 @@ export const locations: Location[] = [
     description:
       "Royal Berkshire NHS Foundation Trust's main acute hospital. The Berkshire Cancer Centre is based at the hospital and provides NHS cancer diagnosis and treatment services.",
     address: "Craven Road, Reading RG1 5LE",
-    services: [],
     nhs: true,
   },
 ];
@@ -132,7 +106,7 @@ export function getLocation(slug: string): Location | undefined {
   return locationBySlug.get(slug);
 }
 
-/** Sanity check that every hospital in hospitals.ts has a location page. */
+/** Sanity check that every hospital in hospitals.ts appears in the journey. */
 export function unmappedHospitals(): string[] {
   return hospitals
     .filter((h) => !locations.some((l) => l.name.startsWith(h.name)))

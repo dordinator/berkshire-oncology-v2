@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "./ui/Button";
@@ -14,6 +14,17 @@ import {
   type HomeReturnUiEventDetail,
 } from "./site/HomepageReturnState";
 
+const PRIMARY_ROUTES = [
+  "/patients",
+  "/specialities",
+  "/treatments",
+  "/consultants",
+  "/locations",
+  "/tariffs",
+  "/resources",
+  "/contact",
+] as const;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // The floating navbar pill. It owns three pieces of state — whether the page
 // has scrolled, whether the drawer is open and whether search is open — and
@@ -24,6 +35,7 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Navbar() {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -49,12 +61,72 @@ export default function Navbar() {
     pathname === "/specialities" ||
     pathname.startsWith("/consultants/") ||
     pathname === "/treatments" ||
-    pathname === "/chemotherapy-demo" ||
     pathname === "/resources" ||
     pathname === "/links" ||
     ["/privacy", "/website-privacy", "/cookies", "/terms", "/accessibility"].includes(
       pathname,
     );
+
+  // The desktop links are naturally prefetched when they enter the viewport,
+  // but the same destinations live behind a drawer on phones. Warm the eight
+  // primary routes only after the current page has loaded and the browser is
+  // idle, so a first tap feels just as immediate on mobile without competing
+  // with the hero image or using data on constrained connections.
+  useEffect(() => {
+    const connection = (
+      navigator as Navigator & {
+        connection?: { effectiveType?: string; saveData?: boolean };
+      }
+    ).connection;
+    if (
+      connection?.saveData ||
+      connection?.effectiveType === "slow-2g" ||
+      connection?.effectiveType === "2g"
+    ) {
+      return;
+    }
+
+    let cancelled = false;
+    let idleId: number | null = null;
+    let fallbackId: ReturnType<typeof setTimeout> | null = null;
+    const routeTimers: ReturnType<typeof setTimeout>[] = [];
+    const idleWindow = window as unknown as {
+      requestIdleCallback?: (
+        callback: IdleRequestCallback,
+        options?: IdleRequestOptions,
+      ) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    const warmRoutes = () => {
+      PRIMARY_ROUTES.forEach((route, index) => {
+        routeTimers.push(
+          globalThis.setTimeout(() => {
+            if (!cancelled) router.prefetch(route);
+          }, index * 140),
+        );
+      });
+    };
+
+    const schedule = () => {
+      if (idleWindow.requestIdleCallback) {
+        idleId = idleWindow.requestIdleCallback(warmRoutes, { timeout: 2500 });
+      } else {
+        fallbackId = globalThis.setTimeout(warmRoutes, 500);
+      }
+    };
+
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", schedule);
+      if (idleId !== null) idleWindow.cancelIdleCallback?.(idleId);
+      if (fallbackId !== null) globalThis.clearTimeout(fallbackId);
+      routeTimers.forEach(globalThis.clearTimeout);
+    };
+  }, [router]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -159,6 +231,7 @@ export default function Navbar() {
   return (
     <>
       <motion.header
+        data-site-header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}

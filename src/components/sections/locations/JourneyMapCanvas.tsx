@@ -1,17 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { MotionValue } from "framer-motion";
-import {
-  ukOutline,
-  counties,
-  rivers,
-  roadsMajor,
-  roadsLocal,
-  railways,
-  sitePolys,
-} from "@/content/mapPaths.generated";
 import { mapLabels } from "@/content/mapLabels";
+import { palette } from "@/lib/designTokens";
 import {
   BOX,
   ROAD_STYLE,
@@ -53,14 +45,14 @@ export type { MapStop };
 // pixels, immune to the camera — carry an explicit dpr.
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** The accent, as a literal: canvas has no currentColor to inherit. */
-const ACCENT = "#1a4d8f";
-const INK = "#061c46";
-const INK_MUTED = "#5a6884";
+/** Canvas has no currentColor to inherit, so it uses the shared JS palette. */
+const ACCENT = palette.accent;
+const INK = palette.ink;
+const INK_MUTED = palette.inkMuted;
 /** fill-accent/70 on the river names. */
 const RIVER_INK = "rgba(26, 77, 143, 0.7)";
 /** The canvas colour, painted behind the type as a halo (paint-order: stroke). */
-const HALO = "#fafbfc";
+const HALO = palette.canvas;
 
 /** Below this a layer is skipped rather than painted — the level-of-detail win.
  *  At 1/100th of an opacity a hairline is already invisible against #fafbfc. */
@@ -85,6 +77,8 @@ interface MapPaths {
   pinDot: Path2D;
 }
 
+type MapPathSource = typeof import("@/content/mapPaths.generated");
+
 /** Every path string in the generated data, merged down to one Path2D per
  *  class — seventeen objects for ~3,700 paths.
  *
@@ -92,7 +86,7 @@ interface MapPaths {
  *  whole layer once, so two county lines crossing at 0.14 stay 0.14; separate
  *  canvas strokes would blend and darken the crossing. One stroke() of one
  *  merged path behaves as the group did. */
-function buildPaths(): MapPaths {
+function buildPaths(source: MapPathSource): MapPaths {
   const merge = (ds: string[]) => {
     const merged = new Path2D();
     for (const d of ds) merged.addPath(new Path2D(d));
@@ -103,18 +97,23 @@ function buildPaths(): MapPaths {
   pinDot.arc(0, -19, 4, 0, Math.PI * 2);
 
   return {
-    outline: merge(ukOutline),
-    counties: merge(counties.map((c) => c.d)),
-    rivers: merge(rivers.map((r) => r.d)),
-    railways: merge(railways),
-    roadsLocal: merge(roadsLocal),
+    outline: merge(source.ukOutline),
+    counties: merge(source.counties.map((c) => c.d)),
+    rivers: merge(source.rivers.map((r) => r.d)),
+    railways: merge(source.railways),
+    roadsLocal: merge(source.roadsLocal),
     // Grouped by class rather than left in data order, since each class carries
     // its own weight and strength and wants a single stroke.
     roadsMajor: (Object.keys(ROAD_STYLE) as RoadClass[]).map((cls) => ({
       cls,
-      path: merge(roadsMajor.filter((r) => r.cls === cls).map((r) => r.d)),
+      path: merge(
+        source.roadsMajor.filter((r) => r.cls === cls).map((r) => r.d),
+      ),
     })),
-    sites: sitePolys.map((p) => ({ slug: p.slug, path: new Path2D(p.d) })),
+    sites: source.sitePolys.map((p) => ({
+      slug: p.slug,
+      path: new Path2D(p.d),
+    })),
     pin: new Path2D(PIN_D),
     pinDot,
   };
@@ -214,9 +213,9 @@ function drawPins(
     ctx.fill(paths.pin);
     ctx.lineJoin = "round";
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "#ffffff";
+    ctx.strokeStyle = palette.white;
     ctx.stroke(paths.pin);
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = palette.white;
     ctx.fill(paths.pinDot);
     ctx.restore();
   }
@@ -246,18 +245,61 @@ export default function JourneyMapCanvas({
   // costs a redraw and not a new subscription.
   const activeRef = useRef(active);
   const rafRef = useRef<number | null>(null);
+  const [paths, setPaths] = useState<MapPaths | null>(null);
 
   const frames = useMemo(() => buildFrames(stops), [stops]);
   const pins = useMemo(
     () => stops.map((s) => ({ ...s, ...project(s.lat, s.lng) })),
     [stops],
   );
-  // Path2D is a browser type and this component is prerendered on the server,
-  // so the parse has to be guarded rather than merely memoised.
-  const paths = useMemo(
-    () => (typeof Path2D === "undefined" ? null : buildPaths()),
-    [],
-  );
+  // The generated map geometry is the site's largest JavaScript asset. It is
+  // visual enhancement rather than page content, so load and parse it only
+  // after the route has painted. This keeps first-time visits to locations,
+  // cancer types and consultant profiles from waiting on ~3,700 path strings.
+  useEffect(() => {
+    let cancelled = false;
+    let idleId: number | null = null;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+    let observer: IntersectionObserver | null = null;
+
+    const loadPaths = () => {
+      void import("@/content/mapPaths.generated").then((source) => {
+        if (cancelled || typeof Path2D === "undefined") return;
+
+        const prepare = () => {
+          if (!cancelled) setPaths(buildPaths(source));
+        };
+
+        if ("requestIdleCallback" in window) {
+          idleId = window.requestIdleCallback(prepare, { timeout: 1200 });
+        } else {
+          timerId = globalThis.setTimeout(prepare, 0);
+        }
+      });
+    };
+
+    const canvas = canvasRef.current;
+    if (canvas && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          observer?.disconnect();
+          loadPaths();
+        },
+        { rootMargin: "320px" },
+      );
+      observer.observe(canvas);
+    } else {
+      loadPaths();
+    }
+
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+      if (idleId !== null) window.cancelIdleCallback(idleId);
+      if (timerId !== null) window.clearTimeout(timerId);
+    };
+  }, []);
 
   const draw = useCallback(() => {
     const ctx = ctxRef.current;

@@ -62,12 +62,9 @@ export default function CancerCards({
           rather than living inside this box. */}
       <ChapterTint colour={CHAPTER_SAGE} />
 
-      {/* Its own container rather than `container-wide`: a wider maximum and a
-          tighter right-hand padding pull the card column roughly a third closer
-          to the edge of the page, which is where the reference sits it. The
-          left padding is unchanged so the text still lines up with the sections
-          above and below. */}
-      <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10">
+      {/* The chapter stays full bleed, while its text and first card share the
+          same horizontal axis as every other page section. */}
+      <div className="site-gutter w-full py-24 md:py-32">
         {/* Proportions taken from the HCA reference: the text column is a
             little over a third, the cards a little under two thirds, with a
             wide gutter between them rather than the tight one a normal grid
@@ -82,7 +79,7 @@ export default function CancerCards({
               by layout keeps every pixel of the column within the band, and it
               no longer depends on the column's height, so adding or removing a
               line below the text cannot knock it off centre. */}
-          <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center">
+          <div className="home-sticky-intro">
             <div>{intro}</div>
           </div>
 
@@ -114,12 +111,10 @@ export default function CancerCards({
             // sideways gestures to the strip and leaves vertical ones to the
             // page, which is right at every width.
             data-lenis-prevent-horizontal
-            // scroll-pl-6, not just px-6. `snap-start` aligns a card to the
-            // scrollport edge, which sits inside the padding — so on load the
-            // browser scrolled the left padding away and the first card sat
-            // flush against the screen. scroll-padding moves the snap line in
-            // to match.
-            className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0"
+            // The bleed utility also sets scroll padding. `snap-start` aligns
+            // a card to the scrollport edge, so without that the browser would
+            // scroll the visual page gutter away on load.
+            className="site-gutter-bleed flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-7 md:overflow-visible md:px-0 md:pb-0 md:scroll-pl-0"
           >
             {columns.map((col, i) => (
               // The first column is placed on the *right* and the second drops
@@ -173,7 +168,7 @@ export default function CancerCards({
                             card title is nearly as large as a section heading,
                             with a generous inset so it never crowds the edge. */}
                         <span className="absolute inset-0 flex flex-col items-center justify-center gap-3.5 p-7 text-center md:p-8">
-                          <span className="block font-display text-2xl leading-[1.15] text-white md:text-[1.75rem] lg:text-[2rem]">
+                          <span className="type-card-title block text-white">
                             {c.label}
                           </span>
                           <span className="inline-block border-b border-white/60 pb-1 text-[14px] text-white transition-colors group-hover:border-white">

@@ -14,7 +14,7 @@ import { site } from "@/content/site";
 // as every other solid navy CTA. The icon stays fixed because it identifies the
 // action; there is no trailing directional arrow to move.
 const base =
-  "inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-[15px] font-medium transition-colors duration-200 sm:w-auto";
+  "type-button inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 transition-colors duration-200 sm:w-auto";
 
 export default function ContactActions({
   className = "",

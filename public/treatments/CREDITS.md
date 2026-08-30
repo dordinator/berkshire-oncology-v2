@@ -7,7 +7,7 @@ added later must be added here at the same time.
 
 | File | Page | Source | Licence | Attribution required |
 |---|---|---|---|---|
-| `chemotherapy-consultation.png` | `/treatments/chemotherapy` | AI-generated illustrative project asset | Project asset (AI-generated) | No external attribution. Keep the image and alt text described as illustrative; it is not a photograph of a Berkshire Oncology consultant, patient or location. |
+| `chemotherapy-consultation.webp` | `/treatments/chemotherapy` | AI-generated illustrative project asset | Project asset (AI-generated) | No external attribution. Keep the image and alt text described as illustrative; it is not a photograph of a Berkshire Oncology consultant, patient or location. |
 | `heroes/immunotherapy.jpg` | `/treatments/immunotherapy` | AI-generated illustrative project asset | Project asset (AI-generated) | No external attribution. Keep the image and alt text described as illustrative; it is not a photograph of a Berkshire Oncology consultant, patient or location. |
 | `heroes/targeted-therapies.jpg` | `/treatments/targeted-therapies` | AI-generated illustrative project asset | Project asset (AI-generated) | No external attribution. Keep the image and alt text described as illustrative; it is not a photograph of a Berkshire Oncology consultant, patient or location. |
 | `heroes/hormone-therapy.jpg` | `/treatments/hormone-therapy` | AI-generated illustrative project asset | Project asset (AI-generated) | No external attribution. Keep the image and alt text described as illustrative; it is not a photograph of a Berkshire Oncology consultant, patient or location. |

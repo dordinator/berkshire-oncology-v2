@@ -91,17 +91,17 @@ export default function PathwayDiagram({
           >
             <Node index={i} total={stops.length} />
 
-            <p className="font-display text-[17px] leading-snug text-ink">
+            <p className="type-compact-title text-ink">
               {stop.stage}
             </p>
-            <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-muted">
+            <p className="type-supporting mt-1.5 text-ink-muted">
               {stop.body}
             </p>
 
             {stop.link && (
               <Link
                 href={stop.link.href}
-                className="group mt-3 inline-flex min-h-[32px] items-center gap-1.5 rounded-full border border-black/[0.07] bg-white/70 px-3 text-[12.5px] font-medium text-ink/80 transition-colors hover:border-accent/35 hover:bg-accent/[0.05] hover:text-accent"
+                className="type-button group mt-3 inline-flex min-h-[32px] items-center gap-1.5 rounded-full border border-black/[0.07] bg-white/70 px-3 text-ink/80 transition-colors hover:border-accent/35 hover:bg-accent/[0.05] hover:text-accent"
               >
                 {stop.link.label}
                 <span

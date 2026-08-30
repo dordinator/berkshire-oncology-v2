@@ -342,7 +342,7 @@ function TreatmentPanel({
             {previewFaces.map((c) => (
               <span
                 key={c.slug}
-                className="relative block h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-accent/10 to-lilac/20"
+                className="relative block h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-accent/10 to-accent-glow/20"
               >
                 {c.photo ? (
                   <Image
@@ -371,7 +371,7 @@ function TreatmentPanel({
                   href={`/consultants/${c.slug}`}
                   className="group/consultant flex items-center gap-3 rounded-xl focus-visible:bg-ink/[0.04]"
                 >
-                  <span className="relative block h-11 w-11 flex-none overflow-hidden rounded-full bg-gradient-to-br from-accent/10 to-lilac/20">
+                  <span className="relative block h-11 w-11 flex-none overflow-hidden rounded-full bg-gradient-to-br from-accent/10 to-accent-glow/20">
                     {c.photo ? (
                       <Image
                         src={c.photo}
@@ -1027,7 +1027,7 @@ export default function TreatmentsExplorer({
           ref={stripRef}
           data-lenis-prevent-horizontal
           aria-label="Treatments"
-          className="-mx-6 mt-7 flex snap-x snap-mandatory scroll-pl-6 gap-5 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="site-gutter-bleed mt-7 flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[...items].map((item) => (
             <button

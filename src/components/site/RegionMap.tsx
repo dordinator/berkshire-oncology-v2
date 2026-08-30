@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { hospitals } from "@/content/hospitals";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -49,6 +52,30 @@ function project(lat: number, lng: number, z: number) {
 }
 
 export default function RegionMap({ className = "" }: { className?: string }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setReady(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setReady(true);
+        observer.disconnect();
+      },
+      { rootMargin: "320px" },
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
   const points = hospitals
     .filter((h) => h.geo)
     .map((h) => ({ name: h.name, ...h.geo! }));
@@ -94,8 +121,12 @@ export default function RegionMap({ className = "" }: { className?: string }) {
   }
 
   return (
-    <div className={`relative ${className}`}>
-      <svg
+    <div
+      ref={rootRef}
+      className={`relative overflow-hidden bg-accent-mist ${className}`}
+    >
+      {ready ? (
+        <svg
         viewBox={`0 0 ${W} ${H}`}
         preserveAspectRatio="xMidYMid slice"
         className="h-full w-full"
@@ -103,42 +134,50 @@ export default function RegionMap({ className = "" }: { className?: string }) {
         aria-label={`Map of Berkshire and Oxfordshire showing ${projected
           .map((p) => p.name)
           .join(", ")}`}
-      >
-        {tiles.map((t) => (
-          <image
-            key={t.key}
-            href={t.href}
-            x={t.x}
-            y={t.y}
-            width={TILE}
-            height={TILE}
-          />
-        ))}
+        >
+          {tiles.map((t) => (
+            <image
+              key={t.key}
+              href={t.href}
+              x={t.x}
+              y={t.y}
+              width={TILE}
+              height={TILE}
+            />
+          ))}
 
-        {projected.map((p) => {
-          const x = Math.round((p.x - originX) * 10) / 10;
-          const y = Math.round((p.y - originY) * 10) / 10;
-          return (
-            <g key={`${p.name}-${p.lat}`} transform={`translate(${x} ${y})`}>
-              {/* Drawn rather than an emoji or an image so it inherits the
-                  site's ink colour and stays crisp at any scale. */}
-              <path
-                d="M0 2 C -7 -8, -11 -13, -11 -19 a 11 11 0 1 1 22 0 c 0 6, -4 11, -11 21 Z"
-                fill="#0b1f3a"
-                stroke="#ffffff"
-                strokeWidth={2}
-                strokeLinejoin="round"
-              />
-              <circle cx={0} cy={-19} r={4} fill="#ffffff" />
-            </g>
-          );
-        })}
-      </svg>
+          {projected.map((p) => {
+            const x = Math.round((p.x - originX) * 10) / 10;
+            const y = Math.round((p.y - originY) * 10) / 10;
+            return (
+              <g key={`${p.name}-${p.lat}`} transform={`translate(${x} ${y})`}>
+                {/* Drawn rather than an emoji or an image so it inherits the
+                    site's ink colour and stays crisp at any scale. */}
+                <path
+                  d="M0 2 C -7 -8, -11 -13, -11 -19 a 11 11 0 1 1 22 0 c 0 6, -4 11, -11 21 Z"
+                  fill="var(--brand-ink)"
+                  stroke="#ffffff"
+                  strokeWidth={2}
+                  strokeLinejoin="round"
+                />
+                <circle cx={0} cy={-19} r={4} fill="#ffffff" />
+              </g>
+            );
+          })}
+        </svg>
+      ) : (
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(circle_at_72%_58%,rgba(26,77,143,0.12),transparent_24%)]"
+        />
+      )}
 
       {/* Required by the tile licence. Do not remove. */}
-      <p className="pointer-events-none absolute bottom-1 right-2 text-[10px] text-ink/45">
-        © OpenStreetMap contributors
-      </p>
+      {ready && (
+        <p className="pointer-events-none absolute bottom-1 right-2 text-[10px] text-ink/45">
+          © OpenStreetMap contributors
+        </p>
+      )}
     </div>
   );
 }

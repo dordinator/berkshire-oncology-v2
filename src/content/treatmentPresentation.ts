@@ -10,7 +10,7 @@ export interface TreatmentPresentation {
 const treatmentPresentation: Record<string, TreatmentPresentation> = {
   chemotherapy: {
     hero: {
-      src: "/treatments/chemotherapy-consultation.png",
+      src: "/treatments/chemotherapy-consultation.webp",
       alt: "A consultant and patient speaking in a consultation room.",
       objectPosition: "20% center",
     },

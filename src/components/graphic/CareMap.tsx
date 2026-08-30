@@ -1,5 +1,7 @@
 "use client";
 
+import { palette } from "@/lib/designTokens";
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Integrated mode: a branching map that carries real information —
 //   this cancer type → the consultants who treat it → the treatments they list
@@ -134,14 +136,14 @@ export default function CareMap({
 
         <defs>
           <linearGradient id="cm-link" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#1a4d8f" stopOpacity="0.1" />
-            <stop offset="50%" stopColor="#1a4d8f" stopOpacity="0.42" />
-            <stop offset="100%" stopColor="#1a4d8f" stopOpacity="0.2" />
+            <stop offset="0%" stopColor={palette.accent} stopOpacity="0.1" />
+            <stop offset="50%" stopColor={palette.accent} stopOpacity="0.42" />
+            <stop offset="100%" stopColor={palette.accent} stopOpacity="0.2" />
           </linearGradient>
           <linearGradient id="cm-link-accent" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#a9791a" stopOpacity="0.1" />
-            <stop offset="55%" stopColor="#c9a35a" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#a9791a" stopOpacity="0.3" />
+            <stop offset="0%" stopColor={palette.gold} stopOpacity="0.1" />
+            <stop offset="55%" stopColor={palette.gold} stopOpacity="0.55" />
+            <stop offset="100%" stopColor={palette.gold} stopOpacity="0.3" />
           </linearGradient>
         </defs>
 
@@ -161,7 +163,7 @@ export default function CareMap({
         ))}
         <path
           d={`M34 48 H1166`}
-          stroke="#061c46"
+          stroke={palette.ink}
           strokeOpacity="0.07"
           strokeWidth="1"
         />
@@ -191,7 +193,7 @@ export default function CareMap({
                   r={isRoot ? DOT + 1.5 : DOT}
                   className={
                     node.accent
-                      ? "fill-[#c9a35a]"
+                      ? "fill-gold"
                       : isRoot
                         ? "fill-ink"
                         : "fill-accent"
@@ -228,7 +230,7 @@ export default function CareMap({
         <ol className="relative space-y-6 pl-7">
           <span
             aria-hidden
-            className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-ink/25 via-accent/25 to-[#c9a35a]/40"
+            className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-ink/25 via-accent/25 to-gold/40"
           />
           {[
             { title: "Cancer type", items: [{ id: "c", label: cancer }] },
@@ -241,16 +243,16 @@ export default function CareMap({
                 aria-hidden
                 className="absolute -left-[27px] top-[7px] h-[9px] w-[9px] rounded-full border-2 border-white bg-accent"
               />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-ink-muted">
+              <span className="type-label text-ink-muted">
                 {stage.title}
               </span>
               <ul className="mt-2 flex flex-wrap gap-1.5">
                 {stage.items.map((item) => (
                   <li
                     key={item.id}
-                    className={`rounded-full border px-3 py-1.5 text-[13px] ${
+                    className={`type-supporting rounded-full border px-3 py-1.5 ${
                       item.accent
-                        ? "border-[#c9a35a]/45 bg-[#c9a35a]/[0.08] text-ink"
+                        ? "border-gold/45 bg-gold/[0.08] text-ink"
                         : "border-black/[0.07] bg-white text-ink/85"
                     }`}
                   >

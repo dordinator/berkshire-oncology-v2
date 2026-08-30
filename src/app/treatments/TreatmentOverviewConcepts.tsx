@@ -11,7 +11,9 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import ChapterTint from "@/components/sections/home/ChapterTint";
+import ChapterTint, {
+  CHAPTER_SAGE,
+} from "@/components/sections/home/ChapterTint";
 
 interface TreatmentItem {
   slug: string;
@@ -70,14 +72,14 @@ function FamilyCardContent({
   isMedicine: boolean;
 }) {
   const linkClass =
-    "group mt-auto w-fit items-center gap-4 pt-5 text-sm font-medium text-ink underline decoration-ink/25 underline-offset-[7px] transition-colors hover:decoration-ink";
+    "type-button group mt-auto w-fit items-center gap-4 pt-5 text-ink underline decoration-ink/25 underline-offset-[7px] transition-colors hover:decoration-ink";
 
   return (
     <div className="flex h-full flex-col p-8 md:p-10 xl:p-11">
-      <h3 className="font-display text-[clamp(2rem,2.55vw,3rem)] font-semibold leading-none tracking-[-0.045em] text-ink">
+      <h3 className="type-section-title text-ink">
         {group.title}
       </h3>
-      <p className="mt-4 max-w-[38rem] text-[15px] leading-[1.65] text-ink-muted md:text-[16px]">
+      <p className="type-body mt-4 max-w-[38rem] text-ink-muted">
         {group.description}
       </p>
       {isMedicine ? (
@@ -144,13 +146,13 @@ function MedicineRows({
               className="group grid w-full grid-cols-[1.75rem_minmax(0,1fr)_1rem] items-center gap-3 py-5 text-left sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] sm:gap-4 md:grid-cols-[3.5rem_minmax(0,1fr)_auto] md:gap-6 md:py-6"
             >
               <span
-                className={`text-[12px] font-medium tracking-[0.08em] transition-colors duration-500 ${
-                  isActive ? "text-[#6e9388]" : "text-ink-muted"
+                className={`type-label transition-colors duration-500 ${
+                  isActive ? "text-sage" : "text-ink-muted"
                 }`}
               >
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="font-display text-[1.35rem] font-semibold leading-tight tracking-[-0.03em] text-ink transition-transform duration-500 group-hover:translate-x-1 sm:text-[1.55rem] md:text-[2rem]">
+              <span className="type-card-title text-ink transition-transform duration-500 group-hover:translate-x-1">
                 {treatment.title}
               </span>
               <Plus open={isActive} />
@@ -167,12 +169,12 @@ function MedicineRows({
                   className="overflow-hidden"
                 >
                   <div className="pb-7 pl-10 pr-0 sm:pl-[4.5rem] sm:pr-8 md:pb-8 md:pl-[5.5rem]">
-                    <p className="max-w-[38rem] text-[15px] leading-[1.7] text-ink-muted md:text-[16px]">
+                    <p className="type-body max-w-[38rem] text-ink-muted">
                       {treatment.summary}
                     </p>
                     <Link
                       href={`/treatments/${treatment.slug}`}
-                      className="group mt-5 inline-flex items-center gap-4 text-sm font-medium text-ink underline decoration-ink/25 underline-offset-[7px] hover:decoration-ink"
+                      className="type-button group mt-5 inline-flex items-center gap-4 text-ink underline decoration-ink/25 underline-offset-[7px] hover:decoration-ink"
                     >
                       Read about {treatment.title.toLowerCase()}
                       <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -191,10 +193,10 @@ function MedicineRows({
 function OverviewCopy() {
   return (
     <div>
-      <h2 className="max-w-[10ch] font-display text-[clamp(2.75rem,11vw,3.5rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink xl:text-[clamp(3.5rem,5vw,5.7rem)]">
+      <h2 className="type-feature-title max-w-[10ch] text-ink">
         Types of cancer treatment.
       </h2>
-      <p className="mt-8 max-w-[34rem] text-[17px] leading-[1.75] text-ink-muted md:text-[19px]">
+      <p className="type-section-lede mt-8 max-w-[34rem] text-ink-muted">
         Cancer medicines and radiotherapy work in different ways. Your
         consultant will discuss which treatment options apply to you.
       </p>
@@ -205,14 +207,14 @@ function OverviewCopy() {
 function MedicineCopy() {
   return (
     <div>
-      <h2 className="max-w-[10ch] font-display text-[clamp(2.75rem,10.5vw,3.35rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink xl:text-[clamp(3.35rem,4.7vw,5.35rem)]">
+      <h2 className="type-feature-title max-w-[10ch] text-ink">
         Medicines used to treat cancer.
       </h2>
-      <p className="mt-8 max-w-[34rem] text-[17px] leading-[1.75] text-ink-muted md:text-[18px]">
+      <p className="type-section-lede mt-8 max-w-[34rem] text-ink-muted">
         These include chemotherapy, immunotherapy, targeted therapies and
         hormone therapy.
       </p>
-      <p className="mt-7 max-w-[30rem] text-[15px] leading-[1.7] text-ink-muted">
+      <p className="type-body mt-7 max-w-[30rem] text-ink-muted">
         The medicine used depends on the cancer and the aim of treatment.
       </p>
     </div>
@@ -233,20 +235,21 @@ function MobileTreatmentOverview({
       <OverviewCopy />
 
       <div className="mt-12 grid gap-5 md:grid-cols-2 md:gap-6">
-        <article className="min-h-[285px] rounded-[2.5rem] bg-[#dfe9e4]">
+        <article className="min-h-[285px] rounded-[2.5rem] bg-sage-mist">
           <FamilyCardContent group={medicine} isMedicine />
         </article>
-        <article className="min-h-[285px] rounded-[2.5rem] bg-[#dfe9f5]">
+        <article className="min-h-[285px] rounded-[2.5rem] bg-accent-mist">
           <FamilyCardContent group={radiotherapy} isMedicine={false} />
         </article>
       </div>
 
       <div
         id="medicine-treatments-static"
+        data-anchor-fallback-id="medicine-treatments"
         className="grid scroll-mt-24 gap-10 pt-24 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:items-start lg:gap-12"
       >
         <MedicineCopy />
-        <div className="rounded-[2rem] bg-[#dfe9e4] px-5 py-6 sm:rounded-[2.5rem] md:px-9 md:py-9">
+        <div className="rounded-[2rem] bg-sage-mist px-5 py-6 sm:rounded-[2.5rem] md:px-9 md:py-9">
           <MedicineRows
             treatments={medicine.treatments}
             activeIndex={activeIndex}
@@ -341,10 +344,11 @@ export default function TreatmentOverviewConcepts({
     <section
       ref={sceneRef}
       id="treatment-index"
+      data-anchor-align="viewport"
       className="treatment-scroll-scene relative scroll-mt-24"
     >
       <ChapterTint
-        colour="#e7eeeb"
+        colour={CHAPTER_SAGE}
         triggerSelector="[data-treatment-tint-trigger]"
       />
       <div
@@ -360,6 +364,7 @@ export default function TreatmentOverviewConcepts({
       </div>
       <span
         id="medicine-treatments"
+        data-anchor-fallback-id="medicine-treatments-static"
         tabIndex={-1}
         className="treatment-desktop-anchor pointer-events-none absolute left-0 top-[20%] scroll-mt-24"
       >
@@ -408,7 +413,7 @@ export default function TreatmentOverviewConcepts({
                     left: reduce ? "0%" : panelLeft,
                     right: reduce ? "0%" : panelRight,
                   }}
-                  className="absolute top-0 overflow-hidden rounded-[2.5rem] bg-[#dfe9e4]"
+                  className="absolute top-0 overflow-hidden rounded-[2.5rem] bg-sage-mist"
                 >
                   <motion.div
                     style={{ opacity: reduce ? 1 : overviewPanelOpacity }}
@@ -461,7 +466,7 @@ export default function TreatmentOverviewConcepts({
                       ? ("" as unknown as boolean)
                       : undefined
                   }
-                  className={`absolute inset-x-0 bottom-0 top-[52%] overflow-hidden rounded-[2.5rem] bg-[#dfe9f5] ${
+                  className={`absolute inset-x-0 bottom-0 top-[52%] overflow-hidden rounded-[2.5rem] bg-accent-mist ${
                     medicineRowsActive
                       ? "pointer-events-none"
                       : "pointer-events-auto"

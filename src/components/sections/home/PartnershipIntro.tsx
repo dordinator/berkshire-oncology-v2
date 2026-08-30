@@ -42,7 +42,7 @@ function Row({
           <span className="absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-current transition-transform duration-300 group-open:scale-y-0 motion-reduce:transition-none" />
         </span>
       </summary>
-      <div className="px-6 pb-6 text-[15px] leading-relaxed text-ink/75">
+      <div className="type-body px-6 pb-6 text-ink/75">
         {children}
       </div>
     </details>
@@ -100,7 +100,7 @@ export default function PartnershipIntro() {
           <Reveal delay={2}>
             <p
               data-copy-key="partnership.body"
-              className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink/80 md:text-lg md:leading-relaxed"
+              className="type-section-lede mt-5 max-w-xl text-ink/80"
             >
               If you are unsure who to choose, our experienced practice team
               will ask about your diagnosis or referral and help you find the

@@ -217,10 +217,10 @@ function ProfileRow({
       className="group grid min-h-[86px] grid-cols-[1fr_auto] items-center gap-5 border-b border-ink/[0.12] py-4 text-ink transition-colors hover:text-accent focus-visible:text-accent md:min-h-[92px]"
     >
       <span>
-        <span className="block font-display text-[25px] font-medium leading-tight tracking-[-0.02em] md:text-[28px]">
+        <span className="type-card-title block">
           {title}
         </span>
-        <span className="mt-1 block text-[13px] leading-relaxed text-ink-muted md:text-sm">
+        <span className="type-supporting mt-1 block text-ink-muted">
           {items.join(" · ")}
         </span>
       </span>
@@ -234,10 +234,10 @@ function ProfileRow({
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex min-h-[86px] flex-col items-center justify-center gap-1.5 px-5 py-4 text-center text-ink md:min-h-[96px]">
-      <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+      <dt className="type-label text-ink-muted">
         {label}
       </dt>
-      <dd className="text-[13px] leading-snug md:text-sm">{value}</dd>
+      <dd className="type-supporting leading-snug">{value}</dd>
     </div>
   );
 }
@@ -253,14 +253,14 @@ function InformationDisclosure({
 }) {
   return (
     <details className="group border-b border-ink/[0.14]" open={defaultOpen}>
-      <summary className="flex min-h-[86px] cursor-pointer list-none items-center justify-between gap-6 py-6 font-display text-xl font-medium text-ink marker:content-none md:text-2xl">
+      <summary className="type-card-title flex min-h-[86px] cursor-pointer list-none items-center justify-between gap-6 py-6 text-ink marker:content-none">
         {title}
         <span className="relative h-5 w-5 flex-none" aria-hidden>
           <span className="absolute left-0 top-1/2 h-px w-5 -translate-y-1/2 bg-current" />
           <span className="absolute left-1/2 top-0 h-5 w-px -translate-x-1/2 bg-current transition-transform duration-300 group-open:rotate-90 group-open:opacity-0" />
         </span>
       </summary>
-      <div className="space-y-5 pb-9 text-[15px] leading-[1.78] text-ink-muted md:pr-14 md:text-base">
+      <div className="type-body space-y-5 pb-9 text-ink-muted md:pr-14">
         {paragraphs.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
@@ -289,12 +289,6 @@ export default function ConsultantProfile({
   const treatmentLabels = therapies.map((therapy) => therapy.title);
   const givenName = firstName(c.name);
   const name = consultantReference(c.name);
-  const nameScale =
-    c.name.length > 24
-      ? "lg:text-[46px] xl:text-[50px]"
-      : c.name.length > 18
-        ? "lg:text-[50px] xl:text-[56px] xl:whitespace-nowrap"
-        : "lg:text-[60px] xl:text-[68px] xl:whitespace-nowrap";
   const intro =
     profileCopy?.intro ??
     `${name} treats ${formatList(cancerLabels.slice(0, 3).map((label) => label.toLowerCase()))}, with experience across ${formatList(
@@ -378,7 +372,7 @@ export default function ConsultantProfile({
 
   return (
     <article
-      className="bg-[#f8f5ef]"
+      className="bg-paper-soft"
       data-consultant-profile
       data-section-spacing="balanced"
     >
@@ -399,7 +393,7 @@ export default function ConsultantProfile({
       <section className="pb-0 pt-28 md:pt-32 lg:pt-[8.5rem]">
         <div className="container-wide">
           <div className="grid gap-8 lg:grid-cols-[0.44fr_0.56fr] lg:gap-12 xl:gap-14">
-            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] bg-[#dbe3e8] sm:min-h-[560px] lg:min-h-[650px]">
+            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] bg-section-cool sm:min-h-[560px] lg:min-h-[650px]">
               {c.photo ? (
                 <Image
                   src={c.photo}
@@ -418,15 +412,13 @@ export default function ConsultantProfile({
 
             <div className="flex min-w-0 flex-col py-1 lg:py-6 xl:py-8">
               <div>
-                <h1
-                  className={`font-display text-[44px] font-normal leading-[0.98] tracking-[-0.045em] text-ink sm:text-5xl ${nameScale}`}
-                >
+                <h1 className="type-page-hero max-w-[14ch] text-ink">
                   {c.name}
                 </h1>
-                <p className="mt-4 font-display text-xl font-medium text-ink sm:text-2xl">
+                <p className="type-card-title mt-4 text-ink">
                   {c.role}
                 </p>
-                <p className="mt-4 max-w-[640px] text-[15px] leading-[1.65] text-ink/80 sm:text-base">
+                <p className="type-body mt-4 max-w-[640px] text-ink/80">
                   {intro}
                 </p>
                 <Button
@@ -462,12 +454,12 @@ export default function ConsultantProfile({
 
         {facts.length > 0 && (
           <div className="container-wide mt-8 md:mt-10">
-            <dl className="grid overflow-hidden rounded-[24px] border border-ink/[0.06] bg-[#e7eeea] divide-y divide-ink/[0.12] shadow-[0_18px_45px_-42px_rgba(6,28,70,0.28)] md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-4">
+            <dl className="grid divide-y divide-ink/[0.12] overflow-hidden rounded-[24px] border border-ink/[0.06] bg-sage-mist shadow-[0_18px_45px_-42px_rgba(6,28,70,0.28)] md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-4">
               {facts.map((fact) => (
                 <Fact key={fact.label} label={fact.label} value={fact.value} />
               ))}
             </dl>
-            <p className="mt-3 text-center text-[11px] leading-relaxed text-ink-muted">
+            <p className="type-supporting mt-3 text-center text-ink-muted">
               Berkshire profile sources checked 30 August 2026.
             </p>
           </div>
@@ -506,21 +498,22 @@ export default function ConsultantProfile({
         disclosureParagraphs?.length) && (
         <section
           id="professional-work"
-          className="consultant-section-rhythm scroll-mt-24 bg-[#f7f5f1]"
+          data-anchor-align="viewport"
+          className="consultant-section-rhythm scroll-mt-24 bg-paper-soft"
         >
           <div className="container-wide grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20 xl:gap-24">
             <div>
-              <h2 className="max-w-md font-display text-[46px] font-semibold leading-[0.98] tracking-[-0.05em] text-ink md:text-6xl">
+              <h2 className="type-feature-title max-w-md text-ink">
                 Professional work.
               </h2>
-              <p className="mt-6 max-w-sm text-base leading-[1.7] text-ink-muted">
+              <p className="type-section-lede mt-6 max-w-sm text-ink-muted">
                 Clinical leadership, research and professional information from {name}&rsquo;s profile.
               </p>
             </div>
             <div className="relative lg:py-5">
               <div
                 aria-hidden
-                className="absolute -right-4 top-0 hidden h-[42%] w-[36%] rounded-[2.5rem] bg-[#dfe9f5] lg:block"
+                className="absolute -right-4 top-0 hidden h-[42%] w-[36%] rounded-[2.5rem] bg-accent-mist lg:block"
               />
               <div className="relative rounded-[2.5rem] border border-ink/[0.08] bg-white/80 px-7 shadow-[0_34px_80px_-58px_rgba(6,28,70,0.4)] sm:px-9 md:px-11 lg:mr-5">
                 <div className="border-t border-ink/[0.14]">
@@ -558,35 +551,36 @@ export default function ConsultantProfile({
 
       <section
         id="contact"
+        data-anchor-align="viewport"
         className="consultant-contact-section consultant-section-rhythm scroll-mt-24 rounded-t-[3rem] bg-ink text-white md:rounded-t-[4.5rem] lg:flex lg:items-center"
       >
         <div className="container-wide grid gap-12 lg:grid-cols-[0.54fr_0.46fr] lg:items-center lg:gap-20 xl:gap-28">
           <div>
-            <h2 className="max-w-3xl font-display text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-white md:text-6xl lg:text-7xl">
+            <h2 className="type-editorial-hero max-w-3xl text-white">
               Ready to speak to the practice?
             </h2>
-            <p className="mt-7 max-w-xl text-[17px] leading-[1.72] text-white/72">
+            <p className="type-section-lede mt-7 max-w-xl text-white/72">
               You do not need to know which treatment you need. The practice team can help you arrange a consultation with {name}.
             </p>
-            <p className="mt-5 max-w-xl text-[15px] leading-[1.7] text-white/55">
+            <p className="type-body mt-5 max-w-xl text-white/55">
               If you have a referral letter or recent results, you can share them when you contact us.
             </p>
           </div>
-          <div className="rounded-[2.5rem] border border-white/10 bg-[#f8f5ef] p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
-            <p className="text-sm text-ink-muted">What would help now?</p>
+          <div className="rounded-[2.5rem] border border-white/10 bg-paper-soft p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
+            <p className="type-supporting text-ink-muted">What would help now?</p>
             <Link
               href="/contact#consultation"
               className="group mt-5 grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-y border-ink/[0.12] py-6"
             >
               <span>
-                <span className="block font-display text-2xl font-medium leading-tight">
+                <span className="type-card-title block">
                   Request an appointment
                 </span>
-                <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
+                <span className="type-supporting mt-2 block text-ink-muted">
                   Request an appointment with {name} and share the details you have.
                 </span>
               </span>
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#b78a42]/45 text-[#a06d22] transition-transform duration-300 group-hover:translate-x-1">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/45 text-gold-ink transition-transform duration-300 group-hover:translate-x-1">
                 <Arrow />
               </span>
             </Link>
@@ -595,10 +589,10 @@ export default function ConsultantProfile({
               className="group grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-b border-ink/[0.12] py-6"
             >
               <span>
-                <span className="block font-display text-2xl font-medium leading-tight">
+                <span className="type-card-title block">
                   I&rsquo;m not sure what happens next
                 </span>
-                <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
+                <span className="type-supporting mt-2 block text-ink-muted">
                   Ask the practice team for guidance before choosing a consultant or treatment.
                 </span>
               </span>
@@ -607,10 +601,10 @@ export default function ConsultantProfile({
               </span>
             </Link>
             <div className="mt-7 flex flex-col gap-2 border-t border-ink/[0.08] pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <span className="text-sm text-ink-muted">Prefer to speak to someone?</span>
+              <span className="type-supporting text-ink-muted">Prefer to speak to someone?</span>
               <a
                 href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
-                className="font-display text-xl font-semibold text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-accent"
+                className="type-compact-title text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-accent"
               >
                 {site.contact.phone}
               </a>

@@ -1,5 +1,7 @@
 "use client";
 
+import { palette } from "@/lib/designTokens";
+
 // Quiet mode: one gentle wave and a few hairline ticks. Nothing animates beyond
 // a slow, barely-there drift — this is the mode for someone who does not want a
 // website performing at them today.
@@ -21,10 +23,10 @@ export default function QuietWave({
       >
         <defs>
           <linearGradient id="qw-line" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#1a4d8f" stopOpacity="0" />
-            <stop offset="18%" stopColor="#1a4d8f" stopOpacity="0.45" />
-            <stop offset="72%" stopColor="#3f6fb0" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#a9791a" stopOpacity="0.22" />
+            <stop offset="0%" stopColor={palette.accent} stopOpacity="0" />
+            <stop offset="18%" stopColor={palette.accent} stopOpacity="0.45" />
+            <stop offset="72%" stopColor={palette.accentSoft} stopOpacity="0.4" />
+            <stop offset="100%" stopColor={palette.gold} stopOpacity="0.22" />
           </linearGradient>
         </defs>
 
@@ -38,14 +40,14 @@ export default function QuietWave({
         {/* its echo, fainter and offset — gives depth without adding noise */}
         <path
           d="M0 84 C 160 84, 220 48, 350 48 S 530 90, 668 90 S 884 54, 1014 54 S 1142 78, 1200 78"
-          stroke="#5a6884"
+          stroke={palette.inkMuted}
           strokeOpacity="0.14"
           strokeWidth="1"
           strokeLinecap="round"
         />
 
         {ticks && (
-          <g stroke="#1a4d8f" strokeOpacity="0.22" strokeWidth="1">
+          <g stroke={palette.accent} strokeOpacity="0.22" strokeWidth="1">
             <path d="M232 30v10M232 96v-8" />
             <path d="M560 34v10M560 100v-8" />
             <path d="M888 30v10M888 96v-8" />

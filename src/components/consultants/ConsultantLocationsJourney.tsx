@@ -11,7 +11,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import JourneyMapCanvas from "@/components/sections/locations/JourneyMapCanvas";
 import Button from "@/components/ui/Button";
-import { attribution } from "@/content/mapPaths.generated";
+import { mapAttribution } from "@/content/mapAttribution";
 import { journeyStops } from "@/content/journey";
 
 type ConsultantLocationsJourneyProps = {
@@ -102,15 +102,16 @@ export default function ConsultantLocationsJourney({
   return (
     <section
       id="locations"
+      data-anchor-align="viewport"
       ref={sectionRef}
-      className="consultant-locations-section consultant-section-rhythm flex min-h-[100svh] scroll-mt-24 items-center bg-[#d5e0dc] text-ink"
+      className="consultant-locations-section consultant-section-rhythm flex min-h-[100svh] scroll-mt-24 items-center bg-sage-panel text-ink"
     >
-      <div className="grid w-full gap-12 px-5 sm:px-8 md:px-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw] lg:px-[5vw]">
+      <div className="site-gutter grid w-full gap-12 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw]">
         <div className="lg:max-w-[32rem]">
-          <h2 className="max-w-[8ch] font-display text-[clamp(3rem,5vw,5.8rem)] font-semibold leading-[0.94] tracking-[-0.055em]">
+          <h2 className="type-feature-title max-w-[8ch]">
             Where {consultantName} works.
           </h2>
-          <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
+          <p className="type-section-lede mt-6 max-w-md text-ink-muted">
             {consultantName} practises at these sites. The right place depends
             on the consultation and care you need.
           </p>
@@ -132,14 +133,14 @@ export default function ConsultantLocationsJourney({
                     onClick={() => chooseLocation(index)}
                     className="group flex w-full items-start gap-4 py-5 text-left"
                   >
-                    <span className="mt-1 min-w-6 text-[10px] font-medium tabular-nums tracking-[0.12em] text-ink-muted">
+                    <span className="type-label mt-1 min-w-6 tabular-nums text-ink-muted">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[9px] font-medium uppercase tracking-[0.16em] text-ink-muted">
+                      <span className="type-label block text-ink-muted">
                         {stop.area}
                       </span>
-                      <span className="mt-1 block font-display text-xl font-semibold leading-tight tracking-[-0.025em] text-ink md:text-2xl">
+                      <span className="type-compact-title mt-1 block text-ink">
                         {stop.name}
                       </span>
                     </span>
@@ -172,15 +173,15 @@ export default function ConsultantLocationsJourney({
                         className="overflow-hidden"
                       >
                         <div className="pb-6 pl-10 pr-8">
-                          <p className="text-xs text-ink-muted">
+                          <p className="type-supporting text-ink-muted">
                             {stop.provider ?? stop.eyebrow}
                           </p>
-                          <p className="mt-3 text-sm leading-relaxed text-ink-muted md:text-base">
+                          <p className="type-body mt-3 text-ink-muted">
                             {stop.description}
                           </p>
                           <Link
                             href={stop.href}
-                            className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink"
+                            className="type-button mt-4 inline-flex items-center gap-2 text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink"
                           >
                             View this location <Arrow />
                           </Link>
@@ -200,7 +201,7 @@ export default function ConsultantLocationsJourney({
 
         <div>
           <div className="relative min-h-[520px] rounded-[2.25rem] border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
-            <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-[#fafbfc]">
+            <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-canvas">
               <JourneyMapCanvas
                 stops={stops}
                 active={activeLocation}
@@ -208,12 +209,12 @@ export default function ConsultantLocationsJourney({
               />
 
               <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#fafbfc]/65 via-transparent to-transparent"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/65 via-transparent to-transparent"
                 aria-hidden
               />
 
-              <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-[#fafbfc]/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">
-                {attribution}
+              <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">
+                {mapAttribution}
               </p>
             </div>
           </div>

@@ -16,13 +16,13 @@ export default function UrgentCareNotice({
 }) {
   return (
     <aside
-      className={`rounded-3xl border border-[#c8992f]/25 bg-[#c8992f]/[0.05] p-5 md:p-6 ${className}`}
+      className={`rounded-3xl border border-gold/25 bg-gold/[0.05] p-5 md:p-6 ${className}`}
     >
       <div className="flex gap-4">
-        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#c8992f]/15 text-[#8a6614]">
+        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold-ink">
           <IconAlert className="h-[18px] w-[18px]" aria-hidden />
         </span>
-        <div className="min-w-0 text-[15px] leading-relaxed text-ink/80">
+        <div className="type-body min-w-0 text-ink/80">
           <p className="font-medium text-ink">
             If you feel unwell, don&rsquo;t wait for a reply.
           </p>

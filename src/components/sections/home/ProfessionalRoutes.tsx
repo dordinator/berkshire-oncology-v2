@@ -123,10 +123,7 @@ const routes: Route[] = [
 export default function ProfessionalRoutes() {
   return (
     <Section>
-      {/* Its own container rather than the page's `container-wide`: a wider
-          maximum and slightly tighter side padding, because three cards abreast
-          want more room than the columns of prose above them. */}
-      <div className="mx-auto w-full max-w-[1560px] px-6 md:px-10 lg:px-12">
+      <div className="site-gutter w-full">
         <div className="text-center">
           <Reveal>
             <div
@@ -201,13 +198,13 @@ export default function ProfessionalRoutes() {
                       <div className="min-w-0">
                         <h3
                           data-copy-key={`professionals.${r.icon}.title`}
-                          className="font-display text-xl leading-snug md:text-[1.4rem]"
+                          className="type-compact-title"
                         >
                           {r.title}
                         </h3>
                         <p
                           data-copy-key={`professionals.${r.icon}.label`}
-                          className={`mt-1 text-[13px] font-medium uppercase tracking-[0.12em] ${
+                          className={`type-label mt-1 ${
                             r.feature ? "text-white/60" : "text-ink-muted"
                           }`}
                         >
@@ -218,7 +215,7 @@ export default function ProfessionalRoutes() {
 
                     <p
                       data-copy-key={`professionals.${r.icon}.body`}
-                      className={`mt-4 text-[15px] leading-relaxed ${
+                      className={`type-body mt-4 ${
                         r.feature ? "text-white/75" : "text-ink/75"
                       }`}
                     >
@@ -228,7 +225,7 @@ export default function ProfessionalRoutes() {
                     {/* Telephone is the current routing fallback. Do not invite
                       referral documents or clinical details through email. */}
                     {r.icon === "referral" && (
-                      <p className="mt-4 text-[15px]">
+                      <p className="type-body mt-4">
                         <a
                           href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
                           className="font-display text-lg text-ink transition-colors hover:text-accent"

@@ -83,7 +83,8 @@ function Section({
   return (
     <section
       id={id}
-      className={`scroll-mt-24 py-14 md:py-20 ${tint ? "bg-canvas-soft/45" : ""}`}
+      data-anchor-align="viewport"
+      className={`scroll-mt-24 pb-14 pt-28 md:pb-20 md:pt-32 ${tint ? "bg-canvas-soft/45" : ""}`}
     >
       <div className="container-wide">
         <Reveal>
@@ -94,7 +95,7 @@ function Section({
             {title}
           </h2>
           {lead && (
-            <p className="mt-5 max-w-3xl text-[16px] leading-relaxed text-ink/80 md:text-[17px]">
+            <p className="type-section-lede mt-5 max-w-3xl text-ink/80">
               {lead}
             </p>
           )}
@@ -150,11 +151,11 @@ function RouteBoxes({ hasCover }: { hasCover: boolean }) {
             href={r.href}
             className="card-soft group flex h-full flex-col justify-between gap-4 p-5 transition-transform duration-300 hover:-translate-y-1"
           >
-            <span className="font-display text-[17px] leading-snug text-ink">
+            <span className="type-compact-title leading-snug text-ink">
               {r.label}
             </span>
             <span className="flex items-end justify-between gap-3">
-              <span className="text-[13px] leading-relaxed text-ink-muted">
+              <span className="type-supporting text-ink-muted">
                 {r.hint}
               </span>
               <span
@@ -184,7 +185,7 @@ function initials(name: string) {
 function ConsultantRow({ c }: { c: SpecialityConsultant }) {
   const body = (
     <>
-      <div className="relative h-16 w-16 flex-none overflow-hidden rounded-2xl bg-gradient-to-br from-accent/10 to-lilac/20">
+      <div className="relative h-16 w-16 flex-none overflow-hidden rounded-2xl bg-gradient-to-br from-accent/10 to-accent-glow/20">
         {c.photo ? (
           <Image
             src={c.photo}
@@ -263,11 +264,11 @@ function ApproachCard({ approach }: { approach: Approach }) {
         )}
       </div>
       {approach.byOthers && (
-        <span className="mt-3 inline-flex items-center rounded-full border border-black/[0.07] bg-canvas-soft px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+        <span className="type-label mt-3 inline-flex items-center rounded-full border border-black/[0.07] bg-canvas-soft px-2.5 py-1 text-ink-muted">
           Not carried out by our consultants
         </span>
       )}
-      <p className="mt-3 text-[15px] leading-relaxed text-ink/80">{approach.body}</p>
+      <p className="type-body mt-3 text-ink/80">{approach.body}</p>
     </>
   );
 
@@ -289,24 +290,24 @@ function SiteCard({ site: s, radiotherapy }: { site: CareSite; radiotherapy: boo
   return (
     <div
       className={`card-soft h-full p-6 md:p-7 ${
-        radiotherapy ? "border-[#c9a35a]/35" : ""
+        radiotherapy ? "border-gold/35" : ""
       }`}
     >
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <h3 className="font-display text-xl text-ink">{s.name}</h3>
-        <span className="text-[13px] text-ink-muted">{s.area}</span>
+        <span className="type-supporting text-ink-muted">{s.area}</span>
         {radiotherapy && (
-          <span className="rounded-full border border-[#c9a35a]/40 bg-[#c9a35a]/[0.09] px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-[#8a6516]">
+          <span className="type-label rounded-full border border-gold/40 bg-gold/[0.09] px-2.5 py-1 text-gold-ink">
             Radiotherapy
           </span>
         )}
       </div>
-      <p className="mt-3 text-[15px] leading-relaxed text-ink/80">{s.summary}</p>
+      <p className="type-body mt-3 text-ink/80">{s.summary}</p>
       <ul className="mt-4 space-y-2">
         {s.detail.map((d) => (
           <li
             key={d}
-            className="flex gap-3 text-[14px] leading-relaxed text-ink-muted"
+            className="type-supporting flex gap-3 text-ink-muted"
           >
             <span
               aria-hidden
@@ -316,12 +317,12 @@ function SiteCard({ site: s, radiotherapy }: { site: CareSite; radiotherapy: boo
           </li>
         ))}
       </ul>
-      <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px]">
+      <div className="type-supporting mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
         <Link
-          href={`/locations/${s.slug}`}
+          href="/locations"
           className="font-medium text-accent underline-offset-2 hover:underline"
         >
-          About this location
+          Explore locations
         </Link>
         <a
           href={s.source.url}
@@ -474,7 +475,7 @@ export default function SpecialityPage({
                 <div className="space-y-5">
                   {info.overview.slice(1).map((p) => (
                     <Reveal key={p.slice(0, 24)} as="p">
-                      <span className="block max-w-2xl text-[16px] leading-relaxed text-ink/85 md:text-[17px]">
+                      <span className="type-section-lede block max-w-2xl text-ink/85">
                         {p}
                       </span>
                     </Reveal>
@@ -486,7 +487,7 @@ export default function SpecialityPage({
                     {info.scope.map((s) => (
                       <li
                         key={s}
-                        className="flex gap-3.5 text-[15px] leading-relaxed text-ink/80 md:text-base"
+                        className="type-body flex gap-3.5 text-ink/80"
                       >
                         <span
                           aria-hidden
@@ -500,7 +501,7 @@ export default function SpecialityPage({
 
                 {info.scopeNote && (
                   <Reveal>
-                    <p className="mt-8 max-w-2xl rounded-3xl rounded-l-lg border border-black/[0.06] border-l-2 border-l-accent/40 bg-accent/[0.04] px-5 py-5 text-[15px] leading-relaxed text-ink/80 md:px-7">
+                    <p className="type-body mt-8 max-w-2xl rounded-3xl rounded-l-lg border border-black/[0.06] border-l-2 border-l-accent/40 bg-accent/[0.04] px-5 py-5 text-ink/80 md:px-7">
                       {info.scopeNote}
                     </p>
                   </Reveal>
@@ -508,7 +509,7 @@ export default function SpecialityPage({
               </>
             ) : (
               <Reveal>
-                <p className="max-w-2xl text-[16px] leading-relaxed text-ink/85 md:text-[17px]">
+                <p className="type-section-lede max-w-2xl text-ink/85">
                   {doctors.length > 0 ? (
                     <>
                       The consultants listed below treat{" "}
@@ -540,7 +541,7 @@ export default function SpecialityPage({
             <aside className="lg:pt-2">
               <Reveal>
                 <div className="card-soft p-6">
-                  <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted">
+                  <h3 className="type-label text-ink-muted">
                     Also in {group?.label}
                   </h3>
                   <ul className="mt-4 space-y-1">
@@ -548,7 +549,7 @@ export default function SpecialityPage({
                       <li key={s.slug}>
                         <Link
                           href={`/specialities/${s.slug}`}
-                          className="group -mx-3 flex items-start gap-2 rounded-2xl px-3 py-2.5 text-[15px] text-ink/75 transition-colors hover:bg-ink/[0.035] hover:text-ink"
+                          className="type-body group -mx-3 flex items-start gap-2 rounded-2xl px-3 py-2.5 text-ink/75 transition-colors hover:bg-ink/[0.035] hover:text-ink"
                         >
                           <span className="min-w-0 flex-1">{s.title}</span>
                           <span
@@ -595,8 +596,8 @@ export default function SpecialityPage({
             </ul>
             <Reveal>
               <div className="mt-7 flex flex-wrap gap-3">
-                <Button href="/consultants/choosing-a-consultant" variant="ghost">
-                  How to choose the right consultant
+                <Button href="/specialities" variant="ghost">
+                  Browse by cancer type
                 </Button>
                 <Button href="/consultants" variant="ghost">
                   All ten consultants
@@ -607,12 +608,12 @@ export default function SpecialityPage({
         ) : (
           <Reveal>
             <div className="card-soft mt-8 max-w-2xl p-6 md:p-8">
-              <p className="text-[16px] leading-relaxed text-ink/85">
+              <p className="type-body text-ink/85">
                 No partner in the practice currently lists {speciality.title.toLowerCase()}{" "}
                 among their specialities. We would rather say that plainly than
                 take an appointment we are not the right people for.
               </p>
-              <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
+              <p className="type-body mt-4 text-ink-muted">
                 Contact the practice and we will tell you where this is treated
                 locally, and can pass your details on if that helps.
               </p>
@@ -652,7 +653,7 @@ export default function SpecialityPage({
                   <h3 className="mt-2 font-display text-xl text-ink">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-ink/80">
+                  <p className="type-body mt-3 text-ink/80">
                     {step.body}
                   </p>
                 </div>
@@ -663,10 +664,10 @@ export default function SpecialityPage({
           {info.diagnosis.stagingNote && (
             <Reveal>
               <div className="mt-8 max-w-3xl rounded-3xl rounded-l-lg border border-black/[0.06] border-l-2 border-l-accent/40 bg-white px-5 py-5 md:px-7 md:py-6">
-                <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted">
+                <h3 className="type-label text-ink-muted">
                   What the words mean
                 </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-ink/80">
+                <p className="type-body mt-3 text-ink/80">
                   {info.diagnosis.stagingNote}
                 </p>
               </div>
@@ -706,7 +707,7 @@ export default function SpecialityPage({
                 </li>
               ))}
             </ul>
-            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-6 max-w-2xl text-ink-muted">
               Taken from what each consultant lists on their own profile. Full
               explanations of each treatment are on the{" "}
               <Link
@@ -720,7 +721,7 @@ export default function SpecialityPage({
           </Reveal>
         ) : (
           <Reveal>
-            <p className="mt-8 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-8 max-w-2xl text-ink-muted">
               See the{" "}
               <Link
                 href="/treatments"
@@ -754,10 +755,10 @@ export default function SpecialityPage({
 
         {nhsSite && (
           <Reveal>
-            <p className="mt-7 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-7 max-w-3xl text-ink-muted">
               Most of our consultants also hold NHS posts at the{" "}
               <Link
-                href={`/locations/${nhsSite.slug}`}
+                href="/locations"
                 className="font-medium text-accent underline-offset-2 hover:underline"
               >
                 {nhsSite.name}
@@ -774,8 +775,8 @@ export default function SpecialityPage({
             <Button href="/locations" variant="ghost">
               All locations
             </Button>
-            <Button href="/locations/getting-here" variant="ghost">
-              Getting here and parking
+            <Button href="/contact#guidance" variant="ghost">
+              Confirm where to go
             </Button>
           </div>
         </Reveal>
@@ -800,7 +801,7 @@ export default function SpecialityPage({
             {
               title: "Ask for a second opinion",
               body: "If you already have a diagnosis or a plan and want it reviewed independently, that is a normal request and it does not affect your NHS care.",
-              href: "/patients/second-opinion",
+              href: "/patients#second-opinion",
               cta: "About second opinions",
             },
             {
@@ -813,12 +814,12 @@ export default function SpecialityPage({
             <Reveal key={c.title} delay={i} className="h-full">
               <div className="card-soft flex h-full flex-col p-6 md:p-7">
                 <h3 className="font-display text-xl text-ink">{c.title}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-ink/80">
+                <p className="type-body mt-3 text-ink/80">
                   {c.body}
                 </p>
                 <Link
                   href={c.href}
-                  className="mt-auto pt-5 text-[14px] font-medium text-accent underline-offset-2 hover:underline"
+                  className="type-button mt-auto pt-5 text-accent underline-offset-2 hover:underline"
                 >
                   {c.cta} →
                 </Link>
@@ -833,7 +834,7 @@ export default function SpecialityPage({
               <h3 className="font-display text-xl text-ink md:text-2xl">
                 Speak to the practice
               </h3>
-              <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+              <p className="type-body mt-2 max-w-xl text-ink-muted">
                 {site.contact.practiceManager} can answer most questions directly
                 and arrange an appointment with the right consultant.
               </p>
@@ -888,10 +889,10 @@ export default function SpecialityPage({
                   className="card-soft group flex h-full flex-col p-6 transition-transform duration-300 hover:-translate-y-1"
                 >
                   <span className="font-display text-lg text-ink">{l.name}</span>
-                  <span className="mt-3 text-[14.5px] leading-relaxed text-ink/75">
+                  <span className="type-supporting mt-3 text-ink/75">
                     {l.note}
                   </span>
-                  <span className="mt-auto pt-5 text-[13px] font-medium text-accent">
+                  <span className="type-supporting mt-auto pt-5 font-medium text-accent">
                     {external ? "Visit their site →" : "See the list →"}
                   </span>
                 </a>
@@ -903,7 +904,7 @@ export default function SpecialityPage({
         {/* Quiet provenance line. Until a consultant signs the page off, it says
             so — in the register a clinical site uses, not a warning banner. */}
         <Reveal>
-          <div id="clinical-review" className="mt-10 scroll-mt-28 border-t border-black/[0.07] pt-6 text-[13px] leading-relaxed text-ink-muted">
+          <div id="clinical-review" className="type-supporting mt-10 scroll-mt-28 border-t border-black/[0.07] pt-6 text-ink-muted">
             {info ? (
               <>
                 {info.reviewedBy && info.reviewedOn ? (

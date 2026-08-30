@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
+import { scrollToAnchor } from "@/components/SmoothScroll";
 import ContactNextStep, {
   ContactIntent,
   ProfessionalSubject,
@@ -46,17 +47,11 @@ function Arrow() {
 }
 
 function revealNextStep() {
-  const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ? "auto"
-    : "smooth";
-
   // Allow the selected route to render before moving focus. Two animation
   // frames also make direct links from elsewhere on the site dependable.
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
-      const heading = document.getElementById("next-step-heading");
-      heading?.scrollIntoView({ behavior, block: "start" });
-      heading?.focus({ preventScroll: true });
+      scrollToAnchor("next-step-heading", { focus: true });
     });
   });
 }
@@ -83,14 +78,14 @@ function RouteLink({
       className={`group -mx-3 flex min-h-[6rem] w-[calc(100%+1.5rem)] items-center justify-between gap-5 border-t border-ink/10 px-3 py-4 text-left last:border-b focus-visible:text-accent lg:min-h-[6.4rem] ${selected ? "bg-ink/[0.045] text-ink" : "text-ink"}`}
     >
       <span className="min-w-0">
-        <span className="block font-display text-[1.25rem] font-semibold leading-tight tracking-tight md:text-[1.35rem]">
+        <span className="type-compact-title block">
           {title}
         </span>
-        <span className="mt-2 block max-w-sm text-[13px] leading-relaxed text-ink-muted">
+        <span className="type-body mt-2 block max-w-sm text-ink-muted">
           {description}
         </span>
       </span>
-      <span className="shrink-0 text-[#a66f1f]">
+      <span className="shrink-0 text-gold-ink">
         <Arrow />
       </span>
     </button>
@@ -191,7 +186,7 @@ export default function ContactConceptHero() {
       {/* A second translucent wash turns the photograph into atmosphere rather
           than another piece of information to process. The slight image scale
           above keeps the softened edges outside the visible frame. */}
-      <div aria-hidden className="absolute inset-0 bg-[#e8edf1]/10" />
+      <div aria-hidden className="absolute inset-0 bg-section-cool/10" />
 
       {/* The photograph remains warm and visible. The darker left and lower
           edges give the headline a dependable reading surface; the centre is
@@ -205,29 +200,29 @@ export default function ContactConceptHero() {
         <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(25rem,0.86fr)] lg:items-stretch lg:gap-14 xl:gap-20">
           <div className="max-w-2xl text-white lg:flex lg:max-w-none lg:flex-col lg:justify-center">
             <h1
-              className="max-w-none font-display text-[clamp(3.35rem,6.2vw,6.7rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-white [text-shadow:0_2px_24px_rgba(6,28,70,0.48)]"
+              className="type-page-hero max-w-none text-white [text-shadow:0_2px_24px_rgba(6,28,70,0.48)]"
             >
-              <span className="block lg:whitespace-nowrap">Let&apos;s find the</span>
-              <span className="block lg:whitespace-nowrap">right next step.</span>
+              <span className="block">Let&apos;s find the</span>
+              <span className="block">right next step.</span>
             </h1>
 
-            <p className="mt-7 max-w-lg text-[17px] leading-relaxed text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.5)] md:text-lg">
+            <p className="type-section-lede mt-7 max-w-lg text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.5)]">
               You don&apos;t need to know which consultant or treatment you need.
               Start with the option that feels closest.
             </p>
 
             <a
               href={`tel:${tel}`}
-              className="mt-8 inline-flex min-h-12 w-fit items-center border-t border-white/35 pt-3 font-display text-2xl font-semibold text-white transition-colors hover:text-[#f3dca2] md:mt-10 md:text-[1.7rem]"
+              className="mt-8 inline-flex min-h-12 w-fit items-center border-t border-white/35 pt-3 font-display text-2xl font-semibold text-white transition-colors hover:text-gold-panel md:mt-10 md:text-[1.7rem]"
             >
               {site.contact.phone}
             </a>
           </div>
 
           <div
-            className="rounded-[2rem] border border-white/55 bg-[#fbfaf5]/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
+            className="rounded-[2rem] border border-white/55 bg-paper/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
           >
-            <p className="text-[13px] leading-relaxed text-ink-muted">
+            <p className="type-supporting text-ink-muted">
               We&apos;ll show you the right form or online service next.
             </p>
 

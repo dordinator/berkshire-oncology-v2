@@ -46,11 +46,11 @@ import { useCenterGap } from "./useCenterGap";
   caveat.
 */
 
-const GROUND = "#f7f5f1";
-const SAGE = "#6f7f55";
+const GROUND = "var(--surface-paper-soft)";
+const SAGE = "var(--brand-sage)";
 
 const pill =
-  "inline-flex items-center justify-center rounded-full px-6 py-3.5 text-[15px] font-medium transition-colors md:px-4 lg:px-7";
+  "type-button inline-flex items-center justify-center rounded-full px-6 py-3.5 transition-colors md:px-4 lg:px-7";
 
 const MASK = {
   WebkitMaskImage:
@@ -200,7 +200,7 @@ export default function FeesHero() {
           <div className="max-w-xl md:max-w-[50%] lg:max-w-[48%] xl:max-w-[44%]">
             {/* the contact hero's exact treatment: display face, ink first
                 line, house gradient on the second */}
-            <h1 className="font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] xl:text-6xl">
+            <h1 className="type-page-hero text-ink">
               <motion.span variants={rise} className="block">
                 How treatment
               </motion.span>
@@ -211,7 +211,7 @@ export default function FeesHero() {
 
             <motion.p
               variants={rise}
-              className="mt-6 max-w-md text-[17px] leading-relaxed text-ink/75 md:text-lg"
+              className="type-section-lede mt-6 max-w-md text-ink/75"
             >
               Tariffs are a guide. Self-funding packages are tailored to
               individual needs, while insurance cover varies by policy.
@@ -252,7 +252,8 @@ export default function FeesHero() {
             className="absolute inset-y-0 left-1/2 w-screen backdrop-blur-md"
             style={{
               marginLeft: "-50vw",
-              backgroundColor: "rgba(223,233,245,0.9)",
+              backgroundColor:
+                "color-mix(in srgb, var(--brand-blue-mist) 90%, transparent)",
               clipPath: stripClip,
               filter: "drop-shadow(0 16px 30px rgba(6,28,70,0.16))",
             }}
@@ -264,7 +265,7 @@ export default function FeesHero() {
                 i > 0 ? "md:border-l md:border-ink/10" : ""
               }`}
             >
-              <h2 className="font-display text-[1.3rem] leading-snug text-ink">
+              <h2 className="type-compact-title text-ink">
                 {card.title}
               </h2>
               <p className="mt-2 max-w-[28ch] text-sm leading-relaxed text-ink/70">

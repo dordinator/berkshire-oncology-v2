@@ -60,7 +60,7 @@ function smoothPath(pts: { x: number; y: number }[]) {
 }
 
 const HALO =
-  "radial-gradient(circle at 50% 42%, rgba(63,111,176,0.28), rgba(174,198,230,0.12) 46%, transparent 72%)";
+  "radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--brand-blue) 28%, transparent), color-mix(in srgb, var(--brand-blue) 12%, transparent) 46%, transparent 72%)";
 
 function Tags({
   items,
@@ -80,13 +80,13 @@ function Tags({
       {shown.map((s) => (
         <span
           key={s.slug}
-          className="rounded-full border border-black/[0.06] bg-white px-2.5 py-1 text-[11px] font-medium text-ink-muted shadow-[0_1px_2px_rgba(10,43,92,0.04)]"
+          className="type-supporting rounded-full border border-ink/[0.06] bg-white px-2.5 py-1 font-medium leading-none text-ink-muted shadow-[0_1px_2px_rgba(6,28,70,0.04)]"
         >
           {s.name}
         </span>
       ))}
       {extra > 0 && (
-        <span className="px-1 py-1 text-[11px] font-medium text-ink-muted/60">
+        <span className="type-supporting px-1 py-1 font-medium leading-none text-ink-muted/60">
           +{extra}
         </span>
       )}
@@ -96,7 +96,7 @@ function Tags({
 
 function ViewProfile() {
   return (
-    <span className="mt-3.5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-accent">
+    <span className="type-button mt-3.5 inline-flex items-center gap-1.5 text-accent">
       View profile
       <svg
         className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
@@ -142,11 +142,11 @@ function Portrait({
       />
       {/* the photo — white ring + layered navy shadow in one box-shadow */}
       <span
-        className="relative block overflow-hidden rounded-full bg-gradient-to-br from-accent/10 to-lilac/20 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045]"
+        className="relative block overflow-hidden rounded-full bg-gradient-to-br from-accent/10 to-accent-glow/20 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045]"
         style={{
           width: size,
           height: size,
-          boxShadow: `0 0 0 ${ringPx}px #ffffff, 0 6px 16px -6px rgba(10,43,92,0.4), 0 22px 46px -18px rgba(10,43,92,0.45)`,
+          boxShadow: `0 0 0 ${ringPx}px #ffffff, 0 6px 16px -6px rgba(6,28,70,0.4), 0 22px 46px -18px rgba(6,28,70,0.45)`,
         }}
       >
         <Image
@@ -244,7 +244,7 @@ export default function ConsultantTrail({
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-16 top-[58%] h-72 w-72 rounded-full bg-lilac/25 blur-3xl"
+          className="pointer-events-none absolute -right-16 top-[58%] h-72 w-72 rounded-full bg-accent-glow/25 blur-3xl"
         />
 
         <motion.div
@@ -265,9 +265,15 @@ export default function ConsultantTrail({
           >
             <defs>
               <linearGradient id="trail-stroke" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#1a4d8f" />
-                <stop offset="0.55" stopColor="#3f6fb0" />
-                <stop offset="1" stopColor="#9fb9dc" />
+                <stop offset="0" stopColor="var(--brand-blue)" />
+                <stop
+                  offset="0.55"
+                  stopColor="color-mix(in srgb, var(--brand-blue) 78%, white)"
+                />
+                <stop
+                  offset="1"
+                  stopColor="color-mix(in srgb, var(--brand-blue) 38%, white)"
+                />
               </linearGradient>
               <filter
                 id="trail-glow"
@@ -309,8 +315,9 @@ export default function ConsultantTrail({
               style={{
                 offsetPath: `path('${dPath}')`,
                 background:
-                  "radial-gradient(circle, rgba(255,255,255,0.95), rgba(159,185,220,0.9) 40%, rgba(63,111,176,0) 72%)",
-                boxShadow: "0 0 14px 5px rgba(63,111,176,0.45)",
+                  "radial-gradient(circle, rgba(255,255,255,0.95), color-mix(in srgb, var(--brand-blue) 38%, white) 40%, transparent 72%)",
+                boxShadow:
+                  "0 0 14px 5px color-mix(in srgb, var(--brand-blue) 45%, transparent)",
               }}
             />
           )}
@@ -330,13 +337,13 @@ export default function ConsultantTrail({
               aria-hidden
               className="absolute -inset-2 rounded-full border border-accent/15"
             />
-            <div className="relative flex h-[140px] w-[140px] flex-col items-center justify-center rounded-full border border-white bg-gradient-to-b from-white to-canvas-soft text-center shadow-[0_2px_4px_rgba(10,43,92,0.05),0_26px_54px_-22px_rgba(10,43,92,0.4)]">
+            <div className="relative flex h-[140px] w-[140px] flex-col items-center justify-center rounded-full border border-white bg-gradient-to-b from-white to-canvas-soft text-center shadow-[0_2px_4px_rgba(6,28,70,0.05),0_26px_54px_-22px_rgba(6,28,70,0.4)]">
               <PeopleIcon className="h-7 w-7 text-accent" />
               <span className="mt-2 font-display text-[22px] leading-none text-ink">
                 {items.length}{" "}
                 {items.length === 1 ? "expert" : "experts"}
               </span>
-              <span className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">
+              <span className="type-label mt-1.5 text-accent">
                 Here for you
               </span>
             </div>
@@ -371,10 +378,10 @@ export default function ConsultantTrail({
                   }`}
                   style={{ width: TW }}
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-soft">
+                  <p className="type-label text-accent-soft">
                     {n.shortRole}
                   </p>
-                  <h3 className="mt-1 font-display text-[21px] leading-[1.15] text-ink transition-colors duration-300 group-hover:text-accent">
+                  <h3 className="type-compact-title mt-1 text-ink transition-colors duration-300 group-hover:text-accent">
                     {n.name}
                   </h3>
                   <Tags
@@ -411,15 +418,15 @@ export default function ConsultantTrail({
                   />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-soft">
+                  <p className="type-label text-accent-soft">
                     {c.shortRole}
                   </p>
-                  <h3 className="font-display text-lg leading-tight text-ink transition-colors duration-300 group-hover:text-accent">
+                  <h3 className="type-compact-title text-ink transition-colors duration-300 group-hover:text-accent">
                     {c.name}
                   </h3>
                   <Tags items={c.specialities} align="start" />
                 </div>
-                <span className="ml-1 flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-black/[0.08] bg-white text-accent shadow-sm transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white">
+                <span className="ml-1 flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-ink/[0.08] bg-white text-accent shadow-sm transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white">
                   <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
                     <path
                       d="M3 8h10M9 4l4 4-4 4"

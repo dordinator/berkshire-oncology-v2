@@ -74,7 +74,7 @@ export default function HomeHero() {
               on the pale chair or the bright window; the shadow guarantees
               contrast there without darkening the whole room to insure against
               it. */}
-          <h1 className="font-display text-4xl font-semibold leading-[1.06] tracking-tight text-white [text-shadow:0_1px_20px_rgba(6,28,70,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="type-page-hero text-white [text-shadow:0_1px_20px_rgba(6,28,70,0.6)]">
             <span data-copy-key="hero.headline.line1">Exceptional care,</span>
             <br />
             <span data-copy-key="hero.headline.line2">personal to you.</span>
@@ -82,7 +82,7 @@ export default function HomeHero() {
 
           <p
             data-copy-key="hero.intro"
-            className="mt-6 max-w-xl text-lg leading-relaxed text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.6)] md:mt-7 md:text-xl md:leading-relaxed"
+            className="type-hero-lede mt-6 max-w-xl text-white/85 [text-shadow:0_1px_16px_rgba(6,28,70,0.6)] md:mt-7"
           >
             Meet privately with a consultant who specialises in your type of
             cancer, in Reading and at hospitals across Berkshire and Oxford.

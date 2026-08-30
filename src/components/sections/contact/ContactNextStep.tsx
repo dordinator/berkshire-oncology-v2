@@ -23,11 +23,11 @@ function SectionHeading({
       <h2
         id="next-step-heading"
         tabIndex={-1}
-        className="scroll-mt-32 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-ink md:text-5xl"
+        className="type-section-title scroll-mt-32 text-ink"
       >
         {title}
       </h2>
-      <div className="mt-6 text-[16px] leading-relaxed text-ink-muted md:text-[17px]">
+      <div className="type-section-lede mt-6 text-ink-muted">
         {children}
       </div>
     </div>
@@ -47,34 +47,34 @@ function IntegrationCard({
 }) {
   return (
     <div className="rounded-[2rem] border border-black/[0.07] bg-white p-7 shadow-[0_26px_70px_-38px_rgba(6,28,70,0.28)] md:p-10">
-      <h3 className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+      <h3 className="type-card-title text-ink">
         {title}
       </h3>
-      <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-ink-muted">
+      <p className="type-body mt-4 max-w-lg text-ink-muted">
         {description}
       </p>
       <button
         type="button"
         disabled
-        className="mt-8 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-6 text-sm font-medium text-white opacity-80"
+        className="type-button mt-8 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-6 text-white opacity-80"
       >
         {action}
         <span aria-hidden className="ml-3">→</span>
       </button>
-      <p className="mt-4 text-xs leading-relaxed text-ink-muted">{note}</p>
+      <p className="type-supporting mt-4 text-ink-muted">{note}</p>
     </div>
   );
 }
 
 function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string }) {
   const field =
-    "mt-2 min-h-12 w-full rounded-xl border border-black/10 bg-[#fbfaf6] px-4 text-[15px] text-ink outline-none disabled:cursor-not-allowed disabled:text-ink-muted";
+    "mt-2 min-h-12 w-full rounded-xl border border-black/10 bg-paper px-4 text-base text-ink outline-none disabled:cursor-not-allowed disabled:text-ink-muted";
 
   return (
     <div className="rounded-[2rem] border border-black/[0.07] bg-white p-7 shadow-[0_26px_70px_-38px_rgba(6,28,70,0.28)] md:p-10">
       <p
         id="guidance-prototype-note"
-        className="mb-6 max-w-lg text-xs leading-relaxed text-ink-muted"
+        className="type-supporting mb-6 max-w-lg text-ink-muted"
       >
         Prototype — the practice&apos;s approved contact service will be connected
         during implementation. Nothing can be submitted here.
@@ -131,7 +131,7 @@ function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string 
         <button
           type="button"
           disabled
-          className="mt-7 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-6 text-sm font-medium text-white opacity-80"
+          className="type-button mt-7 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-6 text-white opacity-80"
         >
           Send securely to the practice
           <span className="ml-3" aria-hidden>→</span>
@@ -152,7 +152,7 @@ export default function ContactNextStep({
     <section
       id="next-step"
       aria-labelledby="next-step-heading"
-      className="scroll-mt-24 bg-[#f3f1ea]"
+      className="scroll-mt-24 bg-section-warm"
     >
       <div className="container-wide py-20 md:py-28 lg:py-32">
         {intent === "consultation" && (

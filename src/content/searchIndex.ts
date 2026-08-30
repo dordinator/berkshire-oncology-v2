@@ -139,10 +139,10 @@ const pageKeywords: Record<string, string[]> = {
   "/specialities": ["cancer types", "conditions", "specialities"],
   "/treatments": ["treatment", "therapies"],
   "/locations": [...locationKeywords, "hospitals", "where"],
-  "/links": ["macmillan", "cancer research uk", "charity", "organisations", "support"],
+  "/resources#trusted-organisations": ["macmillan", "cancer research uk", "charity", "organisations", "support"],
   "/resources": ["support", "guides", "information"],
-  "/patients/second-opinion": ["second opinion"],
-  "/patients/newly-diagnosed": ["diagnosis", "just diagnosed"],
+  "/patients#second-opinion": ["second opinion"],
+  "/patients#newly-diagnosed": ["diagnosis", "just diagnosed"],
 };
 
 // ── Entry construction ───────────────────────────────────────────────────────
@@ -199,14 +199,19 @@ const treatmentEntries: SearchEntry[] = [
   },
 ];
 
-const locationEntries: SearchEntry[] = locations.map((l) => ({
-  id: `location:${l.slug}`,
-  title: l.name,
-  subtitle: l.provider ? `${l.area}: ${l.provider}` : l.area,
-  href: `/locations/${l.slug}`,
-  kind: "location",
-  keywords: [l.area, l.provider ?? "", "hospital", ...locationKeywords].filter(Boolean),
-}));
+const locationEntries: SearchEntry[] = [
+  {
+    id: "location:all",
+    title: "Locations",
+    subtitle: "Hospitals and cancer centres in Reading, Windsor and Oxford.",
+    href: "/locations",
+    kind: "location",
+    keywords: locations
+      .flatMap((location) => [location.name, location.area, location.provider ?? ""])
+      .concat("hospital", locationKeywords)
+      .filter(Boolean),
+  },
+];
 
 /** The eight section landing pages. */
 const sectionEntries: SearchEntry[] = navSections.map((section) => ({

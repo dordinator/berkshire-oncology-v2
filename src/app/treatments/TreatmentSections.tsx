@@ -12,7 +12,6 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { site } from "@/content/site";
 import TreatmentOverviewConcepts from "./TreatmentOverviewConcepts";
 
 export interface TreatmentSummary {
@@ -30,7 +29,6 @@ export interface TreatmentGroupData {
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const PALE_BLUE = "#dfe9f5";
 
 const boundaryRows = [
   {
@@ -67,6 +65,11 @@ const faqRows = [
   {
     title: "Can I ask about a treatment before arranging a consultation?",
     body: "Yes. You can contact the practice first. The team can explain what information they need and pass your enquiry to the relevant person.",
+  },
+  {
+    id: "clinical-trials",
+    title: "Can I ask about clinical trials?",
+    body: "Yes. Clinical trials are not listed on this website, but your consultant can explain whether a trial may be relevant to your diagnosis and circumstances.",
   },
 ];
 
@@ -141,14 +144,14 @@ function TreatmentRows({
                 : "md:grid-cols-[2.4rem_minmax(0,0.62fr)_minmax(0,1.38fr)_auto]"
             }`}
           >
-            <span className="pt-1 text-[11px] font-medium tracking-[0.15em] text-ink-muted">
+            <span className="type-label pt-1 text-ink-muted">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <h3 className="font-display text-2xl font-semibold leading-tight tracking-tight text-ink transition-colors duration-300 group-hover:text-accent md:text-[1.7rem]">
+            <h3 className="type-card-title text-ink transition-colors duration-300 group-hover:text-accent">
               {treatment.title}
             </h3>
             <p
-              className={`max-w-[38rem] text-[15px] leading-[1.7] text-ink-muted md:text-[16px] ${
+              className={`type-body max-w-[38rem] text-ink-muted ${
                 compact ? "md:col-start-2 md:row-start-2 md:pr-4" : ""
               }`}
             >
@@ -181,7 +184,7 @@ function RadiotherapyRows({
           href={`/treatments/${treatment.slug}`}
           className="group flex items-center justify-between gap-8 border-b border-ink/15 py-5"
         >
-          <span className="font-display text-[1.35rem] font-semibold leading-tight tracking-[-0.025em] text-ink transition-transform duration-300 group-hover:translate-x-1 xl:text-[1.55rem]">
+          <span className="type-card-title text-ink transition-transform duration-300 group-hover:translate-x-1">
             {treatment.title}
           </span>
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
@@ -201,7 +204,7 @@ function AccordionList({
   openIndex,
   onOpenChange,
 }: {
-  rows: { title: string; body: string }[];
+  rows: { id?: string; title: string; body: string }[];
   idPrefix: string;
   panel?: boolean;
   firstOpen?: boolean;
@@ -228,14 +231,18 @@ function AccordionList({
         const id = `${idPrefix}-${index}`;
 
         return (
-          <div key={row.title} className="border-b border-ink/15 last:border-b-0">
+          <div
+            key={row.title}
+            id={row.id}
+            className="border-b border-ink/15 last:border-b-0"
+          >
             <h3>
               <button
                 type="button"
                 aria-expanded={isOpen}
                 aria-controls={id}
                 onClick={() => setOpen(isOpen ? null : index)}
-                className="group flex w-full items-center justify-between gap-8 py-6 text-left font-display text-xl font-semibold leading-snug text-ink transition-colors hover:text-accent focus-visible:underline focus-visible:underline-offset-4 md:py-7 md:text-2xl"
+                className="type-compact-title group flex w-full items-center justify-between gap-8 py-6 text-left text-ink transition-colors hover:text-accent focus-visible:underline focus-visible:underline-offset-4 md:py-7"
               >
                 {row.title}
                 <motion.span
@@ -259,7 +266,7 @@ function AccordionList({
                   transition={{ duration: reduce ? 0 : 0.42, ease: EASE }}
                   className="overflow-hidden"
                 >
-                  <p className="max-w-[42rem] pb-7 pr-8 text-[15px] leading-[1.75] text-ink-muted md:text-[16px]">
+                  <p className="type-body max-w-[42rem] pb-7 pr-8 text-ink-muted">
                     {row.body}
                   </p>
                 </motion.div>
@@ -276,13 +283,14 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
   return (
     <section
       id="radiotherapy-treatments"
-      className="scroll-mt-24 overflow-clip bg-[#e7eeeb]"
+      data-anchor-align="viewport"
+      className="scroll-mt-24 overflow-clip bg-sage-wash"
     >
       <div className="container-wide grid items-center gap-12 py-20 md:py-24 lg:hidden">
         <figure className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[520px]">
           <div
             aria-hidden
-            className="absolute bottom-0 left-0 top-16 w-[58%] rounded-[2.5rem] bg-[#cbdbe8]"
+            className="absolute bottom-0 left-0 top-16 w-[58%] rounded-[2.5rem] bg-accent-glow/55"
           />
           <div className="absolute right-0 top-0 h-[92%] w-[92%] overflow-hidden rounded-[2.5rem] border border-white/50 bg-white shadow-[0_35px_90px_-42px_rgba(6,28,70,0.35)]">
             <Image
@@ -297,10 +305,10 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
 
         <div>
           <Reveal>
-            <h2 className="max-w-[10ch] font-display text-[clamp(2.7rem,10.5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink lg:text-[clamp(3rem,4.8vw,5.3rem)]">
+            <h2 className="type-feature-title max-w-[10ch] text-ink">
               Types of radiotherapy
             </h2>
-            <p className="mt-7 max-w-[35rem] text-[16px] leading-[1.75] text-ink-muted md:text-[17px]">
+            <p className="type-section-lede mt-7 max-w-[35rem] text-ink-muted">
               The type used depends on where the cancer is and the aim of
               treatment.
             </p>
@@ -314,7 +322,7 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
 
       <div className="container-wide hidden min-h-screen items-center pb-8 pt-28 lg:flex">
         <div className="grid h-[min(620px,calc(100svh-10rem))] min-h-[420px] w-full items-center gap-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:gap-24">
-          <figure className="relative h-[min(560px,100%)] overflow-hidden rounded-[2.5rem] bg-[#cbdbe8] shadow-[0_35px_90px_-42px_rgba(6,28,70,0.34)]">
+          <figure className="relative h-[min(560px,100%)] overflow-hidden rounded-[2.5rem] bg-accent-glow/55 shadow-[0_35px_90px_-42px_rgba(6,28,70,0.34)]">
             <Image
               src="/treatments/radiotherapy-conversation.jpg"
               alt="A therapeutic radiographer speaking with a patient before radiotherapy"
@@ -325,10 +333,10 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
           </figure>
 
           <div>
-            <h2 className="max-w-[11ch] font-display text-[clamp(2.8rem,4.3vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+            <h2 className="type-feature-title max-w-[11ch] text-ink">
               Types of radiotherapy
             </h2>
-            <p className="mt-6 max-w-[35rem] text-[15px] leading-[1.7] text-ink-muted md:text-[16px]">
+            <p className="type-body mt-6 max-w-[35rem] text-ink-muted">
               The type used depends on where the cancer is and the aim of
               treatment.
             </p>
@@ -403,8 +411,6 @@ export default function TreatmentSections({
 
   const medicine = groups.find((group) => group.id === "medicine");
   const radiotherapy = groups.find((group) => group.id === "radiotherapy");
-  const tel = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
-
   if (!medicine || !radiotherapy) return null;
 
   return (
@@ -418,17 +424,17 @@ export default function TreatmentSections({
           <div className="container-wide">
             <div
               data-treatment-route-bar
-              className="grid items-center gap-4 rounded-[1.5rem] border border-white/70 bg-[#e5eef6]/95 px-5 py-5 shadow-[0_24px_70px_-45px_rgba(6,28,70,0.45)] backdrop-blur-md sm:px-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-8 md:gap-y-3 md:px-8 lg:mx-4 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:gap-10 xl:px-12"
+              className="grid items-center gap-4 rounded-[1.5rem] border border-white/70 bg-accent-mist px-5 py-5 shadow-[0_24px_70px_-45px_rgba(6,28,70,0.45)] backdrop-blur-md sm:px-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-8 md:gap-y-3 md:px-8 lg:mx-4 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:gap-10 xl:px-12"
             >
-              <p className="font-display text-xl font-semibold tracking-tight text-ink md:text-2xl">
+              <p className="type-compact-title text-ink md:text-2xl">
                 Find information by cancer type
               </p>
-              <p className="text-[14px] leading-relaxed text-ink-muted md:col-span-2 md:row-start-2 md:text-[15px] xl:col-span-1 xl:col-start-auto xl:row-start-auto">
+              <p className="type-body text-ink-muted md:col-span-2 md:row-start-2 xl:col-span-1 xl:col-start-auto xl:row-start-auto">
                 Browse cancer types to find consultant profiles.
               </p>
               <Link
                 href="/specialities#browse-all"
-                className="ink-cta group inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full px-6 text-sm font-medium md:col-start-2 md:row-start-1 xl:col-start-auto xl:row-start-auto"
+                className="ink-cta type-button group inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full px-6 md:col-start-2 md:row-start-1 xl:col-start-auto xl:row-start-auto"
               >
                 Browse cancer types
                 <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -445,21 +451,21 @@ export default function TreatmentSections({
       <section
         ref={boundaryRef}
         id="what-we-do-not-provide"
+        data-anchor-align="viewport"
         className="treatment-boundary-scene relative scroll-mt-24 overflow-clip"
       >
         <motion.div
-          className="treatment-boundary-focus"
+          className="treatment-boundary-focus bg-accent-mist"
           style={{
-            backgroundColor: PALE_BLUE,
             clipPath: reduce ? "inset(0 0vw round 0rem)" : boundaryClip,
           }}
         >
-          <div className="container-wide grid items-start gap-14 py-20 md:py-28 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-20">
+          <div className="container-wide grid items-start gap-14 pb-20 pt-28 md:py-28 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-20">
             <Reveal>
-              <h2 className="max-w-[11ch] font-display text-[clamp(2.7rem,10.5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink lg:text-[clamp(3rem,4.8vw,5.3rem)]">
+              <h2 className="type-feature-title max-w-[11ch] text-ink">
                 Care provided by other teams
               </h2>
-              <p className="mt-7 max-w-[34rem] text-[16px] leading-[1.75] text-ink-muted md:text-[17px]">
+              <p className="type-section-lede mt-7 max-w-[34rem] text-ink-muted">
                 Berkshire Oncology is a partnership of consultant oncologists,
                 not a hospital. Tests, surgery and some treatments are provided
                 by hospitals or specialist centres.
@@ -480,13 +486,17 @@ export default function TreatmentSections({
         </motion.div>
       </section>
 
-      <section id="treatment-faqs" className="scroll-mt-24">
-        <div className="container-wide grid items-start gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:items-center lg:gap-20">
+      <section
+        id="treatment-faqs"
+        data-anchor-align="viewport"
+        className="scroll-mt-24"
+      >
+        <div className="container-wide grid items-start gap-14 pb-24 pt-28 md:py-32 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:items-center lg:gap-20">
           <Reveal>
-            <h2 className="max-w-[10ch] font-display text-[clamp(2.7rem,10.5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink lg:text-[clamp(3rem,4.8vw,5.3rem)]">
+            <h2 className="type-feature-title max-w-[10ch] text-ink">
               Common questions about treatment
             </h2>
-            <p className="mt-7 max-w-md text-[16px] leading-[1.75] text-ink-muted">
+            <p className="type-section-lede mt-7 max-w-md text-ink-muted">
               Answers about treatment decisions, terminology and where care
               takes place.
             </p>
@@ -498,43 +508,6 @@ export default function TreatmentSections({
         </div>
       </section>
 
-      <section className="close-merged overflow-clip bg-ink text-white">
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.18 }}
-          transition={{ duration: 0.9, ease: EASE }}
-          className="container-wide grid gap-12 py-24 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] lg:items-end lg:gap-20"
-        >
-          <div>
-            <h2 className="max-w-[12ch] font-display text-[clamp(2.75rem,11vw,4.8rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-white lg:text-[clamp(3.2rem,5.2vw,5.8rem)]">
-              You do not need to choose a treatment before you contact us.
-            </h2>
-          </div>
-
-          <div className="lg:pb-2">
-            <p className="max-w-[34rem] text-[16px] leading-[1.75] text-white/70 md:text-[17px]">
-              Contact the practice with the information you have. The team can
-              explain what to do next and help arrange a consultation.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link
-                href="/contact#guidance"
-                className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-white px-6 text-sm font-medium text-ink transition-colors hover:bg-[#e5eef6]"
-              >
-                Contact the practice
-                <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-              <a
-                href={tel}
-                className="inline-flex min-h-12 items-center px-2 text-sm font-medium text-white underline decoration-white/30 underline-offset-[7px] hover:decoration-white"
-              >
-                {site.contact.phone}
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      </section>
     </div>
   );
 }

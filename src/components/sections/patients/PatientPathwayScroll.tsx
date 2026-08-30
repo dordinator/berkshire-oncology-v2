@@ -15,7 +15,7 @@ const routes = [
       "Review their experience and where they practise",
     ],
     action: { label: "Browse cancer types and consultants", href: "/specialities" },
-    tone: "bg-[#dce6e1]",
+    tone: "bg-sage-mist",
   },
   {
     id: "second-opinion",
@@ -28,7 +28,7 @@ const routes = [
       "Keep existing appointments unless your clinical team advises otherwise",
     ],
     action: { label: "Contact the practice", href: "/contact" },
-    tone: "bg-[#e6edf3]",
+    tone: "bg-accent-mist",
   },
   {
     id: "private-treatment",
@@ -41,7 +41,7 @@ const routes = [
       "Confirm where consultations and any agreed treatment would take place",
     ],
     action: { label: "Understand fees and insurance", href: "/tariffs" },
-    tone: "bg-[#f0ece2]",
+    tone: "bg-section-warm",
   },
   {
     id: "receiving-treatment",
@@ -54,7 +54,7 @@ const routes = [
       "Use NHS 111 if you need urgent help and are unsure what to do. Call 999 in a life-threatening emergency",
     ],
     action: { label: "Find support during treatment", href: "/resources" },
-    tone: "bg-[#dce5ed]",
+    tone: "bg-accent-mist",
   },
   {
     id: "supporting-someone",
@@ -67,7 +67,7 @@ const routes = [
       "Look for practical and emotional support for yourself as well",
     ],
     action: { label: "Find support services for carers", href: "/resources" },
-    tone: "bg-[#d7e1dc]",
+    tone: "bg-sage-panel",
   },
 ] as const;
 
@@ -97,14 +97,15 @@ export default function PatientPathwayScroll() {
   return (
     <section
       id="start-here"
-      className="relative z-20 -mt-14 scroll-mt-24 rounded-t-[2.5rem] bg-white pb-24 pt-24 md:-mt-20 md:rounded-t-[3.5rem] md:pb-32 md:pt-32"
+      data-anchor-align="viewport"
+      className="relative z-20 -mt-14 scroll-mt-24 rounded-t-[2.5rem] bg-white pb-24 pt-28 md:-mt-20 md:rounded-t-[3.5rem] md:pb-32 md:pt-32"
     >
       <div className="container-wide">
         <header className="mx-auto max-w-5xl text-center">
-          <h2 className="font-display text-[clamp(2.8rem,5.1vw,5.6rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+          <h2 className="type-feature-title text-ink">
             Find the route that sounds most like you.
           </h2>
-          <p className="mx-auto mt-7 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
+          <p className="type-hero-lede mx-auto mt-7 max-w-3xl text-ink-muted">
             Each route explains what you can do next and what information may be
             useful.
           </p>
@@ -144,48 +145,52 @@ export default function PatientPathwayScroll() {
               // stretch with no scroll life at all. Safe against the sticky
               // aside: that lives in the SIBLING grid column, so no tween here
               // ever puts a transform on one of its ancestors.
-              <article
+              <div
                 key={route.id}
                 id={route.id}
-                aria-labelledby={`${route.id}-title`}
-                data-patient-route
-                data-fx="rise"
-                className={`flex scroll-mt-32 overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
+                className="relative scroll-mt-32"
               >
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <div>
-                    <h3
-                      id={`${route.id}-title`}
-                      className="max-w-3xl font-display text-[clamp(2.25rem,3.5vw,3.9rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink"
-                    >
-                      {route.statement}
-                    </h3>
-                    <p className="mt-7 max-w-2xl text-base leading-relaxed text-ink/75 md:text-lg">
-                      {route.body}
-                    </p>
-                  </div>
-
-                  <div className="mt-12 md:mt-auto md:pt-12">
-                    <div className="grid gap-8 border-t border-ink/15 pt-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-                      <ul className="space-y-3">
-                        {route.points.map((point) => (
-                          <li key={point} className="flex gap-3 text-[15px] leading-relaxed text-ink/75">
-                            <span aria-hidden className="mt-[0.55em] h-1.5 w-1.5 flex-none rounded-full bg-[#769187]" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <Link
-                        href={route.action.href}
-                        className="group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 focus-visible:bg-white/30"
+                <article
+                  aria-labelledby={`${route.id}-title`}
+                  data-patient-route
+                  data-fx="rise"
+                  className={`flex overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
+                >
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <div>
+                      <h3
+                        id={`${route.id}-title`}
+                        className="type-section-title max-w-3xl text-ink"
                       >
-                        {route.action.label}
-                        <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-                      </Link>
+                        {route.statement}
+                      </h3>
+                      <p className="type-section-lede mt-7 max-w-2xl text-ink/75">
+                        {route.body}
+                      </p>
+                    </div>
+
+                    <div className="mt-12 md:mt-auto md:pt-12">
+                      <div className="grid gap-8 border-t border-ink/15 pt-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+                        <ul className="space-y-3">
+                          {route.points.map((point) => (
+                            <li key={point} className="type-body flex gap-3 text-ink/75">
+                              <span aria-hidden className="mt-[0.55em] h-1.5 w-1.5 flex-none rounded-full bg-sage-mid" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <Link
+                          href={route.action.href}
+                          className="group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 focus-visible:bg-white/30"
+                        >
+                          {route.action.label}
+                          <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </article>
+                </article>
+              </div>
             ))}
           </div>
         </div>

@@ -1,5 +1,3 @@
-import { world, rivers } from "@/content/mapPaths.generated";
-
 // ─────────────────────────────────────────────────────────────────────────────
 // The journey camera, as pure maths — shared by the SVG and canvas renderers
 // so a toggle between them can never change where the camera looks.
@@ -35,6 +33,7 @@ export interface MapStop {
 
 /** The drawing's coordinate box. Square, so slice-cropping trims evenly. */
 export const BOX = 1000;
+const WORLD = 65536;
 
 /** Stroke weight and strength per road class. */
 export const ROAD_STYLE = {
@@ -49,14 +48,14 @@ export const ROAD_STYLE = {
 export function project(lat: number, lng: number) {
   const sinLat = Math.sin((lat * Math.PI) / 180);
   return {
-    x: ((lng + 180) / 360) * world,
-    y: (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * world,
+    x: ((lng + 180) / 360) * WORLD,
+    y: (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * WORLD,
   };
 }
 
 /** Ground metres per world unit of x at a given latitude. */
 export function metresPerUnit(lat: number) {
-  return (40075017 / world) * Math.cos((lat * Math.PI) / 180);
+  return (40075017 / WORLD) * Math.cos((lat * Math.PI) / 180);
 }
 
 export interface Frame {
@@ -80,42 +79,30 @@ function ukFrame(): Frame {
   };
 }
 
-/** Every river vertex, decoded once — the generated encoding is strictly
- *  `M x y` then runs of relative `l` pairs, no Z. */
+// Lightweight guide points for the Thames and Kennet. Detailed river paths
+// belong to the deferred drawing payload; framing only needs nearby water and
+// must not pull the complete map geometry into every initial route bundle.
+const RIVER_GUIDES: [number, number][] = [
+  [51.75, -1.27],
+  [51.69, -1.28],
+  [51.62, -1.24],
+  [51.55, -1.15],
+  [51.49, -1.05],
+  [51.46, -0.98],
+  [51.47, -0.9],
+  [51.49, -0.76],
+  [51.48, -0.61],
+  [51.44, -1.35],
+  [51.43, -1.22],
+  [51.44, -1.08],
+  [51.45, -0.97],
+];
+
 function riverVertices(): [number, number][] {
-  const pts: [number, number][] = [];
-  for (const r of rivers) {
-    const toks = r.d.match(/[Ml]|-?\d*\.?\d+/g);
-    if (!toks) continue;
-    let x = 0;
-    let y = 0;
-    let absolute = false;
-    for (let i = 0; i < toks.length; ) {
-      const t = toks[i];
-      if (t === "M") {
-        absolute = true;
-        i++;
-        continue;
-      }
-      if (t === "l") {
-        absolute = false;
-        i++;
-        continue;
-      }
-      const a = parseFloat(toks[i++]);
-      const b = parseFloat(toks[i++]);
-      if (absolute) {
-        x = a;
-        y = b;
-        absolute = false;
-      } else {
-        x += a;
-        y += b;
-      }
-      pts.push([x, y]);
-    }
-  }
-  return pts;
+  return RIVER_GUIDES.map(([lat, lng]) => {
+    const { x, y } = project(lat, lng);
+    return [x, y];
+  });
 }
 
 /** River-aware stop framing: centre 35% of the way to the nearest water and

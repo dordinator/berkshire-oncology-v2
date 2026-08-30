@@ -54,7 +54,7 @@ const patients: NavSection = {
       links: [
         {
           label: "I'm newly diagnosed",
-          href: "/patients/newly-diagnosed",
+          href: "/patients#newly-diagnosed",
           description: "The first steps after a diagnosis, and how quickly we can see you.",
           covers: [
             "What happens between diagnosis and your first appointment",
@@ -63,10 +63,11 @@ const patients: NavSection = {
             "What to bring — scans, reports, referral letters, medication list",
             "Questions worth asking at the first consultation",
           ],
+          built: true,
         },
         {
           label: "I'm looking for a second opinion",
-          href: "/patients/second-opinion",
+          href: "/patients#second-opinion",
           description: "How to arrange an independent review of an existing diagnosis or plan.",
           covers: [
             "When a second opinion is helpful, and when it may not change anything",
@@ -74,10 +75,11 @@ const patients: NavSection = {
             "How to request one without affecting your NHS care",
             "Typical timescales and costs",
           ],
+          built: true,
         },
         {
           label: "I'm looking for private treatment",
-          href: "/patients/private-treatment",
+          href: "/patients#private-treatment",
           description: "What private care with the partnership involves, and what it costs.",
           covers: [
             "What is included in private oncology care",
@@ -85,10 +87,11 @@ const patients: NavSection = {
             "Which treatments happen at which location",
             "How to get an estimate before you commit",
           ],
+          built: true,
         },
         {
           label: "I'm already receiving treatment",
-          href: "/patients/receiving-treatment",
+          href: "/patients#receiving-treatment",
           description: "Contacts, practical support and who to call between appointments.",
           covers: [
             "Who to contact about side effects, and when to call urgently",
@@ -96,10 +99,11 @@ const patients: NavSection = {
             "Changing or rearranging an appointment",
             "Support available during treatment",
           ],
+          built: true,
         },
         {
           label: "I'm supporting someone with cancer",
-          href: "/patients/supporting-someone",
+          href: "/patients#supporting-someone",
           description: "Guidance for partners, family, friends and carers.",
           covers: [
             "Coming to appointments and what you can ask",
@@ -107,6 +111,7 @@ const patients: NavSection = {
             "Looking after your own wellbeing",
             "Support organisations for carers",
           ],
+          built: true,
         },
       ],
     },
@@ -115,7 +120,7 @@ const patients: NavSection = {
       links: [
         {
           label: "What to expect at your first appointment",
-          href: "/patients/first-appointment",
+          href: "/patients#first-appointment",
           description: "How long it takes, who you'll meet and what to bring.",
           covers: [
             "Where to go and how to find us",
@@ -123,10 +128,11 @@ const patients: NavSection = {
             "What the consultant will ask and examine",
             "What you will leave with — plan, letter, next steps",
           ],
+          built: true,
         },
         {
           label: "Frequently asked questions",
-          href: "/patients/faqs",
+          href: "/patients#faqs",
           description: "The questions patients ask us most often.",
           covers: [
             "Referrals, waiting times and appointments",
@@ -134,6 +140,7 @@ const patients: NavSection = {
             "Treatment locations and travel",
             "Working with your NHS team",
           ],
+          built: true,
         },
         {
           label: "Patient resources and support",
@@ -276,17 +283,6 @@ const consultantsSection: NavSection = {
           description: "Every treatment, and the consultants who provide it.",
           built: true,
         },
-        {
-          label: "How to choose the right consultant",
-          href: "/consultants/choosing-a-consultant",
-          description: "What actually matters when picking an oncologist.",
-          covers: [
-            "Clinical oncologist or medical oncologist — what the difference means for you",
-            "Matching a consultant to your cancer type and treatment",
-            "Location, travel and how often you'll attend",
-            "What to do if you'd like to change consultant",
-          ],
-        },
       ],
     },
     {
@@ -316,14 +312,6 @@ const consultantsSection: NavSection = {
 };
 
 // ── 5. Locations ─────────────────────────────────────────────────────────────
-const locationCovers = [
-  "What happens at this location — consultations, chemotherapy, radiotherapy, imaging or follow-up",
-  "Which of our consultants work here",
-  "Address, map and how to find the department",
-  "Parking, drop-off and accessibility",
-  "Contact details for this site",
-];
-
 const locations: NavSection = {
   id: "locations",
   label: "Locations",
@@ -333,79 +321,30 @@ const locations: NavSection = {
   size: "md",
   groups: [
     {
-      title: "Where we practise",
+      title: "Explore locations",
       links: [
-        // Descriptions name the provider and the town only. Which services run
-        // at which building is not yet confirmed by the practice (see
-        // src/content/locations.ts), and these lines are printed in the
-        // mega-menu on every page — the wrong claim here sends someone to the
-        // wrong hospital.
         {
-          label: "Spire Dunedin Hospital, Reading",
-          href: "/locations/spire-dunedin-reading",
-          description: "Spire Healthcare, Reading.",
-          covers: locationCovers,
+          label: "Browse all locations",
+          href: "/locations",
+          description: "Explore the hospitals and cancer centres where our consultants work.",
+          built: true,
         },
         {
-          label: "Princess Margaret Hospital, Windsor",
-          href: "/locations/princess-margaret-windsor",
-          description: "Circle Health Group, Windsor.",
-          covers: locationCovers,
-        },
-        {
-          label: "GenesisCare Windsor",
-          href: "/locations/genesiscare-windsor",
-          description: "GenesisCare, Windsor.",
-          covers: locationCovers,
-        },
-        {
-          label: "GenesisCare Oxford",
-          href: "/locations/genesiscare-oxford",
-          description: "GenesisCare, Oxford.",
-          covers: locationCovers,
-        },
-        {
-          label: "Royal Berkshire Hospital",
-          href: "/locations/royal-berkshire-hospital",
-          description: "The NHS trust where our consultants also hold posts.",
-          covers: locationCovers,
-        },
-        {
-          label: "Other treatment locations",
-          href: "/locations/other-locations",
-          description: "Imaging, homecare delivery and other services we work with.",
-          covers: [
-            "Imaging and diagnostic providers",
-            "Homecare medicine delivery",
-            "Other hospitals where individual consultants practise",
-          ],
+          label: "Treatment locations",
+          href: "/resources#treatment-locations",
+          description: "A concise list of treatment sites and links to their own websites.",
+          built: true,
         },
       ],
     },
     {
-      title: "Getting there",
+      title: "Need help?",
       links: [
         {
-          label: "Getting here",
-          href: "/locations/getting-here",
-          description: "Travel, transport and directions for every site.",
-          covers: [
-            "Driving routes and postcodes for each hospital",
-            "Public transport and nearest stations",
-            "Taxi and drop-off points",
-            "Travel time between sites",
-          ],
-        },
-        {
-          label: "Parking and accessibility",
-          href: "/locations/parking-and-accessibility",
-          description: "Parking, step-free access and support on arrival.",
-          covers: [
-            "Parking at each site, including cost and blue badge spaces",
-            "Step-free access and lifts",
-            "Wheelchair availability and assistance on arrival",
-            "Facilities for someone coming with you",
-          ],
+          label: "Confirm where to go",
+          href: "/contact#guidance",
+          description: "Ask the practice team to confirm the right site before you travel.",
+          built: true,
         },
       ],
     },
@@ -530,25 +469,9 @@ const about: NavSection = {
       links: [
         {
           label: "About the partnership",
-          href: "/about/the-partnership",
+          href: "/#partnership",
           description: "Who we are, and how a partnership of independent consultants works.",
-          covers: [
-            "How the partnership was formed and how it operates",
-            "What it means that each consultant is independent",
-            "How consultants work together on complex cases",
-            "The areas we cover",
-          ],
-        },
-        {
-          label: "Our approach to care",
-          href: "/about/our-approach",
-          description: "How we work with patients, and what you can expect from us.",
-          covers: [
-            "Continuity — seeing the same consultant throughout",
-            "How treatment decisions are made with you",
-            "Working alongside your GP and NHS team",
-            "Communication between appointments",
-          ],
+          built: true,
         },
         {
           label: "Our consultants",
@@ -559,30 +482,8 @@ const about: NavSection = {
       ],
     },
     {
-      title: "Standards",
+      title: "Get in touch",
       links: [
-        {
-          label: "Quality and governance",
-          href: "/about/quality-and-governance",
-          description: "Registration, audit and how we maintain standards.",
-          covers: [
-            "GMC registration and specialist accreditation",
-            "Appraisal and revalidation",
-            "Multidisciplinary team working",
-            "Audit, outcomes and complaints",
-          ],
-        },
-        {
-          label: "Patient feedback",
-          href: "/about/patient-feedback",
-          description: "What patients tell us, and how to give feedback.",
-          covers: [
-            "How to leave feedback",
-            "What patients have said",
-            "How feedback changes what we do",
-            "How to raise a concern or complaint",
-          ],
-        },
         {
           label: "Referring professionals",
           href: "/contact#referral",
@@ -613,48 +514,28 @@ const resources: NavSection = {
       title: "Information and guidance",
       links: [
         {
-          label: "Cancer information",
-          href: "/resources/cancer-information",
-          description: "Reliable, plain-English information about cancer and its treatment.",
-          covers: [
-            "Trustworthy sources of cancer information",
-            "Understanding your diagnosis and staging",
-            "Making sense of scans and test results",
-            "How to judge information you find online",
-          ],
+          label: "Browse resources and support",
+          href: "/resources",
+          description: "Search trusted organisations, practical support and treatment locations.",
+          built: true,
         },
         {
-          label: "Treatment preparation",
-          href: "/resources/treatment-preparation",
-          description: "Getting ready for chemotherapy, radiotherapy or surgery.",
-          covers: [
-            "Preparing for your first cycle or fraction",
-            "What to bring and what to expect on the day",
-            "Work, driving and daily life during treatment",
-            "Diet, exercise and dental checks beforehand",
-          ],
+          label: "Trusted organisations",
+          href: "/resources#trusted-organisations",
+          description: "Cancer information and practical, emotional and financial support.",
+          built: true,
         },
         {
-          label: "Managing side effects",
-          href: "/resources/managing-side-effects",
-          description: "What to expect, what helps, and when to call us.",
-          covers: [
-            "Common side effects and practical steps that help",
-            "Warning signs that need urgent attention",
-            "Who to contact, day and night",
-            "Longer-term effects and follow-up",
-          ],
+          label: "Treatment information",
+          href: "/treatments",
+          description: "Understand the treatments our consultants provide.",
+          built: true,
         },
         {
-          label: "Downloadable patient guides",
-          href: "/resources/patient-guides",
-          description: "Printable guides and information sheets.",
-          covers: [
-            "Guides by treatment type",
-            "Appointment and question checklists",
-            "Symptom and medication diaries",
-            "Consultant-approved information sheets",
-          ],
+          label: "Your first appointment",
+          href: "/patients#first-appointment",
+          description: "What to bring and how to prepare for your consultation.",
+          built: true,
         },
       ],
     },
@@ -662,54 +543,28 @@ const resources: NavSection = {
       title: "Support",
       links: [
         {
-          label: "Emotional and practical support",
-          href: "/resources/emotional-and-practical-support",
-          description: "Counselling, groups and help with everyday life.",
-          covers: [
-            "Counselling and psychological support",
-            "Local support groups and centres",
-            "Practical help at home",
-            "Support with appearance, fatigue and sleep",
-          ],
-        },
-        {
           label: "Support for carers and families",
-          href: "/resources/carers-and-families",
-          description: "Help for the people supporting someone through treatment.",
-          covers: [
-            "Support available to carers",
-            "Talking to children about a diagnosis",
-            "Carer's assessments and respite",
-            "Looking after your own health",
-          ],
-        },
-        {
-          label: "Financial and benefits advice",
-          href: "/resources/financial-and-benefits-advice",
-          description: "Benefits, travel costs and financial help during treatment.",
-          covers: [
-            "Benefits you may be entitled to",
-            "Help with travel and parking costs",
-            "Work, sick pay and income protection",
-            "Where to get free, independent advice",
-          ],
-        },
-        {
-          label: "External organisations",
-          href: "/links",
-          description: "Macmillan, Cancer Research UK and the other organisations we recommend.",
+          href: "/patients#supporting-someone",
+          description: "A starting point for people supporting someone with cancer.",
           built: true,
         },
         {
-          label: "News and updates",
-          href: "/resources/news",
-          description: "Announcements from the partnership.",
-          covers: [
-            "Practice announcements",
-            "New services and locations",
-            "Consultant appointments",
-            "Changes to how we work",
-          ],
+          label: "Treatment locations",
+          href: "/resources#treatment-locations",
+          description: "Hospitals and cancer centres where our consultants provide care.",
+          built: true,
+        },
+        {
+          label: "Fees and insurance",
+          href: "/tariffs",
+          description: "Self-funding, medical insurance, estimates and shortfalls.",
+          built: true,
+        },
+        {
+          label: "External organisations",
+          href: "/resources#trusted-organisations",
+          description: "Macmillan, Cancer Research UK and the other organisations we recommend.",
+          built: true,
         },
       ],
     },

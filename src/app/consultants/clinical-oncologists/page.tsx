@@ -68,7 +68,7 @@ export default function ClinicalOncologistsPage() {
             <h2 className="font-display text-xl text-ink md:text-2xl">
               Looking for a medical oncologist?
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-3 max-w-xl text-ink-muted">
               A consultant medical oncologist specialises in the drug treatments
               for cancer. If you are not sure which you need, browsing by cancer
               type is usually the quickest route.

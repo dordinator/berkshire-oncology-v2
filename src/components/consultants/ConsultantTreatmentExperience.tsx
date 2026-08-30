@@ -85,22 +85,23 @@ export default function ConsultantTreatmentExperience({
   return (
     <section
       id="treatments"
+      data-anchor-align="viewport"
       ref={sectionRef}
       data-treatment-count={Math.min(items.length, 6)}
-      className="consultant-treatment-section relative scroll-mt-24 bg-[#f7f5f1] text-ink"
+      className="consultant-treatment-section relative scroll-mt-24 bg-paper-soft text-ink"
     >
-      <div className="consultant-treatment-stage w-full px-5 sm:px-8 md:px-10 lg:sticky lg:top-0 lg:flex lg:items-center lg:px-[5vw]">
+      <div className="consultant-treatment-stage site-gutter w-full lg:sticky lg:top-0 lg:flex lg:items-center">
         <div className="grid w-full gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-[5vw]">
           <div>
-            <h2 className="max-w-[9ch] font-display text-[clamp(2.9rem,4.7vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-ink">
+            <h2 className="type-feature-title max-w-[9ch] text-ink">
               Treatment experience.
             </h2>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
+            <p className="type-section-lede mt-6 max-w-md text-ink-muted">
               These are the treatment approaches listed in {consultantName}&rsquo;s
               profile. The right approach depends on your diagnosis and a
               clinical review.
             </p>
-            <p className="mt-6 max-w-sm text-xs leading-relaxed text-ink-muted">
+            <p className="type-supporting mt-6 max-w-sm text-ink-muted">
               You do not need to decide between them before arranging a
               consultation.
             </p>
@@ -127,10 +128,10 @@ export default function ConsultantTreatmentExperience({
                     onClick={() => chooseItem(index)}
                     className="group grid w-full grid-cols-[28px_minmax(0,1fr)_32px] items-start gap-4 py-7 text-left md:grid-cols-[34px_minmax(0,1fr)_36px] md:gap-6 md:py-9"
                   >
-                    <span className="pt-1 text-[10px] tabular-nums text-ink-muted">
+                    <span className="type-label pt-1 tabular-nums text-ink-muted">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="font-display text-[1.45rem] font-semibold leading-[1.08] tracking-[-0.025em] text-ink md:text-[1.8rem] lg:text-[2rem]">
+                    <span className="type-card-title text-ink">
                       {item.title}
                     </span>
                     <span
@@ -158,7 +159,7 @@ export default function ConsultantTreatmentExperience({
                         <div className="grid grid-cols-[28px_minmax(0,1fr)] gap-4 pb-8 md:grid-cols-[34px_minmax(0,1fr)] md:gap-6 md:pb-10">
                           <span aria-hidden />
                           <div>
-                            <p className="max-w-2xl text-sm leading-relaxed text-ink-muted md:text-base">
+                            <p className="type-body max-w-2xl text-ink-muted">
                               {item.description}
                             </p>
                             <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
@@ -166,7 +167,7 @@ export default function ConsultantTreatmentExperience({
                                 <Link
                                   key={link.href}
                                   href={link.href}
-                                  className="group/link inline-flex items-center gap-3 text-sm font-medium text-ink underline decoration-ink/20 underline-offset-[7px] transition-colors hover:decoration-ink"
+                                  className="type-button group/link inline-flex items-center gap-3 text-ink underline decoration-ink/20 underline-offset-[7px] transition-colors hover:decoration-ink"
                                 >
                                   {link.label}
                                   <span className="transition-transform duration-300 group-hover/link:translate-x-1">

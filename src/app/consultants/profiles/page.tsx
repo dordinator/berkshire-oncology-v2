@@ -83,7 +83,7 @@ export default function ConsultantProfilesPage() {
                           <span className="block font-display text-lg text-ink md:text-xl">
                             {c.name}
                           </span>
-                          <span className="mt-1 block text-[13px] text-ink-muted">
+                          <span className="type-supporting mt-1 block text-ink-muted">
                             {c.role}
                             {c.gmc && (
                               <>
@@ -115,7 +115,7 @@ export default function ConsultantProfilesPage() {
             <h2 className="font-display text-xl text-ink md:text-2xl">
               Another way to look
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-3 max-w-xl text-ink-muted">
               If you already know the diagnosis or the treatment involved, those
               routes will usually get you to the right consultant faster.
             </p>

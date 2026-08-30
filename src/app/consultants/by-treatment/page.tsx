@@ -56,7 +56,7 @@ export default function ByTreatmentPage() {
         {/* jump index — desktop and tablet only */}
         <Reveal className="hidden md:block">
           <nav aria-label="Jump to a treatment">
-            <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted">
+            <h2 className="type-label text-ink-muted">
               Jump to
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2">
@@ -94,12 +94,12 @@ export default function ByTreatmentPage() {
                   </Link>
                 </div>
 
-                <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
+                <p className="type-body mt-3 max-w-3xl text-ink-muted">
                   {therapy.summary}
                 </p>
 
                 {therapy.note && (
-                  <p className="mt-5 max-w-3xl rounded-2xl border border-black/[0.06] bg-canvas-warm px-5 py-4 text-[15px] leading-relaxed text-ink/80">
+                  <p className="type-body mt-5 max-w-3xl rounded-2xl border border-black/[0.06] bg-canvas-warm px-5 py-4 text-ink/80">
                     {therapy.note}
                   </p>
                 )}
@@ -120,7 +120,7 @@ export default function ByTreatmentPage() {
                           className="group flex h-full min-h-[64px] flex-col justify-center rounded-2xl border border-black/[0.06] bg-white px-4 py-3 transition-colors hover:border-accent/30 hover:bg-canvas-warm"
                         >
                           <span className="flex items-center justify-between gap-3">
-                            <span className="text-[15px] font-medium text-ink">
+                            <span className="type-body font-medium text-ink">
                               {d.name}
                             </span>
                             <span
@@ -131,7 +131,7 @@ export default function ByTreatmentPage() {
                             </span>
                           </span>
                           {d.shortRole && (
-                            <span className="mt-0.5 block text-[13px] text-ink-muted">
+                            <span className="type-supporting mt-0.5 block text-ink-muted">
                               {d.shortRole}
                             </span>
                           )}
@@ -163,7 +163,7 @@ export default function ByTreatmentPage() {
             <h2 className="font-display text-xl text-ink md:text-2xl">
               Not sure which treatment applies?
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+            <p className="type-body mt-3 max-w-xl text-ink-muted">
               Treatment is decided with you once your diagnosis is clear. If you
               would rather start from the diagnosis, browse by cancer type, or
               ask our practice manager.

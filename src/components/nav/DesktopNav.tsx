@@ -330,7 +330,7 @@ export default function DesktopNav({
             }}
             // No top border and no top radius — the pill above squares off its
             // bottom edge to meet this, forming a single shape.
-            className="max-h-[calc(100vh-8rem)] w-full overflow-y-auto rounded-b-[2.25rem] border border-t-0 border-black/[0.06] bg-white/95 px-7 pb-7 pt-5 shadow-[0_28px_80px_-24px_rgba(6,28,70,0.28)] backdrop-blur-xl"
+            className="max-h-[calc(100svh-8rem)] w-full overflow-y-auto rounded-b-[2.25rem] border border-t-0 border-black/[0.06] bg-white/95 px-7 pb-7 pt-5 shadow-[0_28px_80px_-24px_rgba(6,28,70,0.28)] backdrop-blur-xl"
             data-lenis-prevent
             data-home-return-overlay-scroll="desktop-nav"
           >

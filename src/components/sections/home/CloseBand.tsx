@@ -73,14 +73,14 @@ export default function CloseBand() {
     // section above already ends in a row of cards with their own breathing
     // room. Asymmetric vertical padding, because the foot of this box is no
     // longer an edge — it is the middle of a continuous dark block.
-    <div className="close-merged mt-14 bg-ink px-6 pb-8 pt-12 text-white md:mt-20 md:pb-10 md:pt-14">
+    <div className="close-merged mt-14 bg-ink pb-8 pt-12 text-white md:mt-20 md:pb-10 md:pt-14">
       <Reveal>
-        <div className="mx-auto w-full max-w-[1560px] md:px-6 lg:px-8">
+        <div className="site-gutter w-full">
           <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-4">
             <h2 className="font-display text-3xl leading-tight tracking-tight md:text-4xl">
               <span data-copy-key="close.heading">Not sure where to start?</span>
             </h2>
-            <p className="text-[15px] text-white/70 md:text-base">
+            <p className="type-body text-white/70">
               <span data-copy-key="close.phone.label">
                 Appointments and enquiries:
               </span>{" "}
@@ -95,7 +95,7 @@ export default function CloseBand() {
 
           <p
             data-copy-key="close.body"
-            className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/70"
+            className="type-section-lede mt-5 max-w-xl text-white/70"
           >
             Call or email the practice and speak to {site.contact.practiceManager}.
             She can help you find the right consultant, arrange an appointment
@@ -107,7 +107,7 @@ export default function CloseBand() {
               <Link
                 key={r.href}
                 href={r.href}
-                className="group flex items-center justify-center gap-2.5 rounded-full border border-white/35 px-6 py-4 text-[15px] font-medium text-white transition-colors hover:border-white hover:bg-white/10"
+                className="type-button group flex items-center justify-center gap-2.5 rounded-full border border-white/35 px-6 py-4 text-white transition-colors hover:border-white hover:bg-white/10"
               >
                 <RouteIcon name={r.icon} />
                 <span data-copy-key={`close.action.${r.icon}`}>

@@ -12,7 +12,7 @@ import { hasFooterContact } from "@/lib/footerContact";
 // rename there flows through here — the children stay in the navbar only.
 const sectionLinks = navSections.map((s) => ({
   label: s.label,
-  href: s.id === "about" ? "/about/the-partnership" : s.href,
+  href: s.href,
 }));
 
 const exploreLinks = [{ label: "Home", href: "/" }, ...sectionLinks.slice(0, 4)];
@@ -30,7 +30,7 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-ink text-white">
-      <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[120%] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-accent/25 via-lilac/10 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[120%] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-accent/25 via-accent-glow/10 to-transparent blur-3xl" />
       <div
         className={`container-wide relative ${
           followsContact ? "pb-20 pt-0 md:pb-28" : "py-20 md:py-28"

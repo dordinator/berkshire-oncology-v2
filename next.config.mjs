@@ -48,9 +48,159 @@ const nextConfig = {
       { source: "/index.htm", destination: "/", permanent: true },
       // Home and About are one page. On a practice this size they were always
       // going to say the same thing twice, so the root *is* the About page and
-      // /about redirects into it. This matches `source` exactly — the children
-      // (/about/the-partnership and the rest) are untouched and still resolve.
+      // /about redirects into it. Former scaffold children below now redirect
+      // to the authored section that answers the same visitor need.
       { source: "/about", destination: "/", permanent: true },
+      {
+        source: "/about/the-partnership",
+        destination: "/#partnership",
+        permanent: true,
+      },
+      {
+        source: "/about/our-approach",
+        destination: "/patients#start-here",
+        permanent: true,
+      },
+      {
+        source: "/about/patient-feedback",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/about/quality-and-governance",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/patients/newly-diagnosed",
+        destination: "/patients#newly-diagnosed",
+        permanent: true,
+      },
+      {
+        source: "/patients/second-opinion",
+        destination: "/patients#second-opinion",
+        permanent: true,
+      },
+      {
+        source: "/patients/private-treatment",
+        destination: "/patients#private-treatment",
+        permanent: true,
+      },
+      {
+        source: "/patients/receiving-treatment",
+        destination: "/patients#receiving-treatment",
+        permanent: true,
+      },
+      {
+        source: "/patients/supporting-someone",
+        destination: "/patients#supporting-someone",
+        permanent: true,
+      },
+      {
+        source: "/patients/first-appointment",
+        destination: "/patients#first-appointment",
+        permanent: true,
+      },
+      {
+        source: "/patients/faqs",
+        destination: "/patients#faqs",
+        permanent: true,
+      },
+      {
+        source: "/resources/cancer-information",
+        destination: "/resources#trusted-organisations",
+        permanent: true,
+      },
+      {
+        source: "/resources/treatment-preparation",
+        destination: "/patients#first-appointment",
+        permanent: true,
+      },
+      {
+        source: "/resources/managing-side-effects",
+        destination: "/patients#receiving-treatment",
+        permanent: true,
+      },
+      {
+        source: "/resources/patient-guides",
+        destination: "/patients#first-appointment",
+        permanent: true,
+      },
+      {
+        source: "/resources/emotional-and-practical-support",
+        destination: "/resources#trusted-organisations",
+        permanent: true,
+      },
+      {
+        source: "/resources/carers-and-families",
+        destination: "/patients#supporting-someone",
+        permanent: true,
+      },
+      {
+        source: "/resources/financial-and-benefits-advice",
+        destination: "/resources#trusted-organisations",
+        permanent: true,
+      },
+      {
+        source: "/resources/news",
+        destination: "/resources",
+        permanent: true,
+      },
+      {
+        source: "/locations/spire-dunedin-reading",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/princess-margaret-windsor",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/genesiscare-windsor",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/genesiscare-oxford",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/royal-berkshire-hospital",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/other-locations",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/getting-here",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/locations/parking-and-accessibility",
+        destination: "/locations",
+        permanent: true,
+      },
+      {
+        source: "/consultants/choosing-a-consultant",
+        destination: "/consultants",
+        permanent: true,
+      },
+      {
+        source: "/chemotherapy-demo",
+        destination: "/treatments/chemotherapy",
+        permanent: true,
+      },
+      {
+        source: "/resources-demo",
+        destination: "/resources",
+        permanent: true,
+      },
       {
         source: "/about/nhs-and-private-practice",
         destination: "/patients#private-treatment",

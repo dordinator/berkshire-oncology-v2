@@ -33,7 +33,7 @@ export default function PageHeader({
           </Reveal>
         )}
         <Reveal delay={1}>
-          <h1 className="heading-lg mt-5 max-w-4xl">{title}</h1>
+          <h1 className="type-page-hero mt-5 max-w-4xl">{title}</h1>
         </Reveal>
         {intro && (
           <Reveal delay={2}>

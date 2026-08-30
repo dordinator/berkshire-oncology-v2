@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import HomeHero from "@/components/sections/home/HomeHero";
 import PartnershipIntro from "@/components/sections/home/PartnershipIntro";
-import ProofImage from "@/components/sections/home/ProofImage";
 import RegionMap from "@/components/site/RegionMap";
 import { pageMeta, organizationLd } from "@/content/seo";
-import { site } from "@/content/site";
 import { hospitals } from "@/content/hospitals";
 import { getGroupForSlug } from "@/content/cancerGroups";
 import ConsultantScroller from "@/components/sections/home/ConsultantScroller";
 import CancerCards from "@/components/sections/home/CancerCards";
 import HospitalStrip from "@/components/sections/home/HospitalStrip";
-import TestimonialCards from "@/components/sections/home/TestimonialCards";
 import ProfessionalRoutes from "@/components/sections/home/ProfessionalRoutes";
 import CloseBand from "@/components/sections/home/CloseBand";
 import {
@@ -31,15 +27,8 @@ import {
 // voice. /about now 301s here (see next.config.mjs) and this is the canonical
 // URL. The navigation still offers "About Us"; it lands here.
 //
-// The sections follow the About group in src/content/navigation.ts, in the same
-// order, so the page and the menu describe the same thing. It is no longer a
-// one-to-one mirror: quality and governance is six checkable facts, which is a
-// page rather than something to scroll past, so it lives only at
-// /about/quality-and-governance now — the menu still reaches it, and the home
-// page keeps the headline fact of it on the GMC card in "Our approach to care".
-// Two earlier sections — the cancer-type list and the treatment locations —
-// are folded into the opening section's disclosure rows rather than dropped,
-// since both still matter to a patient arriving cold.
+// The home page is a curated overview rather than a one-to-one mirror of the
+// About menu. It links only to complete, deliberately designed destinations.
 //
 // Two rules govern the copy.
 //
@@ -99,15 +88,6 @@ const clinicalOncologists = consultants.filter(
 const medicalOncologists = consultants.filter(
   (c) => c.role === "Consultant Medical Oncologist",
 );
-
-/** The year the longest-serving partner became a consultant in Reading. */
-const establishedYear = Math.min(
-  ...consultants
-    .map((c) => c.consultantInReadingSince)
-    .filter((y): y is number => typeof y === "number"),
-);
-
-const withGmc = consultants.filter((c) => c.gmc).length;
 
 /**
  * Small counts read better spelled out in running prose — "Seven consultant
@@ -216,7 +196,7 @@ function Body({
     <Reveal>
       <p
         data-copy-key={copyKey}
-        className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink/80"
+        className="type-section-lede mt-5 max-w-3xl text-ink/80"
       >
         {children}
       </p>
@@ -225,8 +205,6 @@ function Body({
 }
 
 export default function Home() {
-  const tel = site.contact.phone.replace(/\s+/g, "");
-
   return (
     <>
       <JsonLd data={organizationLd()} />
@@ -235,71 +213,6 @@ export default function Home() {
 
       {/* ── 01 · About the partnership ─────────────────────────────────────── */}
       <PartnershipIntro />
-
-      {/* The bottom padding is what keeps the photograph above off the gold.
-          Sections are spaced by their own top margins (see Section), so the
-          last one before the band contributed nothing below itself and the
-          image's lower edge landed within a few pixels of the colour — it read
-          as sitting on the band rather than above it. This mirrors the same
-          rhythm on the other side. */}
-      <div className="container-wide pb-24 md:pb-36">
-        {/* ── 02 · Our approach to care ─────────────────────────────────────── */}
-        <Section>
-          {/* Heading inside the left column, as in section 03, so the
-              photograph starts level with it rather than a grid gap below. */}
-          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16 xl:gap-24">
-            <div>
-              <SectionHeading
-                id="approach"
-                title="What you can expect from your care"
-                copyKey="approach.heading"
-                showRule={false}
-              />
-              <Lede copyKey="approach.lede">
-                At your first appointment, your consultant will review the
-                information available and talk to you about your symptoms,
-                diagnosis or referral. They will explain what is known, what may
-                still need to be investigated and what the next steps may be.
-              </Lede>
-              <Body copyKey="approach.body">
-                Where there are treatment options to consider, your consultant
-                will explain their potential benefits, possible side effects
-                and practical differences, and the reasons for their
-                recommendation. You can always ask questions before deciding
-                what happens next. Cases are often reviewed by multiple
-                specialists so they can consider the diagnosis and treatment
-                options together.
-              </Body>
-              <Reveal>
-                <div className="mt-9 flex flex-wrap gap-3">
-                  <Button href="/about/our-approach" variant="ghost">
-                    <span data-copy-key="approach.action.care">
-                      How we care for patients
-                    </span>
-                  </Button>
-                  <Button href="/patients" variant="ghost">
-                    <span data-copy-key="approach.action.patients">
-                      Information for patients and families
-                    </span>
-                  </Button>
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={1}>
-              <ProofImage
-                src="/home/approach.jpg"
-                alt="A consultant writing up notes at a desk"
-                cardTitle="Every consultant is on the GMC Specialist Register"
-                cardBody={`All ${words(withGmc)} consultants hold full registration with a licence to practise. Their GMC numbers are published in their profiles so you can check the register.`}
-                statValue={`Since ${establishedYear}`}
-                statLabel="our longest-serving consultant has worked in Reading"
-              />
-            </Reveal>
-          </div>
-        </Section>
-
-      </div>
 
       {/* ── Cancers we treat ────────────────────────────────────────────────
           A full-bleed coloured band with its own sticky behaviour — the one
@@ -374,7 +287,7 @@ export default function Home() {
               <Reveal>
                 <p
                   data-copy-key="consultants.body"
-                  className="mt-5 max-w-md text-[17px] leading-relaxed text-ink/75"
+                  className="type-section-lede mt-5 max-w-md text-ink/75"
                 >
                   Each profile tells you which cancers a consultant treats,
                   which treatments they offer and where they see patients. It
@@ -485,7 +398,7 @@ export default function Home() {
                     <p className="font-display text-2xl leading-none text-ink">
                       {hospitals.length}
                     </p>
-                    <p className="mt-1.5 text-[13px] leading-tight text-ink-muted">
+                    <p className="type-supporting mt-1.5 leading-tight text-ink-muted">
                       hospitals and cancer centres
                       <br />
                       <span data-copy-key="nhs.map.region">
@@ -503,79 +416,7 @@ export default function Home() {
           </Section>
         </div>
 
-        {/* Quality and governance used to sit here, as section 05. It moved to
-            /about/quality-and-governance whole — six checkable facts is a page,
-            not a scroll-past, and this page already carries the headline one
-            (the GMC card in "Our approach to care"). The route above it in the
-            menu still reaches it; only the home page stopped restating it. */}
-
       </div>
-
-      {/* ── 06 · Patient feedback ───────────────────────────────────────────
-          Mirrors the cancers chapter — text right, cards left — so it sits
-          outside the page container for the same reason that one does: the card
-          column runs close to the edge, and a 100vw trick would overflow by the
-          scrollbar's width.
-
-          Note this replaced copy that argued the opposite case: the section used
-          to say the practice would rather publish nothing than publish a
-          selected quotation, on the grounds that testimonials chosen by a
-          practice describe its choices rather than its care. Publishing
-          testimonials is a perfectly normal decision, but it is a different
-          editorial position from the one the page held, so the old paragraphs
-          could not simply sit above the new cards. */}
-      <TestimonialCards
-        intro={
-          <>
-            <Reveal delay={1}>
-              <h2
-                id="feedback"
-                data-copy-key="feedback.heading"
-                tabIndex={-1}
-                className="home-section-title text-ink"
-              >
-                Patient reviews and feedback
-              </h2>
-            </Reveal>
-            <Reveal delay={2}>
-              <p
-                data-copy-key="feedback.reviews"
-                className="section-subtitle mt-7 text-ink/80"
-              >
-                Where available, you can read independently published patient
-                feedback about our consultants on the hospital and healthcare
-                platforms where they practise.
-              </p>
-            </Reveal>
-            <Reveal delay={2}>
-              <p
-                data-copy-key="feedback.direct"
-                className="mt-5 text-[17px] leading-relaxed text-ink/80"
-              >
-                If you have experience of care with one of our consultants, we
-                would also like to hear from you. Contact our practice team to
-                share feedback or raise a concern.
-              </p>
-            </Reveal>
-            <Reveal delay={3}>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Button
-                  href="https://www.phin.org.uk/search/consultants"
-                  variant="ghost"
-                  external
-                >
-                  <span data-copy-key="feedback.action">
-                    Search independent profiles
-                  </span>
-                </Button>
-                <Button href="/contact" variant="ghost">
-                  Share feedback or raise a concern
-                </Button>
-              </div>
-            </Reveal>
-          </>
-        }
-      />
 
       {/* ── 07 · Referrals, careers and professional enquiries ─────────────
           Was two sections, back to back, in the same shape: "Referring

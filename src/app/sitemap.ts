@@ -22,7 +22,6 @@ const consultantBrowsePaths = [
   "/consultants/medical-oncologists",
   "/consultants/by-treatment",
   "/consultants/profiles",
-  "/consultants/choosing-a-consultant",
 ];
 
 // The eight section landing pages rank above their children. Not all of them

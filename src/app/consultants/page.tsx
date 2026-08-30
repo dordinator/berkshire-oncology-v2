@@ -45,7 +45,7 @@ export default function ConsultantsPage() {
       {/* The page IS the strip: headline band, then the partnership as one
           wall of portraits, the hovered consultant coming into focus. All
           further wayfinding lives in the band's tabs. */}
-      <section className="bg-[#f8f8f4] pb-10 pt-28 md:pt-32 lg:pb-12">
+      <section className="bg-paper-soft pb-10 pt-28 md:pt-32 lg:pb-12">
         <div className="container-wide">
           <ConsultantsHeadline />
         </div>

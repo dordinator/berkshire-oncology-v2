@@ -33,6 +33,48 @@
 :root {
   --bg: #fafbfc;
   --fg: #061c46;
+  --brand-ink: #061c46;
+  --brand-blue: #1a4d8f;
+  --brand-blue-soft: #3f6fb0;
+  --brand-blue-glow: #9fb9dc;
+  --brand-blue-mist: color-mix(in srgb, var(--brand-blue) 12%, white);
+  --brand-sage: #5c7767;
+  --brand-sage-mid: color-mix(in srgb, var(--brand-sage) 82%, white);
+  --brand-sage-soft: color-mix(in srgb, var(--brand-sage) 68%, white);
+  --brand-sage-mist: color-mix(in srgb, var(--brand-sage) 18%, white);
+  --brand-gold: #c8992f;
+  --brand-gold-ink: #8a6516;
+  --brand-gold-soft: #e3bd6a;
+  --brand-gold-panel: #f3dca2;
+  --brand-sage-panel: color-mix(in srgb, var(--brand-sage) 32%, white);
+  --brand-paper: #fbfaf5;
+  --surface-canvas: #fafbfc;
+  --surface-canvas-soft: #eef2f7;
+  --surface-paper-soft: #f8f8f4;
+  --surface-warm: #f0ece2;
+  --surface-cool: #e7edf1;
+  /* One horizontal page grid, measured from the HCA reference site. The
+     content stays fluid on wide screens; readable copy widths are constrained
+     by the component inside the grid, never by shrinking the page wrapper. */
+  --site-gutter: 1rem;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --site-gutter: 2rem;
+  }
+}
+
+@media (min-width: 1136px) {
+  :root {
+    --site-gutter: 5.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --site-gutter: 6.5rem;
+  }
 }
 
 * {
@@ -42,6 +84,9 @@
 
 html {
   scroll-behavior: auto;
+  /* Native fragment navigation and no-JS/reduced-motion fallbacks use the
+     same live navbar measurement as the shared anchor controller. */
+  scroll-padding-top: var(--anchor-clearance, 7rem);
 }
 
 body {
@@ -154,10 +199,22 @@ summary:focus-visible {
 
 @layer components {
   .container-wide {
-    @apply mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-16;
+    @apply mx-auto w-full;
+    padding-inline: var(--site-gutter);
   }
   .container-narrow {
-    @apply mx-auto w-full max-w-4xl px-6 md:px-10;
+    @apply mx-auto w-full max-w-4xl;
+    padding-inline: var(--site-gutter);
+  }
+  .site-gutter {
+    padding-inline: var(--site-gutter);
+  }
+  /* A horizontal strip may bleed to the viewport edge, while its first item
+     still starts on the shared page grid. */
+  .site-gutter-bleed {
+    margin-inline: calc(var(--site-gutter) * -1);
+    padding-inline: var(--site-gutter);
+    scroll-padding-inline-start: var(--site-gutter);
   }
   .eyebrow {
     @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted;
@@ -179,6 +236,48 @@ summary:focus-visible {
   }
   .section-subtitle {
     @apply text-[17px] leading-relaxed md:text-lg;
+  }
+  /* Public type roles ------------------------------------------------------
+     Every page hero uses one responsive title scale. Long names and headings
+     wrap within their layout instead of changing size from route to route. */
+  .type-page-hero {
+    @apply font-display text-4xl font-semibold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl;
+  }
+  .type-photo-hero {
+    @apply font-display text-4xl font-semibold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl;
+  }
+  .type-editorial-hero {
+    @apply font-display text-[clamp(2.75rem,6vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.055em];
+  }
+  .type-feature-title {
+    @apply font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em];
+  }
+  .type-section-title {
+    @apply font-display text-[2.1rem] font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.2rem];
+  }
+  .type-card-title {
+    @apply font-display text-2xl font-semibold leading-tight tracking-tight md:text-[1.75rem];
+  }
+  .type-compact-title {
+    @apply font-display text-lg font-semibold leading-snug md:text-xl;
+  }
+  .type-hero-lede {
+    @apply text-lg leading-relaxed md:text-xl;
+  }
+  .type-section-lede {
+    @apply text-[17px] leading-relaxed md:text-lg;
+  }
+  .type-body {
+    @apply text-[15px] leading-relaxed md:text-base;
+  }
+  .type-supporting {
+    @apply text-sm leading-relaxed;
+  }
+  .type-label {
+    @apply text-xs font-medium uppercase tracking-[0.18em];
+  }
+  .type-button {
+    @apply text-sm font-medium;
   }
   /* Primary section headings on the home page use one scale everywhere.
      Keep spacing and colour on the individual section so layout variants can
@@ -324,11 +423,13 @@ summary:focus-visible {
 }
 
 .consultant-section-rhythm {
-  padding-block: var(--consultant-section-space);
+  padding-bottom: var(--consultant-section-space);
+  padding-top: max(var(--consultant-section-space), 7rem);
 }
 
 .consultant-treatment-section {
-  padding-block: var(--consultant-section-space);
+  padding-bottom: var(--consultant-section-space);
+  padding-top: max(var(--consultant-section-space), 7rem);
 }
 
 @media (min-width: 1024px) {
@@ -584,7 +685,7 @@ summary:focus-visible {
   }
 
   .text-gradient {
-    @apply bg-gradient-to-br from-accent via-accent-soft to-lilac bg-clip-text text-transparent;
+    @apply bg-gradient-to-br from-accent via-accent-soft to-accent-glow bg-clip-text text-transparent;
   }
   /*
    * background-clip: text only paints the gradient inside the inline box, so
@@ -605,10 +706,70 @@ summary:focus-visible {
   }
   .mesh-bg {
     background-image:
-      radial-gradient(at 18% 22%, rgba(6, 28, 70, 0.1) 0px, transparent 50%),
-      radial-gradient(at 82% 18%, rgba(30, 79, 146, 0.12) 0px, transparent 50%),
-      radial-gradient(at 70% 80%, rgba(120, 150, 195, 0.14) 0px, transparent 50%),
-      radial-gradient(at 25% 75%, rgba(150, 175, 210, 0.16) 0px, transparent 50%);
+      radial-gradient(
+        at 18% 22%,
+        color-mix(in srgb, var(--brand-ink) 10%, transparent) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 82% 18%,
+        color-mix(in srgb, var(--brand-blue) 12%, transparent) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 70% 80%,
+        color-mix(in srgb, var(--brand-blue-soft) 14%, transparent) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 25% 75%,
+        color-mix(in srgb, var(--brand-blue-glow) 16%, transparent) 0px,
+        transparent 50%
+      );
+  }
+
+  .resource-hero-wash {
+    background:
+      radial-gradient(
+        circle at 14% 22%,
+        color-mix(in srgb, var(--brand-sage) 18%, transparent),
+        transparent 27%
+      ),
+      radial-gradient(
+        circle at 87% 80%,
+        color-mix(in srgb, var(--brand-gold) 9%, transparent),
+        transparent 24%
+      );
+  }
+
+  .resource-location-wash {
+    background:
+      radial-gradient(
+        circle at 88% 22%,
+        color-mix(in srgb, var(--brand-blue) 12%, transparent),
+        transparent 29%
+      ),
+      radial-gradient(
+        circle at 8% 88%,
+        color-mix(in srgb, var(--brand-gold) 8%, transparent),
+        transparent 24%
+      );
+  }
+
+  .resource-faq-wash {
+    background:
+      radial-gradient(circle at 13% 18%, rgba(255, 255, 255, 0.8), transparent 28%),
+      radial-gradient(
+        circle at 88% 82%,
+        color-mix(in srgb, var(--brand-blue) 10%, transparent),
+        transparent 30%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        color-mix(in srgb, var(--surface-warm) 94%, transparent) 18%,
+        color-mix(in srgb, var(--surface-warm) 94%, transparent) 100%
+      );
   }
   .noise {
     position: relative;
@@ -790,6 +951,25 @@ summary:focus-visible {
   .care-flow {
     animation: none;
     opacity: 0;
+  }
+}
+
+/* Homepage story intros can be sticky when the viewport has enough height to
+   contain them. On short laptop and tablet-landscape viewports, natural height
+   prevents longer copy from overlapping the next chapter. */
+@media (min-width: 64rem) {
+  .home-sticky-intro {
+    display: flex;
+    min-height: 100svh;
+    align-items: center;
+  }
+}
+
+@media (min-width: 64rem) and (min-height: 47.5rem) {
+  .home-sticky-intro {
+    position: sticky;
+    top: 0;
+    height: 100svh;
   }
 }
 

@@ -40,15 +40,15 @@ export default function LegalLayout({ doc }: { doc: LegalDoc }) {
           so the site's palest pages open on its darkest brand colour. */}
       <header className="bg-ink pb-14 pt-32 md:pb-20 md:pt-44">
         <div className="container-wide">
-          <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-white/50">
-            <span aria-hidden className="h-px w-8 bg-[#c8992f]/70" />
+          <p className="type-label flex items-center gap-3 text-white/50">
+            <span aria-hidden className="h-px w-8 bg-gold/70" />
             Legal information
           </p>
-          <h1 className="mt-5 max-w-4xl font-display text-4xl leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl">
+          <h1 className="type-page-hero mt-5 max-w-4xl text-white">
             {doc.title}
           </h1>
           {doc.updated && (
-            <p className="mt-6 text-[15px] text-white/60">
+            <p className="type-body mt-6 text-white/60">
               Last updated: <span className="text-white/85">{doc.updated}</span>
             </p>
           )}
@@ -64,7 +64,7 @@ export default function LegalLayout({ doc }: { doc: LegalDoc }) {
           <nav aria-label="Legal documents" className="mb-8 lg:mb-0">
             {/* Phone: horizontal chips. The overflow scrolls inside this strip
                 so the page itself never scrolls sideways. */}
-            <div className="-mx-6 overflow-x-auto px-6 md:-mx-10 md:px-10 lg:hidden">
+            <div className="site-gutter-bleed overflow-x-auto lg:hidden">
               <ul className="flex w-max gap-2 pb-1">
                 {policyLinks.map((l) => {
                   const active = l.href === current;
@@ -91,7 +91,7 @@ export default function LegalLayout({ doc }: { doc: LegalDoc }) {
             <div className="hidden lg:sticky lg:top-28 lg:block">
               <p
                 aria-hidden
-                className="text-xs font-medium uppercase tracking-[0.2em] text-ink-muted"
+                className="type-label text-ink-muted"
               >
                 In this section
               </p>
@@ -103,7 +103,7 @@ export default function LegalLayout({ doc }: { doc: LegalDoc }) {
                       <Link
                         href={l.href}
                         aria-current={active ? "page" : undefined}
-                        className={`-ml-px block border-l-2 py-1.5 pl-4 text-[15px] transition-colors ${
+                        className={`type-body -ml-px block border-l-2 py-1.5 pl-4 transition-colors ${
                           active
                             ? "border-accent font-medium text-ink"
                             : "border-transparent text-ink-muted hover:border-black/20 hover:text-ink"

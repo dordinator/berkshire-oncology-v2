@@ -26,7 +26,7 @@ export default function CancerPathway({
           <span className="eyebrow">
             <span className="h-px w-8 bg-ink-muted" /> How care is joined up
           </span>
-          <p className="mt-4 text-[15px] leading-relaxed text-ink/80 md:text-base">
+          <p className="type-body mt-4 text-ink/80">
             {note ??
               "Who you would see, what they may use to treat it, and where that treatment actually takes place."}
           </p>

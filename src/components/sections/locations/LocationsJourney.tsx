@@ -17,7 +17,7 @@ import type { MapStop } from "./mapCamera";
 // /locations — the scroll journey, as a stepped, locked experience.
 //
 // One viewport-tall stage stays pinned for the whole journey while a track of
-// N×100vh behind it turns scroll depth into a single progress value:
+// N×100svh behind it turns scroll depth into a single progress value:
 // 0 = the hero beside the UK-wide map, k = stop k−1 settled. Everything is a
 // function of that value —
 //
@@ -47,6 +47,7 @@ export interface JourneyStop extends MapStop {
   description: string;
   href: string;
   linkLabel: string;
+  external?: boolean;
 }
 
 function Arrow() {
@@ -70,7 +71,7 @@ function Arrow() {
 
 function NhsPill() {
   return (
-    <span className="rounded-full border border-accent/25 bg-accent/[0.07] px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-accent">
+    <span className="type-label rounded-full border border-accent/25 bg-accent/[0.07] px-2.5 py-1 text-accent">
       NHS
     </span>
   );
@@ -100,6 +101,7 @@ export default function LocationsJourney({
   const reduced = useReducedMotion();
 
   const trackRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // ── Progress ───────────────────────────────────────────────────────────────
@@ -115,27 +117,38 @@ export default function LocationsJourney({
 
   useEffect(() => {
     const el = trackRef.current;
-    if (!el) return;
+    const stage = stageRef.current;
+    if (!el || !stage) return;
 
     let trackTop = 0;
+    let viewportHeight = 0;
     const measure = () => {
       trackTop = el.getBoundingClientRect().top + window.scrollY;
+      viewportHeight = stage.getBoundingClientRect().height;
     };
     measure();
 
     const onScroll = () => {
-      const vh = window.innerHeight;
+      if (viewportHeight <= 0) return;
       rawP.set(
-        Math.min(Math.max((window.scrollY - trackTop) / vh, 0), LAST),
+        Math.min(
+          Math.max((window.scrollY - trackTop) / viewportHeight, 0),
+          LAST,
+        ),
       );
     };
     onScroll();
 
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", onResize);
     };
   }, [LAST, rawP]);
 
@@ -168,30 +181,35 @@ export default function LocationsJourney({
   useEffect(() => {
     const lenis = getLenis();
     const el = trackRef.current;
-    if (!lenis || !el) return;
+    const stage = stageRef.current;
+    if (!lenis || !el || !stage) return;
 
     let snap: InstanceType<typeof Snap> | null = null;
     let trackTop = 0;
     let stageEnd = 0;
+    let viewportHeight = 0;
 
     const build = () => {
       snap?.destroy();
       trackTop = el.getBoundingClientRect().top + window.scrollY;
-      const vh = window.innerHeight;
-      stageEnd = trackTop + LAST * vh;
+      viewportHeight = stage.getBoundingClientRect().height;
+      if (viewportHeight <= 0) return;
+      stageEnd = trackTop + LAST * viewportHeight;
       snap = new Snap(lenis, {
         type: "mandatory",
         duration: 1.15,
         easing: easeInOutSine,
         debounce: 320,
       });
-      for (let k = 0; k <= LAST; k++) snap.add(trackTop + k * vh);
+      for (let k = 0; k <= LAST; k++) {
+        snap.add(trackTop + k * viewportHeight);
+      }
       guard();
     };
 
     const guard = () => {
       if (!snap) return;
-      const inStage = window.scrollY < stageEnd + window.innerHeight * 0.4;
+      const inStage = window.scrollY < stageEnd + viewportHeight * 0.4;
       if (inStage) snap.start();
       else snap.stop();
     };
@@ -219,13 +237,14 @@ export default function LocationsJourney({
   useEffect(() => {
     const lenis = getLenis();
     const el = trackRef.current;
-    if (!lenis || !el) return;
+    const stage = stageRef.current;
+    if (!lenis || !el || !stage) return;
 
     let trackTop = 0;
-    let vh = window.innerHeight;
+    let viewportHeight = 0;
     const measure = () => {
       trackTop = el.getBoundingClientRect().top + window.scrollY;
-      vh = window.innerHeight;
+      viewportHeight = stage.getBoundingClientRect().height;
     };
     measure();
 
@@ -236,16 +255,33 @@ export default function LocationsJourney({
     let backstop: ReturnType<typeof setTimeout> | null = null;
 
     const currentLock = () =>
-      Math.round((window.scrollY - trackTop) / vh);
+      viewportHeight > 0
+        ? Math.round((window.scrollY - trackTop) / viewportHeight)
+        : 0;
     const inStage = () =>
-      window.scrollY < trackTop + LAST * vh + vh * 0.35;
+      window.scrollY <
+      trackTop + LAST * viewportHeight + viewportHeight * 0.35;
+
+    const panelCanScroll = (target: EventTarget | null, deltaY: number) => {
+      if (!(target instanceof Element) || deltaY === 0) return false;
+      const panel = target.closest<HTMLElement>(
+        "[data-location-journey-scroll]",
+      );
+      if (!panel || !el.contains(panel)) return false;
+
+      const maxScrollTop = panel.scrollHeight - panel.clientHeight;
+      if (maxScrollTop <= 1) return false;
+      return deltaY > 0
+        ? panel.scrollTop < maxScrollTop - 1
+        : panel.scrollTop > 1;
+    };
 
     const step = (dir: 1 | -1) => {
       const next = Math.min(Math.max(currentLock() + dir, 0), LAST);
       if (next === currentLock()) return;
       stepping = true;
       swallowTail = true;
-      lenis.scrollTo(trackTop + next * vh, {
+      lenis.scrollTo(trackTop + next * viewportHeight, {
         duration: 1.1,
         easing: easeInOutSine,
         lock: true,
@@ -265,6 +301,10 @@ export default function LocationsJourney({
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       if (!inStage()) return;
+      // A short viewport can make the active text panel taller than its box.
+      // Let that panel consume the wheel until it reaches the relevant edge;
+      // only then does the next gesture advance the journey.
+      if (panelCanScroll(e.target, e.deltaY)) return;
       const dir: 1 | -1 = e.deltaY > 0 ? 1 : -1;
       // Leaving: the last lock's downward gesture belongs to the page.
       if (!stepping && dir === 1 && currentLock() >= LAST) return;
@@ -339,7 +379,7 @@ export default function LocationsJourney({
       <div key="hero">{hero}</div>,
       ...stops.map((stop) => (
         <article key={stop.name}>
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-muted">
+          <p className="type-label text-ink-muted">
             {stop.eyebrow}
           </p>
 
@@ -365,13 +405,26 @@ export default function LocationsJourney({
             </p>
           )}
 
-          <Link
-            href={stop.href}
-            className="group mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-accent lg:mt-7"
-          >
-            {stop.linkLabel}
-            <Arrow />
-          </Link>
+          {stop.external ? (
+            <a
+              href={stop.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-accent lg:mt-7"
+            >
+              {stop.linkLabel}
+              <Arrow />
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          ) : (
+            <Link
+              href={stop.href}
+              className="group mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-accent lg:mt-7"
+            >
+              {stop.linkLabel}
+              <Arrow />
+            </Link>
+          )}
         </article>
       )),
       // The outro: index LAST, beside the camera's return to the wide shot.
@@ -390,10 +443,13 @@ export default function LocationsJourney({
           one being the pull back out to the UK. */}
       <div
         ref={trackRef}
-        style={{ height: `${(LAST + 1) * 100}vh` }}
+        style={{ height: `${(LAST + 1) * 100}svh` }}
         className="relative"
       >
-        <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden lg:block">
+        <div
+          ref={stageRef}
+          className="sticky top-0 flex h-[100svh] flex-col overflow-hidden lg:block"
+        >
           {/* ── The map ──────────────────────────────────────────────────
               Below lg: a band across the top of the stage, its last 26px
               ceded to the licence caption. From lg: the right half. */}
@@ -436,7 +492,9 @@ export default function LocationsJourney({
                   panelRefs.current[k] = node;
                 }}
                 style={panelStyle(k)}
-                className="absolute inset-0 flex overflow-y-auto px-6 md:px-10 lg:pl-[max(2.5rem,calc((100vw-90rem)/2+2.5rem))] lg:pr-14"
+                data-lenis-prevent
+                data-location-journey-scroll
+                className="site-gutter absolute inset-0 flex overflow-y-auto lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 xl:pt-0"
               >
                 {/* my-auto, not justify-center on the flex box: flex centring
                     of overflowing content clips its top unreachably; auto

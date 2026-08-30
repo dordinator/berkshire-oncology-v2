@@ -50,9 +50,9 @@ export default function ConsultantScroller({
           cannot fight the page's vertical scroll, and ten names become one
           flick. It also matches the two chapters above.
 
-          overscroll-contain is set here rather than left to Lenis — its rule in
-          globals.css keys off `.lenis.lenis-smooth`, and only `lenis` is on the
-          html element, so that rule never matches. */}
+          Leave vertical overscroll chaining enabled. At the ends of the list,
+          the same wheel or swipe can then carry on scrolling the page instead
+          of getting trapped inside this nested scroller. */}
       <div
         data-lenis-prevent
         data-home-return-scroll="consultants"
@@ -60,10 +60,10 @@ export default function ConsultantScroller({
         // text beside it, so the list starts level with the heading and ends
         // level with the buttons. min-height keeps at least three rows in view
         // if that text column is ever short.
-        // scroll-pl-6 so the first card keeps its left margin: snap-start aligns
+        // The shared gutter keeps the first card on the page grid: snap-start aligns
         // to the scrollport edge, which sits inside the padding, so without it
         // the browser scrolls the padding away on load.
-        className="-mx-6 snap-x snap-mandatory scroll-pl-6 overflow-x-auto overscroll-contain px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:h-[29rem] md:snap-y md:snap-proximity md:scroll-pl-0 md:overflow-x-visible md:overflow-y-auto md:scroll-smooth md:px-0 md:pb-0 md:pr-1 md:[scrollbar-color:rgba(6,28,70,0.18)_transparent] md:[scrollbar-width:thin] lg:h-full lg:min-h-[24rem]"
+        className="site-gutter-bleed snap-x snap-mandatory overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:h-[29rem] md:snap-y md:snap-proximity md:scroll-pl-0 md:overflow-x-visible md:overflow-y-auto md:scroll-smooth md:px-0 md:pb-0 md:pr-1 md:[scrollbar-color:rgba(6,28,70,0.18)_transparent] md:[scrollbar-width:thin] lg:h-full lg:min-h-[24rem]"
       >
         <ul className="flex gap-3 md:flex-col">
           {consultants.map((c) => (
@@ -92,10 +92,10 @@ export default function ConsultantScroller({
                 </span>
 
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-[17px] leading-tight text-ink transition-colors group-hover:text-accent sm:text-lg">
+                  <span className="type-compact-title block leading-tight text-ink transition-colors group-hover:text-accent">
                     {c.name}
                   </span>
-                  <span className="mt-1 block text-[13px] leading-tight text-ink-muted">
+                  <span className="type-supporting mt-1 block leading-tight text-ink-muted">
                     {c.shortRole ?? c.role}
                   </span>
                   {specialities[c.slug]?.length > 0 && (
@@ -133,15 +133,15 @@ export default function ConsultantScroller({
         </ul>
       </div>
 
-      {/* Softens the top and bottom edge so rows fade rather than being sliced
-          off. pointer-events-none so it never eats a click on the row beneath. */}
+      {/* On the md+ vertical list, soften the top and bottom edge so rows fade
+          rather than being sliced off. Keep the horizontal phone cards crisp. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-canvas to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 hidden h-8 bg-gradient-to-b from-canvas to-transparent md:block"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-canvas via-canvas/80 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-14 bg-gradient-to-t from-canvas via-canvas/80 to-transparent md:block"
       />
     </div>
   );

@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import JsonLd from "@/components/site/JsonLd";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import LocationsJourney from "@/components/sections/locations/LocationsJourney";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
-import { allNavLinks } from "@/content/navigation";
-import { getLocation } from "@/content/locations";
 import { journeyStops } from "@/content/journey";
-import { attribution } from "@/content/mapPaths.generated";
+import { mapAttribution } from "@/content/mapAttribution";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // /locations — a scroll journey in the manner of HCA's "Our locations".
@@ -19,9 +16,9 @@ import { attribution } from "@/content/mapPaths.generated";
 // in its operator's own terms. The choreography lives in LocationsJourney; the
 // stops, their order and their framing in content/journey.ts.
 //
-// What used to be here — a card grid of the five sites — is replaced by the
-// journey itself (every panel links on to its detail page). The practical
-// pages and the "not sure which site" card survive below it unchanged.
+// What used to be here — a card grid and a set of generic detail scaffolds — is
+// replaced by the journey itself. Each site panel links to the hospital's own
+// verified page; practice-specific questions go to the contact journey.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = pageMeta({
@@ -31,34 +28,7 @@ export const metadata: Metadata = pageMeta({
   path: "/locations",
 });
 
-function Arrow({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden
-      className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${className}`}
-      viewBox="0 0 16 16"
-      fill="none"
-    >
-      <path
-        d="M3 8h10M9 4l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function LocationsPage() {
-  // The pages under /locations that aren't hospitals — travel, parking and the
-  // other-providers page. Read from the IA so nothing is missed.
-  const practicalPages = allNavLinks.filter(
-    (link) =>
-      link.href.startsWith("/locations/") &&
-      !getLocation(link.href.slice("/locations/".length)),
-  );
-
   return (
     <>
       <JsonLd
@@ -70,11 +40,11 @@ export default function LocationsPage() {
 
       <LocationsJourney
         stops={journeyStops}
-        attribution={attribution}
+        attribution={mapAttribution}
         hero={
           <>
             <Reveal>
-              <h1 className="heading-lg">Where you may be seen</h1>
+              <h1 className="type-page-hero">Where you may be seen</h1>
             </Reveal>
             <Reveal delay={1}>
               <p className="body-lg mt-6 max-w-xl">
@@ -124,7 +94,7 @@ export default function LocationsPage() {
               </div>
             </Reveal>
             <Reveal delay={4}>
-              <p className="mt-6 flex items-center gap-2.5 text-xs font-medium uppercase tracking-[0.18em] text-ink-muted lg:mt-8">
+              <p className="type-label mt-6 flex items-center gap-2.5 text-ink-muted lg:mt-8">
                 Scroll to explore each location
                 <svg
                   aria-hidden
@@ -146,51 +116,23 @@ export default function LocationsPage() {
         }
         outro={
           // The journey's last lock: the camera has pulled back out to the
-          // UK-wide shot it opened on, and the practical pages that used to
-          // live in a section below now close the story beside it.
+          // UK-wide shot it opened on, with a direct hand-off to the practice.
           <>
             <h2 className="font-display text-2xl leading-tight text-ink md:text-3xl">
-              Getting there and other sites
+              Not sure which site you need?
             </h2>
-            <div className="mt-5 divide-y divide-ink/[0.07] border-y border-ink/[0.07] lg:mt-7">
-              {practicalPages.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="group flex items-center justify-between gap-4 py-3.5 lg:py-4"
-                >
-                  <span className="min-w-0">
-                    <span className="block font-display text-base text-ink transition-colors group-hover:text-accent lg:text-lg">
-                      {link.label}
-                    </span>
-                    {link.description && (
-                      <span className="mt-0.5 hidden text-sm leading-snug text-ink-muted md:block">
-                        {link.description}
-                      </span>
-                    )}
-                  </span>
-                  <Arrow className="shrink-0 text-accent" />
-                </Link>
-              ))}
-            </div>
-
-            <div className="mt-6 lg:mt-9">
-              <h3 className="font-display text-lg text-ink lg:text-xl">
-                Not sure which site you need?
-              </h3>
-              <p className="mt-2 hidden max-w-md text-base leading-relaxed text-ink-muted sm:block">
-                Contact the practice team if you are unsure where to go. They
-                can check where your consultant sees patients and where your
-                treatment is planned.
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-3 lg:mt-5">
-                <Button href="/contact#guidance" variant="primary">
-                  Contact the practice
-                </Button>
-                <Button href="/consultants" variant="ghost">
-                  Find a consultant
-                </Button>
-              </div>
+            <p className="mt-4 max-w-md text-base leading-relaxed text-ink-muted">
+              Contact the practice team if you are unsure where to go. They can
+              check where your consultant sees patients and where your treatment
+              is planned before you travel.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3 lg:mt-8">
+              <Button href="/contact#guidance" variant="primary">
+                Contact the practice
+              </Button>
+              <Button href="/consultants" variant="ghost">
+                Find a consultant
+              </Button>
             </div>
           </>
         }

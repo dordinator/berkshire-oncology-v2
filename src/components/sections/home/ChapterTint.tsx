@@ -31,9 +31,9 @@ import { createPortal } from "react-dom";
  * several times over (gold ~11:1, sage ~9.5:1). Named here rather than typed
  * into each section so the two cannot drift apart.
  */
-export const CHAPTER_GOLD = "#f3dca2";
+export const CHAPTER_GOLD = "var(--brand-gold-panel)";
 /** Matches the patients hero panel and its closing band. */
-export const CHAPTER_SAGE = "#c8d6cf";
+export const CHAPTER_SAGE = "var(--brand-sage-panel)";
 
 export default function ChapterTint({
   colour,

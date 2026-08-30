@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import TreatmentDetailHero from "@/components/treatments/TreatmentDetailHero";
-import { site } from "@/content/site";
 import {
   getCancerTypesForTherapy,
   getConsultantsForTherapy,
@@ -41,7 +40,7 @@ function TextLink({
   external?: boolean;
 }) {
   const classes =
-    "group inline-flex min-h-11 items-center gap-2 text-sm font-medium text-ink transition-colors hover:text-[#617f70]";
+    "type-button group inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-sage";
   const content = (
     <>
       {children}
@@ -75,7 +74,7 @@ function Chip({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="inline-flex min-h-11 items-center rounded-full border border-[#718b7d]/35 px-5 text-sm text-ink transition-colors hover:border-[#718b7d]/70 hover:bg-[#fbfaf7]/70 hover:text-[#617f70]"
+      className="type-button inline-flex min-h-11 items-center rounded-full border border-sage/35 px-5 text-ink transition-colors hover:border-sage/70 hover:bg-paper/70 hover:text-sage"
     >
       {children}
     </Link>
@@ -90,11 +89,11 @@ function Caveat({
   label?: string;
 }) {
   return (
-    <aside className="mt-8 rounded-[1.5rem] border border-ink/[0.08] bg-[#eef3f0] px-5 py-5 md:px-7 md:py-6">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#617f70]">
+    <aside className="mt-8 rounded-[1.5rem] border border-ink/[0.08] bg-sage-wash px-5 py-5 md:px-7 md:py-6">
+      <p className="type-label font-semibold text-sage">
         {label}
       </p>
-      <div className="mt-3 text-[15px] leading-relaxed text-ink/80">{children}</div>
+      <div className="type-body mt-3 text-ink/80">{children}</div>
     </aside>
   );
 }
@@ -103,7 +102,7 @@ function SupportingFigure({ therapy }: { therapy: Therapy }) {
   if (!therapy.image) return null;
 
   return (
-    <section className="border-t border-ink/[0.06] bg-[#fbfaf7] py-20 md:py-24">
+    <section className="border-t border-ink/[0.06] bg-paper py-20 md:py-24">
       <div className="container-wide">
         <Reveal>
           <figure className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
@@ -117,13 +116,13 @@ function SupportingFigure({ therapy }: { therapy: Therapy }) {
               />
             </div>
             <figcaption className="max-w-lg">
-              <p className="font-display text-2xl font-semibold tracking-tight text-ink">
+              <p className="type-card-title text-ink">
                 About this image
               </p>
-              <p className="mt-4 text-base leading-relaxed text-ink-muted">
+              <p className="type-body mt-4 text-ink-muted">
                 {therapy.image.caption}
               </p>
-              <p className="mt-4 text-xs leading-relaxed text-ink-muted/75">
+              <p className="type-supporting mt-4 text-ink-muted/75">
                 {therapy.image.credit}
               </p>
             </figcaption>
@@ -164,26 +163,27 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         : "mt-6 grid gap-4 sm:grid-cols-3";
 
   return (
-    <article className="overflow-hidden bg-[#fbfaf7]">
+    <article className="overflow-hidden bg-paper">
       <TreatmentDetailHero therapy={therapy} presentation={presentation} />
 
       <section
         id="understanding"
-        className="flex scroll-mt-28 items-center border-t border-ink/[0.06] bg-[#fbfaf7] py-24 md:py-28 lg:min-h-[100svh] lg:py-32"
+        data-anchor-align="viewport"
+        className="flex scroll-mt-28 items-center border-t border-ink/[0.06] bg-paper pb-24 pt-28 md:py-28 lg:min-h-[100svh] lg:py-32"
       >
         <div className="container-wide grid items-center gap-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
           <Reveal className="lg:flex lg:flex-col lg:justify-center">
-            <h2 className="max-w-[11ch] font-display text-[clamp(2.7rem,3.8vw,4.3rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+            <h2 className="type-feature-title max-w-[11ch] text-ink">
               Understanding {lowerTitle}
             </h2>
-            <p className="mt-9 max-w-[25rem] text-lg leading-[1.7] text-ink-muted">
+            <p className="type-hero-lede mt-9 max-w-[25rem] text-ink-muted">
               What the treatment is, how it works and how it is given.
             </p>
             <a
               href={therapy.sources[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full border border-ink/15 px-6 text-sm font-medium text-ink transition-colors hover:border-[#718b7d]/70 hover:text-[#617f70]"
+              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full border border-ink/15 px-6 text-ink transition-colors hover:border-sage/70 hover:text-sage"
             >
               Read more about {lowerTitle}
               <span aria-hidden>↗</span>
@@ -194,9 +194,8 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
             <div className="relative max-w-[50rem]">
               <span
                 aria-hidden
-                className="absolute z-0 block w-px"
+                className="absolute z-0 block w-px bg-sage/45"
                 style={{
-                  backgroundColor: "#aebdb5",
                   bottom: "1.25rem",
                   left: "0.875rem",
                   top: "1.25rem",
@@ -214,15 +213,15 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                   >
                     <span
                       aria-hidden
-                      className="relative z-10 mt-1.5 flex h-7 w-7 items-center justify-center rounded-full border border-[#718b7d]/45 bg-[#fbfaf7]"
+                      className="relative z-10 mt-1.5 flex h-7 w-7 items-center justify-center rounded-full border border-sage/45 bg-paper"
                     >
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#718b7d]" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-sage" />
                     </span>
                     <div>
-                      <h3 className="max-w-[31rem] font-display text-[clamp(1.45rem,2vw,2rem)] font-semibold leading-[1.12] tracking-[-0.025em] text-ink">
+                      <h3 className="type-card-title max-w-[31rem] text-ink">
                         {presentation.understandingHeadings[index]}
                       </h3>
-                      <p className="mt-4 max-w-[38rem] text-[16px] leading-[1.7] text-ink-muted md:text-[17px]">
+                      <p className="type-section-lede mt-4 max-w-[38rem] text-ink-muted">
                         {paragraph}
                       </p>
                     </div>
@@ -238,27 +237,28 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
       <section
         id="when-considered"
-        className="scroll-mt-28 border-t border-ink/[0.06] bg-[#edf2ef] py-20 md:py-24 lg:py-28"
+        data-anchor-align="viewport"
+        className="scroll-mt-28 border-t border-ink/[0.06] bg-sage-mist pb-20 pt-28 md:py-24 lg:py-28"
       >
         <div className="container-wide grid items-center gap-14 lg:grid-cols-[1.18fr_0.82fr] lg:gap-16 xl:gap-20">
           <Reveal className="lg:order-2">
-            <h2 className="max-w-[10ch] font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+            <h2 className="type-feature-title max-w-[10ch] text-ink">
               When it is used
             </h2>
-            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-muted">
+            <p className="type-hero-lede mt-7 max-w-md text-ink-muted">
               These are common reasons for using this treatment. Your consultant
               will explain whether it is an option for you.
             </p>
           </Reveal>
 
           <Reveal delay={1} className="lg:order-1">
-            <ol className="divide-y divide-ink/10 rounded-[1.75rem] border border-ink/[0.08] bg-[#fbfaf7] px-6 py-2 shadow-[0_24px_60px_-50px_rgba(6,28,70,0.42)] md:px-9 lg:px-10">
+            <ol className="divide-y divide-ink/10 rounded-[1.75rem] border border-ink/[0.08] bg-paper px-6 py-2 shadow-[0_24px_60px_-50px_rgba(6,28,70,0.42)] md:px-9 lg:px-10">
               {therapy.whenConsidered.map((item, index) => (
                 <li key={item} className="grid grid-cols-[2.5rem_1fr] gap-5 py-5 md:py-6">
-                  <span className="pt-0.5 text-sm font-semibold text-ink/70">
+                  <span className="type-label pt-0.5 font-semibold text-ink/70">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-base leading-relaxed text-ink/80 md:text-lg">
+                  <p className="type-section-lede text-ink/80">
                     {item}
                   </p>
                 </li>
@@ -270,15 +270,16 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
       <section
         id="what-to-expect"
-        className="scroll-mt-28 border-t border-ink/[0.06] bg-[#f1f4f3] py-24 md:py-28 lg:py-32"
+        data-anchor-align="viewport"
+        className="scroll-mt-28 border-t border-ink/[0.06] bg-sage-wash pb-24 pt-28 md:py-28 lg:py-32"
       >
         <div className="container-wide">
           <Reveal>
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-              <h2 className="font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+              <h2 className="type-feature-title text-ink">
                 What to expect
               </h2>
-              <p className="max-w-xl text-lg leading-relaxed text-ink-muted lg:justify-self-end">
+              <p className="type-hero-lede max-w-xl text-ink-muted lg:justify-self-end">
                 Your appointments and checks depend on the treatment plan. The
                 team caring for you will explain what happens and when.
               </p>
@@ -291,17 +292,17 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 key={stage.title}
                 delay={index}
                 as="li"
-                className="border-t border-[#718b7d]/40 pt-6"
+                className="border-t border-sage/40 pt-6"
               >
                 <div className="flex items-baseline gap-5">
-                  <span className="text-sm font-medium text-[#617f70]">
+                  <span className="type-button text-sage">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
+                  <h3 className="type-card-title text-ink">
                     {stage.title}
                   </h3>
                 </div>
-                <p className="mt-4 max-w-[39rem] pl-[3.15rem] text-[15px] leading-[1.75] text-ink-muted md:text-base">
+                <p className="type-body mt-4 max-w-[39rem] pl-[3.15rem] text-ink-muted">
                   {stage.body}
                 </p>
               </Reveal>
@@ -314,16 +315,17 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         <section
           key={section.id}
           id={section.id}
-          className="scroll-mt-28 border-t border-ink/[0.06] bg-[#fbfaf7] py-20 md:py-24"
+          data-anchor-align="viewport"
+          className="scroll-mt-28 border-t border-ink/[0.06] bg-paper pb-20 pt-28 md:py-24"
         >
           <div className="container-wide grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
             <Reveal>
-              <h2 className="max-w-[12ch] font-display text-[clamp(2.4rem,3.6vw,4rem)] font-semibold leading-[1] tracking-[-0.05em] text-ink">
+              <h2 className="type-section-title max-w-[12ch] text-ink">
                 {section.title}
               </h2>
             </Reveal>
             <Reveal delay={1}>
-              <div className="max-w-[49rem] space-y-5 text-[17px] leading-[1.75] text-ink/85">
+              <div className="type-section-lede max-w-[49rem] space-y-5 text-ink/85">
                 {section.body.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -336,13 +338,14 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
       <section
         id="care-team"
-        className="scroll-mt-28 border-t border-ink/[0.06] bg-[#edf2ef] py-20 md:py-24 lg:py-28"
+        data-anchor-align="viewport"
+        className="scroll-mt-28 border-t border-ink/[0.06] bg-sage-mist pb-20 pt-28 md:py-24 lg:py-28"
       >
         <div className="container-wide">
           <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16 xl:gap-20">
             <div>
               <Reveal>
-                <h2 className="max-w-5xl font-display text-[clamp(2.8rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-ink">
+                <h2 className="type-feature-title max-w-5xl text-ink">
                   Consultants and
                   <br className="hidden sm:block" /> treatment locations
                 </h2>
@@ -352,10 +355,10 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 <div className="mt-12">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+                  <h3 className="type-card-title text-ink">
                     Our consultants
                   </h3>
-                  <p className="mt-2 text-sm text-ink-muted">{consultantCount}</p>
+                  <p className="type-supporting mt-2 text-ink-muted">{consultantCount}</p>
                 </div>
                 <TextLink href="/consultants/by-treatment">
                   See all consultants
@@ -369,7 +372,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                       <Link
                         href={"/consultants/" + consultant.slug}
                         className={
-                          "group block h-full rounded-[1.5rem] border border-black/[0.06] bg-[#fbfaf7] p-3 shadow-[0_12px_40px_-25px_rgba(6,28,70,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_-25px_rgba(6,28,70,0.4)] " +
+                          "group block h-full rounded-[1.5rem] border border-black/[0.06] bg-paper p-3 shadow-[0_12px_40px_-25px_rgba(6,28,70,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_-25px_rgba(6,28,70,0.4)] " +
                           (hasSingleFeaturedConsultant
                             ? "sm:grid sm:grid-cols-[12rem_1fr] sm:items-stretch"
                             : "")
@@ -401,13 +404,13 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                               : "")
                           }
                         >
-                          <h4 className="mt-4 font-display text-lg font-semibold leading-tight text-ink">
+                          <h4 className="type-compact-title mt-4 text-ink">
                             {consultant.name}
                           </h4>
-                          <p className="mt-1 text-xs text-ink-muted">
+                          <p className="type-supporting mt-1 text-ink-muted">
                             {consultant.shortRole ?? consultant.role}
                           </p>
-                          <span className="mt-3 inline-flex items-center gap-2 text-xs font-medium text-accent">
+                          <span className="type-button mt-3 inline-flex items-center gap-2 text-accent">
                             View profile <Arrow />
                           </span>
                         </div>
@@ -427,10 +430,10 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
             <Reveal delay={1}>
               <div className="h-full lg:pt-1">
-                <h3 className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+                <h3 className="type-card-title text-ink">
                   Possible treatment locations
                 </h3>
-                <p className="mt-3 max-w-lg text-sm leading-relaxed text-ink-muted">
+                <p className="type-supporting mt-3 max-w-lg text-ink-muted">
                   Our consultants are independent practitioners who treat at
                   partner hospitals. The partnership does not operate its own
                   treatment centre. Your consultant will confirm where your
@@ -443,14 +446,14 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                       {featuredLocations.map(({ location, note }) => (
                         <li key={location.slug}>
                           <Link
-                            href={"/locations/" + location.slug}
-                            className="group -mx-3 flex items-center justify-between gap-5 rounded-xl px-3 py-5 transition-colors hover:bg-[#fbfaf7]/70"
+                            href="/locations"
+                            className="group -mx-3 flex items-center justify-between gap-5 rounded-xl px-3 py-5 transition-colors hover:bg-paper/70"
                           >
                             <span>
                               <span className="block font-medium text-ink">
                                 {location.name}
                               </span>
-                              <span className="mt-1 block text-xs leading-relaxed text-ink-muted">
+                              <span className="type-supporting mt-1 block text-ink-muted">
                                 {location.area} · {note}
                               </span>
                             </span>
@@ -478,25 +481,26 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
       <section
         id="about-information"
-        className="scroll-mt-28 border-t border-ink/[0.06] bg-[#f1f4f3] py-24 md:py-28 lg:py-32"
+        data-anchor-align="viewport"
+        className="scroll-mt-28 border-t border-ink/[0.06] bg-sage-wash pb-24 pt-28 md:py-28 lg:py-32"
       >
         <div className="container-wide grid items-start gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 xl:gap-24">
           <Reveal className="lg:pr-4">
-            <h2 className="max-w-[9ch] font-display text-[clamp(3rem,4.2vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-ink">
+            <h2 className="type-feature-title max-w-[9ch] text-ink">
               About this information
             </h2>
-            <p className="mt-8 max-w-[31rem] text-[16px] leading-[1.78] text-ink/78 md:text-[17px]">
+            <p className="type-section-lede mt-8 max-w-[31rem] text-ink/78">
               {treatmentDisclaimer}
             </p>
-            <div className="mt-8 max-w-[31rem] border-t border-[#718b7d]/35 pt-7">
-              <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
+            <div className="mt-8 max-w-[31rem] border-t border-sage/35 pt-7">
+              <h3 className="type-compact-title text-ink">
                 Information review
               </h3>
-              <p className="mt-4 text-sm leading-[1.7] text-ink-muted">
+              <p className="type-supporting mt-4 text-ink-muted">
                 Clinical information on this page was checked against the UK
                 sources linked below.
               </p>
-              <p className="mt-3 text-xs leading-relaxed text-ink-muted/75">
+              <p className="type-supporting mt-3 text-ink-muted/75">
                 Sources checked: 29 August 2026.
               </p>
             </div>
@@ -505,7 +509,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
           <Reveal delay={1}>
             <div className="grid gap-10 sm:grid-cols-2 lg:gap-12 xl:gap-16">
               <div>
-                <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
+                <h3 className="type-card-title text-ink">
                   Sources and further information
                 </h3>
                 <ul className="mt-5 space-y-3">
@@ -521,7 +525,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
 
               {related.length > 0 && (
                 <div>
-                  <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
+                  <h3 className="type-card-title text-ink">
                     Related treatments
                   </h3>
                   <ul className="mt-5 flex flex-wrap gap-2.5">
@@ -538,11 +542,11 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
             </div>
 
             {cancerTypes.length > 0 && (
-              <div className="mt-12 border-t border-[#718b7d]/35 pt-10">
-                <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
+              <div className="mt-12 border-t border-sage/35 pt-10">
+                <h3 className="type-card-title text-ink">
                   Find consultants by cancer type
                 </h3>
-                <p className="mt-4 max-w-3xl text-sm leading-[1.7] text-ink-muted">
+                <p className="type-supporting mt-4 max-w-3xl text-ink-muted">
                   These links take you to consultants who treat each cancer type.
                   Your consultant will explain which treatments are relevant to
                   you.
@@ -562,77 +566,6 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
         </div>
       </section>
 
-      <section
-        id="contact"
-        className="close-merged scroll-mt-24 rounded-t-[3rem] bg-ink py-20 text-white md:rounded-t-[4.5rem] md:py-28 lg:flex lg:min-h-[82svh] lg:items-center lg:py-32"
-      >
-        <div className="container-wide grid gap-12 lg:grid-cols-[0.54fr_0.46fr] lg:items-center lg:gap-20 xl:gap-28">
-          <Reveal>
-            <h2 className="max-w-3xl font-display text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-white md:text-6xl lg:text-7xl">
-              Contact the practice
-            </h2>
-            <p className="mt-7 max-w-xl text-[17px] leading-[1.72] text-white/72">
-              You do not need to decide whether this treatment is right for you
-              before getting in touch. The practice team can take your details
-              and help arrange a consultation.
-            </p>
-            <p className="mt-5 max-w-xl text-[15px] leading-[1.7] text-white/55">
-              If a referral letter or recent results are needed, the practice
-              will explain how to send them securely.
-            </p>
-          </Reveal>
-
-          <Reveal delay={1}>
-            <div className="rounded-[2.5rem] border border-white/10 bg-[#f8f5ef] p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
-              <p className="text-sm text-ink-muted">Contact options</p>
-              <Link
-                href="/contact?intent=consultation#next-step"
-                className="group mt-5 grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-y border-ink/[0.12] py-6"
-              >
-                <span>
-                  <span className="block font-display text-2xl font-medium leading-tight">
-                    Contact us about a consultation
-                  </span>
-                  <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
-                    Leave your contact details and a brief outline of your
-                    enquiry.
-                  </span>
-                </span>
-                <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#718b7d]/45 text-[#617f70] transition-transform duration-300 group-hover:translate-x-1">
-                  <Arrow />
-                </span>
-              </Link>
-              <Link
-                href="/contact?intent=guidance#next-step"
-                className="group grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-b border-ink/[0.12] py-6"
-              >
-                <span>
-                  <span className="block font-display text-2xl font-medium leading-tight">
-                    I&rsquo;m not sure what happens next
-                  </span>
-                  <span className="mt-2 block text-sm leading-relaxed text-ink-muted">
-                    The practice team can explain how to arrange a consultation.
-                  </span>
-                </span>
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white transition-transform duration-300 group-hover:translate-x-1">
-                  <Arrow />
-                </span>
-              </Link>
-              <div className="mt-7 flex flex-col gap-2 border-t border-ink/[0.08] pt-6 sm:flex-row sm:items-center sm:justify-between">
-                <span className="text-sm text-ink-muted">
-                  Call the practice
-                </span>
-                <a
-                  href={"tel:" + site.contact.phone.replace(/\s+/g, "")}
-                  className="font-display text-xl font-semibold text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-[#617f70]"
-                >
-                  {site.contact.phone}
-                </a>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </article>
   );
 }

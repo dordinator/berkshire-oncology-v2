@@ -8,8 +8,9 @@ import { hospitals } from "@/content/hospitals";
 import ChapterTint from "@/components/sections/home/ChapterTint";
 import HospitalStrip from "@/components/sections/home/HospitalStrip";
 import RegionMap from "@/components/site/RegionMap";
+import { scrollToAnchor } from "@/components/SmoothScroll";
 
-const SUPPORT_CHAPTER_BLUE = "#dbe8ee";
+const SUPPORT_CHAPTER_BLUE = "var(--brand-blue-mist)";
 
 type ResourceResult = {
   id: string;
@@ -60,6 +61,19 @@ const compactResourceLogoSizes: Record<string, string> = {
   "/links/nhs.png": "w-[82%] max-w-[105px]",
   "/links/maggies.png": "w-full",
   "/links/cancer-care-map.png": "w-full",
+};
+
+/** Preserve each logo's intrinsic ratio while it is waiting to lazy-load. */
+const resourceLogoDimensions: Record<
+  string,
+  { width: number; height: number }
+> = {
+  "/links/macmillan.png": { width: 1280, height: 297 },
+  "/links/cancer-research-uk.png": { width: 400, height: 193 },
+  "/links/nhs.png": { width: 500, height: 203 },
+  "/links/maggies.png": { width: 734, height: 295 },
+  "/links/cancer-care-map.png": { width: 2356, height: 624 },
+  "/links/sciensus.png": { width: 600, height: 600 },
 };
 
 const suggestedSearches = [
@@ -169,10 +183,10 @@ function ResultRow({ result }: { result: ResourceResult }) {
         <SearchIcon className="h-4 w-4" />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-medium leading-snug text-ink">
+        <span className="type-body block font-medium text-ink">
           {result.title}
         </span>
-        <span className="mt-0.5 block line-clamp-1 text-[13px] leading-snug text-ink-muted">
+        <span className="type-supporting mt-0.5 block line-clamp-1 leading-snug text-ink-muted">
           {result.description}
         </span>
       </span>
@@ -212,10 +226,10 @@ function FeatureResourceCard({
       href={result.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex min-h-[390px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-ink/[0.07] bg-[#f8f7f4] p-5 text-ink shadow-[0_24px_70px_-35px_rgba(6,28,70,0.3)] transition-transform duration-500 hover:-translate-y-1 sm:min-h-[420px] sm:rounded-[2rem] sm:p-7 md:min-h-[430px] lg:p-8 xl:min-h-[450px]"
+      className="group relative flex min-h-[390px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-ink/[0.07] bg-canvas-warm p-5 text-ink shadow-[0_24px_70px_-35px_rgba(6,28,70,0.3)] transition-transform duration-500 hover:-translate-y-1 sm:min-h-[420px] sm:rounded-[2rem] sm:p-7 md:min-h-[430px] lg:p-8 xl:min-h-[450px]"
     >
       <span className="flex items-start justify-between gap-5">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+        <span className="type-label text-ink-muted">
           0{index + 1}
         </span>
         <span className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 text-ink transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
@@ -228,13 +242,13 @@ function FeatureResourceCard({
       </span>
 
       <span className="block pt-2 sm:pt-3">
-        <span className="block font-display text-[19px] font-semibold leading-tight tracking-tight text-ink sm:text-2xl">
+        <span className="type-card-title block text-ink">
           {result.title}
         </span>
-        <span className="mt-2 block max-w-md text-[12px] leading-relaxed text-ink-muted sm:text-sm">
+        <span className="type-supporting mt-2 block max-w-md text-ink-muted">
           {result.description}
         </span>
-        <span className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold text-accent sm:mt-5">
+        <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent sm:mt-5">
           Visit {domain(result.href)}
           <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
             ↗
@@ -265,6 +279,11 @@ function ResourceLogo({
     );
   }
 
+  const dimensions = resourceLogoDimensions[result.logo] ?? {
+    width: 600,
+    height: 300,
+  };
+
   if (result.logo === "/links/sciensus.png") {
     return (
       <span
@@ -276,6 +295,10 @@ function ResourceLogo({
         <img
           src={result.logo}
           alt=""
+          width={dimensions.width}
+          height={dimensions.height}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover object-center mix-blend-multiply"
         />
       </span>
@@ -287,6 +310,10 @@ function ResourceLogo({
     <img
       src={result.logo}
       alt=""
+      width={dimensions.width}
+      height={dimensions.height}
+      loading="lazy"
+      decoding="async"
       className={`block h-auto object-contain ${
         compact
           ? `max-h-16 ${
@@ -310,23 +337,23 @@ function CompactResourceRow({
       href={result.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group grid min-h-[138px] w-full grid-cols-[7.5rem_minmax(0,1fr)_2.75rem] items-center gap-5 rounded-[1.5rem] border border-ink/[0.07] bg-[#f8f7f4] p-5 text-ink shadow-[0_18px_55px_-36px_rgba(6,28,70,0.3)] transition duration-300 hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-[0_22px_60px_-34px_rgba(6,28,70,0.36)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      className="group grid min-h-[138px] w-full grid-cols-[7.5rem_minmax(0,1fr)_2.75rem] items-center gap-5 rounded-[1.5rem] border border-ink/[0.07] bg-canvas-warm p-5 text-ink shadow-[0_18px_55px_-36px_rgba(6,28,70,0.3)] transition duration-300 hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-[0_22px_60px_-34px_rgba(6,28,70,0.36)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
     >
       <span className="relative flex h-20 w-full items-center justify-center overflow-hidden">
-        <span className="absolute left-0 top-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+        <span className="type-label absolute left-0 top-0 text-ink-muted">
           0{index + 1}
         </span>
         <ResourceLogo result={result} compact />
       </span>
 
       <span className="min-w-0">
-        <span className="block font-display text-[19px] font-semibold leading-tight tracking-tight text-ink">
+        <span className="type-card-title block text-ink">
           {result.title}
         </span>
-        <span className="mt-1.5 block text-[12px] leading-relaxed text-ink-muted">
+        <span className="type-supporting mt-1.5 block text-ink-muted">
           {result.description}
         </span>
-        <span className="mt-2 inline-flex items-center gap-2 text-[11px] font-semibold text-accent">
+        <span className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-accent">
           Visit {domain(result.href)}
           <span
             aria-hidden
@@ -381,24 +408,21 @@ export default function ResourceSearchLanding() {
   };
 
   const browseAll = () => {
-    document.getElementById("trusted-organisations")?.scrollIntoView({
-      behavior: reduced ? "auto" : "smooth",
-      block: "start",
-    });
+    scrollToAnchor("trusted-organisations");
   };
 
   return (
     <>
-      <section className="relative min-h-svh overflow-hidden px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:flex lg:items-center lg:pb-16 lg:pt-28">
+      <section className="site-gutter relative min-h-svh overflow-hidden pb-10 pt-28 sm:pt-32 lg:flex lg:items-center lg:pb-16 lg:pt-28">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_14%_22%,rgba(207,225,230,0.62),transparent_27%),radial-gradient(circle_at_87%_80%,rgba(200,153,47,0.09),transparent_24%)]"
+          className="resource-hero-wash pointer-events-none absolute inset-0"
         />
         <div className="relative mx-auto w-full max-w-[940px] text-center lg:-translate-y-2">
-          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.55rem,6vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink">
+          <h1 className="type-page-hero mx-auto max-w-4xl text-ink">
             What can we help you find?
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-ink-muted sm:text-[17px]">
+          <p className="type-section-lede mx-auto mt-5 max-w-2xl text-ink-muted">
             Find information from national cancer organisations, practical
             support and the hospitals where our consultants provide care.
           </p>
@@ -427,7 +451,7 @@ export default function ResourceSearchLanding() {
                 }}
                 placeholder="Search organisations, charities or treatment locations…"
                 autoComplete="off"
-                className="min-w-0 bg-transparent py-5 text-[15px] text-ink outline-none placeholder:text-ink-muted/65 sm:text-[17px]"
+                className="min-w-0 bg-transparent py-5 text-base text-ink outline-none placeholder:text-ink-muted/65 sm:text-[17px]"
               />
             </form>
 
@@ -438,7 +462,7 @@ export default function ResourceSearchLanding() {
                     ? `${results.length} matching ${results.length === 1 ? "resource" : "resources"}`
                     : "Suggested searches"}
                 </span>
-                {!trimmed && <span className="text-[#a9791a]">Start anywhere</span>}
+                {!trimmed && <span className="text-gold-ink">Start anywhere</span>}
                 {trimmed && (
                   <button
                     type="button"
@@ -493,17 +517,17 @@ export default function ResourceSearchLanding() {
                         type="button"
                         onClick={() => chooseSuggestion(suggestion.query)}
                         className={`group grid min-h-[62px] w-full grid-cols-[36px_minmax(0,1fr)_auto] items-center gap-3 rounded-2xl px-3 py-2 text-left transition-colors hover:bg-canvas-soft sm:grid-cols-[36px_minmax(0,1fr)_auto] ${
-                          index === 0 ? "bg-[#f1f5f9]" : ""
+                          index === 0 ? "bg-accent-mist" : ""
                         }`}
                       >
                         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink-muted">
                           <SearchIcon className="h-4 w-4" />
                         </span>
                         <span className="min-w-0">
-                          <span className="block text-[15px] font-medium leading-snug text-ink">
+                          <span className="type-body block font-medium leading-snug text-ink">
                             {suggestion.title}
                           </span>
-                          <span className="mt-0.5 block line-clamp-1 text-[13px] leading-snug text-ink-muted">
+                          <span className="type-supporting mt-0.5 block line-clamp-1 leading-snug text-ink-muted">
                             {suggestion.detail}
                           </span>
                         </span>
@@ -527,7 +551,7 @@ export default function ResourceSearchLanding() {
             if you would rather look around
             <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
           </button>
-          <p className="mx-auto mt-4 max-w-xl text-[12px] leading-relaxed text-ink-muted sm:text-[13px]">
+          <p className="type-supporting mx-auto mt-4 max-w-xl text-ink-muted">
             Questions about your own care? Speak to your consultant or{" "}
             <Link href="/contact" className="font-medium text-accent hover:underline">
               contact the practice
@@ -539,22 +563,23 @@ export default function ResourceSearchLanding() {
 
       <section
         id="trusted-organisations"
+        data-anchor-align="viewport"
         aria-labelledby="information-support-heading"
         className="relative isolate"
       >
         <ChapterTint colour={SUPPORT_CHAPTER_BLUE} />
 
-        <div className="mx-auto w-full max-w-[1560px] px-6 py-24 md:px-10 md:py-32 lg:pl-16 lg:pr-10">
+        <div className="site-gutter w-full pb-24 pt-28 md:py-32">
           <div className="grid gap-12 xl:h-[33rem] xl:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)] xl:items-stretch xl:gap-16 2xl:h-auto 2xl:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] 2xl:items-start 2xl:gap-24">
             <div className="xl:flex xl:items-center 2xl:sticky 2xl:top-0 2xl:min-h-svh">
               <div>
                 <h2
                   id="information-support-heading"
-                  className="max-w-[9ch] font-display text-[clamp(3rem,5vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                  className="type-feature-title max-w-[9ch] text-ink"
                 >
                   Information and support.
                 </h2>
-                <p className="mt-7 max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-[17px]">
+                <p className="type-section-lede mt-7 max-w-md text-ink/75">
                   National organisations offering cancer information and
                   practical support, plus services that may be arranged as part
                   of your care.
@@ -565,7 +590,7 @@ export default function ResourceSearchLanding() {
             <div className="relative hidden min-w-0 xl:block 2xl:hidden">
               <div
                 data-lenis-prevent
-                className="absolute inset-0 snap-y snap-proximity overflow-y-auto overscroll-contain scroll-smooth pr-1 [scrollbar-color:rgba(6,28,70,0.18)_transparent] [scrollbar-width:thin]"
+                className="absolute inset-0 snap-y snap-proximity overflow-y-auto scroll-smooth pr-1 [scrollbar-color:rgba(6,28,70,0.18)_transparent] [scrollbar-width:thin]"
               >
                 <ul className="grid gap-4">
                   {informationResources.map((result, index) => (
@@ -578,17 +603,17 @@ export default function ResourceSearchLanding() {
 
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#dbe8ee] to-transparent"
+                className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-accent-mist to-transparent"
               />
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#dbe8ee] via-[#dbe8ee]/50 to-transparent"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-accent-mist via-accent-mist/50 to-transparent"
               />
             </div>
 
             <div
               data-lenis-prevent-horizontal
-              className="-mx-6 flex snap-x snap-mandatory scroll-pl-6 gap-4 overflow-x-auto overscroll-x-contain px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-auto md:grid md:w-full md:max-w-[1040px] md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 xl:hidden 2xl:grid 2xl:max-w-none"
+              className="site-gutter-bleed flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-auto md:grid md:w-full md:max-w-[1040px] md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:scroll-pl-0 lg:gap-7 xl:hidden 2xl:grid 2xl:max-w-none"
             >
               {informationColumns.map((column, columnIndex) => (
                 <ul
@@ -617,27 +642,28 @@ export default function ResourceSearchLanding() {
 
       <section
         id="treatment-locations"
+        data-anchor-align="viewport"
         aria-labelledby="treatment-locations-heading"
         className="relative flex min-h-svh items-center overflow-hidden py-24 md:py-28"
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_88%_22%,rgba(204,224,232,0.55),transparent_29%),radial-gradient(circle_at_8%_88%,rgba(200,153,47,0.08),transparent_24%)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_82%,transparent_100%)]"
+          className="resource-location-wash pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_82%,transparent_100%)]"
         />
         <div className="container-wide relative">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] lg:items-start lg:gap-16">
             <div>
               <h2
                 id="treatment-locations-heading"
-                className="max-w-[10ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                className="type-feature-title max-w-[10ch] text-ink"
               >
                 Where you may be treated.
               </h2>
-              <p className="mt-7 max-w-xl text-[16px] leading-relaxed text-ink/75 sm:text-[18px]">
+              <p className="type-section-lede mt-7 max-w-xl text-ink/75">
                 {hospitals.length} hospitals and cancer centres across Reading,
                 Windsor and Oxford.
               </p>
-              <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
+              <p className="type-supporting mt-4 max-w-xl text-ink-muted">
                 Which location applies depends on your consultant and treatment;
                 the practice will confirm this with you.
               </p>
@@ -670,18 +696,18 @@ export default function ResourceSearchLanding() {
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_13%_18%,rgba(255,255,255,0.8),transparent_28%),radial-gradient(circle_at_88%_82%,rgba(204,224,232,0.5),transparent_30%),linear-gradient(to_bottom,rgba(242,240,235,0)_0%,rgba(242,240,235,0.94)_18%,rgba(242,240,235,0.94)_100%)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)]"
+          className="resource-faq-wash pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)]"
         />
         <div className="container-wide relative">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-20 xl:gap-28">
             <div className="text-center">
               <h2
                 id="resource-faq-heading"
-                className="mx-auto max-w-[10ch] font-display text-[clamp(2.75rem,4.7vw,5rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-ink"
+                className="type-feature-title mx-auto max-w-[10ch] text-ink"
               >
                 Not sure where to start?
               </h2>
-              <p className="mx-auto mt-7 max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-[17px]">
+              <p className="type-section-lede mx-auto mt-7 max-w-md text-ink/75">
                 Choose the question closest to what you need. Each answer points
                 you to the relevant organisation or section.
               </p>
@@ -693,14 +719,14 @@ export default function ResourceSearchLanding() {
                   key={faq.question}
                   className="group border-b border-ink/[0.09] last:border-b-0"
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-display text-[17px] font-semibold leading-snug text-ink marker:hidden sm:py-6 sm:text-xl [&::-webkit-details-marker]:hidden">
+                  <summary className="type-compact-title flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-ink marker:hidden sm:py-6 [&::-webkit-details-marker]:hidden">
                     <span>{faq.question}</span>
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/10 text-xl font-normal text-ink transition-transform duration-300 group-open:rotate-45">
                       +
                     </span>
                   </summary>
                   <div className="max-w-2xl pb-6 pr-12">
-                    <p className="text-[14px] leading-relaxed text-ink-muted sm:text-[15px]">
+                    <p className="type-supporting text-ink-muted">
                       {faq.answer}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">

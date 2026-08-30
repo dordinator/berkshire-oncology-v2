@@ -34,36 +34,32 @@ function TextLink({ href, children }: { href: string; children: React.ReactNode 
 
 export default function TreatmentHero() {
   return (
-    <section className="relative overflow-x-clip bg-[#fbfcfd] pt-24 sm:pt-28 md:pt-28 xl:pt-36">
+    <section className="relative overflow-x-clip bg-canvas pt-24 sm:pt-28 md:pt-28 xl:pt-36">
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] xl:block">
         <Image
           src="/home/hero.jpg"
           alt="A consultant speaking with a patient during an appointment"
           fill
-          priority
+          fetchPriority="high"
           sizes="70vw"
           className="object-cover object-[60%_50%]"
         />
         <span
           aria-hidden
-          className="absolute inset-y-0 left-0 w-[52%]"
-          style={{
-            background:
-              "linear-gradient(90deg, #fbfcfd 0%, #fbfcfd 55%, rgba(251, 252, 253, 0) 100%)",
-          }}
+          className="absolute inset-y-0 left-0 w-[52%] bg-gradient-to-r from-canvas from-0% via-canvas via-[55%] to-transparent"
         />
       </div>
 
       <div className="container-wide relative z-10">
         <div className="grid items-center gap-8 xl:min-h-[clamp(580px,70svh,720px)] xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:gap-12">
           <div className="relative z-10 xl:flex xl:min-h-[clamp(580px,70svh,720px)] xl:-translate-y-16 xl:flex-col xl:justify-center">
-            <h1 className="max-w-[43rem] font-display text-[clamp(2.8rem,13vw,3.25rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-ink xl:text-[clamp(4rem,5vw,4.75rem)]">
+            <h1 className="type-page-hero max-w-[43rem] text-ink">
               Cancer treatments.
             </h1>
-            <p className="mt-6 max-w-[34rem] text-[16px] leading-[1.65] text-ink-muted sm:text-[17px] md:text-[18px] xl:mt-7 xl:text-[19px]">
+            <p className="type-hero-lede mt-6 max-w-[34rem] text-ink-muted xl:mt-7">
               Read about cancer treatments and find consultants by cancer type.
             </p>
-            <div className="mt-7 flex flex-col items-start gap-4 text-[15px] sm:mt-8 md:text-[16px] xl:mt-11 xl:gap-5">
+            <div className="type-button mt-7 flex flex-col items-start gap-4 sm:mt-8 xl:mt-11 xl:gap-5">
               <TextLink href="#treatment-index">
                 Browse treatments
               </TextLink>
@@ -79,7 +75,7 @@ export default function TreatmentHero() {
                 src="/home/hero.jpg"
                 alt="A consultant speaking with a patient during an appointment"
                 fill
-                priority
+                fetchPriority="high"
                 sizes="(max-width: 1279px) 100vw, 70vw"
                 className="object-cover object-[61%_45%]"
               />

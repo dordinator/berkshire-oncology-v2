@@ -8,13 +8,10 @@ import ChapterTint from "@/components/sections/home/ChapterTint";
 import JourneyMapCanvas from "@/components/sections/locations/JourneyMapCanvas";
 import { buildFrames, cameraAt, project } from "@/components/sections/locations/mapCamera";
 import Button from "@/components/ui/Button";
-import { attribution } from "@/content/mapPaths.generated";
+import { mapAttribution } from "@/content/mapAttribution";
 import { journeyStops } from "@/content/journey";
 import {
-  getLenis,
-  resizeSmoothScroll,
-  startPageSnap,
-  stopPageSnap,
+  scrollToAnchor,
 } from "@/components/SmoothScroll";
 
 export interface CancerTypePrototypeItem {
@@ -60,7 +57,9 @@ const aliases: Record<string, string[]> = {
 
 const examples = ["Breast", "Bowel", "Prostate", "Lung"];
 const ease = [0.22, 1, 0.36, 1] as const;
-const sectionPadding = "py-16 md:py-20 lg:py-16";
+const sectionPadding = "pb-16 pt-28 md:pb-20 md:pt-32 lg:py-16";
+const shortSectionPadding =
+  "pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-16 lg:pt-28";
 
 function Arrow() {
   return (
@@ -139,7 +138,7 @@ function Finder({
           role="combobox"
           aria-expanded={open}
           aria-controls="cancer-finder-results"
-          className="h-14 w-full rounded-2xl border border-ink/15 bg-[#fbfaf5] pl-12 pr-4 text-[15px] text-ink placeholder:text-ink-muted/65 focus:border-ink/40"
+          className="h-14 w-full rounded-2xl border border-ink/15 bg-paper pl-12 pr-4 text-base text-ink placeholder:text-ink-muted/65 focus:border-ink/40"
         />
       </div>
 
@@ -164,9 +163,9 @@ function Finder({
                       role="option"
                       aria-selected="false"
                       onClick={() => onSelect(item)}
-                      className="group flex w-full items-center gap-3 bg-white px-4 py-3 text-left transition-colors hover:bg-[#eef2f0] focus-visible:bg-[#eef2f0]"
+                      className="group flex w-full items-center gap-3 bg-white px-4 py-3 text-left transition-colors hover:bg-sage-wash focus-visible:bg-sage-wash"
                     >
-                      <span aria-hidden className="h-2 w-2 flex-none rounded-full bg-[#8ca49a]" />
+                      <span aria-hidden className="h-2 w-2 flex-none rounded-full bg-sage-soft" />
                       <span className="min-w-0 flex-1 text-sm font-medium text-ink">{item.title}</span>
                       <span className="text-ink-muted transition-transform group-hover:translate-x-1"><Arrow /></span>
                     </button>
@@ -186,7 +185,7 @@ function Finder({
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="mr-1 text-xs text-ink-muted">Examples</span>
           {examples.map((example) => (
-            <button key={example} type="button" onClick={() => onQuery(example)} className="rounded-full border border-ink/10 bg-[#fbfaf5] px-3 py-1.5 text-xs text-ink transition-colors hover:border-ink/30">
+            <button key={example} type="button" onClick={() => onQuery(example)} className="rounded-full border border-ink/10 bg-paper px-3 py-1.5 text-xs text-ink transition-colors hover:border-ink/30">
               {example}
             </button>
           ))}
@@ -241,14 +240,15 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
   return (
     <section
       id="specialists"
+      data-anchor-align="viewport"
       className={`relative isolate text-ink ${sectionPadding} ${compactRoster ? "lg:flex lg:min-h-[100svh] lg:items-center" : "lg:min-h-[100svh]"}`}
     >
-      <ChapterTint colour="#f0ece2" triggerSelector="[data-chapter-tint-trigger]" />
-      <div className="w-full px-5 sm:px-8 md:px-10 lg:px-[5vw]">
+      <ChapterTint colour="var(--surface-warm)" triggerSelector="[data-chapter-tint-trigger]" />
+      <div className="site-gutter w-full">
         <div className={`grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 ${compactRoster ? "lg:items-center" : "items-start"}`}>
           <div className={compactRoster ? "" : "lg:sticky lg:top-0 lg:flex lg:h-[100svh] lg:items-center"}>
             <div data-chapter-tint-trigger>
-              <h2 className="font-display text-[clamp(2.65rem,3.8vw,4.7rem)] font-semibold leading-[0.96] tracking-[-0.055em]">
+              <h2 className="type-feature-title">
                 <span className="block lg:whitespace-nowrap">Different expertise.</span>
                 <span className="block lg:whitespace-nowrap">One partnership.</span>
               </h2>
@@ -268,9 +268,9 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
                 <Link
                   key={consultant.slug}
                   href={`/consultants/${consultant.slug}`}
-                  className={`group grid grid-cols-[104px_minmax(0,1fr)_auto] items-center gap-4 border-b border-ink/15 py-7 md:grid-cols-[140px_minmax(0,1fr)_40px] md:gap-7 lg:grid-cols-[auto_minmax(0,1fr)_minmax(190px,0.65fr)_40px] lg:gap-8 lg:py-8 ${compactRoster ? compactRowHeight : "lg:min-h-[33.333svh]"}`}
+                  className={`group grid grid-cols-[76px_minmax(0,1fr)] items-start gap-3 border-b border-ink/15 py-7 min-[400px]:grid-cols-[104px_minmax(0,1fr)_40px] min-[400px]:items-center min-[400px]:gap-4 md:grid-cols-[140px_minmax(0,1fr)_40px] md:gap-7 lg:grid-cols-[auto_minmax(0,1fr)_minmax(190px,0.65fr)_40px] lg:gap-8 lg:py-8 ${compactRoster ? compactRowHeight : "lg:min-h-[33.333svh]"}`}
                 >
-                  <div className="relative aspect-[2/3] w-[104px] overflow-hidden bg-[#dce6e1] md:w-[140px] lg:h-[clamp(160px,20svh,210px)] lg:w-auto">
+                  <div className="relative aspect-[2/3] w-[76px] overflow-hidden bg-sage-mist min-[400px]:w-[104px] md:w-[140px] lg:h-[clamp(160px,20svh,210px)] lg:w-auto">
                     {originalPhoto ? (
                       <Image src={originalPhoto} alt={consultant.name} fill sizes="(max-width: 768px) 104px, 160px" className="object-cover" />
                     ) : (
@@ -279,14 +279,15 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
                   </div>
                   <div>
                     <span className="text-[10px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
-                    <p className="mt-3 font-display text-2xl font-semibold leading-tight text-ink lg:text-[1.75rem]">{consultant.name}</p>
+                    <p className="type-card-title mt-3 text-ink">{consultant.name}</p>
                     <p className="mt-1 text-xs text-ink-muted">{consultant.role ?? "Consultant Oncologist"}</p>
-                    <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-muted md:text-[15px]">
+                    <p className="type-body mt-4 max-w-xl text-ink-muted">
                       {consultantSnapshots[consultant.slug] ?? "A consultant whose practice brings focused experience to a defined group of cancer types and treatment approaches."}
                     </p>
+                    <span className="mt-4 flex h-8 w-8 items-center justify-center rounded-full border border-ink/15 transition-colors group-hover:bg-ink group-hover:text-white min-[400px]:hidden"><Arrow /></span>
                   </div>
                   <div className="mt-1 hidden self-center lg:block">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-ink-muted">{general ? "Specialist areas" : "Cancer focus"}</p>
+                    <p className="type-label text-ink-muted">{general ? "Specialist areas" : "Cancer focus"}</p>
                     <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-muted">
                       {general
                         ? (consultant.areas ?? []).slice(0, 3).join(" · ")
@@ -294,7 +295,7 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
                     </p>
                     <span className="mt-5 inline-flex items-center gap-2 text-xs font-medium text-ink">View profile <Arrow /></span>
                   </div>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition-colors group-hover:bg-ink group-hover:text-white"><Arrow /></span>
+                  <span className="hidden h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition-colors group-hover:bg-ink group-hover:text-white min-[400px]:flex"><Arrow /></span>
                 </Link>
               );
             })}
@@ -472,11 +473,11 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
       : "lg:min-h-[175svh]";
 
   return (
-    <section id="treatments" ref={treatmentSectionRef} className={`relative bg-transparent py-16 text-ink md:py-20 lg:py-0 ${sectionHeight}`}>
-      <div className="w-full px-5 sm:px-8 md:px-10 lg:sticky lg:top-0 lg:flex lg:min-h-[100svh] lg:items-center lg:px-[5vw] lg:py-16">
+    <section id="treatments" data-anchor-align="viewport" ref={treatmentSectionRef} className={`relative bg-transparent pb-16 pt-28 text-ink md:pb-20 md:pt-32 lg:py-0 ${sectionHeight}`}>
+      <div className="site-gutter w-full lg:sticky lg:top-0 lg:flex lg:min-h-[100svh] lg:items-center lg:py-16">
         <div className="grid w-full gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-[5vw]">
           <div>
-            <h2 className="max-w-[9ch] font-display text-[clamp(2.9rem,4.7vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.055em]">
+            <h2 className="type-feature-title max-w-[9ch]">
               {general
                 ? "Understand one thing at a time."
                 : "Treatment approaches you may hear about."}
@@ -558,7 +559,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                     className="group grid w-full grid-cols-[28px_minmax(0,1fr)_32px] items-start gap-4 py-7 text-left md:grid-cols-[34px_minmax(0,1fr)_36px] md:gap-6 md:py-9"
                   >
                     <span className="pt-1 text-[10px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="font-display text-[1.45rem] font-semibold leading-[1.08] tracking-[-0.025em] text-ink md:text-[1.8rem] lg:text-[2rem]">
+                    <span className="type-card-title text-ink">
                       {panel.title}
                     </span>
                     <span className="flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-lg leading-none text-ink transition-colors group-hover:border-ink/15" aria-hidden>
@@ -595,7 +596,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                                         <span className="flex flex-wrap items-center gap-2 font-display text-lg font-semibold leading-tight text-ink">
                                           {treatment.title}
                                           {treatment.byOthers && (
-                                            <span className="rounded-full bg-[#f0ece2] px-2 py-1 font-sans text-[8px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+                                            <span className="type-label rounded-full bg-section-warm px-2 py-1 font-sans text-ink-muted">
                                               Another specialist
                                             </span>
                                           )}
@@ -630,7 +631,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                               </div>
                             )}
 
-                            {panel.detail && <p className="mt-4 text-[11px] leading-relaxed text-ink-muted md:text-xs">{panel.detail}</p>}
+                            {panel.detail && <p className="type-supporting mt-4 text-ink-muted">{panel.detail}</p>}
                             {panel.href && panel.linkLabel && (
                               <Link href={panel.href} className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink">
                                 {panel.linkLabel} <Arrow />
@@ -720,10 +721,10 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
   }
 
   return (
-    <section id="locations" ref={sectionRef} className={`flex min-h-[100svh] items-center bg-[#d5e0dc] text-ink ${sectionPadding}`}>
-      <div className="grid w-full gap-12 px-5 sm:px-8 md:px-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw] lg:px-[5vw]">
+    <section id="locations" data-anchor-align="viewport" ref={sectionRef} className={`flex min-h-[100svh] items-center bg-sage-panel text-ink ${sectionPadding}`}>
+      <div className="site-gutter grid w-full gap-12 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw]">
         <div>
-          <h2 className="max-w-[8ch] font-display text-[clamp(3rem,5vw,5.8rem)] font-semibold leading-[0.94] tracking-[-0.055em]">
+          <h2 className="type-feature-title max-w-[8ch]">
             Where care can happen.
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
@@ -740,10 +741,10 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
           {activeStop ? (
             <>
               <div className="relative min-h-[520px] rounded-[2.25rem] border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
-                <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-[#fafbfc]">
+                <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-canvas">
                   <JourneyMapCanvas stops={stops} active={activeLocation} progress={mapProgress} />
 
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#fafbfc]/65 via-transparent to-transparent" aria-hidden />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/65 via-transparent to-transparent" aria-hidden />
 
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.article
@@ -752,13 +753,13 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: reducedMotion ? 0 : 0.55, ease }}
-                      className={`absolute bottom-5 left-5 right-5 rounded-[1.65rem] border border-ink/10 bg-[#fbfaf5]/95 p-5 shadow-[0_22px_60px_-38px_rgba(6,28,70,0.38)] backdrop-blur-md md:bottom-7 md:w-[40%] md:p-6 ${panelOnRight ? "md:left-auto md:right-7" : "md:left-7 md:right-auto"}`}
+                      className={`absolute bottom-5 left-5 right-5 rounded-[1.65rem] border border-ink/10 bg-paper/95 p-5 shadow-[0_22px_60px_-38px_rgba(6,28,70,0.38)] backdrop-blur-md md:bottom-7 md:w-[40%] md:p-6 ${panelOnRight ? "md:left-auto md:right-7" : "md:left-7 md:right-auto"}`}
                     >
                       <div className="flex items-center justify-between gap-4">
-                        <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-ink-muted">{activeStop.area}</span>
+                        <span className="type-label text-ink-muted">{activeStop.area}</span>
                         <span className="text-[10px] tabular-nums text-ink-muted">{String(activeLocation + 1).padStart(2, "0")} / {String(stops.length).padStart(2, "0")}</span>
                       </div>
-                      <h3 className="mt-3 font-display text-2xl font-semibold leading-tight tracking-[-0.025em] md:text-3xl">{activeStop.name}</h3>
+                      <h3 className="type-card-title mt-3">{activeStop.name}</h3>
                       <p className="mt-1 text-xs text-ink-muted">{activeStop.provider ?? activeStop.eyebrow}</p>
                       <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-ink-muted">{activeStop.description}</p>
                       <Link href={activeStop.href} className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink">
@@ -767,7 +768,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                     </motion.article>
                   </AnimatePresence>
 
-                  <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-[#fafbfc]/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">{attribution}</p>
+                  <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">{mapAttribution}</p>
                 </div>
               </div>
 
@@ -780,9 +781,9 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       type="button"
                       aria-pressed={active}
                       onClick={() => chooseLocation(index)}
-                      className="group relative min-w-0 bg-[#edf2ef] px-4 py-4 text-left transition-colors hover:bg-[#f7f8f5]"
+                      className="group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60"
                     >
-                      <span className="block text-[9px] font-medium uppercase tracking-[0.14em] text-ink-muted">{stop.area}</span>
+                      <span className="type-label block text-ink-muted">{stop.area}</span>
                       <span className={`mt-1 block truncate font-display text-sm font-semibold transition-colors ${active ? "text-ink" : "text-ink/60 group-hover:text-ink"}`}>{stop.name.replace(" Hospital", "")}</span>
                       <motion.span
                         aria-hidden
@@ -797,9 +798,9 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
               </div>
             </>
           ) : (
-            <div className="flex min-h-[520px] items-center rounded-[2.25rem] border border-ink/10 bg-[#fafbfc] p-8 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] md:p-12 lg:min-h-[clamp(480px,62svh,620px)]">
+            <div className="flex min-h-[520px] items-center rounded-[2.25rem] border border-ink/10 bg-canvas p-8 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] md:p-12 lg:min-h-[clamp(480px,62svh,620px)]">
               <div className="max-w-xl">
-                <h3 className="font-display text-3xl font-semibold leading-tight tracking-[-0.035em] text-ink md:text-5xl">Where you go depends on the care you need.</h3>
+                <h3 className="type-section-title text-ink">Where you go depends on the care you need.</h3>
                 <p className="mt-5 text-base leading-relaxed text-ink-muted">We do not have a location listed for this cancer type. Once a consultant has reviewed your diagnosis, the practice team can explain where your appointments and treatment would take place.</p>
               </div>
             </div>
@@ -817,11 +818,11 @@ function LocationsViewport({ item, general = false }: { item: CancerTypePrototyp
 function CancerJourney({ item, onReset, general = false }: { item: CancerTypePrototypeItem; onReset: () => void; general?: boolean }) {
   if (!item.treated) {
     return (
-      <motion.div id="specialists" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="scroll-mt-28">
-        <section className={`flex min-h-[82svh] items-center bg-[#f0ece2] text-ink ${sectionPadding}`}>
-          <div className="grid w-full gap-10 px-5 sm:px-8 md:px-10 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-[5vw]">
+      <motion.div id="specialists" data-anchor-align="viewport" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="scroll-mt-28">
+        <section className={`flex min-h-[82svh] items-center bg-section-warm text-ink ${sectionPadding}`}>
+          <div className="site-gutter grid w-full gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
             <div>
-              <h2 className="max-w-2xl font-display text-[clamp(3rem,6vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.055em]">We do not currently have a consultant who treats this cancer.</h2>
+              <h2 className="type-editorial-hero max-w-2xl">We do not currently have a consultant who treats this cancer.</h2>
             </div>
             <div>
               <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find an appropriate specialist service.</p>
@@ -847,8 +848,6 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showUnsure, setShowUnsure] = useState(false);
-  const browseSnapTimerRef = useRef<number | null>(null);
-  const reducedMotion = useReducedMotion();
   const selected = items.find((item) => item.id === selectedId);
   const generalItem = useMemo<CancerTypePrototypeItem>(() => {
     const consultants = new Map<string, CancerTypePrototypeItem["consultants"][number]>();
@@ -913,70 +912,22 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     (id: string) => {
       requestAnimationFrame(() =>
         window.setTimeout(() => {
-          const target = document.getElementById(id);
-          if (!target) return;
-
-          const lenis = getLenis();
-          if (lenis && !reducedMotion) {
-            lenis.scrollTo(target, { duration: 0.9 });
-          } else {
-            target.scrollIntoView({
-              behavior: reducedMotion ? "auto" : "smooth",
-              block: "start",
-            });
-          }
+          scrollToAnchor(id, { duration: 0.9 });
         }, 60),
       );
     },
-    [reducedMotion],
+    [],
   );
 
   const alignBrowseAll = useCallback(
     (immediate: boolean, moveFocus: boolean) => {
-      const target = document.getElementById("browse-all");
-      if (!target) return;
-
-      if (browseSnapTimerRef.current !== null) {
-        window.clearTimeout(browseSnapTimerRef.current);
-      }
-
-      resizeSmoothScroll();
-      stopPageSnap();
-      browseSnapTimerRef.current = window.setTimeout(() => {
-        startPageSnap();
-        browseSnapTimerRef.current = null;
-      }, 1500);
-
-      const complete = () => {
-        if (browseSnapTimerRef.current !== null) {
-          window.clearTimeout(browseSnapTimerRef.current);
-        }
-        if (moveFocus) target.focus({ preventScroll: true });
-        browseSnapTimerRef.current = window.setTimeout(() => {
-          startPageSnap();
-          browseSnapTimerRef.current = null;
-        }, 250);
-      };
-
-      const lenis = getLenis();
-      if (lenis && !reducedMotion) {
-        lenis.scrollTo(target, {
-          offset: -96,
-          duration: 0.9,
-          immediate,
-          force: true,
-          onComplete: complete,
-        });
-      } else {
-        const top = target.getBoundingClientRect().top + window.scrollY - 96;
-        window.scrollTo({
-          top: Math.max(0, top),
-          behavior: immediate || reducedMotion ? "auto" : "smooth",
-        });
-        window.setTimeout(complete, immediate || reducedMotion ? 0 : 500);
-      }
+      scrollToAnchor("browse-all", {
+        duration: 0.9,
+        immediate,
+        focus: moveFocus,
+      });
     },
-    [reducedMotion],
+    [],
   );
 
   useEffect(() => {
@@ -995,11 +946,6 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     return () => {
       window.removeEventListener("resize", realignAfterResize);
       if (resizeTimer !== null) window.clearTimeout(resizeTimer);
-      if (browseSnapTimerRef.current !== null) {
-        window.clearTimeout(browseSnapTimerRef.current);
-        browseSnapTimerRef.current = null;
-        startPageSnap();
-      }
     };
   }, [alignBrowseAll]);
 
@@ -1093,15 +1039,20 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     setSelectedId(null);
     setShowUnsure(false);
     setQuery("");
-    requestAnimationFrame(() => window.setTimeout(() => document.getElementById("cancer-finder")?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" }), 60));
+    requestAnimationFrame(() =>
+      window.setTimeout(
+        () => scrollToAnchor("cancer-finder", { focus: true }),
+        60,
+      ),
+    );
   }
 
   return (
     <>
       <section className="pb-16 pt-32 text-ink md:pb-20 md:pt-40 lg:pb-16">
-        <div className="grid w-full items-center gap-12 px-5 sm:px-8 md:px-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20 lg:px-[5vw]">
+        <div className="site-gutter grid w-full items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
           <div className="max-w-2xl">
-            <h1 className="font-display text-[clamp(2.65rem,5.2vw,5.9rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+            <h1 className="type-page-hero text-ink">
               Start with what you’ve been told.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-muted md:mt-6 md:text-xl">
@@ -1111,7 +1062,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
           </div>
 
           <div className="relative hidden min-h-[610px] lg:block">
-            <div className="absolute right-0 top-[2%] h-[74%] w-[55%] rounded-[2.75rem] bg-[#dfe8ed]" />
+            <div className="absolute right-0 top-[2%] h-[74%] w-[55%] rounded-[2.75rem] bg-accent-mist" />
 
             <div className="absolute left-0 top-[8%] h-[68%] w-[73%] overflow-hidden rounded-[2.4rem] border border-ink/10 bg-white shadow-[0_30px_76px_-42px_rgba(6,28,70,0.4)]">
               <div className="relative h-full w-full">
@@ -1126,10 +1077,10 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
               </div>
             </div>
 
-            <div className="absolute bottom-0 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-[#fbfaf5] p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
+            <div className="absolute bottom-0 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-paper p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
               <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
                 <p className="font-display text-lg font-semibold text-ink">Your cancer pathway</p>
-                <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-muted">{journeySteps.length === 3 ? "Three steps" : "Four steps"}</span>
+                <span className="type-label text-ink-muted">{journeySteps.length === 3 ? "Three steps" : "Four steps"}</span>
               </div>
               <ol className="divide-y divide-ink/10">
                 {journeySteps.map(({ label, href }, index) => (
@@ -1138,8 +1089,8 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
                       href={href}
                       className="group flex items-center gap-3 rounded-lg px-2 py-3.5 transition-colors hover:bg-ink/[0.035] focus-visible:bg-ink/[0.035] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20"
                     >
-                      <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-full transition-colors group-hover:bg-[#8ca49a] ${index === 0 ? "bg-[#8ca49a]" : "border border-ink/20"}`} />
-                      <span className="min-w-0 flex-1 font-display text-[15px] font-semibold leading-tight text-ink">{label}</span>
+                      <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-full transition-colors group-hover:bg-sage-soft ${index === 0 ? "bg-sage-soft" : "border border-ink/20"}`} />
+                      <span className="type-compact-title min-w-0 flex-1 leading-tight text-ink">{label}</span>
                       <span className="text-ink transition-transform duration-300 group-hover:translate-x-1"><Arrow /></span>
                     </a>
                   </li>
@@ -1156,8 +1107,8 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
 
       <AnimatePresence>
         {showUnsure && (
-          <motion.section id="not-sure" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`scroll-mt-28 bg-[#e7edf1] ${sectionPadding}`}>
-            <div className="grid w-full gap-7 px-5 sm:px-8 md:grid-cols-[0.9fr_1.1fr] md:gap-16 md:px-10 lg:px-[5vw]">
+          <motion.section id="not-sure" data-anchor-align="viewport" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`scroll-mt-28 bg-section-cool ${shortSectionPadding}`}>
+            <div className="site-gutter grid w-full gap-7 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
               <h2 className="max-w-xl font-display text-3xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">Not knowing the exact name is a normal place to begin.</h2>
               <div>
                 <p className="text-base leading-relaxed text-ink/75">If you have a referral letter, scan report or consultant’s name, send us what you have. The practice team can help work out who you need to speak to.</p>
@@ -1172,8 +1123,8 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
       </AnimatePresence>
 
       {!selected && (
-        <section id="browse-all" tabIndex={-1} aria-labelledby="browse-all-heading" className={`scroll-mt-28 bg-white focus:outline-none ${sectionPadding}`}>
-          <div className="w-full px-5 sm:px-8 md:px-10 lg:px-[5vw]">
+        <section id="browse-all" data-anchor-align="viewport" tabIndex={-1} aria-labelledby="browse-all-heading" className={`scroll-mt-28 bg-white focus:outline-none ${shortSectionPadding}`}>
+          <div className="site-gutter w-full">
             <div className="flex flex-col items-center border-b border-ink/10 pb-10 text-center">
               <h2 id="browse-all-heading" className="max-w-4xl font-display text-3xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">Browse all cancer types.</h2>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted">Choose the name that looks closest to what you have been told. You can check the details on the next page.</p>
@@ -1185,7 +1136,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
                   <span className="text-[11px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
                   <span>
                     <span className="block font-display text-lg font-semibold leading-tight text-ink transition-colors group-hover:text-accent md:text-xl">{item.title}</span>
-                    {!item.treated && <span className="mt-1 block text-[11px] text-ink-muted">Not currently treated here</span>}
+                    {!item.treated && <span className="type-supporting mt-1 block text-ink-muted">Not currently treated here</span>}
                   </span>
                   <span className="text-ink-muted transition-transform group-hover:translate-x-1 group-hover:text-ink"><Arrow /></span>
                 </button>
