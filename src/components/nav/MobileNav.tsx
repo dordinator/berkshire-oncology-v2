@@ -158,17 +158,6 @@ export default function MobileNav({
               Search consultants, cancers, treatments
             </button>
 
-            <Link
-              href="/"
-              onClick={onClose}
-              aria-current={pathname === "/" ? "page" : undefined}
-              className={`flex min-h-[48px] items-center rounded-2xl px-4 text-[15px] font-medium transition-colors hover:bg-ink/[0.04] ${
-                pathname === "/" ? "text-accent" : "text-ink"
-              }`}
-            >
-              Home
-            </Link>
-
             <ul className="mt-1">
               {navSections.map((section) => {
                 const sectionActive = isSectionActive(section, pathname);
