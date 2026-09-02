@@ -9,6 +9,7 @@ import FooterContactCta from "@/components/site/FooterContactCta";
 import MotionProvider from "@/components/MotionProvider";
 import CopyReviewEditor from "@/components/site/CopyReviewEditor";
 import HomepageReturnState from "@/components/site/HomepageReturnState";
+import RouteIntroMotion from "@/components/site/RouteIntroMotion";
 
 // Outfit for titles, Inter for everything else — chosen from the comparison
 // toggle that used to live here. Outfit is a geometric sans, so headings are
@@ -85,6 +86,7 @@ export default function RootLayout({
           <HomepageReturnState />
           <Navbar />
           <main id="main-content" tabIndex={-1}>
+            <RouteIntroMotion />
             {children}
           </main>
           <FooterContactCta />
