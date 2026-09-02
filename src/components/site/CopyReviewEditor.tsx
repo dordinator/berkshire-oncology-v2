@@ -112,6 +112,11 @@ export default function CopyReviewEditor() {
       new URLSearchParams(window.location.search).get("copy-review") === "1";
     setActive(enabled);
 
+    // This is a review-only authoring tool. When the query flag is absent,
+    // avoid scanning and annotating the new page or fetching saved overrides
+    // after every route change.
+    if (!enabled) return;
+
     let cancelled = false;
     const cleanups: Array<() => void> = [];
 
@@ -161,8 +166,6 @@ export default function CopyReviewEditor() {
         Object.entries(result.overrides ?? {}).forEach(([key, value]) => {
           applyValue(key, value);
         });
-
-        if (!enabled) return;
 
         elements.forEach((element) => {
           element.contentEditable = "plaintext-only";

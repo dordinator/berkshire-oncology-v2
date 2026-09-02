@@ -113,7 +113,7 @@ export default function MobileNav({
             key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, transition: { duration: 0.08, ease: EASE } }}
             transition={{ duration: 0.25, ease: EASE }}
             onClick={onClose}
             aria-hidden="true"
@@ -126,7 +126,11 @@ export default function MobileNav({
             onKeyDown={onPanelKeyDown}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{
+              opacity: 0,
+              y: -4,
+              transition: { duration: 0.08, ease: EASE },
+            }}
             transition={{ duration: 0.25, ease: EASE }}
             id="site-mobile-menu"
             data-lenis-prevent
