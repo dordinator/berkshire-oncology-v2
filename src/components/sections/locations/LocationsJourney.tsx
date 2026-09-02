@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   useMotionValue,
@@ -82,6 +82,163 @@ const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
 /** How far into a gap a panel stays visible; fully handed over by 0.45. */
 const FADE = 0.45;
 
+type LocationHeroMode = "current" | "quick";
+
+const LOCATION_GROUPS = [
+  {
+    area: "Reading",
+    locations: [
+      { slug: "practice", label: "The practice" },
+      { slug: "spire-dunedin-reading", label: "Spire Dunedin" },
+      { slug: "royal-berkshire-hospital", label: "Royal Berkshire" },
+    ],
+  },
+  {
+    area: "Windsor",
+    locations: [
+      { slug: "princess-margaret-windsor", label: "Princess Margaret" },
+      { slug: "genesiscare-windsor", label: "GenesisCare" },
+    ],
+  },
+  {
+    area: "Oxford",
+    locations: [{ slug: "genesiscare-oxford", label: "GenesisCare" }],
+  },
+] as const;
+
+function ComparisonToggle({
+  mode,
+  onChange,
+}: {
+  mode: LocationHeroMode;
+  onChange: (mode: LocationHeroMode) => void;
+}) {
+  return (
+    <div className="rounded-full border border-ink/10 bg-white/90 p-1 shadow-[0_12px_35px_rgba(6,28,70,0.12)] backdrop-blur-md">
+      <div
+        className="flex items-center"
+        role="group"
+        aria-label="Compare locations navigation"
+      >
+        {(
+          [
+            ["current", "Current"],
+            ["quick", "Quick access"],
+          ] as const
+        ).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={mode === value}
+            onClick={() => onChange(value)}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              mode === value
+                ? "bg-ink text-white"
+                : "text-ink-muted hover:bg-ink/[0.06] hover:text-ink"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ScrollCue() {
+  return (
+    <p className="type-label mt-6 flex items-center gap-2.5 text-ink-muted lg:mt-8">
+      Scroll to explore each location
+      <svg
+        aria-hidden
+        viewBox="0 0 16 16"
+        fill="none"
+        className="animate-cue-drift h-4 w-4 text-accent"
+      >
+        <path
+          d="M8 2v11M3.5 8.5 8 13l4.5-4.5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </p>
+  );
+}
+
+function HeroLocationSummary({
+  mode,
+  stops,
+  onSelect,
+}: {
+  mode: LocationHeroMode;
+  stops: JourneyStop[];
+  onSelect: (index: number) => void;
+}) {
+  return (
+    <>
+      <div className="mt-6 hidden max-w-md border-y border-ink/[0.07] lg:mt-8 lg:block">
+        {mode === "quick" && (
+          <p className="type-label border-b border-ink/[0.07] py-3 text-ink-muted">
+            Jump directly to a location
+          </p>
+        )}
+
+        {LOCATION_GROUPS.map((group, groupIndex) => (
+          <div
+            key={group.area}
+            className={`grid grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-4 py-3 ${
+              groupIndex > 0 ? "border-t border-ink/[0.07]" : ""
+            }`}
+          >
+            <span className="font-display text-base text-ink lg:text-lg">
+              {group.area}
+            </span>
+
+            {mode === "current" ? (
+              <span className="text-right text-sm leading-snug text-ink-muted">
+                {group.locations.map((location) => location.label).join(" · ")}
+              </span>
+            ) : (
+              <span className="flex flex-wrap justify-end gap-x-2 gap-y-1 text-right text-sm leading-snug">
+                {group.locations.map((location, index) => {
+                  const stopIndex = stops.findIndex(
+                    (stop) => stop.slug === location.slug,
+                  );
+                  if (stopIndex < 0) return null;
+
+                  return (
+                    <span
+                      key={location.slug}
+                      className="inline-flex items-center gap-2"
+                    >
+                      {index > 0 && (
+                        <span aria-hidden className="text-ink/25">
+                          ·
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => onSelect(stopIndex)}
+                        className="font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent"
+                      >
+                        {location.label}
+                      </button>
+                    </span>
+                  );
+                })}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <ScrollCue />
+    </>
+  );
+}
+
 export default function LocationsJourney({
   stops,
   hero,
@@ -114,6 +271,44 @@ export default function LocationsJourney({
   const progress = reduced ? steppedP : sprungP;
 
   const [active, setActive] = useState(-1);
+  const [heroMode, setHeroMode] = useState<LocationHeroMode>("quick");
+
+  const goToStop = useCallback(
+    (stopIndex: number) => {
+      const track = trackRef.current;
+      const stage = stageRef.current;
+      if (!track || !stage) return;
+
+      const panelIndex = stopIndex + 1;
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      const target = trackTop + panelIndex * stage.getBoundingClientRect().height;
+      const focusDestination = () => {
+        panelRefs.current[panelIndex]
+          ?.querySelector<HTMLElement>("h2")
+          ?.focus({ preventScroll: true });
+      };
+      const lenis = getLenis();
+
+      if (reduced || !lenis) {
+        window.scrollTo({
+          top: target,
+          behavior: reduced ? "auto" : "smooth",
+        });
+        rawP.set(panelIndex);
+        window.setTimeout(focusDestination, reduced ? 0 : 500);
+        return;
+      }
+
+      lenis.scrollTo(target, {
+        duration: 1.1,
+        easing: easeInOutSine,
+        lock: true,
+        force: true,
+        onComplete: focusDestination,
+      });
+    },
+    [rawP, reduced],
+  );
 
   useEffect(() => {
     const el = trackRef.current;
@@ -334,6 +529,9 @@ export default function LocationsJourney({
         t &&
         (t.tagName === "INPUT" ||
           t.tagName === "TEXTAREA" ||
+          t.tagName === "BUTTON" ||
+          t.tagName === "A" ||
+          t.tagName === "SELECT" ||
           t.isContentEditable)
       ) {
         return;
@@ -376,7 +574,14 @@ export default function LocationsJourney({
 
   const panels = useMemo(
     () => [
-      <div key="hero">{hero}</div>,
+      <div key="hero">
+        {hero}
+        <HeroLocationSummary
+          mode={heroMode}
+          stops={stops}
+          onSelect={goToStop}
+        />
+      </div>,
       ...stops.map((stop) => (
         <article key={stop.name}>
           <p className="type-label text-ink-muted">
@@ -384,7 +589,10 @@ export default function LocationsJourney({
           </p>
 
           <div className="mt-3 flex flex-wrap items-center gap-3 lg:mt-4">
-            <h2 className="font-display text-2xl leading-tight text-ink md:text-4xl">
+            <h2
+              tabIndex={-1}
+              className="font-display text-2xl leading-tight text-ink md:text-4xl"
+            >
               {stop.name}
             </h2>
             {stop.nhs && <NhsPill />}
@@ -430,7 +638,7 @@ export default function LocationsJourney({
       // The outro: index LAST, beside the camera's return to the wide shot.
       <div key="outro">{outro}</div>,
     ],
-    [hero, outro, stops],
+    [goToStop, hero, heroMode, outro, stops],
   );
 
   return (
@@ -450,6 +658,12 @@ export default function LocationsJourney({
           ref={stageRef}
           className="sticky top-0 flex h-[100svh] flex-col overflow-hidden lg:block"
         >
+          {active === -1 && (
+            <div className="absolute right-6 top-40 z-20 hidden lg:block xl:right-10">
+              <ComparisonToggle mode={heroMode} onChange={setHeroMode} />
+            </div>
+          )}
+
           {/* ── The map ──────────────────────────────────────────────────
               Below lg: a band across the top of the stage, its last 26px
               ceded to the licence caption. From lg: the right half. */}
@@ -494,7 +708,9 @@ export default function LocationsJourney({
                 style={panelStyle(k)}
                 data-lenis-prevent
                 data-location-journey-scroll
-                className="site-gutter absolute inset-0 flex overflow-y-auto lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 xl:pt-0"
+                className={`site-gutter absolute inset-0 flex overflow-y-auto lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 ${
+                  k === 0 ? "xl:pt-20" : "xl:pt-0"
+                }`}
               >
                 {/* my-auto, not justify-center on the flex box: flex centring
                     of overflowing content clips its top unreachably; auto
