@@ -60,6 +60,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const sectionPadding = "pb-16 pt-28 md:pb-20 md:pt-32 lg:py-16";
 const shortSectionPadding =
   "pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-16 lg:pt-28";
+type FinderMode = "current" | "keyboard";
 
 function Arrow() {
   return (
@@ -98,6 +99,8 @@ function Finder({
   items,
   query,
   committedTitle,
+  mode,
+  onModeChange,
   onQuery,
   onSelect,
   onUnsure,
@@ -106,6 +109,8 @@ function Finder({
   items: CancerTypePrototypeItem[];
   query: string;
   committedTitle?: string;
+  mode: FinderMode;
+  onModeChange: (mode: FinderMode) => void;
   onQuery: (value: string) => void;
   onSelect: (item: CancerTypePrototypeItem) => void;
   onUnsure: () => void;
@@ -117,30 +122,124 @@ function Finder({
     () => (term ? items.filter((item) => searchText(item).includes(term)).slice(0, 6) : []),
     [items, term],
   );
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const keyboardReady = mode === "keyboard";
+
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [keyboardReady, term]);
+
+  const changeQuery = (value: string) => {
+    setActiveIndex(-1);
+    onQuery(value);
+  };
+
+  const onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!keyboardReady) return;
+
+    if (event.key === "ArrowDown" && open && matches.length > 0) {
+      event.preventDefault();
+      setActiveIndex((current) =>
+        current < matches.length - 1 ? current + 1 : 0,
+      );
+      return;
+    }
+
+    if (event.key === "ArrowUp" && open && matches.length > 0) {
+      event.preventDefault();
+      setActiveIndex((current) =>
+        current <= 0 ? matches.length - 1 : current - 1,
+      );
+      return;
+    }
+
+    if (
+      event.key === "Enter" &&
+      open &&
+      activeIndex >= 0 &&
+      matches[activeIndex]
+    ) {
+      event.preventDefault();
+      onSelect(matches[activeIndex]);
+      return;
+    }
+
+    if (event.key === "Escape" && open) {
+      event.preventDefault();
+      setActiveIndex(-1);
+      onQuery(committedTitle ?? "");
+    }
+  };
 
   return (
     <div className="mt-8 rounded-[1.6rem] border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-[2rem]">
-      <label htmlFor="cancer-finder" className="block px-1 font-display text-lg font-semibold text-ink md:text-xl">
-        What have you been told?
-      </label>
-      <p className="mt-1 px-1 text-xs leading-relaxed text-ink-muted md:text-sm">
-        Enter a cancer type to see possible matches.
-      </p>
+      <div className="flex flex-col gap-4 px-1 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <label htmlFor="cancer-finder" className="block font-display text-lg font-semibold text-ink md:text-xl">
+            What have you been told?
+          </label>
+          <p className="mt-1 text-xs leading-relaxed text-ink-muted md:text-sm">
+            Enter a cancer type to see possible matches.
+          </p>
+        </div>
+
+        <div
+          role="group"
+          aria-label="Compare cancer finder behaviour"
+          className="flex w-fit shrink-0 rounded-full border border-ink/10 bg-paper p-1"
+        >
+          {(
+            [
+              ["current", "Current"],
+              ["keyboard", "Keyboard-ready"],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={mode === value}
+              onClick={() => onModeChange(value)}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                mode === value
+                  ? "bg-ink text-white"
+                  : "text-ink-muted hover:bg-white hover:text-ink"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="relative mt-4">
         <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted"><SearchIcon /></span>
         <input
           id="cancer-finder"
           value={query}
-          onChange={(event) => onQuery(event.target.value)}
+          onChange={(event) => changeQuery(event.target.value)}
+          onKeyDown={onInputKeyDown}
           placeholder="Try breast, bowel, lymphoma…"
           autoComplete="off"
           role="combobox"
+          aria-autocomplete="list"
           aria-expanded={open}
           aria-controls="cancer-finder-results"
+          aria-activedescendant={
+            keyboardReady && activeIndex >= 0 && matches[activeIndex]
+              ? `cancer-finder-option-${matches[activeIndex].id}`
+              : undefined
+          }
           className="h-14 w-full rounded-2xl border border-ink/15 bg-paper pl-12 pr-4 text-base text-ink placeholder:text-ink-muted/65 focus:border-ink/40"
         />
       </div>
+
+      <p className="sr-only" role="status" aria-live="polite">
+        {keyboardReady && open
+          ? matches.length > 0
+            ? `${matches.length} ${matches.length === 1 ? "result" : "results"} available.`
+            : "No close match found."
+          : ""}
+      </p>
 
       <AnimatePresence initial={false}>
         {open && (
@@ -156,20 +255,27 @@ function Finder({
             <div className="mt-3 overflow-hidden rounded-2xl border border-ink/10">
               {matches.length ? (
                 <div className="divide-y divide-ink/10">
-                  {matches.map((item) => (
+                  {matches.map((item, index) => {
+                    const active = keyboardReady && activeIndex === index;
+                    return (
                     <button
                       key={item.id}
+                      id={`cancer-finder-option-${item.id}`}
                       type="button"
                       role="option"
-                      aria-selected="false"
+                      aria-selected={active}
                       onClick={() => onSelect(item)}
-                      className="group flex w-full items-center gap-3 bg-white px-4 py-3 text-left transition-colors hover:bg-sage-wash focus-visible:bg-sage-wash"
+                      onMouseEnter={() => keyboardReady && setActiveIndex(index)}
+                      className={`group flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-sage-wash focus-visible:bg-sage-wash ${
+                        active ? "bg-sage-wash" : "bg-white"
+                      }`}
                     >
                       <span aria-hidden className="h-2 w-2 flex-none rounded-full bg-sage-soft" />
                       <span className="min-w-0 flex-1 text-sm font-medium text-ink">{item.title}</span>
                       <span className="text-ink-muted transition-transform group-hover:translate-x-1"><Arrow /></span>
                     </button>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="bg-white px-4 py-4 text-sm text-ink-muted">
@@ -185,7 +291,7 @@ function Finder({
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="mr-1 text-xs text-ink-muted">Examples</span>
           {examples.map((example) => (
-            <button key={example} type="button" onClick={() => onQuery(example)} className="rounded-full border border-ink/10 bg-paper px-3 py-1.5 text-xs text-ink transition-colors hover:border-ink/30">
+            <button key={example} type="button" onClick={() => changeQuery(example)} className="rounded-full border border-ink/10 bg-paper px-3 py-1.5 text-xs text-ink transition-colors hover:border-ink/30">
               {example}
             </button>
           ))}
@@ -846,6 +952,7 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
 
 export default function CancerTypesPrototype({ items }: { items: CancerTypePrototypeItem[] }) {
   const [query, setQuery] = useState("");
+  const [finderMode, setFinderMode] = useState<FinderMode>("keyboard");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showUnsure, setShowUnsure] = useState(false);
   const selected = items.find((item) => item.id === selectedId);
@@ -1005,7 +1112,20 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     setSelectedId(item.id);
     setShowUnsure(false);
     setQuery(item.title);
-    scrollTo("specialists");
+    if (finderMode === "keyboard") {
+      requestAnimationFrame(() =>
+        window.setTimeout(
+          () =>
+            scrollToAnchor("specialists", {
+              duration: 0.9,
+              focus: true,
+            }),
+          60,
+        ),
+      );
+    } else {
+      scrollTo("specialists");
+    }
   }
 
   function showNotSure() {
@@ -1058,7 +1178,17 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
             <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-muted md:mt-6 md:text-xl">
               You do not need the exact clinical name. Try a cancer type such as breast, bowel, prostate or lung, or browse the full list below.
             </p>
-            <Finder items={items} query={query} committedTitle={selected?.title} onQuery={setQuery} onSelect={selectItem} onUnsure={showNotSure} onBrowseAll={browseAll} />
+            <Finder
+              items={items}
+              query={query}
+              committedTitle={selected?.title}
+              mode={finderMode}
+              onModeChange={setFinderMode}
+              onQuery={setQuery}
+              onSelect={selectItem}
+              onUnsure={showNotSure}
+              onBrowseAll={browseAll}
+            />
           </div>
 
           <div className="relative hidden min-h-[610px] lg:block">
