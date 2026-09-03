@@ -118,119 +118,17 @@ function Card({
   );
 }
 
-type DesktopVersion = "current" | "indexed";
-
-function DesktopVersionToggle({
-  version,
-  onChange,
-}: {
-  version: DesktopVersion;
-  onChange: (version: DesktopVersion) => void;
-}) {
-  return (
-    <div
-      role="group"
-      aria-label="Compare consultant directory layouts"
-      className="inline-flex rounded-full border border-ink/10 bg-white p-1 shadow-[0_10px_30px_rgba(6,28,70,0.08)]"
-    >
-      {(
-        [
-          ["current", "Current"],
-          ["indexed", "Indexed"],
-        ] as const
-      ).map(([value, label]) => (
-        <button
-          key={value}
-          type="button"
-          aria-pressed={version === value}
-          onClick={() => onChange(value)}
-          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-            version === value
-              ? "bg-ink text-white"
-              : "text-ink-muted hover:bg-ink/[0.06] hover:text-ink"
-          }`}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function ConsultantIndex({
+export default function ConsultantFocusStrip({
   consultants,
-  active,
-  onSelect,
 }: {
   consultants: FocusConsultant[];
-  active: number | null;
-  onSelect: (index: number | null) => void;
 }) {
-  return (
-    <div className="container-wide mb-4">
-      <div className="mb-3 flex items-center justify-between gap-5">
-        <p className="type-label text-ink-muted">Choose a consultant</p>
-        <button
-          type="button"
-          aria-pressed={active === null}
-          onClick={() => onSelect(null)}
-          className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-            active === null
-              ? "border-ink bg-ink text-white"
-              : "border-ink/15 bg-white text-ink hover:border-ink/35"
-          }`}
-        >
-          All consultants
-        </button>
-      </div>
-
-      <div className="grid grid-cols-5 border-l border-t border-ink/10 bg-white">
-        {consultants.map((consultant, index) => {
-          const selected = active === index;
-          return (
-            <button
-              key={consultant.slug}
-              type="button"
-              aria-pressed={selected}
-              aria-controls={`consultant-desktop-panel-${consultant.slug}`}
-              onClick={() => onSelect(index)}
-              className={`min-h-[4.75rem] border-b border-r border-ink/10 px-4 py-3 text-left transition-colors ${
-                selected
-                  ? "bg-ink text-white"
-                  : "text-ink hover:bg-canvas-soft"
-              }`}
-            >
-              <span className="block font-display text-[0.95rem] font-semibold leading-tight">
-                {consultant.name}
-              </span>
-              <span
-                className={`type-label mt-1 block leading-tight ${
-                  selected ? "text-white/70" : "text-ink-muted"
-                }`}
-              >
-                {consultant.shortRole.replace("Consultant ", "")}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function DesktopPortraitWall({
-  consultants,
-  active,
-  onSelect,
-  showRail,
-}: {
-  consultants: FocusConsultant[];
-  active: number | null;
-  onSelect: (index: number) => void;
-  showRail: boolean;
-}) {
-  const [ready, setReady] = useState<number | null>(active);
+  const [active, setActive] = useState(3);
+  const [desktopReady, setDesktopReady] = useState(3);
+  const [mobileOpen, setMobileOpen] = useState<number | null>(null);
+  const reducedMotion = useReducedMotion();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tabletTabs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const cancelHover = () => {
     if (hoverTimer.current !== null) {
@@ -242,109 +140,132 @@ function DesktopPortraitWall({
   const scheduleHover = (index: number) => {
     cancelHover();
     hoverTimer.current = setTimeout(() => {
-      onSelect(index);
+      setActive(index);
       hoverTimer.current = null;
     }, 150);
+  };
+
+  const moveTabletSelection = (from: number, direction: -1 | 1) => {
+    const next = (from + direction + consultants.length) % consultants.length;
+    setActive(next);
+    tabletTabs.current[next]?.focus();
   };
 
   useEffect(
     () => () => {
       if (hoverTimer.current !== null) clearTimeout(hoverTimer.current);
     },
+    [],
   );
 
   useEffect(() => {
-    if (active === null) {
-      setReady(null);
-      return;
-    }
-    const timer = setTimeout(() => setReady(active), 300);
+    const timer = setTimeout(() => setDesktopReady(active), 300);
     return () => clearTimeout(timer);
   }, [active]);
 
+  const selected = consultants[active];
+
   return (
-    <>
-      <div className="flex h-[clamp(500px,54svh,580px)] gap-[3px] border-y border-ink/[0.08]">
-        {consultants.map((consultant, index) => {
-          const open = index === active;
-          return (
-            <div
-              key={consultant.slug}
-              id={`consultant-desktop-panel-${consultant.slug}`}
-              onPointerEnter={(event) => {
-                if (event.pointerType === "mouse") scheduleHover(index);
-              }}
-              onPointerLeave={(event) => {
-                if (event.pointerType === "mouse") cancelHover();
-              }}
-              className="group relative overflow-hidden bg-canvas-soft transition-[flex-basis,flex-grow,min-width] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
-              style={{
-                flexGrow: open ? 0 : 1,
-                flexShrink: open ? 0 : 1,
-                flexBasis: open ? ACTIVE_PANEL_WIDTH : 0,
-                minWidth: open ? ACTIVE_PANEL_WIDTH : CLOSED_PANEL_WIDTH,
-              }}
-            >
+    <div>
+      {/* ── Wide desktop: the original horizontal portrait wall. Height is
+          ~half the
+          viewport so headline + strip + rail compose one full screen, and
+          the slivers stay wide enough that the extended-headroom portraits
+          keep the whole face in frame. ─────────────────────────────────── */}
+      <div className="hidden xl:block">
+        <div className="flex h-[clamp(500px,54svh,580px)] gap-[3px] border-y border-ink/[0.08]">
+          {consultants.map((c, i) => {
+            const open = i === active;
+            return (
               <div
-                className="absolute top-0 h-full transition-[left,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                key={c.slug}
+                id={`consultant-desktop-panel-${c.slug}`}
+                onPointerEnter={(event) => {
+                  if (event.pointerType === "mouse") scheduleHover(i);
+                }}
+                onPointerLeave={(event) => {
+                  if (event.pointerType === "mouse") cancelHover();
+                }}
+                className="group relative overflow-hidden bg-canvas-soft transition-[flex-basis,flex-grow,min-width] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
                 style={{
-                  width: DESKTOP_PORTRAIT_WIDTH,
-                  left: open ? "0%" : "50%",
-                  transform: open ? "translateX(0%)" : "translateX(-50%)",
+                  flexGrow: open ? 0 : 1,
+                  flexShrink: open ? 0 : 1,
+                  flexBasis: open ? ACTIVE_PANEL_WIDTH : 0,
+                  minWidth: open ? ACTIVE_PANEL_WIDTH : CLOSED_PANEL_WIDTH,
                 }}
               >
-                <Image
-                  src={consultant.photoTall}
-                  alt={open ? `${consultant.name}, ${consultant.shortRole}` : ""}
-                  fill
-                  sizes="16vw"
-                  className={`object-cover transition-[filter] duration-300 ${
-                    open
-                      ? ""
-                      : "brightness-[0.94] saturate-[0.82] group-hover:brightness-100 group-hover:saturate-100"
+                {/* One persistent portrait per panel — the same element in
+                    both states, so opening never swaps or reloads the image.
+                    Collapsed it sits centred (the sliver is a window onto its
+                    middle); open it slides to the panel's left edge, riding
+                    the same easing as the grow. */}
+                <div
+                  className="absolute top-0 h-full transition-[left,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                  style={{
+                    width: DESKTOP_PORTRAIT_WIDTH,
+                    left: open ? "0%" : "50%",
+                    transform: open ? "translateX(0%)" : "translateX(-50%)",
+                  }}
+                >
+                  <Image
+                    src={c.photoTall}
+                    alt={open ? `${c.name}, ${c.shortRole}` : ""}
+                    fill
+                    sizes="16vw"
+                    className={`object-cover transition-[filter] duration-300 ${
+                      open
+                        ? ""
+                        : "brightness-[0.94] saturate-[0.82] group-hover:brightness-100 group-hover:saturate-100"
+                    }`}
+                  />
+                </div>
+
+                {/* The details are a sibling constrained by the panel's
+                    right edge, rather than a fixed box hanging off the image.
+                    It therefore wraps during the grow instead of being cut
+                    off. The short delay keeps partial copy hidden until the
+                    panel has enough room to present it cleanly. */}
+                <div
+                  aria-hidden={!open || desktopReady !== i}
+                  className={`absolute inset-y-0 right-0 flex min-w-0 items-center overflow-hidden px-6 transition-opacity duration-300 motion-reduce:delay-0 motion-reduce:transition-none xl:px-9 ${
+                    open ? "opacity-100 delay-300" : "pointer-events-none opacity-0"
+                  }`}
+                  style={{ left: DESKTOP_PORTRAIT_WIDTH }}
+                >
+                  <Card c={c} interactive={open && desktopReady === i} />
+                </div>
+
+                {/* Keyboard and screen-reader surface for the collapsed
+                    state; hover's equivalent for focus. */}
+                <button
+                  type="button"
+                  onClick={() => setActive(i)}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className={`absolute inset-0 h-full w-full focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-gold ${
+                    open ? "pointer-events-none" : ""
                   }`}
                 />
               </div>
+            );
+          })}
+        </div>
 
-              <div
-                aria-hidden={!open || ready !== index}
-                className={`absolute inset-y-0 right-0 flex min-w-0 items-center overflow-hidden px-6 transition-opacity duration-300 motion-reduce:delay-0 motion-reduce:transition-none xl:px-9 ${
-                  open
-                    ? "opacity-100 delay-300"
-                    : "pointer-events-none opacity-0"
-                }`}
-                style={{ left: DESKTOP_PORTRAIT_WIDTH }}
-              >
-                <Card c={consultant} interactive={open && ready === index} />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => onSelect(index)}
-                tabIndex={-1}
-                aria-hidden="true"
-                className={`absolute inset-0 h-full w-full focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-gold ${
-                  open ? "pointer-events-none" : ""
-                }`}
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      {showRail && (
+        {/* The numbered rail. Cells share the panels' grow values and the
+            same easing, so each number rides with its portrait; the open
+            cell carries the name and the gold underline. */}
         <div className="mt-4 flex gap-[3px]">
-          {consultants.map((consultant, index) => {
-            const open = index === active;
+          {consultants.map((c, i) => {
+            const open = i === active;
             return (
               <button
-                key={consultant.slug}
+                key={c.slug}
                 type="button"
-                onClick={() => onSelect(index)}
-                aria-label={consultant.name}
+                onClick={() => setActive(i)}
+                aria-label={c.name}
                 aria-current={open || undefined}
                 aria-expanded={open}
-                aria-controls={`consultant-desktop-panel-${consultant.slug}`}
+                aria-controls={`consultant-desktop-panel-${c.slug}`}
                 className="text-center transition-[flex-basis,flex-grow,min-width] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
                 style={{
                   flexGrow: open ? 0 : 1,
@@ -358,14 +279,14 @@ function DesktopPortraitWall({
                     open ? "text-gold" : "text-ink-muted"
                   }`}
                 >
-                  {String(index + 1).padStart(2, "0")}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
                   className={`type-supporting mx-auto block overflow-hidden whitespace-nowrap text-ink transition-opacity duration-300 ${
                     open ? "opacity-100" : "h-0 opacity-0"
                   }`}
                 >
-                  {consultant.name}
+                  {c.name}
                   <span
                     aria-hidden
                     className="mx-auto mt-1 block h-px w-16 bg-gold"
@@ -375,61 +296,6 @@ function DesktopPortraitWall({
             );
           })}
         </div>
-      )}
-    </>
-  );
-}
-
-export default function ConsultantFocusStrip({
-  consultants,
-}: {
-  consultants: FocusConsultant[];
-}) {
-  const [active, setActive] = useState(3);
-  const [desktopVersion, setDesktopVersion] =
-    useState<DesktopVersion>("indexed");
-  const [indexedActive, setIndexedActive] = useState<number | null>(null);
-  const [mobileOpen, setMobileOpen] = useState<number | null>(null);
-  const reducedMotion = useReducedMotion();
-  const tabletTabs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  const moveTabletSelection = (from: number, direction: -1 | 1) => {
-    const next = (from + direction + consultants.length) % consultants.length;
-    setActive(next);
-    tabletTabs.current[next]?.focus();
-  };
-
-  const selected = consultants[active];
-
-  return (
-    <div>
-      {/* ── Wide desktop comparison. The current option preserves the
-          original numbered wall exactly; Indexed adds a neutral overview and
-          persistent names while driving the same portrait interaction. ── */}
-      <div className="hidden xl:block">
-        <div className="container-wide mb-4 flex justify-end">
-          <DesktopVersionToggle
-            version={desktopVersion}
-            onChange={setDesktopVersion}
-          />
-        </div>
-
-        {desktopVersion === "indexed" && (
-          <ConsultantIndex
-            consultants={consultants}
-            active={indexedActive}
-            onSelect={setIndexedActive}
-          />
-        )}
-
-        <DesktopPortraitWall
-          consultants={consultants}
-          active={desktopVersion === "current" ? active : indexedActive}
-          onSelect={
-            desktopVersion === "current" ? setActive : setIndexedActive
-          }
-          showRail={desktopVersion === "current"}
-        />
       </div>
 
       {/* ── Tablet and small laptop: all ten consultants remain visible in a
