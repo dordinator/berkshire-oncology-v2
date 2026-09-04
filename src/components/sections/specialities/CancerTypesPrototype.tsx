@@ -60,7 +60,6 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const sectionPadding = "pb-16 pt-28 md:pb-20 md:pt-32 lg:py-16";
 const shortSectionPadding =
   "pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-16 lg:pt-28";
-type FinderMode = "current" | "keyboard";
 
 function Arrow() {
   return (
@@ -99,8 +98,6 @@ function Finder({
   items,
   query,
   committedTitle,
-  mode,
-  onModeChange,
   onQuery,
   onSelect,
   onUnsure,
@@ -109,8 +106,6 @@ function Finder({
   items: CancerTypePrototypeItem[];
   query: string;
   committedTitle?: string;
-  mode: FinderMode;
-  onModeChange: (mode: FinderMode) => void;
   onQuery: (value: string) => void;
   onSelect: (item: CancerTypePrototypeItem) => void;
   onUnsure: () => void;
@@ -123,11 +118,10 @@ function Finder({
     [items, term],
   );
   const [activeIndex, setActiveIndex] = useState(-1);
-  const keyboardReady = mode === "keyboard";
 
   useEffect(() => {
     setActiveIndex(-1);
-  }, [keyboardReady, term]);
+  }, [term]);
 
   const changeQuery = (value: string) => {
     setActiveIndex(-1);
@@ -135,8 +129,6 @@ function Finder({
   };
 
   const onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!keyboardReady) return;
-
     if (event.key === "ArrowDown" && open && matches.length > 0) {
       event.preventDefault();
       setActiveIndex((current) =>
@@ -173,42 +165,13 @@ function Finder({
 
   return (
     <div className="mt-8 rounded-[1.6rem] border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-[2rem]">
-      <div className="flex flex-col gap-4 px-1 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <label htmlFor="cancer-finder" className="block font-display text-lg font-semibold text-ink md:text-xl">
-            What have you been told?
-          </label>
-          <p className="mt-1 text-xs leading-relaxed text-ink-muted md:text-sm">
-            Enter a cancer type to see possible matches.
-          </p>
-        </div>
-
-        <div
-          role="group"
-          aria-label="Compare cancer finder behaviour"
-          className="flex w-fit shrink-0 rounded-full border border-ink/10 bg-paper p-1"
-        >
-          {(
-            [
-              ["current", "Current"],
-              ["keyboard", "Keyboard-ready"],
-            ] as const
-          ).map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              aria-pressed={mode === value}
-              onClick={() => onModeChange(value)}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                mode === value
-                  ? "bg-ink text-white"
-                  : "text-ink-muted hover:bg-white hover:text-ink"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+      <div className="px-1">
+        <label htmlFor="cancer-finder" className="block font-display text-lg font-semibold text-ink md:text-xl">
+          What have you been told?
+        </label>
+        <p className="mt-1 text-xs leading-relaxed text-ink-muted md:text-sm">
+          Enter a cancer type to see possible matches.
+        </p>
       </div>
 
       <div className="relative mt-4">
@@ -225,7 +188,7 @@ function Finder({
           aria-expanded={open}
           aria-controls="cancer-finder-results"
           aria-activedescendant={
-            keyboardReady && activeIndex >= 0 && matches[activeIndex]
+            activeIndex >= 0 && matches[activeIndex]
               ? `cancer-finder-option-${matches[activeIndex].id}`
               : undefined
           }
@@ -234,7 +197,7 @@ function Finder({
       </div>
 
       <p className="sr-only" role="status" aria-live="polite">
-        {keyboardReady && open
+        {open
           ? matches.length > 0
             ? `${matches.length} ${matches.length === 1 ? "result" : "results"} available.`
             : "No close match found."
@@ -256,7 +219,7 @@ function Finder({
               {matches.length ? (
                 <div className="divide-y divide-ink/10">
                   {matches.map((item, index) => {
-                    const active = keyboardReady && activeIndex === index;
+                    const active = activeIndex === index;
                     return (
                     <button
                       key={item.id}
@@ -265,7 +228,7 @@ function Finder({
                       role="option"
                       aria-selected={active}
                       onClick={() => onSelect(item)}
-                      onMouseEnter={() => keyboardReady && setActiveIndex(index)}
+                      onMouseEnter={() => setActiveIndex(index)}
                       className={`group flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-sage-wash focus-visible:bg-sage-wash ${
                         active ? "bg-sage-wash" : "bg-white"
                       }`}
@@ -952,7 +915,6 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
 
 export default function CancerTypesPrototype({ items }: { items: CancerTypePrototypeItem[] }) {
   const [query, setQuery] = useState("");
-  const [finderMode, setFinderMode] = useState<FinderMode>("keyboard");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showUnsure, setShowUnsure] = useState(false);
   const selected = items.find((item) => item.id === selectedId);
@@ -1112,20 +1074,16 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     setSelectedId(item.id);
     setShowUnsure(false);
     setQuery(item.title);
-    if (finderMode === "keyboard") {
-      requestAnimationFrame(() =>
-        window.setTimeout(
-          () =>
-            scrollToAnchor("specialists", {
-              duration: 0.9,
-              focus: true,
-            }),
-          60,
-        ),
-      );
-    } else {
-      scrollTo("specialists");
-    }
+    requestAnimationFrame(() =>
+      window.setTimeout(
+        () =>
+          scrollToAnchor("specialists", {
+            duration: 0.9,
+            focus: true,
+          }),
+        60,
+      ),
+    );
   }
 
   function showNotSure() {
@@ -1182,8 +1140,6 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
               items={items}
               query={query}
               committedTitle={selected?.title}
-              mode={finderMode}
-              onModeChange={setFinderMode}
               onQuery={setQuery}
               onSelect={selectItem}
               onUnsure={showNotSure}
