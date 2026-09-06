@@ -1,0 +1,3197 @@
+{
+  "generated": "2026-09-06T10:37:26.701Z",
+  "elements": [
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".bg-sage-mist > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
+      "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">Use the diagnosis shown in your clinic letter or report. If you are unsure which category it belongs to, the practice team can help.</p>",
+      "axeRatio": 2.09,
+      "fg": "#a2abb9",
+      "bg": "#f2f4f3",
+      "px": 17,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#3d4f6e",
+        "ratio": 6.60290986962857,
+        "cssSize": 17,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".bg-sage-mist > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(1) > span:nth-child(2)",
+      "html": "<span>Choose the cancer type you have been diagnosed with</span>",
+      "axeRatio": 2.09,
+      "fg": "#a2abb9",
+      "bg": "#f2f4f3",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#3d4f6e",
+        "ratio": 6.60290986962857,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".bg-sage-mist > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(2) > span:nth-child(2)",
+      "html": "<span>See the consultants who treat it</span>",
+      "axeRatio": 2.09,
+      "fg": "#a2abb9",
+      "bg": "#f2f4f3",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#3d4f6e",
+        "ratio": 6.60290986962857,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".bg-sage-mist > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(3) > span:nth-child(2)",
+      "html": "<span>Review their experience and where they practise</span>",
+      "axeRatio": 2.09,
+      "fg": "#a2abb9",
+      "bg": "#f2f4f3",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#3d4f6e",
+        "ratio": 6.60290986962857,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".hover\\:bg-white\\/30.focus-visible\\:border-ink\\/40[href$=\"specialities\"]",
+      "html": "<a class=\"group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 f",
+      "axeRatio": 2.81,
+      "fg": "#8893a5",
+      "bg": "#f2f4f3",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#061c46",
+        "ratio": 13.296847001770447,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"second-opinion-title\"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
+      "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">It may confirm what you have already been told or provide a different view. Arranging one can take time, so speak to your current team before changing any tests, ap",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 17,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 17,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"second-opinion-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(1) > span:nth-child(2)",
+      "html": "<span>Decide what you would like the consultant to review</span>",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"second-opinion-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(2) > span:nth-child(2)",
+      "html": "<span>Ask your current team for relevant letters, test results and imaging</span>",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"second-opinion-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(3) > span:nth-child(2)",
+      "html": "<span>Keep existing appointments unless your clinical team advises otherwise</span>",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".hover\\:bg-white\\/30.focus-visible\\:border-ink\\/40[href$=\"contact\"]",
+      "html": "<a class=\"group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 f",
+      "axeRatio": 2.82,
+      "fg": "#8894a8",
+      "bg": "#f3f6f9",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"private-treatment-title\"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
+      "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">Private care may be self-funded or paid through medical insurance. Any treatment recommendation depends on your diagnosis and a consultant’s review of your clinical",
+      "axeRatio": 2.11,
+      "fg": "#a6acb8",
+      "bg": "#f8f6f2",
+      "px": 17,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#41506d",
+        "ratio": 6.865046895759362,
+        "cssSize": 17,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"private-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(1) > span:nth-child(2)",
+      "html": "<span>Ask your insurer whether a referral and authorisation are required</span>",
+      "axeRatio": 2.11,
+      "fg": "#a6acb8",
+      "bg": "#f8f6f2",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#41506d",
+        "ratio": 6.865046895759362,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"private-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(2) > span:nth-child(2)",
+      "html": "<span>Request a written estimate and check what it includes</span>",
+      "axeRatio": 2.11,
+      "fg": "#a6acb8",
+      "bg": "#f8f6f2",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#41506d",
+        "ratio": 6.865046895759362,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"private-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(3) > span:nth-child(2)",
+      "html": "<span>Confirm where consultations and any agreed treatment would take place</span>",
+      "axeRatio": 2.11,
+      "fg": "#a6acb8",
+      "bg": "#f8f6f2",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#41506d",
+        "ratio": 6.865046895759362,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.865046895759362,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".hover\\:bg-white\\/30.focus-visible\\:border-ink\\/40[href$=\"tariffs\"]",
+      "html": "<a class=\"group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 f",
+      "axeRatio": 2.82,
+      "fg": "#8b94a5",
+      "bg": "#f8f6f2",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#061c46",
+        "ratio": 14.102551617471992,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"receiving-treatment-title\"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
+      "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">Contact your treating team about symptoms, side effects or questions about your treatment. The practice team can help with appointments, letters and other administr",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 17,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 17,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"receiving-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(1) > span:nth-child(2)",
+      "html": "<span>Keep your treatment team’s urgent number easy to find</span>",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"receiving-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(2) > span:nth-child(2)",
+      "html": "<span>Follow the instructions on your treatment record or alert card if you feel unwell</span>",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"receiving-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(3) > span:nth-child(2)",
+      "html": "<span>Use NHS 111 if you need urgent help and are unsure what to do. Call 999 in a life-threatening emergency</span>",
+      "axeRatio": 2.1,
+      "fg": "#a3acbd",
+      "bg": "#f3f6f9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"receiving-treatment-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > .hover\\:bg-white\\/30.focus-visible\\:border-ink\\/40.focus-visible\\:bg-white\\/30",
+      "html": "<a class=\"group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 f",
+      "axeRatio": 2.82,
+      "fg": "#8894a8",
+      "bg": "#f3f6f9",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"supporting-someone-title\"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
+      "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">You can help prepare questions, attend appointments if they would like you there and support practical tasks. Healthcare professionals need the patient’s permission",
+      "axeRatio": 2.07,
+      "fg": "#9ca5b2",
+      "bg": "#e8ebe9",
+      "px": 17,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#374a68",
+        "ratio": 5.870676125571072,
+        "cssSize": 17,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"supporting-someone-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(1) > span:nth-child(2)",
+      "html": "<span>Agree what they would like help with</span>",
+      "axeRatio": 2.07,
+      "fg": "#9ca5b2",
+      "bg": "#e8ebe9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#374a68",
+        "ratio": 5.870676125571072,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"supporting-someone-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(2) > span:nth-child(2)",
+      "html": "<span>Write down questions together before an appointment</span>",
+      "axeRatio": 2.07,
+      "fg": "#9ca5b2",
+      "bg": "#e8ebe9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#374a68",
+        "ratio": 5.870676125571072,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"supporting-someone-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > ul > .type-body.text-ink\\/75:nth-child(3) > span:nth-child(2)",
+      "html": "<span>Look for practical and emotional support for yourself as well</span>",
+      "axeRatio": 2.07,
+      "fg": "#9ca5b2",
+      "bg": "#e8ebe9",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#374a68",
+        "ratio": 5.870676125571072,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 5.870676125571072,
+          "ground": "#cbd3ce"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "article[aria-labelledby=\"supporting-someone-title\"] > .flex-col.flex-1.min-w-0 > .mt-12.md\\:mt-auto.md\\:pt-12 > .gap-8.md\\:grid-cols-\\[minmax\\(0\\,1fr\\)_auto\\].md\\:items-end > .hover\\:bg-white\\/30.focus-visible\\:border-ink\\/40.focus-visible\\:bg-white\\/30",
+      "html": "<a class=\"group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 f",
+      "axeRatio": 2.76,
+      "fg": "#828ea0",
+      "bg": "#e8ebe9",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#061c46",
+        "ratio": 10.891566200597138,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": ".gap-4.px-3[href$=\"resources\"] > .flex-1.min-w-0",
+      "html": "<span class=\"min-w-0 flex-1\">Resources and support</span>",
+      "axeRatio": 2.93,
+      "fg": "#828fa4",
+      "bg": "#f0f3f3",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fbfaf5",
+        "fg": "#061c46",
+        "ratio": 15.919235493136032,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "375",
+      "target": "a[href$=\"#first-appointment\"] > .flex-1.min-w-0",
+      "html": "<span class=\"min-w-0 flex-1\">Your first appointment</span>",
+      "axeRatio": 2.93,
+      "fg": "#828fa4",
+      "bg": "#f0f3f3",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fbfaf5",
+        "fg": "#061c46",
+        "ratio": 15.919235493136032,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "768",
+      "target": "#newly-diagnosed-title",
+      "html": "<h3 id=\"newly-diagnosed-title\" class=\"type-section-title max-w-3xl text-ink\">Find the consultants who treat your cancer type.</h3>",
+      "axeRatio": 2.81,
+      "fg": "#8893a5",
+      "bg": "#f2f4f3",
+      "px": 48,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#061c46",
+        "ratio": 13.296847001770447,
+        "cssSize": 48,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "768",
+      "target": "#second-opinion-title",
+      "html": "<h3 id=\"second-opinion-title\" class=\"type-section-title max-w-3xl text-ink\">A second opinion can review your diagnosis, treatment plan or both.</h3>",
+      "axeRatio": 2.82,
+      "fg": "#8894a8",
+      "bg": "#f3f6f9",
+      "px": 48,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 48,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "768",
+      "target": "#private-treatment-title",
+      "html": "<h3 id=\"private-treatment-title\" class=\"type-section-title max-w-3xl text-ink\">Start with a consultation and a clear understanding of the likely costs.</h3>",
+      "axeRatio": 2.82,
+      "fg": "#8b94a5",
+      "bg": "#f8f6f2",
+      "px": 48,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#061c46",
+        "ratio": 14.102551617471992,
+        "cssSize": 48,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "768",
+      "target": "#receiving-treatment-title",
+      "html": "<h3 id=\"receiving-treatment-title\" class=\"type-section-title max-w-3xl text-ink\">Know who to contact during treatment.</h3>",
+      "axeRatio": 2.82,
+      "fg": "#8894a8",
+      "bg": "#f3f6f9",
+      "px": 48,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 48,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "768",
+      "target": "#supporting-someone-title",
+      "html": "<h3 id=\"supporting-someone-title\" class=\"type-section-title max-w-3xl text-ink\">Ask what support the person wants and how they would like you to be involved.</h3>",
+      "axeRatio": 2.76,
+      "fg": "#828ea0",
+      "bg": "#e8ebe9",
+      "px": 48,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#061c46",
+        "ratio": 10.891566200597138,
+        "cssSize": 48,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "768",
+      "target": "a[href$=\"#faqs\"] > .flex-1.min-w-0",
+      "html": "<span class=\"min-w-0 flex-1\">Frequently asked questions</span>",
+      "axeRatio": 2.93,
+      "fg": "#828fa4",
+      "bg": "#f0f3f3",
+      "px": 16,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fbfaf5",
+        "fg": "#061c46",
+        "ratio": 15.919235493136032,
+        "cssSize": 16,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "1024",
+      "target": ".pb-4 > .font-display.text-xl",
+      "html": "<p class=\"font-display text-xl\">What would help right now?</p>",
+      "axeRatio": 2.93,
+      "fg": "#828fa4",
+      "bg": "#f0f3f3",
+      "px": 20,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fbfaf5",
+        "fg": "#061c46",
+        "ratio": 15.919235493136032,
+        "cssSize": 20,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 15.919235493136032,
+          "ground": "#fbfaf5"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "#self-funding > .type-label.text-ink\\/70",
+      "html": "<p class=\"type-label text-ink/70\">Self-funding</p>",
+      "axeRatio": 1.84,
+      "fg": "#acb3bd",
+      "bg": "#eef0ed",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#485975",
+        "ratio": 5.667791261447589,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 5.667791261447589,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 5.667791261447589,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 5.667791261447589,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 5.667791261447589,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 5.667791261447589,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "#self-funding > .tracking-tight.text-2xl.leading-tight",
+      "html": "<h3 class=\"mt-5 font-display text-2xl font-semibold leading-tight tracking-tight text-ink\">Paying for your own treatment</h3>",
+      "axeRatio": 2.63,
+      "fg": "#8b95a6",
+      "bg": "#eef0ed",
+      "px": 24,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#061c46",
+        "ratio": 13.296847001770447,
+        "cssSize": 24,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "#self-funding > .max-w-md.type-body.mt-3",
+      "html": "<p class=\"type-body mt-3 max-w-md text-ink/75\">Each self-funding package is tailored to individual needs. You will receive a comprehensive tariff before treatment starts.</p>",
+      "axeRatio": 1.95,
+      "fg": "#a6aeb9",
+      "bg": "#eef0ed",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#3d4f6e",
+        "ratio": 6.60290986962857,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.60290986962857,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "a[href$=\"#request\"]",
+      "html": "<a href=\"#request\" class=\"group relative mt-8 inline-flex items-center gap-3 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-[''] focus-visible:underline focus-visible:underline-offset-4\">",
+      "axeRatio": 2.63,
+      "fg": "#8b95a6",
+      "bg": "#eef0ed",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#061c46",
+        "ratio": 13.296847001770447,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "#insurance > .type-label.text-ink\\/70",
+      "html": "<p class=\"type-label text-ink/70\">Insured</p>",
+      "axeRatio": 1.87,
+      "fg": "#acb3bd",
+      "bg": "#eff2f3",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#495a7a",
+        "ratio": 5.732178134511901,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 5.732178134511901,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 5.732178134511901,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 5.732178134511901,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 5.732178134511901,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 5.732178134511901,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "#insurance > .tracking-tight.text-2xl.leading-tight",
+      "html": "<h3 class=\"mt-5 font-display text-2xl font-semibold leading-tight tracking-tight text-ink\">Private medical insurance</h3>",
+      "axeRatio": 2.68,
+      "fg": "#8b95a6",
+      "bg": "#eff2f3",
+      "px": 24,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 24,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "#insurance > .max-w-md.type-body.mt-3",
+      "html": "<p class=\"type-body mt-3 max-w-md text-ink/75\">Insurance providers have their own fee schedules, and policy benefits vary. Obtain a quote before treatment to check whether the cost is covered in full.</p>",
+      "axeRatio": 1.99,
+      "fg": "#a6aeb9",
+      "bg": "#eff2f3",
+      "px": 15,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#3e5071",
+        "ratio": 6.696956260632975,
+        "cssSize": 15,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.696956260632975,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "a[href$=\"#shortfalls\"]",
+      "html": "<a href=\"#shortfalls\" class=\"group relative mt-8 inline-flex items-center gap-3 text-sm font-medium text-ink after:absolute after:-inset-3 after:content-[''] focus-visible:underline focus-visible:underline-offset-4\">",
+      "axeRatio": 2.68,
+      "fg": "#8b95a6",
+      "bg": "#eff2f3",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "button[aria-controls=\"fees-faq-0\"]",
+      "html": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"fees-faq-0\" class=\"flex w-full cursor-p...\">",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "button[aria-controls=\"fees-faq-1\"]",
+      "html": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"fees-faq-1\" class=\"flex w-full cursor-p...\">",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "button[aria-controls=\"fees-faq-2\"]",
+      "html": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"fees-faq-2\" class=\"flex w-full cursor-p...\">",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "button[aria-controls=\"fees-faq-3\"]",
+      "html": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"fees-faq-3\" class=\"flex w-full cursor-p...\">",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "320",
+      "target": "button[aria-controls=\"fees-faq-4\"]",
+      "html": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"fees-faq-4\" class=\"flex w-full cursor-p...\">",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "375",
+      "target": ".pb-12.md\\:pt-32.lg\\:grid-cols-\\[minmax\\(0\\,0\\.85fr\\)_minmax\\(0\\,1\\.15fr\\)\\] > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .divide-y.divide-ink\\/10.mt-3 > .gap-3\\.5.py-3\\.5.flex:nth-child(3) > .md\\:text-xl.text-lg.font-display",
+      "html": "<span class=\"font-display text-lg text-ink md:text-xl\">Before treatment starts</span>",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "375",
+      "target": ".lg\\:order-1 > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .divide-y.divide-ink\\/10.mt-3 > .gap-3\\.5.py-3\\.5.flex:nth-child(3) > .md\\:text-xl.text-lg.font-display",
+      "html": "<span class=\"font-display text-lg text-ink md:text-xl\">Who should I contact?</span>",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "768",
+      "target": ".pb-12.md\\:pt-32.lg\\:grid-cols-\\[minmax\\(0\\,0\\.85fr\\)_minmax\\(0\\,1\\.15fr\\)\\] > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .divide-y.divide-ink\\/10.mt-3 > .gap-3\\.5.py-3\\.5.flex:nth-child(1) > .md\\:text-xl.text-lg.font-display",
+      "html": "<span class=\"font-display text-lg text-ink md:text-xl\">Package tailored to your needs</span>",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 20,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 20,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "768",
+      "target": ".pb-12.md\\:pt-32.lg\\:grid-cols-\\[minmax\\(0\\,0\\.85fr\\)_minmax\\(0\\,1\\.15fr\\)\\] > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .divide-y.divide-ink\\/10.mt-3 > .gap-3\\.5.py-3\\.5.flex:nth-child(2) > .md\\:text-xl.text-lg.font-display",
+      "html": "<span class=\"font-display text-lg text-ink md:text-xl\">Comprehensive tariff provided</span>",
+      "axeRatio": 2.91,
+      "fg": "#8b95a6",
+      "bg": "#fbfbf9",
+      "px": 20,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 20,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "768",
+      "target": ".lg\\:order-1 > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .type-label.text-ink-muted",
+      "html": "<p class=\"type-label text-ink-muted\">Questions to ask about a quote</p>",
+      "axeRatio": 2.14,
+      "fg": "#a0a8b8",
+      "bg": "#f0f3f8",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#4d5870",
+        "ratio": 7.129723114467301,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 7.129723114467301,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "768",
+      "target": ".lg\\:order-1 > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .divide-y.divide-ink\\/10.mt-3 > .gap-3\\.5.py-3\\.5.flex:nth-child(1) > .md\\:text-xl.text-lg.font-display",
+      "html": "<span class=\"font-display text-lg text-ink md:text-xl\">What does this quote include?</span>",
+      "axeRatio": 3.01,
+      "fg": "#808da5",
+      "bg": "#f0f3f8",
+      "px": 20,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 20,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "768",
+      "target": ".lg\\:order-1 > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .divide-y.divide-ink\\/10.mt-3 > .gap-3\\.5.py-3\\.5.flex:nth-child(2) > .md\\:text-xl.text-lg.font-display",
+      "html": "<span class=\"font-display text-lg text-ink md:text-xl\">Could the amount change?</span>",
+      "axeRatio": 3.01,
+      "fg": "#808da5",
+      "bg": "#f0f3f8",
+      "px": 20,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#061c46",
+        "ratio": 16.63650392234028,
+        "cssSize": 20,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 16.63650392234028,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/tariffs",
+      "vp": "1024",
+      "target": ".pb-12.md\\:pt-32.lg\\:grid-cols-\\[minmax\\(0\\,0\\.85fr\\)_minmax\\(0\\,1\\.15fr\\)\\] > .min-h-\\[480px\\].lg\\:min-h-\\[560px\\].py-6 > .bottom-3.w-\\[78\\%\\].md\\:p-7 > .type-label.text-ink-muted",
+      "html": "<p class=\"type-label text-ink-muted\">If you are self-funding</p>",
+      "axeRatio": 2.1,
+      "fg": "#abb0b9",
+      "bg": "#fbfbf9",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#ffffff",
+        "fg": "#4d5870",
+        "ratio": 7.129723114467301,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 7.129723114467301,
+          "ground": "#ffffff"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "375",
+      "target": ".body-lg.max-w-xl.mt-6",
+      "html": "<p class=\"body-lg mt-6 max-w-xl\">Your location depends on your consultant and the care planned for you. Berkshire Oncology Partnership is a group of independent consultant oncologists based in Reading. They also practise",
+      "axeRatio": 3.05,
+      "fg": "#8991a1",
+      "bg": "#fafbfc",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 18,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "375",
+      "target": ".body-lg.max-w-xl.mt-5",
+      "html": "<p class=\"body-lg mt-5 max-w-xl\">These descriptions explain what each site provides generally, not which Berkshire Oncology services take place there. Your consultant or the practice team will confirm where you need to g",
+      "axeRatio": 3.05,
+      "fg": "#8991a1",
+      "bg": "#fafbfc",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 18,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "768",
+      "target": ".gap-2\\.5",
+      "html": "<p class=\"type-label mt-6 flex items-center gap-2.5 text-ink-muted lg:mt-8\">",
+      "axeRatio": 3.83,
+      "fg": "#778092",
+      "bg": "#fafbfc",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".border-b",
+      "html": "<p class=\"type-label border-b border-ink/[0.07] py-3 text-ink-muted\">Jump directly to a location</p>",
+      "axeRatio": 2.75,
+      "fg": "#9299a8",
+      "bg": "#fafbfc",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .lg\\:text-lg.font-display.text-base",
+      "html": "<span class=\"font-display text-base text-ink lg:text-lg\">Reading</span>",
+      "axeRatio": 4.49,
+      "fg": "#67758e",
+      "bg": "#fafbfc",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#061c46",
+        "ratio": 16.05765323630983,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.05765323630983,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">The practice</button>",
+      "axeRatio": 3.09,
+      "fg": "#7392ba",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Spire Dunedin</button>",
+      "axeRatio": 3.09,
+      "fg": "#7392ba",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".gap-2.inline-flex.items-center:nth-child(3) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Royal Berkshire</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Princess Margaret</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">GenesisCare</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(4) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">GenesisCare</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    }
+  ]
+}

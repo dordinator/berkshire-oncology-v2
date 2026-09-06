@@ -30,6 +30,11 @@ export default function Reveal({
   const MotionTag = motion[as] as typeof motion.div;
   return (
     <MotionTag
+      // Framer serialises the `hidden` variant into the server HTML, so this
+      // element ships at opacity 0 and depends on JavaScript to become visible.
+      // The no-script stylesheet in the root layout keys off this attribute to
+      // put the content back.
+      data-reveal=""
       className={className}
       variants={variants}
       custom={delay}

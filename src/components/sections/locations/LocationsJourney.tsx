@@ -80,7 +80,12 @@ function NhsPill() {
 const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
 
 /** How far into a gap a panel stays visible; fully handed over by 0.45. */
-const FADE = 0.45;
+// How far either side of a lock a panel stays visible, in lock units. Below 0.5
+// there is a window in the middle where neither neighbour is painted and the
+// text column goes blank; above 0.5 two panels would be drawn over each other.
+// 0.49 keeps the single-panel guarantee and shrinks the blank window to about
+// 2% of the gap — roughly one key press, now that the keyboard can stop there.
+const FADE = 0.49;
 
 const LOCATION_GROUPS = [
   {
@@ -171,7 +176,11 @@ function HeroLocationSummary({
                     <button
                       type="button"
                       onClick={() => onSelect(stopIndex)}
-                      className="font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent"
+                      // 19px tall and 23.8px apart, against a 24px minimum for
+                      // both. Real padding rather than a cancelled one: the
+                      // spacing is the binding constraint here, and a negative
+                      // margin would put the links back where they were.
+                      className="py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent"
                     >
                       {location.label}
                     </button>
@@ -220,6 +229,32 @@ export default function LocationsJourney({
   const progress = reduced ? steppedP : sprungP;
 
   const [active, setActive] = useState(-1);
+
+  // Which panels hold more than they can show. Only those become tab stops:
+  // a panel that fits has nothing to scroll, and a dead tab stop on every
+  // panel would make the page longer to get through, not shorter.
+  const [overflowing, setOverflowing] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    const measure = () => {
+      const next = panelRefs.current.map(
+        (el) => !!el && el.scrollHeight > el.clientHeight + 2,
+      );
+      setOverflowing((prev) =>
+        prev.length === next.length && prev.every((v, i) => v === next[i])
+          ? prev
+          : next,
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    for (const el of panelRefs.current) if (el) observer.observe(el);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [LAST]);
 
   const goToStop = useCallback(
     (stopIndex: number) => {
@@ -339,7 +374,11 @@ export default function LocationsJourney({
       if (viewportHeight <= 0) return;
       stageEnd = trackTop + LAST * viewportHeight;
       snap = new Snap(lenis, {
-        type: "mandatory",
+        // proximity, not mandatory: releasing near a stop still settles onto it,
+        // which is what almost every gesture does. Mandatory additionally
+        // refused to let a touch or scrollbar user rest anywhere else, and
+        // fought a screen reader's cursor, which scrolls the page as it moves.
+        type: "proximity",
         duration: 1.15,
         easing: easeInOutSine,
         debounce: 320,
@@ -471,43 +510,21 @@ export default function LocationsJourney({
       step(d);
     };
 
-    const onKey = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement | null;
-      if (
-        t &&
-        (t.tagName === "INPUT" ||
-          t.tagName === "TEXTAREA" ||
-          t.tagName === "BUTTON" ||
-          t.tagName === "A" ||
-          t.tagName === "SELECT" ||
-          t.isContentEditable)
-      ) {
-        return;
-      }
-      if (!inStage()) return;
-      const down =
-        e.key === "PageDown" ||
-        e.key === "ArrowDown" ||
-        (e.key === " " && !e.shiftKey);
-      const up =
-        e.key === "PageUp" ||
-        e.key === "ArrowUp" ||
-        (e.key === " " && e.shiftKey);
-      if (!down && !up) return;
-      if (down && currentLock() >= LAST) return;
-      e.preventDefault();
-      if (!stepping) step(down ? 1 : -1);
-    };
+    // Arrow, Page and Space used to be captured here and remapped to a
+    // whole-viewport jump, which left a keyboard user unable to scroll this
+    // 700svh page by a line at all — SC 2.1.1. Those keys belong to the
+    // browser. The wheel stepper below is unchanged, so a mouse still moves
+    // lock to lock; the keyboard now scrolls the page, and the panels follow
+    // scroll position exactly as they already do for anyone using Reduce
+    // Motion, where none of this machinery installs.
 
     window.addEventListener("wheel", onWheel, {
       passive: false,
       capture: true,
     });
-    window.addEventListener("keydown", onKey);
     window.addEventListener("resize", measure);
     return () => {
       window.removeEventListener("wheel", onWheel, true);
-      window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", measure);
       if (backstop) clearTimeout(backstop);
     };
@@ -592,6 +609,16 @@ export default function LocationsJourney({
     // data-no-snap: this section runs its own Snap locks; the global
     // proximity snap must not compete (see SmoothScroll.tsx).
     <section data-no-snap className="relative">
+      {/* Panels crossfade in and out under the reader as the page scrolls, and
+          until now nothing said which one had arrived. Mounted here rather than
+          inside the stage so it is in the document before the first change — a
+          live region added at the moment it updates announces nothing. */}
+      <p className="sr-only" role="status" aria-live="polite">
+        {active >= 0 && active < N
+          ? `${stops[active].name}. Location ${active + 1} of ${N}.`
+          : ""}
+      </p>
+
       {/* The track: its height is the journey's scroll length. Sticky travel
           is track height minus stage height, so LAST+1 viewport-heights give
           the stage LAST full gaps — one per lock-to-lock flight, the final
@@ -649,7 +676,20 @@ export default function LocationsJourney({
                 style={panelStyle(k)}
                 data-lenis-prevent
                 data-location-journey-scroll
-                className={`site-gutter absolute inset-0 flex overflow-y-auto lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 ${
+                // A scroll container that overflows has to be reachable by
+                // keyboard. Below about 768px this panel holds 684px of content
+                // in a 455px box, and the jump-list links inside it are
+                // display:none at those widths — so there was nothing to tab to
+                // and no way to scroll it, leaving the last 229px unreachable.
+                // No role or label: the panel is a scroll container, not a
+                // widget, and naming it would mean inventing a name.
+                //
+                // The lint rule and axe disagree here, and axe is right: a
+                // scrollable region with no focusable content must itself be
+                // focusable, or its overflow cannot be reached by keyboard.
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                tabIndex={overflowing[k] ? 0 : undefined}
+                className={`site-gutter absolute inset-0 flex overflow-y-auto lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 focus-visible:shadow-[inset_0_0_0_2px_#061c46] ${
                   k === 0 ? "xl:pt-20" : "xl:pt-0"
                 }`}
               >

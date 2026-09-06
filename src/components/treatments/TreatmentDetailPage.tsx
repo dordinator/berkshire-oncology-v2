@@ -40,10 +40,14 @@ function TextLink({
   external?: boolean;
 }) {
   const classes =
-    "type-button group inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-sage";
+    "type-button group inline-flex min-h-11 items-center gap-2 text-ink transition-colors hover:text-sage-ink";
   const content = (
     <>
       {children}
+      {/* The arrow marks an external link visually but is aria-hidden, so this
+          is the only warning a screen-reader user gets before the tab changes
+          under them. Matches the wording used by the shared Button. */}
+      {external && <span className="sr-only"> (opens in a new tab)</span>}
       <span className="transition-transform duration-300 group-hover:translate-x-1">
         {external ? <span aria-hidden>↗</span> : <Arrow />}
       </span>
@@ -74,7 +78,7 @@ function Chip({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="type-button inline-flex min-h-11 items-center rounded-full border border-sage/35 px-5 text-ink transition-colors hover:border-sage/70 hover:bg-paper/70 hover:text-sage"
+      className="type-button inline-flex min-h-11 items-center rounded-full border border-sage/35 px-5 text-ink transition-colors hover:border-sage/70 hover:bg-paper/70 hover:text-sage-ink"
     >
       {children}
     </Link>
@@ -90,7 +94,7 @@ function Caveat({
 }) {
   return (
     <aside className="mt-8 rounded-[1.5rem] border border-ink/[0.08] bg-sage-wash px-5 py-5 md:px-7 md:py-6">
-      <p className="type-label font-semibold text-sage">
+      <p className="type-label font-semibold text-sage-ink">
         {label}
       </p>
       <div className="type-body mt-3 text-ink/80">{children}</div>
@@ -122,7 +126,7 @@ function SupportingFigure({ therapy }: { therapy: Therapy }) {
               <p className="type-body mt-4 text-ink-muted">
                 {therapy.image.caption}
               </p>
-              <p className="type-supporting mt-4 text-ink-muted/75">
+              <p className="type-supporting mt-4 text-ink-muted">
                 {therapy.image.credit}
               </p>
             </figcaption>
@@ -183,9 +187,10 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
               href={therapy.sources[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full border border-ink/15 px-6 text-ink transition-colors hover:border-sage/70 hover:text-sage"
+              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full border border-ink/15 px-6 text-ink transition-colors hover:border-sage/70 hover:text-sage-ink"
             >
               Read more about {lowerTitle}
+              <span className="sr-only"> (opens in a new tab)</span>
               <span aria-hidden>↗</span>
             </a>
           </Reveal>
@@ -295,7 +300,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 className="border-t border-sage/40 pt-6"
               >
                 <div className="flex items-baseline gap-5">
-                  <span className="type-button text-sage">
+                  <span className="type-button text-sage-ink">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h3 className="type-card-title text-ink">
@@ -500,7 +505,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 Clinical information on this page was checked against the UK
                 sources linked below.
               </p>
-              <p className="type-supporting mt-3 text-ink-muted/75">
+              <p className="type-supporting mt-3 text-ink-muted">
                 Sources checked: 29 August 2026.
               </p>
             </div>

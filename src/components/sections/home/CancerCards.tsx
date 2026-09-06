@@ -138,7 +138,12 @@ export default function CancerCards({
                     >
                       <Link
                         href={c.href}
-                        className="group relative block overflow-hidden rounded-2xl bg-ink/5"
+                        // A white line just inside the card edge on focus. It
+                        // has to be a pseudo-element above the artwork: an
+                        // inset box-shadow paints beneath child content, so the
+                        // photograph covered it completely, and an outside ring
+                        // would be clipped by overflow-hidden.
+                        className="group relative block overflow-hidden rounded-2xl bg-ink/5 after:pointer-events-none after:absolute after:inset-0 after:z-10 after:rounded-2xl after:border-[3px] after:border-transparent focus-visible:after:border-white"
                       >
                         <span className="relative block aspect-[3/4] w-full">
                           {/* Falls back to the glyph if an image ever goes

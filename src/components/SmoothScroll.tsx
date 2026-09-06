@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import Snap from "lenis/snap";
@@ -185,11 +185,21 @@ export function scrollToAnchor(
 export default function SmoothScroll() {
   const pathname = usePathname();
 
+  // Re-runs when the visitor's motion preference changes, not only at mount.
+  // Reading the query once meant that turning Reduce Motion on mid-session left
+  // Lenis hijacking the wheel until a hard reload, while framer-motion — which
+  // does subscribe to the change — switched over immediately. The page was then
+  // in two states at once.
+  const [prefersReduced, setPrefersReduced] = useState(false);
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReduced(query.matches);
+    const onChange = (event: MediaQueryListEvent) => setPrefersReduced(event.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
 
+  useEffect(() => {
     let lenis: Lenis | null = null;
     let frame = 0;
     if (!prefersReduced) {
@@ -298,7 +308,9 @@ export default function SmoothScroll() {
       lenis?.destroy();
       if (instance === lenis) instance = null;
     };
-  }, []);
+    // Tearing down and rebuilding on a preference change is the point: this is
+    // what actually stops the wheel hijack when Reduce Motion is switched on.
+  }, [prefersReduced]);
 
   // Cross-page hash links can arrive before fonts, imagery or client-rendered
   // content above the target has settled. Repeat the same deterministic
@@ -338,6 +350,11 @@ export default function SmoothScroll() {
     window.addEventListener("touchstart", cancel, { once: true });
     window.addEventListener("wheel", cancel, { once: true });
     window.addEventListener("keydown", cancel, { once: true });
+    // Focus moving is the signal that someone is navigating with a keyboard or
+    // a screen reader. Without it, the realignment kept yanking the page back
+    // to the anchor for a second while they were already reading elsewhere —
+    // none of the other four events fire for a virtual cursor.
+    window.addEventListener("focusin", cancel, { once: true });
 
     return () => {
       cancelled = true;
@@ -348,6 +365,7 @@ export default function SmoothScroll() {
       window.removeEventListener("touchstart", cancel);
       window.removeEventListener("wheel", cancel);
       window.removeEventListener("keydown", cancel);
+      window.removeEventListener("focusin", cancel);
     };
   }, [pathname]);
 

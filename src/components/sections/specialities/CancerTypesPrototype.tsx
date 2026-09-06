@@ -227,6 +227,11 @@ function Finder({
                       type="button"
                       role="option"
                       aria-selected={active}
+                      // The input keeps the tab stop and drives the highlight
+                      // through aria-activedescendant, so the options must not
+                      // be tab stops of their own — otherwise Tab walks every
+                      // result instead of leaving the field.
+                      tabIndex={-1}
                       onClick={() => onSelect(item)}
                       onMouseEnter={() => setActiveIndex(index)}
                       className={`group flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-sage-wash focus-visible:bg-sage-wash ${
@@ -593,6 +598,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                         className="font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
                       >
                         {source.label}
+                        <span className="sr-only"> (opens in a new tab)</span>
                       </a>
                     </span>
                   ))}
@@ -621,24 +627,39 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                   transition={{ layout: { duration: treatmentReducedMotion ? 0 : 0.58, ease } }}
                   className="border-b border-ink/15"
                 >
-                  <button
-                    type="button"
-                    aria-expanded={open}
-                    onClick={() => chooseTreatment(index)}
-                    className="group grid w-full grid-cols-[28px_minmax(0,1fr)_32px] items-start gap-4 py-7 text-left md:grid-cols-[34px_minmax(0,1fr)_36px] md:gap-6 md:py-9"
-                  >
-                    <span className="pt-1 text-[10px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="type-card-title text-ink">
-                      {panel.title}
-                    </span>
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-lg leading-none text-ink transition-colors group-hover:border-ink/15" aria-hidden>
-                      {open ? "−" : "+"}
-                    </span>
-                  </button>
+                  {/* The title is a heading, not a styled span: these panels are
+                      the page's treatment sections, and without the h3 they were
+                      invisible to anyone navigating by headings. `m-0` keeps the
+                      rendering identical — this is the same pattern as the fees
+                      accordion in FeesBody. */}
+                  <h3 className="m-0">
+                    <button
+                      type="button"
+                      id={`treatment-accordion-${index}`}
+                      aria-expanded={open}
+                      // Only while the panel exists: it is unmounted when
+                      // closed, and pointing aria-controls at an absent id is
+                      // the mismatch this codebase has already been bitten by.
+                      aria-controls={open ? `treatment-panel-${index}` : undefined}
+                      onClick={() => chooseTreatment(index)}
+                      className="group grid w-full grid-cols-[28px_minmax(0,1fr)_32px] items-start gap-4 py-7 text-left md:grid-cols-[34px_minmax(0,1fr)_36px] md:gap-6 md:py-9"
+                    >
+                      <span className="pt-1 text-[10px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="type-card-title text-ink">
+                        {panel.title}
+                      </span>
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-lg leading-none text-ink transition-colors group-hover:border-ink/15" aria-hidden>
+                        {open ? "−" : "+"}
+                      </span>
+                    </button>
+                  </h3>
 
                   <AnimatePresence initial={false}>
                     {open && (
                       <motion.div
+                        id={`treatment-panel-${index}`}
+                        role="region"
+                        aria-labelledby={`treatment-accordion-${index}`}
                         initial={{ height: 0, opacity: 0, y: 8 }}
                         animate={{ height: "auto", opacity: 1, y: 0 }}
                         exit={{ height: 0, opacity: 0, y: -5 }}
@@ -722,16 +743,12 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
 }
 
 function GeneralLocationsViewport({ item, general = false }: { item: CancerTypePrototypeItem; general?: boolean }) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const rotationDirection = useRef<1 | -1>(1);
   const reducedMotion = useReducedMotion();
   const stops = useMemo(
     () => journeyStops.filter((stop) => item.locations.some((location) => location.slug === stop.slug)),
     [item.locations],
   );
   const [activeLocation, setActiveLocation] = useState(0);
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const [rotationCycle, setRotationCycle] = useState(0);
   const mapProgress = useMotionValue(1);
   const activeStop = stops[activeLocation] ?? stops[0];
   const mapFrames = useMemo(() => buildFrames(stops), [stops]);
@@ -747,31 +764,10 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
     "sm:grid-cols-5",
   ][Math.min(stops.length, 5)];
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setSectionVisible(entry.isIntersecting),
-      { threshold: 0.35 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!sectionVisible || reducedMotion || stops.length < 2) return;
-
-    const interval = window.setInterval(() => {
-      setActiveLocation((current) => {
-        if (current >= stops.length - 1) rotationDirection.current = -1;
-        if (current <= 0) rotationDirection.current = 1;
-        return current + rotationDirection.current;
-      });
-    }, 5200);
-
-    return () => window.clearInterval(interval);
-  }, [reducedMotion, rotationCycle, sectionVisible, stops.length]);
+  // These locations used to advance on their own every 5.2 seconds. That is
+  // an SC 2.2.2 failure — auto-updating information with no way to pause it —
+  // and clicking a location restarted the timer rather than stopping it. The
+  // list is now driven only by the reader.
 
   useEffect(() => {
     const destination = activeLocation + 1;
@@ -784,13 +780,11 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
   }, [activeLocation, mapProgress, reducedMotion]);
 
   function chooseLocation(index: number) {
-    rotationDirection.current = index >= activeLocation ? 1 : -1;
     setActiveLocation(index);
-    setRotationCycle((cycle) => cycle + 1);
   }
 
   return (
-    <section id="locations" data-anchor-align="viewport" ref={sectionRef} className={`flex min-h-[100svh] items-center bg-sage-panel text-ink ${sectionPadding}`}>
+    <section id="locations" data-anchor-align="viewport" className={`flex min-h-[100svh] items-center bg-sage-panel text-ink ${sectionPadding}`}>
       <div className="site-gutter grid w-full gap-12 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw]">
         <div>
           <h2 className="type-feature-title max-w-[8ch]">
@@ -830,7 +824,12 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       </div>
                       <h3 className="type-card-title mt-3">{activeStop.name}</h3>
                       <p className="mt-1 text-xs text-ink-muted">{activeStop.provider ?? activeStop.eyebrow}</p>
-                      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-ink-muted">{activeStop.description}</p>
+                      {/* No line-clamp. Clamping to two lines discards the rest of the
+                          description whenever it does not fit, which at 200%
+                          zoom is always — 45px of text with no scrollbar and no
+                          way to reach it. The card is anchored to the bottom of
+                          the map and grows upward, so it has room. */}
+                      <p className="mt-4 text-sm leading-relaxed text-ink-muted">{activeStop.description}</p>
                       <Link href={activeStop.href} className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink">
                         View this location <Arrow />
                       </Link>
@@ -853,7 +852,12 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       className="group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60"
                     >
                       <span className="type-label block text-ink-muted">{stop.area}</span>
-                      <span className={`mt-1 block truncate font-display text-sm font-semibold transition-colors ${active ? "text-ink" : "text-ink/60 group-hover:text-ink"}`}>{stop.name.replace(" Hospital", "")}</span>
+                      {/* No truncate. The tabs are a fixed grid, so at 200% zoom the text
+                          grew and the columns did not — up to 119px of a hospital
+                          name was replaced by an ellipsis, which is a loss of
+                          content on resize. Wrapping costs nothing at 100%, where
+                          the names already fit on one line. */}
+                      <span className={`mt-1 block font-display text-sm font-semibold transition-colors ${active ? "text-ink" : "text-ink/70 group-hover:text-ink"}`}>{stop.name.replace(" Hospital", "")}</span>
                       <motion.span
                         aria-hidden
                         initial={false}

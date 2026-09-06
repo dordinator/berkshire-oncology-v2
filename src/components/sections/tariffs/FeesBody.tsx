@@ -728,7 +728,11 @@ export default function FeesBody() {
                       <p className="[overflow-wrap:anywhere]">
                         <a
                           href={`mailto:${c.email}`}
-                          className="focus-visible:underline lg:hover:underline"
+                          // Same idiom as the two phone links above: the target
+                          // was 21px tall against a 24px minimum, and padding
+                          // with a cancelling negative margin grows the hit
+                          // area without moving anything on the page.
+                          className="inline-block py-2.5 -my-2.5 focus-visible:underline lg:hover:underline"
                         >
                           {c.email}
                         </a>

@@ -62,6 +62,7 @@ export default function ConsultantCard({
         <span className="type-button mt-5 inline-flex items-center gap-1.5 text-accent">
           View profile
           <svg
+            aria-hidden
             className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
             viewBox="0 0 16 16"
             fill="none"

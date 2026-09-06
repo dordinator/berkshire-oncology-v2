@@ -72,7 +72,7 @@ function GuidePanel({
                   {route.description}
                 </span>
               </span>
-              <span className="text-ink-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-sage">
+              <span className="text-ink-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-sage-ink">
                 <Arrow />
               </span>
             </Link>
@@ -82,7 +82,7 @@ function GuidePanel({
 
       <Link
         href="#care-team"
-        className="type-button group mt-1 flex items-center justify-center gap-3 border-t border-ink/10 pt-4 text-center text-sage lg:pt-2 lg:text-xs xl:pt-4 xl:text-sm"
+        className="type-button group mt-1 flex items-center justify-center gap-3 border-t border-ink/10 pt-4 text-center text-sage-ink lg:pt-2 lg:text-xs xl:pt-4 xl:text-sm"
       >
         Consultants and treatment locations
         <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -147,7 +147,7 @@ export default function TreatmentDetailHero({
               <span aria-hidden className="hidden h-10 w-px bg-ink/15 sm:block" />
               <a
                 href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
-                className="type-body inline-flex min-h-11 items-center font-medium text-sage"
+                className="type-body inline-flex min-h-11 items-center font-medium text-sage-ink"
               >
                 {site.contact.phone}
               </a>

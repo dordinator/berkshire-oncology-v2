@@ -54,6 +54,9 @@ export default function ModeToggle({ className = "" }: { className?: string }) {
         Visual detail
       </span>
 
+      {/* The APG radiogroup pattern puts the tab stop on the checked radio via
+          roving tabindex, not on the group. The lint rule does not model that. */}
+      {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
       <div
         role="radiogroup"
         aria-labelledby="treatment-mode-label"

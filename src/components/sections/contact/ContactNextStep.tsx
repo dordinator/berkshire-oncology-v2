@@ -79,30 +79,39 @@ function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string 
         Prototype — the practice&apos;s approved contact service will be connected
         during implementation. Nothing can be submitted here.
       </p>
+      {/* A real form element, so the fields sit in a form landmark rather than a
+          bare div. Nothing can be sent: the fieldset is disabled and the button
+          is type="button". */}
+      <form>
       <fieldset
         disabled
         aria-label="General guidance form preview"
         aria-describedby="guidance-prototype-note"
       >
+        {/* autocomplete was "off" on every field. SC 1.3.5 asks for the purpose
+            of an input collecting the user's own details to be identified in
+            markup, and these four are the exact fields it names — so "off" both
+            failed the criterion and switched off the autofill that makes a form
+            usable for someone with a motor or cognitive impairment. */}
         <div className="grid gap-5 sm:grid-cols-2">
           <label className="text-sm font-medium text-ink">
             First name
-            <input className={field} autoComplete="off" />
+            <input className={field} autoComplete="given-name" />
           </label>
           <label className="text-sm font-medium text-ink">
             Last name
-            <input className={field} autoComplete="off" />
+            <input className={field} autoComplete="family-name" />
           </label>
         </div>
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <label className="text-sm font-medium text-ink">
             Email address
-            <input className={field} type="email" autoComplete="off" />
+            <input className={field} type="email" autoComplete="email" />
           </label>
           <label className="text-sm font-medium text-ink">
             Telephone <span className="font-normal text-ink-muted">(optional)</span>
-            <input className={field} type="tel" autoComplete="off" />
+            <input className={field} type="tel" autoComplete="tel" />
           </label>
         </div>
 
@@ -137,6 +146,7 @@ function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string 
           <span className="ml-3" aria-hidden>→</span>
         </button>
       </fieldset>
+      </form>
     </div>
   );
 }

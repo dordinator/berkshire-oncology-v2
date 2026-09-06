@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -94,12 +95,45 @@ const LABELS: Record<GraphicMode, { label: string; hint: string }> = {
 
 export function GraphicModeToggle({ className = "" }: { className?: string }) {
   const { mode, setMode } = useGraphicMode();
+  const groupRef = useRef<HTMLDivElement>(null);
+
+  // A radio group is one tab stop, not three: Tab reaches the checked option and
+  // the arrow keys move between them. The role was already here promising that
+  // behaviour; this is the behaviour. Selection follows focus, which is the
+  // default for a radio group and is right here because switching style is
+  // instant and reversible.
+  function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    const KEYS = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"];
+    if (!KEYS.includes(event.key)) return;
+    event.preventDefault();
+
+    const count = GRAPHIC_MODES.length;
+    const current = Math.max(0, GRAPHIC_MODES.indexOf(mode));
+    const next =
+      event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? count - 1
+          : event.key === "ArrowRight" || event.key === "ArrowDown"
+            ? (current + 1) % count
+            : (current - 1 + count) % count;
+
+    setMode(GRAPHIC_MODES[next]);
+    groupRef.current
+      ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
+      [next]?.focus();
+  }
 
   return (
     <div className={className}>
+      {/* The APG radiogroup pattern puts the tab stop on the checked radio via
+          roving tabindex, not on the group. The lint rule does not model that. */}
+      {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
       <div
+        ref={groupRef}
         role="radiogroup"
         aria-label="Illustration style"
+        onKeyDown={onKeyDown}
         className="inline-flex items-center gap-0.5 rounded-full border border-black/[0.07] bg-white/80 p-1 backdrop-blur"
       >
         {GRAPHIC_MODES.map((m) => {
@@ -110,6 +144,7 @@ export function GraphicModeToggle({ className = "" }: { className?: string }) {
               type="button"
               role="radio"
               aria-checked={active}
+              tabIndex={active ? 0 : -1}
               title={LABELS[m].hint}
               onClick={() => setMode(m)}
               className={`rounded-full px-3.5 py-1.5 text-[12px] font-medium transition-colors sm:text-[13px] ${

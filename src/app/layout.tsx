@@ -72,6 +72,14 @@ export default function RootLayout({
   return (
     <html lang="en-GB" className={`${outfit.variable} ${inter.variable}`}>
       <body className="bg-canvas font-sans text-ink antialiased">
+        {/* Reveal wraps content on around thirty pages and ships it at opacity 0
+            in the server HTML, waiting for an IntersectionObserver. With
+            scripting unavailable that content never appears at all. This is
+            inside <noscript> so it costs nothing and cannot flash when
+            JavaScript is working normally. */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         {/* The mega-menu opens each panel on focus, so tabbing across the bar
             walks a keyboard user through every link in the site before they
             reach the page. This is the way past it. */}

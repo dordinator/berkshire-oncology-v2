@@ -147,7 +147,7 @@ function MedicineRows({
             >
               <span
                 className={`type-label transition-colors duration-500 ${
-                  isActive ? "text-sage" : "text-ink-muted"
+                  isActive ? "text-sage-ink" : "text-ink-muted"
                 }`}
               >
                 {String(index + 1).padStart(2, "0")}

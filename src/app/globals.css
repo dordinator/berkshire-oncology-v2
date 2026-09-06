@@ -144,10 +144,12 @@ html.lenis body {
    amber on another) is switched off by request.
 
    Focus is still shown, just by the control changing rather than by a ring
-   drawn around it — the pill controls in the bar shift to their hover state via
-   focus-visible: utilities, and text links underline below. Keyboard users keep
-   an indicator, which the accessibility statement commits to, and mouse users
-   never see anything. */
+   drawn around it: text links, summaries and buttons underline below, and
+   pill controls darken their own border. Mouse users never see any of it.
+
+   That was the intent when the ring was removed, but it was only half
+   implemented — see the button rule below and the pill variants in Button.tsx
+   for what had to be added to make it true. */
 :focus-visible {
   outline: none;
 }
@@ -170,16 +172,48 @@ summary:focus-visible {
   text-underline-offset: 3px;
 }
 
+/* Buttons, on the same terms as the links above.
+   Twenty-three shipped buttons carried no focus-visible utility of their own,
+   so with the ring off they showed nothing at all when focused — including the
+   numbered rail on /consultants, which is the only keyboard route into the
+   portrait wall. Of the 92 focusable buttons across the main routes, 83 have
+   visible text and the nine that do not already carry a border, so the
+   underline reaches everything that needs it here and the bordered controls
+   darken their own border instead.
+   Pills are excluded for the same reason links are: an underline inside a
+   filled pill reads as a mistake. They define their own focus state. */
+button:not([class*="rounded-full"]):focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* Pill controls, which the two rules above deliberately exclude because an
+   underline inside a filled pill reads as a mistake.
+   A photographic sweep of 741 controls found 58 pills with no focus state at
+   all — hand-rolled `rounded-full` links and buttons that are not the shared
+   Button component, on twelve routes. This gives every one of them the same
+   treatment: a 2px line drawn just inside the pill's own edge.
+   `inset` so nothing changes size and no ring appears outside the control, and
+   `currentColor` so it works on every variant without a list — the label colour
+   already has to contrast with the pill it sits on, so the line inherits that
+   contrast and clears SC 1.4.11 by construction. */
+:is(a, button)[class*="rounded-full"]:focus-visible {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* The home link in the header. Its label is an inline-flex lockup, and
+   text-decoration does not cross a flex container, so the link rule above
+   painted nothing at all — on every page. */
+a:focus-visible [data-brand-wordmark] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 ::selection {
   background-color: #1a4d8f;
   color: #ffffff;
-}
-
-/* Hide default cursor when custom cursor active (desktop only) */
-@media (hover: hover) and (pointer: fine) {
-  .custom-cursor-active * {
-    cursor: none !important;
-  }
 }
 
 /* Custom thin scrollbar */
@@ -379,8 +413,12 @@ summary:focus-visible {
   .legal-prose ul {
     @apply mt-4 list-disc space-y-2 pl-6;
   }
+  /* Underlined at rest, not only on hover. These links sit inside paragraphs,
+     and colour alone was the only thing marking them — 1.07:1 against the body
+     text, where SC 1.4.1 allows colour alone only above 3:1. Hover is also no
+     use on a touchscreen. */
   .legal-prose a {
-    @apply text-accent underline-offset-2 hover:underline;
+    @apply text-accent underline underline-offset-2;
   }
   .legal-prose strong {
     @apply font-semibold text-ink;

@@ -31,11 +31,17 @@ const base =
 // Blue-fill hover states use the button's own two-pixel border. Keeping the
 // border transparent in the resting state prevents movement when its active
 // colour appears, and the animated fill cannot paint over it.
+// Focus: every pill picks up the inset line from globals.css, so the variants
+// below carry no focus utilities of their own except `light`. Four of them used
+// to rely on the fill sweep alone, which measured 1.10 to 1.39:1 against the
+// resting state — a change you cannot see.
 const variants: Record<Variant, string> = {
   primary:
     "border-2 border-transparent bg-ink text-white hover:border-ink focus-visible:border-ink",
   ghost: "border border-ink/15 text-ink hover:border-ink/40",
-  light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
+  // No border to darken and no text to underline, so this one inverts.
+  light:
+    "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] focus-visible:bg-ink focus-visible:text-white",
   onPhoto:
     "border-2 border-transparent bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
   onPhotoGhost:
@@ -74,7 +80,7 @@ export default function Button({
       href={href}
       className={`${base} ${variants[variant]} ${className}`}
       target={external ? "_blank" : undefined}
-      rel={external ? "noreferrer" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
     >
       <span
         aria-hidden

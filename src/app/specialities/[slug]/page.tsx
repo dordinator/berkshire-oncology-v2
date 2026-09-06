@@ -331,6 +331,7 @@ function SiteCard({ site: s, radiotherapy }: { site: CareSite; radiotherapy: boo
           className="text-ink-muted underline-offset-2 hover:text-ink hover:underline"
         >
           Their own service list
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
       </div>
     </div>
@@ -933,6 +934,7 @@ export default function SpecialityPage({
                         className="underline-offset-2 hover:text-ink hover:underline"
                       >
                         {s.label}
+                        <span className="sr-only"> (opens in a new tab)</span>
                       </a>
                     </span>
                   ))}
