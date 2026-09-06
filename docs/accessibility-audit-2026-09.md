@@ -214,11 +214,65 @@ on hover. Missed in the first pass despite appearing in the baseline summary.
 `sage.ink` for sage text — plus the existing `gold-ink` token for one label. No
 background colour was changed.
 
+### The remaining criteria, tested 6 September
+
+Nine criteria that none of the earlier passes had covered. Five are measured by
+`scripts/a11y-criteria-check.mjs`; four were resolved by inspection.
+
+| Criterion | Result | How |
+|---|---|---|
+| 1.4.12 Text Spacing | Pass | Required overrides applied across 55 routes; no clipping or overlap |
+| 2.5.3 Label in Name | Pass | Every `aria-label` contains its control's visible text |
+| 2.4.11 Focus Not Obscured | Pass | Tabbed 45 controls per route; none hidden behind sticky content |
+| 1.3.4 Orientation | Pass | Renders in portrait and landscape, no rotate prompt |
+| 3.2.3 Consistent Navigation | Pass | Identical primary nav order on every route |
+| 2.5.7 Dragging Movements | Pass | No pointer-drag handler in any reachable component |
+| 3.1.2 Language of Parts | Pass | `en-GB` throughout; no foreign-language passages |
+| 1.4.5 Images of Text | Pass | One logotype, which the criterion exempts; the wordmark is real text |
+| 1.4.13 Content on Hover or Focus | Pass | The mega-menu is dismissible, hoverable and persistent |
+| 3.2.4 Consistent Identification | Pass | Repeated functions share labels |
+
+**The first run of that script reported failures against three of the five, and
+all three were faults in the checks rather than in the site.** `1.4.12` flagged a
+link clipped inside a collapsed panel rendered at `opacity: 0`. `2.5.3` reported
+87 mismatches because `textContent` runs adjacent inline elements together, so
+the two-part wordmark read as "berkshire oncologypartnership" — a string no
+accessible name could contain. `2.4.11` hit-tested coordinates read while a
+horizontal scroller was still animating. Each was corrected in the script and the
+re-run is clean. A screenshot of the supposedly obscured control is at
+`docs/a11y/screens/16-focus-tab20.png`, plainly visible and correctly focused.
+
+One observation recorded and deliberately not acted on: the numbered rail on
+`/consultants` announces "01" before each consultant's name. Marking those
+ordinals decorative would be an improvement, but it is not a failure.
+
+### Accessibility tree audit, 6 September
+
+`scripts/a11y-tree-audit.mjs` reads the accessibility tree over CDP on all 55
+routes — the same computed names and roles Chrome hands a screen reader.
+
+**Every control exposes an accessible name. None is named only by punctuation, a
+bare URL or a single character. Every route has a title. Reading order matches
+visual order.**
+
+Two notes on the method, because the first two runs of this script were wrong in
+ways that mattered. It originally used `page.accessibility`, which no longer
+exists in this Playwright version; every route threw, and because the findings
+arrays were empty the report printed a clean pass for 55 routes it had never
+read. The script now records how many routes it actually audited, lists any it
+could not, refuses to print a pass where coverage is incomplete, and exits
+non-zero in that case. Its visibility test also read only an element's own
+`display`, so headings hidden by an ancestor at another breakpoint counted as
+visible at 0×0 and appeared to reverse the reading order; visibility is now taken
+from the rendered box.
+
 ### Not applicable
 
-SC 3.3.7 Redundant Entry and SC 3.3.8 Accessible Authentication: the site has no
-multi-step process and no authentication. SC 2.3.1 and 2.3.2 (flashing): nothing
-on the site cycles faster than 0.5 Hz, against a 3 Hz threshold.
+SC 1.2.1–1.2.5 (time-based media): the site contains no audio or video — no
+media elements, no embeds, no media files. SC 2.2.1 Timing Adjustable: no time
+limits or auto-refresh. SC 3.3.7 Redundant Entry and SC 3.3.8 Accessible
+Authentication: no multi-step process and no authentication. SC 2.3.1 and 2.3.2
+(flashing): nothing cycles faster than 0.5 Hz, against a 3 Hz threshold.
 
 ---
 
@@ -231,6 +285,8 @@ on the site cycles faster than 0.5 Hz, against a 3 Hz threshold.
 | Target size and reflow | Complete | 5 Sep 2026 | Automated, `a11y-manual-checks.mjs` |
 | Keyboard traversal of core journeys | Complete | 5 Sep 2026 | Scripted, verified per fix |
 | 200% zoom (SC 1.4.4) | Complete | 5 Sep 2026 | Automated, `a11y-manual-checks.mjs` |
+| Remaining nine criteria | Complete | 6 Sep 2026 | `a11y-criteria-check.mjs` and inspection |
+| Accessibility tree, all 55 routes | Complete | 6 Sep 2026 | `a11y-tree-audit.mjs` |
 | Screen reader (VoiceOver + Safari) | **Outstanding** | — | — |
 
 The screen-reader pass is scripted in

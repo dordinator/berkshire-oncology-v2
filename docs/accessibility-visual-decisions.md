@@ -451,6 +451,29 @@ the animation plays as the element arrives, and the settled state measures
 > errors and `/tariffs` 82. `docs/accessibility-audit-2026-09.md` records the
 > mechanism and the pixel measurements that clear them.
 
+## 14. Heading levels skip on three pages
+
+**Not a WCAG failure. No change.**
+
+`/consultants/clinical-oncologists`, `/consultants/medical-oncologists` and
+`/cookies` go from `h1` to `h3` with no `h2` between. SC 1.3.1 requires structure
+to be programmatically determinable, and it is — the headings exist and are
+correctly marked up. Not skipping levels is a convention, not a success
+criterion; axe classifies it as best practice rather than WCAG.
+
+No change made. The `sr-only h2` added to `/consultants` earlier in this work
+stays as it is: removing it would itself be a change made for something that is
+not a failure.
+
+## 15. Reading order on /treatments
+
+**Not a WCAG failure. No change.**
+
+The tree audit reported an `h3` painted 150px above the `h2` preceding it in the
+DOM. Both sit inside the pinned 400svh scene, absolutely positioned and driven by
+scroll, so their position at scroll zero says nothing about reading order. The DOM
+sequence is coherent and is what assistive technology follows.
+
 ## Considered and dismissed
 
 Three items did not survive checking, and are recorded here so the reasoning is
