@@ -21,7 +21,7 @@
  */
 import {
   LAUNCH, chromium, parseArgs, startServer, routes, settle,
-  ensureDir, PHONE_WIDTHS, ROOT,
+  ensureDir, PHONE_WIDTHS, TABLET_WIDTHS, ROOT,
 } from "./lib/mobile.mjs";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -389,9 +389,17 @@ function collect({ MIN_BODY_PX, MIN_ANY_PX, OVERLAP_RATIO }) {
 // ── Driver ───────────────────────────────────────────────────────────────────
 const server = await startServer(args.base);
 const routeList = args.routes ? args.routes.split(",") : await routes(server.base);
-const widths = args.widths
-  ? PHONE_WIDTHS.filter((w) => args.widths.split(",").includes(w.name))
-  : PHONE_WIDTHS;
+// --widths=phone | tablet | 744,820 | 390
+const KNOWN = [...PHONE_WIDTHS, ...TABLET_WIDTHS];
+let widths = PHONE_WIDTHS;
+if (args.widths === "tablet") widths = TABLET_WIDTHS;
+else if (args.widths === "phone") widths = PHONE_WIDTHS;
+else if (args.widths) {
+  widths = args.widths.split(",").map((n) => {
+    const hit = KNOWN.find((k) => k.name === n.trim());
+    return hit || { name: n.trim(), width: Number(n), height: 900 };
+  });
+}
 
 console.log(`→ ${routeList.length} routes × ${widths.length} phone widths`);
 
@@ -438,7 +446,9 @@ await ensureDir(outDir);
 // A partial run must never overwrite a full sweep's data. Losing a 30-minute
 // sweep to a six-route spot check is an easy and annoying mistake to make.
 const partial = Boolean(args.routes) || widths.length < PHONE_WIDTHS.length;
-const stem = partial ? `${date}-layout-partial` : `${date}-layout`;
+const tablet = args.widths === "tablet";
+const stem = tablet ? `${date}-layout-tablet`
+  : partial ? `${date}-layout-partial` : `${date}-layout`;
 await writeFile(path.join(outDir, `${stem}.json`),
   JSON.stringify({ date, widths: widths.map((w) => w.name), routes: routeList, findings, pageData }, null, 2));
 

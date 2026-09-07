@@ -28,6 +28,19 @@ export const PHONE_WIDTHS = [
   { name: "430", width: 430, height: 932 },  // iPhone Pro Max
 ];
 
+/**
+ * iPad widths, in CSS pixels. Tablets straddle three breakpoints here — md at
+ * 768, lg at 1024 — and the navigation does not switch to its desktop form
+ * until xl (1280), so every size below is served the phone-shaped nav.
+ */
+export const TABLET_WIDTHS = [
+  { name: "744", width: 744, height: 1133 },   // iPad mini, portrait
+  { name: "820", width: 820, height: 1180 },   // iPad / iPad Air, portrait
+  { name: "1024", width: 1024, height: 1366 }, // iPad Pro 13", portrait
+  { name: "1180", width: 1180, height: 820 },  // iPad / Air, landscape
+  { name: "1366", width: 1366, height: 1024 }, // iPad Pro 13", landscape
+];
+
 /** Desktop widths, captured only to prove they did not move. */
 export const DESKTOP_WIDTHS = [
   { name: "1024", width: 1024, height: 768 },
