@@ -187,17 +187,17 @@ export default function ConsultantLocationsJourney({
               />
 
               {/* Same treatment as the cancer-types map on /specialities: the
-                  8px overlay is kept above `sm`, where the map is wide enough
-                  to carry it, and below `sm` the licence line moves out to a
+                  8px overlay is kept above `lg` (1024px), where the map is wide enough
+                  to carry it, and below `lg` the licence line moves out to a
                   readable caption underneath rather than shrinking onto the
                   map. Whichever does not apply is `display: none`, so a screen
                   reader meets the attribution exactly once. */}
-              <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm sm:block">
+              <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm lg:block">
                 {mapAttribution}
               </p>
             </div>
           </div>
-          <p className="mt-3 text-xs leading-relaxed text-ink-muted sm:hidden">
+          <p className="mt-3 text-xs leading-relaxed text-ink-muted lg:hidden">
             {mapAttribution}
           </p>
         </div>

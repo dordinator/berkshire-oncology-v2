@@ -371,7 +371,14 @@ export default function ConsultantFocusStrip({
                     <span className="type-label block tabular-nums text-ink-muted">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="block whitespace-nowrap text-[clamp(0.625rem,1.1vw,0.875rem)] font-medium text-current">
+                    {/* 13px floor, not 10px. This strip is tablet-only (`hidden md:block
+                      xl:hidden`), and 1.1vw only clears the old 0.625rem minimum
+                      above about 910px — so on an iPad in portrait the surname
+                      rendered at 10px while the ordinal above it sat at 12px, which
+                      made the number louder than the name it labels. The tiles have
+                      room to spare; only the floor moves, so anything already above
+                      13px is unchanged. */}
+                  <span className="block whitespace-nowrap text-[clamp(0.8125rem,1.1vw,0.875rem)] font-medium text-current">
                       {surname}
                     </span>
                   </span>

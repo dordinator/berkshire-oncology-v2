@@ -843,19 +843,19 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                     </motion.article>
                   </AnimatePresence>
 
-                  {/* The overlay is kept above `sm`, where the map is wide enough
+                  {/* The overlay is kept above `lg` (1024px), where the map is wide enough
                       to carry it. On a phone it was 8px — the smallest text on
-                      the site — and raising it in place doubled its height and
-                      swallowed the top of the map, so below `sm` it moves out
+                      the site on a phone or an iPad — and raising it in place doubled its height and
+                      swallowed the top of the map, so below `lg` it moves out
                       to a caption underneath instead. The OGL and OSM licences
                       ask for visible, legible attribution, not for it to sit on
                       the map. Both nodes exist in the markup, but whichever
                       does not apply is `display: none` and so is absent from
                       the accessibility tree — a screen reader meets exactly
                       one of them at any width. */}
-                  <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm sm:block">{mapAttribution}</p>
+                  <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm lg:block">{mapAttribution}</p>
                 </div>
-                <p className="mt-3 text-xs leading-relaxed text-ink-muted sm:hidden">{mapAttribution}</p>
+                <p className="mt-3 text-xs leading-relaxed text-ink-muted lg:hidden">{mapAttribution}</p>
               </div>
 
               <div className={`mt-4 grid gap-px overflow-hidden rounded-[1.35rem] border border-ink/10 bg-ink/10 ${stopGridClass}`}>
