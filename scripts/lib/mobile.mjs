@@ -6,7 +6,7 @@
  * code with a new audit would put that evidence chain at risk for the sake of
  * eighty lines. The duplication is the cheaper mistake.
  */
-import { chromium } from "playwright";
+import { chromium, webkit } from "playwright";
 import { spawn } from "node:child_process";
 import { readdir, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -233,4 +233,14 @@ export async function ensureDir(dir) {
   await mkdir(dir, { recursive: true });
 }
 
-export { chromium };
+/**
+ * Chromium by default; WebKit is the same engine family as Safari, so it is
+ * what an iPhone or iPad actually renders with. It cannot reproduce iOS scroll
+ * physics or the collapsing address bar, but it does catch genuine engine
+ * differences in layout.
+ */
+export function engineFor(name) {
+  return name === "webkit" ? webkit : chromium;
+}
+
+export { chromium, webkit };

@@ -20,7 +20,7 @@
  *   node scripts/mobile-audit.mjs --base=http://localhost:3210
  */
 import {
-  LAUNCH, chromium, parseArgs, startServer, routes, settle,
+  LAUNCH, engineFor, parseArgs, startServer, routes, settle,
   ensureDir, PHONE_WIDTHS, TABLET_WIDTHS, ROOT,
 } from "./lib/mobile.mjs";
 import { writeFile } from "node:fs/promises";
@@ -387,6 +387,7 @@ function collect({ MIN_BODY_PX, MIN_ANY_PX, OVERLAP_RATIO }) {
 }
 
 // ── Driver ───────────────────────────────────────────────────────────────────
+const engineName = args.engine === "webkit" ? "webkit" : "chromium";
 const server = await startServer(args.base);
 const routeList = args.routes ? args.routes.split(",") : await routes(server.base);
 // --widths=phone | tablet | 744,820 | 390
@@ -401,9 +402,12 @@ else if (args.widths) {
   });
 }
 
-console.log(`→ ${routeList.length} routes × ${widths.length} phone widths`);
+console.log(`→ ${routeList.length} routes × ${widths.length} widths, ${engineName}`);
 
-const browser = await chromium.launch(LAUNCH);
+// WebKit does not take Chromium's command-line flags.
+const browser = await engineFor(engineName).launch(
+  engineName === "webkit" ? {} : LAUNCH,
+);
 const findings = [];
 const pageData = [];
 
@@ -447,8 +451,9 @@ await ensureDir(outDir);
 // sweep to a six-route spot check is an easy and annoying mistake to make.
 const partial = Boolean(args.routes) || widths.length < PHONE_WIDTHS.length;
 const tablet = args.widths === "tablet";
-const stem = tablet ? `${date}-layout-tablet`
-  : partial ? `${date}-layout-partial` : `${date}-layout`;
+const suffix = engineName === "webkit" ? "-webkit" : "";
+const stem = (tablet ? `${date}-layout-tablet`
+  : partial ? `${date}-layout-partial` : `${date}-layout`) + suffix;
 await writeFile(path.join(outDir, `${stem}.json`),
   JSON.stringify({ date, widths: widths.map((w) => w.name), routes: routeList, findings, pageData }, null, 2));
 
