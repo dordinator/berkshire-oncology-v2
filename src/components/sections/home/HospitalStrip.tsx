@@ -91,10 +91,22 @@ export default function HospitalStrip() {
 
               <p className="mt-1 text-sm text-ink-muted">
                 {place}
+                {/* `ml-1.5` separates the badge visually but adds no text, so
+                    the card's accessible name ran together as "ReadingNHS".
+                    A plain space between the two does not survive either —
+                    Chromium collapses it when it accumulates the name. So the
+                    reading is spelled out for AT and the badge itself hidden,
+                    which also restores the "(NHS)" of the source data. */}
                 {isNhs && (
-                  <span className="ml-1.5 rounded-full border border-accent/25 bg-accent/[0.07] px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-accent">
-                    NHS
-                  </span>
+                  <>
+                    <span className="sr-only"> (NHS)</span>
+                    <span
+                      aria-hidden
+                      className="ml-1.5 rounded-full border border-accent/25 bg-accent/[0.07] px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-accent"
+                    >
+                      NHS
+                    </span>
+                  </>
                 )}
               </p>
 

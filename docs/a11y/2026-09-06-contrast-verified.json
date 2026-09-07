@@ -1,6 +1,498 @@
 {
-  "generated": "2026-09-06T10:37:26.701Z",
+  "generated": "2026-09-06T21:52:54.333Z",
   "elements": [
+    {
+      "route": "/locations",
+      "vp": "320",
+      "target": ".body-lg.max-w-xl.mt-6",
+      "html": "<p class=\"body-lg mt-6 max-w-xl\">Your location depends on your consultant and the care planned for you. Berkshire Oncology Partnership is a group of independent consultant oncologists based in Reading. They also practise",
+      "axeRatio": 2.32,
+      "fg": "#a1a7b4",
+      "bg": "#fafbfc",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 18,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "320",
+      "target": ".body-lg.max-w-xl.mt-5",
+      "html": "<p class=\"body-lg mt-5 max-w-xl\">These descriptions explain what each site provides generally, not which Berkshire Oncology services take place there. Your consultant or the practice team will confirm where you need to g",
+      "axeRatio": 2.32,
+      "fg": "#a1a7b4",
+      "bg": "#fafbfc",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 18,
+        "cssWeight": "400"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "768",
+      "target": ".gap-2\\.5",
+      "html": "<p class=\"type-label mt-6 flex items-center gap-2.5 text-ink-muted lg:mt-8\">",
+      "axeRatio": 3.81,
+      "fg": "#788093",
+      "bg": "#fafbfc",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".border-b",
+      "html": "<p class=\"type-label border-b border-ink/[0.07] py-3 text-ink-muted\">Jump directly to a location</p>",
+      "axeRatio": 2.72,
+      "fg": "#939aa9",
+      "bg": "#fafbfc",
+      "px": 12,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#4d5870",
+        "ratio": 6.881651456186106,
+        "cssSize": 12,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 6.881651456186106,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .lg\\:text-lg.font-display.text-base",
+      "html": "<span class=\"font-display text-base text-ink lg:text-lg\">Reading</span>",
+      "axeRatio": 4.36,
+      "fg": "#697790",
+      "bg": "#fafbfc",
+      "px": 18,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#061c46",
+        "ratio": 16.05765323630983,
+        "cssSize": 18,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 16.05765323630983,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">The practice</button>",
+      "axeRatio": 3.02,
+      "fg": "#7594bb",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1024",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Spire Dunedin</button>",
+      "axeRatio": 3.02,
+      "fg": "#7594bb",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".gap-2.inline-flex.items-center:nth-child(3) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Royal Berkshire</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Princess Margaret</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">GenesisCare</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/locations",
+      "vp": "1440",
+      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(4) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
+      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">GenesisCare</button>",
+      "axeRatio": 4.33,
+      "fg": "#5279aa",
+      "bg": "#fafbfc",
+      "px": 14,
+      "weight": "normal",
+      "required": 4.5,
+      "measured": {
+        "ground": "#fafbfc",
+        "fg": "#1a4d8f",
+        "ratio": 8.100901811208859,
+        "cssSize": 14,
+        "cssWeight": "500"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 8.100901811208859,
+          "ground": "#fafbfc"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "#newly-diagnosed-title",
+      "html": "<h3 id=\"newly-diagnosed-title\" class=\"type-section-title max-w-3xl text-ink\">Find the consultants who treat your cancer type.</h3>",
+      "axeRatio": 2.81,
+      "fg": "#8893a5",
+      "bg": "#f2f4f3",
+      "px": 33.6,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e2e7e4",
+        "fg": "#061c46",
+        "ratio": 13.296847001770447,
+        "cssSize": 33.6,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.296847001770447,
+          "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
     {
       "route": "/patients",
       "vp": "320",
@@ -268,6 +760,63 @@
           "verdict": "false positive",
           "ratio": 13.296847001770447,
           "ground": "#e2e7e4"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "#second-opinion-title",
+      "html": "<h3 id=\"second-opinion-title\" class=\"type-section-title max-w-3xl text-ink\">A second opinion can review your diagnosis, treatment plan or both.</h3>",
+      "axeRatio": 2.82,
+      "fg": "#8894a8",
+      "bg": "#f3f6f9",
+      "px": 33.6,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 33.6,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
         }
       ],
       "worst": null,
@@ -550,6 +1099,63 @@
     {
       "route": "/patients",
       "vp": "320",
+      "target": "#private-treatment-title",
+      "html": "<h3 id=\"private-treatment-title\" class=\"type-section-title max-w-3xl text-ink\">Start with a consultation and a clear understanding of the likely costs.</h3>",
+      "axeRatio": 2.82,
+      "fg": "#8b94a5",
+      "bg": "#f8f6f2",
+      "px": 33.6,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#f0ece2",
+        "fg": "#061c46",
+        "ratio": 14.102551617471992,
+        "cssSize": 33.6,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 14.102551617471992,
+          "ground": "#f0ece2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
       "target": "article[aria-labelledby=\"private-treatment-title\"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
       "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">Private care may be self-funded or paid through medical insurance. Any treatment recommendation depends on your diagnosis and a consultant’s review of your clinical",
       "axeRatio": 2.11,
@@ -817,6 +1423,63 @@
     {
       "route": "/patients",
       "vp": "320",
+      "target": "#receiving-treatment-title",
+      "html": "<h3 id=\"receiving-treatment-title\" class=\"type-section-title max-w-3xl text-ink\">Know who to contact during treatment.</h3>",
+      "axeRatio": 2.82,
+      "fg": "#8894a8",
+      "bg": "#f3f6f9",
+      "px": 33.6,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#e4eaf2",
+        "fg": "#061c46",
+        "ratio": 13.744988028293047,
+        "cssSize": 33.6,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 13.744988028293047,
+          "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
       "target": "article[aria-labelledby=\"receiving-treatment-title\"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl",
       "html": "<p class=\"type-section-lede mt-7 max-w-2xl text-ink/75\">Contact your treating team about symptoms, side effects or questions about your treatment. The practice team can help with appointments, letters and other administr",
       "axeRatio": 2.1,
@@ -1075,6 +1738,63 @@
           "verdict": "false positive",
           "ratio": 13.744988028293047,
           "ground": "#e4eaf2"
+        }
+      ],
+      "worst": null,
+      "anyConfirmed": false,
+      "anyMeasured": true
+    },
+    {
+      "route": "/patients",
+      "vp": "320",
+      "target": "#supporting-someone-title",
+      "html": "<h3 id=\"supporting-someone-title\" class=\"type-section-title max-w-3xl text-ink\">Ask what support the person wants and how they would like you to be involved.</h3>",
+      "axeRatio": 2.76,
+      "fg": "#828ea0",
+      "bg": "#e8ebe9",
+      "px": 33.6,
+      "weight": "normal",
+      "required": 3,
+      "measured": {
+        "ground": "#cbd3ce",
+        "fg": "#061c46",
+        "ratio": 10.891566200597138,
+        "cssSize": 33.6,
+        "cssWeight": "600"
+      },
+      "verdict": "false positive",
+      "note": "",
+      "file": "",
+      "widths": [
+        {
+          "vp": "320",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "375",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "768",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1024",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
+        },
+        {
+          "vp": "1440",
+          "verdict": "false positive",
+          "ratio": 10.891566200597138,
+          "ground": "#cbd3ce"
         }
       ],
       "worst": null,
@@ -1456,171 +2176,6 @@
           "verdict": "false positive",
           "ratio": 15.919235493136032,
           "ground": "#fbfaf5"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/patients",
-      "vp": "768",
-      "target": "#newly-diagnosed-title",
-      "html": "<h3 id=\"newly-diagnosed-title\" class=\"type-section-title max-w-3xl text-ink\">Find the consultants who treat your cancer type.</h3>",
-      "axeRatio": 2.81,
-      "fg": "#8893a5",
-      "bg": "#f2f4f3",
-      "px": 48,
-      "weight": "normal",
-      "required": 3,
-      "measured": {
-        "ground": "#e2e7e4",
-        "fg": "#061c46",
-        "ratio": 13.296847001770447,
-        "cssSize": 48,
-        "cssWeight": "600"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 13.296847001770447,
-          "ground": "#e2e7e4"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/patients",
-      "vp": "768",
-      "target": "#second-opinion-title",
-      "html": "<h3 id=\"second-opinion-title\" class=\"type-section-title max-w-3xl text-ink\">A second opinion can review your diagnosis, treatment plan or both.</h3>",
-      "axeRatio": 2.82,
-      "fg": "#8894a8",
-      "bg": "#f3f6f9",
-      "px": 48,
-      "weight": "normal",
-      "required": 3,
-      "measured": {
-        "ground": "#e4eaf2",
-        "fg": "#061c46",
-        "ratio": 13.744988028293047,
-        "cssSize": 48,
-        "cssWeight": "600"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 13.744988028293047,
-          "ground": "#e4eaf2"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/patients",
-      "vp": "768",
-      "target": "#private-treatment-title",
-      "html": "<h3 id=\"private-treatment-title\" class=\"type-section-title max-w-3xl text-ink\">Start with a consultation and a clear understanding of the likely costs.</h3>",
-      "axeRatio": 2.82,
-      "fg": "#8b94a5",
-      "bg": "#f8f6f2",
-      "px": 48,
-      "weight": "normal",
-      "required": 3,
-      "measured": {
-        "ground": "#f0ece2",
-        "fg": "#061c46",
-        "ratio": 14.102551617471992,
-        "cssSize": 48,
-        "cssWeight": "600"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 14.102551617471992,
-          "ground": "#f0ece2"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/patients",
-      "vp": "768",
-      "target": "#receiving-treatment-title",
-      "html": "<h3 id=\"receiving-treatment-title\" class=\"type-section-title max-w-3xl text-ink\">Know who to contact during treatment.</h3>",
-      "axeRatio": 2.82,
-      "fg": "#8894a8",
-      "bg": "#f3f6f9",
-      "px": 48,
-      "weight": "normal",
-      "required": 3,
-      "measured": {
-        "ground": "#e4eaf2",
-        "fg": "#061c46",
-        "ratio": 13.744988028293047,
-        "cssSize": 48,
-        "cssWeight": "600"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 13.744988028293047,
-          "ground": "#e4eaf2"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/patients",
-      "vp": "768",
-      "target": "#supporting-someone-title",
-      "html": "<h3 id=\"supporting-someone-title\" class=\"type-section-title max-w-3xl text-ink\">Ask what support the person wants and how they would like you to be involved.</h3>",
-      "axeRatio": 2.76,
-      "fg": "#828ea0",
-      "bg": "#e8ebe9",
-      "px": 48,
-      "weight": "normal",
-      "required": 3,
-      "measured": {
-        "ground": "#cbd3ce",
-        "fg": "#061c46",
-        "ratio": 10.891566200597138,
-        "cssSize": 48,
-        "cssWeight": "600"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 10.891566200597138,
-          "ground": "#cbd3ce"
         }
       ],
       "worst": null,
@@ -2764,429 +3319,6 @@
           "verdict": "false positive",
           "ratio": 7.129723114467301,
           "ground": "#ffffff"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "375",
-      "target": ".body-lg.max-w-xl.mt-6",
-      "html": "<p class=\"body-lg mt-6 max-w-xl\">Your location depends on your consultant and the care planned for you. Berkshire Oncology Partnership is a group of independent consultant oncologists based in Reading. They also practise",
-      "axeRatio": 3.05,
-      "fg": "#8991a1",
-      "bg": "#fafbfc",
-      "px": 18,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#4d5870",
-        "ratio": 6.881651456186106,
-        "cssSize": 18,
-        "cssWeight": "400"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "375",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1024",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "375",
-      "target": ".body-lg.max-w-xl.mt-5",
-      "html": "<p class=\"body-lg mt-5 max-w-xl\">These descriptions explain what each site provides generally, not which Berkshire Oncology services take place there. Your consultant or the practice team will confirm where you need to g",
-      "axeRatio": 3.05,
-      "fg": "#8991a1",
-      "bg": "#fafbfc",
-      "px": 18,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#4d5870",
-        "ratio": 6.881651456186106,
-        "cssSize": 18,
-        "cssWeight": "400"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "375",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1024",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "768",
-      "target": ".gap-2\\.5",
-      "html": "<p class=\"type-label mt-6 flex items-center gap-2.5 text-ink-muted lg:mt-8\">",
-      "axeRatio": 3.83,
-      "fg": "#778092",
-      "bg": "#fafbfc",
-      "px": 12,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#4d5870",
-        "ratio": 6.881651456186106,
-        "cssSize": 12,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "768",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1024",
-      "target": ".border-b",
-      "html": "<p class=\"type-label border-b border-ink/[0.07] py-3 text-ink-muted\">Jump directly to a location</p>",
-      "axeRatio": 2.75,
-      "fg": "#9299a8",
-      "bg": "#fafbfc",
-      "px": 12,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#4d5870",
-        "ratio": 6.881651456186106,
-        "cssSize": 12,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1024",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 6.881651456186106,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1024",
-      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .lg\\:text-lg.font-display.text-base",
-      "html": "<span class=\"font-display text-base text-ink lg:text-lg\">Reading</span>",
-      "axeRatio": 4.49,
-      "fg": "#67758e",
-      "bg": "#fafbfc",
-      "px": 18,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#061c46",
-        "ratio": 16.05765323630983,
-        "cssSize": 18,
-        "cssWeight": "600"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1024",
-          "verdict": "false positive",
-          "ratio": 16.05765323630983,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1024",
-      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
-      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">The practice</button>",
-      "axeRatio": 3.09,
-      "fg": "#7392ba",
-      "bg": "#fafbfc",
-      "px": 14,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#1a4d8f",
-        "ratio": 8.100901811208859,
-        "cssSize": 14,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1024",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1024",
-      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.grid:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
-      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Spire Dunedin</button>",
-      "axeRatio": 3.09,
-      "fg": "#7392ba",
-      "bg": "#fafbfc",
-      "px": 14,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#1a4d8f",
-        "ratio": 8.100901811208859,
-        "cssSize": 14,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1024",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        },
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1440",
-      "target": ".gap-2.inline-flex.items-center:nth-child(3) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
-      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Royal Berkshire</button>",
-      "axeRatio": 4.33,
-      "fg": "#5279aa",
-      "bg": "#fafbfc",
-      "px": 14,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#1a4d8f",
-        "ratio": 8.100901811208859,
-        "cssSize": 14,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1440",
-      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
-      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">Princess Margaret</button>",
-      "axeRatio": 4.33,
-      "fg": "#5279aa",
-      "bg": "#fafbfc",
-      "px": 14,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#1a4d8f",
-        "ratio": 8.100901811208859,
-        "cssSize": 14,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1440",
-      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
-      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">GenesisCare</button>",
-      "axeRatio": 4.33,
-      "fg": "#5279aa",
-      "bg": "#fafbfc",
-      "px": 14,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#1a4d8f",
-        "ratio": 8.100901811208859,
-        "cssSize": 14,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
-        }
-      ],
-      "worst": null,
-      "anyConfirmed": false,
-      "anyMeasured": true
-    },
-    {
-      "route": "/locations",
-      "vp": "1440",
-      "target": ".grid-cols-\\[6\\.5rem_minmax\\(0\\,1fr\\)\\].gap-4.border-ink\\/\\[0\\.07\\]:nth-child(4) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center > .decoration-accent\\/25.hover\\:decoration-accent.py-1",
-      "html": "<button type=\"button\" class=\"py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent\">GenesisCare</button>",
-      "axeRatio": 4.33,
-      "fg": "#5279aa",
-      "bg": "#fafbfc",
-      "px": 14,
-      "weight": "normal",
-      "required": 4.5,
-      "measured": {
-        "ground": "#fafbfc",
-        "fg": "#1a4d8f",
-        "ratio": 8.100901811208859,
-        "cssSize": 14,
-        "cssWeight": "500"
-      },
-      "verdict": "false positive",
-      "note": "",
-      "file": "",
-      "widths": [
-        {
-          "vp": "1440",
-          "verdict": "false positive",
-          "ratio": 8.100901811208859,
-          "ground": "#fafbfc"
         }
       ],
       "worst": null,

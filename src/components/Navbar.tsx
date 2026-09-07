@@ -275,6 +275,17 @@ export default function Navbar() {
             sheetOpen
               ? "rounded-t-[2.25rem] rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
               : scrolled || menuOpen || solidFromTop
+                // 70% is deliberate, and it is the reason the sub-wordmark
+                // measures 3.70:1 over the dark navy heroes on the legal pages:
+                // the bar is translucent over a blur, so its labels are read
+                // against whatever is scrolled underneath. That sits below the
+                // 4.5:1 of SC 1.4.3, and it is allowed to, because the lockup
+                // is the practice's own name — "Berkshire Oncology" plus
+                // "Partnership" — and 1.4.3 exempts text that is part of a logo
+                // or brand name. Nothing else in the bar is close to the line.
+                // Raising this to 85% takes the worst case to 5.24:1 if the
+                // exception is ever judged not to apply; it was measured and
+                // rejected on design grounds, not missed.
                 ? "rounded-full border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
                 : "rounded-full border border-transparent bg-transparent"
           }`}

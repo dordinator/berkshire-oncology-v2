@@ -55,14 +55,29 @@ const data = JSON.parse(await readFile(args.report, "utf8"));
 
 // route -> viewport -> element[]
 const plan = new Map();
+// axe findings whose summary this script could not read. Kept so they can be
+// reported rather than lost — see the parse below.
+const unparsed = [];
 for (const r of data.results) {
   for (const v of r.violations) {
     if (v.id !== "color-contrast") continue;
     for (const n of v.nodes) {
+      // `[\d.]+px`, not `\d+px`. This read `\((\d+)px\)` and so matched only
+      // whole-pixel type. Every element at 9.6px or 51.2px failed the match and
+      // fell through the `continue` below without a trace — including the nav
+      // sub-wordmark, the one element in the set that was genuinely short. Ten
+      // elements went that way, and because they never entered the plan the
+      // report counted "unverified: 0" and read as a clean sweep.
       const m = n.summary.match(
-        /contrast of ([\d.]+) \(foreground color: (#[0-9a-f]+), background color: (#[0-9a-f]+), font size: [\d.]+pt \((\d+)px\), font weight: (\w+)/,
+        /contrast of ([\d.]+) \(foreground color: (#[0-9a-f]+), background color: (#[0-9a-f]+), font size: [\d.]+pt \(([\d.]+)px\), font weight: (\w+)/,
       );
-      if (!m) continue;
+      // Anything still unparsed is recorded and reported, never skipped. A
+      // verifier that silently drops what it cannot read is worse than no
+      // verifier: it converts an unknown into a pass.
+      if (!m) {
+        unparsed.push({ route: r.route, viewport: r.viewport, target: n.target, summary: n.summary });
+        continue;
+      }
       const byVp = plan.get(r.route) || new Map();
       const list = byVp.get(r.viewport) || new Map();
       if (!list.has(n.target)) {
@@ -81,6 +96,17 @@ const total = [...plan.values()].reduce(
   (n, byVp) => n + [...byVp.values()].reduce((m, l) => m + l.size, 0), 0,
 );
 console.log(`${total} element/width measurements across ${plan.size} routes\n`);
+
+// Loudly, and before any measuring: an element this script cannot parse has not
+// been cleared, and the run must not read as clean while any remain.
+if (unparsed.length) {
+  console.error(`\n${unparsed.length} axe finding(s) could not be parsed and are NOT verified:`);
+  for (const u of [...new Map(unparsed.map((u) => [u.route + "|" + u.target, u])).values()]) {
+    console.error(`  ${u.route} ${u.target}\n    ${u.summary.slice(0, 160)}`);
+  }
+  console.error(`\nCheck these by hand, or teach the parser to read them. Refusing to report a clean sweep.\n`);
+  process.exitCode = 1;
+}
 
 const shotDir = path.join(ROOT, "docs", "a11y", "screens", "contrast");
 await mkdir(shotDir, { recursive: true });

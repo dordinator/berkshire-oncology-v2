@@ -16,7 +16,7 @@ No focused control was entirely hidden behind sticky or fixed content while tabb
 
 ## SC 1.3.4 Orientation
 
-No orientation lock. Content renders in portrait (5411 characters) and landscape (5775 characters), with no prompt to rotate.
+No orientation lock. Content renders in portrait (5418 characters) and landscape (5782 characters), with no prompt to rotate.
 
 ## SC 3.2.3 Consistent Navigation
 

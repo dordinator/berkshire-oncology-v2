@@ -45,7 +45,11 @@ export default function ConsultantCard({
         )}
       </div>
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="type-compact-title text-ink">{consultant.name}</h3>
+        {/* h2, not h3. This card is only used on the two role list pages, where
+            it is the top-level content under the page h1 — at h3 both pages
+            stepped h1 to h3, which is a level a screen-reader user navigating
+            by heading has to guess at. Nothing above it was ever an h2. */}
+        <h2 className="type-compact-title text-ink">{consultant.name}</h2>
         <p className="type-supporting mt-1 text-ink-muted">{consultant.role}</p>
         {pills.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">

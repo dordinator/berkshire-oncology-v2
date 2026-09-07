@@ -202,6 +202,24 @@ button:not([class*="rounded-full"]):focus-visible {
   box-shadow: inset 0 0 0 2px currentColor;
 }
 
+/* Text inputs, on the same terms as the links, buttons and pills above — this
+   is the third time that list has turned out to be short. The rules above reach
+   a, summary, button and pills; inputs were never named, and both search fields
+   set `outline-none` of their own on top of that, so a focused field showed
+   nothing but the caret. The header search is on every page, so that was the
+   whole site.
+   A line under the text rather than a ring, to match what the links and buttons
+   above already do. `box-shadow` rather than `text-decoration`, because the
+   placeholder and the typed value are painted by the control itself and an
+   underline does not reach them; and rather than `border-bottom`, which would
+   change the field's height on focus.
+   gold-ink, not the brand gold: #c8992f is 2.61:1 on white, and this line is
+   the only thing marking focus. #8a6516 is 5.31:1 — the pairing the palette
+   already defines, for the same reason sage-ink exists. */
+:is(input, textarea, select):focus-visible {
+  box-shadow: 0 2px 0 0 theme(colors.gold.ink);
+}
+
 /* The home link in the header. Its label is an inline-flex lockup, and
    text-decoration does not cross a flex container, so the link rule above
    painted nothing at all — on every page. */
@@ -406,6 +424,14 @@ a:focus-visible [data-brand-wordmark] {
   }
   .legal-prose h3 {
     @apply mt-7 font-display text-xl text-ink;
+  }
+  /* An h2 that reads as a subheading. The four cookie categories were h3s under
+     an h1, which skipped a level for anyone navigating by heading; they are h2s
+     now. The level is what assistive technology reads, and the size is what
+     everyone else sees — this keeps the second at what it always was, rather
+     than letting a structural fix quietly restyle the page. */
+  .legal-prose h2.legal-subhead {
+    @apply mt-7 text-xl;
   }
   .legal-prose p {
     @apply mt-4;

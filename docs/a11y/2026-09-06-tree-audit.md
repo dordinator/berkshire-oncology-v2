@@ -16,11 +16,7 @@ No control is named only by punctuation, a bare URL, or a single character.
 
 ## Heading structure
 
-| Route | Issue | Heading |
-|---|---|---|
-| `/consultants/clinical-oncologists` | h1 to h3 | Dr Joss Adams |
-| `/consultants/medical-oncologists` | h1 to h3 | Dr Madhumita Bhattacharyya |
-| `/cookies` | h1 to h3 | Category 1: strictly necessary cookies |
+Every route has exactly one h1 and no skipped levels.
 
 ## SC 1.3.2 Meaningful Sequence
 
