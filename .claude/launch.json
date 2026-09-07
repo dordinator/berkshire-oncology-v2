@@ -22,6 +22,21 @@
         "3210"
       ],
       "port": 3210
+    },
+    {
+      "name": "berkshire-phone",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start",
+        "--",
+        "-H",
+        "0.0.0.0",
+        "-p",
+        "3400"
+      ],
+      "port": 3400,
+      "url": "http://localhost:3400"
     }
   ]
 }
