@@ -115,7 +115,18 @@ function HeroImage({
         style={{ objectPosition: presentation.hero.objectPosition ?? "center" }}
         className="object-cover"
       />
-      <span className="absolute bottom-3 right-3 rounded-full bg-paper/90 px-3 py-1 text-xs font-medium text-ink-muted backdrop-blur-sm">
+      {/* Top-right on a phone, bottom-right everywhere else. The mobile
+          composition pulls the "On this page" card up over the image with
+          `-mt-14`, and that 56px strip is exactly where `bottom-3` puts this
+          badge — so it sat under a translucent, blurred panel and read as a
+          ghosted smear of text on all seven treatment pages. The label is a
+          disclosure that the photograph is not of a real patient, so it has to
+          stay legible rather than be hidden on small screens. */}
+      <span
+        className={`absolute right-3 rounded-full bg-paper/90 px-3 py-1 text-xs font-medium text-ink-muted backdrop-blur-sm ${
+          mobile ? "top-3" : "bottom-3"
+        }`}
+      >
         Illustrative image
       </span>
     </>

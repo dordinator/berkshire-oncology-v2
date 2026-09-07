@@ -186,11 +186,20 @@ export default function ConsultantLocationsJourney({
                 aria-hidden
               />
 
-              <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">
+              {/* Same treatment as the cancer-types map on /specialities: the
+                  8px overlay is kept above `sm`, where the map is wide enough
+                  to carry it, and below `sm` the licence line moves out to a
+                  readable caption underneath rather than shrinking onto the
+                  map. Whichever does not apply is `display: none`, so a screen
+                  reader meets the attribution exactly once. */}
+              <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm sm:block">
                 {mapAttribution}
               </p>
             </div>
           </div>
+          <p className="mt-3 text-xs leading-relaxed text-ink-muted sm:hidden">
+            {mapAttribution}
+          </p>
         </div>
       </div>
     </section>

@@ -563,8 +563,15 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                   ? item.treatmentIntro ?? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which, if any, are suitable for you.`
                   : `We do not yet have a clinically reviewed treatment guide for ${item.title.toLowerCase()}. You can read general information about treatment types, but their inclusion on this site does not mean they would form part of your care. A consultant would need to review your diagnosis and test results before explaining what, if anything, may be relevant.`}
             </p>
+            {/* type-supporting (14px), not text-xs (12px), and deliberately at
+                every width rather than on phones alone. This sentence sits
+                directly under 15px body copy and is doing safety work: it is
+                information a patient needs, which AGENTS.md says the smaller
+                supporting style must not be used to hide. Rendering the same
+                sentence at two sizes depending on device would be worse than
+                either size. */}
             {general && (
-              <p className="mt-6 max-w-sm text-xs leading-relaxed text-ink-muted">
+              <p className="type-supporting mt-6 max-w-sm text-ink-muted">
                 This is general information, not a treatment recommendation.
               </p>
             )}
@@ -836,8 +843,19 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                     </motion.article>
                   </AnimatePresence>
 
-                  <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">{mapAttribution}</p>
+                  {/* The overlay is kept above `sm`, where the map is wide enough
+                      to carry it. On a phone it was 8px — the smallest text on
+                      the site — and raising it in place doubled its height and
+                      swallowed the top of the map, so below `sm` it moves out
+                      to a caption underneath instead. The OGL and OSM licences
+                      ask for visible, legible attribution, not for it to sit on
+                      the map. Both nodes exist in the markup, but whichever
+                      does not apply is `display: none` and so is absent from
+                      the accessibility tree — a screen reader meets exactly
+                      one of them at any width. */}
+                  <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm sm:block">{mapAttribution}</p>
                 </div>
+                <p className="mt-3 text-xs leading-relaxed text-ink-muted sm:hidden">{mapAttribution}</p>
               </div>
 
               <div className={`mt-4 grid gap-px overflow-hidden rounded-[1.35rem] border border-ink/10 bg-ink/10 ${stopGridClass}`}>

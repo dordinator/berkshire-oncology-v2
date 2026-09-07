@@ -107,6 +107,19 @@ overlapping boxes, which are stacked variants of the same content rather than tw
 targets a finger must choose between. Without those exceptions the raw count is
 1,367 instances; with them it is zero.
 
+**Corrected 7 September 2026.** That last exception is too broad. It holds where
+two boxes are stacked variants of one destination, but it also silenced a real
+failure. On `/tariffs` the landline, mobile and email links each carried
+`py-2.5 -my-2.5` to lift a 21px target over the 24px minimum, while sitting 34px
+apart in a `space-y-1.5` stack. Each hit area became 48px, so consecutive
+targets overlapped by 14px, and hit-testing gave the shared band to the lower
+link: the bottom of the landline dialled the mobile. Three probes inside the
+band, at 390px and again at 1440px, all resolved to `tel:07928888662`. Two
+different destinations are precisely the case the exception was not meant to
+cover. Padding is now capped at 3px, consuming the 6px gap and leaving a 34px
+target that still clears the minimum and cannot overlap its neighbour. Found by
+`scripts/mobile-audit.mjs` during the mobile pass, not by this suite.
+
 ---
 
 ## 3. Tooling now in the repository
@@ -287,6 +300,7 @@ Authentication: no multi-step process and no authentication. SC 2.3.1 and 2.3.2
 | 200% zoom (SC 1.4.4) | Complete | 5 Sep 2026 | Automated, `a11y-manual-checks.mjs` |
 | Remaining nine criteria | Complete | 6 Sep 2026 | `a11y-criteria-check.mjs` and inspection |
 | Accessibility tree, all 55 routes | Complete | 6 Sep 2026 | `a11y-tree-audit.mjs` |
+| Mobile layout, 55 routes × 5 phone widths | Complete | 7 Sep 2026 | Automated, `npm run mobile` |
 | Screen reader (VoiceOver + Safari) | **Outstanding** | — | — |
 
 The screen-reader pass is scripted in

@@ -711,7 +711,7 @@ export default function FeesBody() {
                       <p>
                         <a
                           href={tel(c.phone)}
-                          className="inline-block py-2.5 -my-2.5 focus-visible:underline lg:hover:underline"
+                          className="inline-block py-[3px] -my-[3px] focus-visible:underline lg:hover:underline"
                         >
                           {c.phone}
                         </a>
@@ -719,7 +719,7 @@ export default function FeesBody() {
                       <p>
                         <a
                           href={tel(c.phoneMobile)}
-                          className="inline-block py-2.5 -my-2.5 focus-visible:underline lg:hover:underline"
+                          className="inline-block py-[3px] -my-[3px] focus-visible:underline lg:hover:underline"
                         >
                           {c.phoneMobile}
                         </a>{" "}
@@ -732,7 +732,17 @@ export default function FeesBody() {
                           // was 21px tall against a 24px minimum, and padding
                           // with a cancelling negative margin grows the hit
                           // area without moving anything on the page.
-                          className="inline-block py-2.5 -my-2.5 focus-visible:underline lg:hover:underline"
+                          //
+                          // The padding is capped at 3px, not 10px, because
+                          // these three sit 34px apart in a `space-y-1.5`
+                          // stack. At `py-2.5` each hit area was 48px, so
+                          // consecutive targets overlapped by 14px and the
+                          // lower one won every tap in the band: the bottom of
+                          // the landline dialled the mobile. 3px consumes
+                          // exactly the 6px gap, giving a 34px target that
+                          // still clears the 24px minimum and cannot overlap
+                          // its neighbour.
+                          className="inline-block py-[3px] -my-[3px] focus-visible:underline lg:hover:underline"
                         >
                           {c.email}
                         </a>
