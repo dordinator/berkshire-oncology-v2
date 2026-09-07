@@ -10,7 +10,10 @@
     "a11y": "next build && node scripts/a11y-audit.mjs",
     "a11y:sweep": "node scripts/a11y-audit.mjs",
     "a11y:announce": "node scripts/a11y-announce-audit.mjs",
-    "a11y:voiceover": "node scripts/a11y-voiceover.mjs"
+    "a11y:voiceover": "node scripts/a11y-voiceover.mjs",
+    "mobile": "node scripts/mobile-audit.mjs",
+    "mobile:shots": "node scripts/mobile-shots.mjs",
+    "mobile:frames": "node scripts/mobile-frames.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.3.8",
