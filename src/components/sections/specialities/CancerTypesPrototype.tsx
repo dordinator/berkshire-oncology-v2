@@ -762,14 +762,26 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
   const activeCamera = activeStop ? cameraAt(mapFrames, activeLocation + 1) : null;
   const activePin = activeStop ? project(activeStop.lat, activeStop.lng) : null;
   const panelOnRight = Boolean(activeCamera && activePin && activePin.x < activeCamera.x);
-  const stopGridClass = [
-    "sm:grid-cols-1",
-    "sm:grid-cols-1",
-    "sm:grid-cols-2",
-    "sm:grid-cols-3",
-    "sm:grid-cols-4",
-    "sm:grid-cols-5",
-  ][Math.min(stops.length, 5)];
+  // The strip used to take one column per stop, capped at five, which left a
+  // sixth location alone on a second row beside five cells of bare divider.
+  // It is now six tracks wide with each tile spanning a share of them, so
+  // every row fills exactly: threes normally, and a short final row widened
+  // to take up the slack — six stops read 3 + 3, five read 3 + 2 with the
+  // last two wider. A remainder of one would strand a tile on its own, so
+  // the last four break into 2 + 2 instead.
+  //
+  // This holds at every width from `sm` up, the narrower right-hand column
+  // from `lg` included; below `sm` the tiles are still stacked one per row.
+  const stopCount = stops.length;
+  const remainder = stopCount % 3;
+  const tripleCount =
+    remainder === 1 && stopCount > 1 ? stopCount - 4 : stopCount - remainder;
+
+  // Written out rather than interpolated: Tailwind scans for whole class names.
+  const spanClass = (index: number) => {
+    if (stopCount === 1) return "sm:col-span-6";
+    return index < tripleCount ? "sm:col-span-2" : "sm:col-span-3";
+  };
 
   // These locations used to advance on their own every 5.2 seconds. That is
   // an SC 2.2.2 failure — auto-updating information with no way to pause it —
@@ -858,7 +870,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                 <p className="mt-3 text-xs leading-relaxed text-ink-muted lg:hidden">{mapAttribution}</p>
               </div>
 
-              <div className={`mt-4 grid gap-px overflow-hidden rounded-[1.35rem] border border-ink/10 bg-ink/10 ${stopGridClass}`}>
+              <div className={`mt-4 grid gap-px overflow-hidden rounded-[1.35rem] border border-ink/10 bg-ink/10 sm:grid-cols-6`}>
                 {stops.map((stop, index) => {
                   const active = index === activeLocation;
                   return (
@@ -867,7 +879,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       type="button"
                       aria-pressed={active}
                       onClick={() => chooseLocation(index)}
-                      className="group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60"
+                      className={`group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60 ${spanClass(index)}`}
                     >
                       <span className="type-label block text-ink-muted">{stop.area}</span>
                       {/* No truncate. The tabs are a fixed grid, so at 200% zoom the text
