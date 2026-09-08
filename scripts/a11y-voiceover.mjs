@@ -80,8 +80,17 @@ async function said(label) {
 let failure = null;
 try {
   await voiceOver.start();
-  // Interact with the browser rather than the desktop.
-  await voiceOver.navigateToApplication("Google Chrome").catch(() => {});
+  // Interact with the browser rather than the desktop. Which browser is not a
+  // given — this machine has Safari and no Chrome — so it is an argument, and
+  // failing to reach it is reported rather than swallowed: VoiceOver reading
+  // the desktop instead of the page would produce a transcript that looks fine
+  // and proves nothing.
+  const app = args.app || "Safari";
+  try {
+    await voiceOver.navigateToApplication(app);
+  } catch (err) {
+    throw new Error(`could not focus ${app}: ${err.message.split("\n")[0]}`);
+  }
 
   await said("start");
 
