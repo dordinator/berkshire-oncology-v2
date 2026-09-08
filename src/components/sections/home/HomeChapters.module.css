@@ -38,8 +38,10 @@
 .warning { margin: 0 0 2rem; font-size: .875rem; line-height: 1.6; color: var(--home-mulberry); }
 .warning strong { display: block; font-weight: 600; }
 .quoteStack { display: grid; }
-.quote { grid-area: 1 / 1; margin: 0; min-width: 0; }
-.quote[aria-hidden="true"] { visibility: hidden; pointer-events: none; }
+.quote { grid-area: 1 / 1; margin: 0; min-width: 0; opacity: 1; visibility: visible; transition: opacity 600ms ease-in-out, visibility 0s; }
+/* Keep the outgoing quote painted until its fade finishes; the shared grid
+   reserves the longest quote's height throughout both automatic and arrow changes. */
+.quote[aria-hidden="true"] { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 600ms ease-in-out, visibility 0s 600ms; }
 .quoteMark { display: block; height: 3.6rem; color: var(--home-mulberry); font-family: Georgia, serif; font-size: 6rem; line-height: 1; }
 .quote blockquote { margin: 0; font-family: var(--font-display), sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 1.4; font-weight: 500; letter-spacing: -.015em; }
 .quote figcaption { margin-top: 2rem; font-size: .875rem; line-height: 1.5; }
@@ -74,6 +76,7 @@
   .quotePanel { padding: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .quote, .quote[aria-hidden="true"] { transition: none; }
   .intro a > span[aria-hidden], .directoryLink, .directoryArrow, .quoteControls button { transition: none; }
   .directoryLink:hover .directoryArrow { transform: none; }
   .rotatingTitles > span[aria-hidden="false"] { animation: none; }
