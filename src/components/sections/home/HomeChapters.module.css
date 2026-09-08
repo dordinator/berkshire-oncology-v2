@@ -15,7 +15,7 @@
 .intro a:hover > span[aria-hidden], .intro a:focus-visible > span[aria-hidden] { transform: translateX(0); }
 .cancerIntro a > span[aria-hidden] { background: var(--home-ice); }
 .intro a:focus-visible, .directoryLink:focus-visible, .quoteControls button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 5px; }
-.directoryPanel { min-width: 0; background: var(--home-sage); border-radius: 8px; padding: clamp(1.5rem, 3vw, 3rem); }
+.directoryPanel { min-width: 0; background: var(--home-sage); border-radius: 1.75rem; padding: clamp(1.5rem, 3vw, 3rem); }
 .directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(1.5rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; }
 .directory li { min-width: 0; }
 .directory li:nth-child(n+3) { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
@@ -34,7 +34,7 @@
 @keyframes cancer-appear { from { opacity: 0; } to { opacity: 1; } }
 
 .feedbackLayout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
-.quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: 0 0 8px 8px; }
+.quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: 1.75rem; }
 .warning { margin: 0 0 2rem; font-size: .875rem; line-height: 1.6; color: var(--home-mulberry); }
 .warning strong { display: block; font-weight: 600; }
 .quoteStack { display: grid; }
@@ -55,7 +55,7 @@
 .feedback[data-variant="refined"] .feedbackLayout { grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); align-items: center; }
 .feedback[data-variant="refined"] .intro h2 { font-size: clamp(2rem, 2.8vw, 2.5rem); line-height: 1.15; font-weight: 500; max-width: 15ch; }
 .feedback[data-variant="refined"] .intro p { font-size: 1.0625rem; line-height: 1.75; }
-.feedback[data-variant="refined"] .quotePanel { display: flex; flex-direction: column; border-top-width: 2px; border-radius: 8px; padding: clamp(1.5rem, 3.5vw, 3.5rem); }
+.feedback[data-variant="refined"] .quotePanel { display: flex; flex-direction: column; border-top-width: 2px; padding: clamp(1.5rem, 3.5vw, 3.5rem); }
 .feedback[data-variant="refined"] .quoteStack { order: 1; }
 .feedback[data-variant="refined"] .quote blockquote { font-size: clamp(1.65rem, 2.8vw, 2.5rem); line-height: 1.35; }
 .feedback[data-variant="refined"] .quoteMark { height: 3rem; font-size: 5rem; }
