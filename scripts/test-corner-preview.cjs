@@ -56,15 +56,15 @@ function mount(saved, blocked = false) {
   };
 }
 const app = mount(null);
-assert.equal(app.props.get('--radius-button'), '8px');
-assert.equal(app.props.get('--radius-panel'), '28px');
+assert.equal(app.props.get('--radius-button'), '15px');
+assert.equal(app.props.get('--radius-panel'), '20px');
 for (const input of app.inputs()) {
   assert.equal(input.props.min, '8'); assert.equal(input.props.max, '28'); assert.equal(input.props.step, '1');
 }
 for (let value = 8; value <= 28; value++) {
   app.event(() => app.inputs()[0].props.onChange({ target: { value: String(value) } }));
   assert.equal(app.props.get('--radius-button'), `${value}px`);
-  assert.equal(app.props.get('--radius-panel'), '28px');
+  assert.equal(app.props.get('--radius-panel'), '20px');
 }
 for (let value = 8; value <= 28; value++) {
   app.event(() => app.inputs()[1].props.onChange({ target: { value: String(value) } }));
@@ -79,18 +79,26 @@ assert.equal(app.controls().props.hidden, false);
 const restored = mount(app.stored());
 assert.equal(restored.props.get('--radius-button'), '28px');
 app.event(() => app.buttons()[1].props.onClick());
-assert.equal(app.props.get('--radius-button'), '8px');
-assert.equal(app.props.get('--radius-panel'), '28px');
+assert.equal(app.props.get('--radius-button'), '15px');
+assert.equal(app.props.get('--radius-panel'), '20px');
 for (const saved of ['broken', '{"buttons":100,"panels":-1}', '{"buttons":"20","panels":8.5}']) {
   const invalid = mount(saved);
-  assert.equal(invalid.props.get('--radius-button'), '8px');
-  assert.equal(invalid.props.get('--radius-panel'), '28px');
+  assert.equal(invalid.props.get('--radius-button'), '15px');
+  assert.equal(invalid.props.get('--radius-panel'), '20px');
 }
 const blocked = mount(null, true);
 blocked.event(() => blocked.inputs()[0].props.onChange({ target: { value: '16' } }));
 assert.equal(blocked.props.get('--radius-button'), '16px');
 app.unmount(); assert.equal(app.props.size, 0);
 const layout = fs.readFileSync('src/app/layout.tsx', 'utf8');
+const globalCss = fs.readFileSync('src/app/globals.css', 'utf8');
+assert.match(globalCss, /--radius-button: 15px;/);
+assert.match(globalCss, /--radius-panel: 20px;/);
+const navbar = fs.readFileSync('src/components/Navbar.tsx', 'utf8');
+assert.match(navbar, /rounded-panel border border-black/);
+assert.match(navbar, /rounded-panel border border-transparent/);
+assert.match(navbar, /rounded-t-panel rounded-b-none/);
+assert.match(source, /berkshire-corner-preview-v2/);
 assert.match(layout, /process\.env\.NODE_ENV === "development" && <CornerPreview/);
 for (const file of ['HomeHero.module.css', 'HomeChapters.module.css']) {
   const css = fs.readFileSync(`src/components/sections/home/${file}`, 'utf8');

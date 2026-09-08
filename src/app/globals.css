@@ -32,8 +32,8 @@
 
 :root {
   /* Shared shape defaults; the local preview adjusts these independently. */
-  --radius-button: 8px;
-  --radius-panel: 28px;
+  --radius-button: 15px;
+  --radius-panel: 20px;
   /* Agreed palette, initially scoped to the redesigned homepage chapters. */
   --home-ink: #0e2f55;
   --home-blue: #164c88;

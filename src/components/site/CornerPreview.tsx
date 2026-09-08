@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import styles from "./CornerPreview.module.css";
 
-const STORAGE_KEY = "berkshire-corner-preview-v1";
-const DEFAULTS = { buttons: 8, panels: 28 };
+const STORAGE_KEY = "berkshire-corner-preview-v2";
+const DEFAULTS = { buttons: 15, panels: 20 };
 type Corners = typeof DEFAULTS;
 
 export function validRadius(value: unknown, fallback: number) {
@@ -20,7 +20,7 @@ export default function CornerPreview() {
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
-      if (saved) setCorners({ buttons: validRadius(saved.buttons, 8), panels: validRadius(saved.panels, 28) });
+      if (saved) setCorners({ buttons: validRadius(saved.buttons, DEFAULTS.buttons), panels: validRadius(saved.panels, DEFAULTS.panels) });
     } catch { /* Blocked storage or stale values must not prevent previewing. */ }
     setReady(true);
     return () => {
@@ -50,7 +50,7 @@ export default function CornerPreview() {
             <span className={styles.limits} aria-hidden><span>8px</span><span>28px</span></span>
           </label>
         ))}
-        <button type="button" className={styles.reset} onClick={() => setCorners({ ...DEFAULTS })}>Reset to 8px / 28px</button>
+        <button type="button" className={styles.reset} onClick={() => setCorners({ ...DEFAULTS })}>Reset to {DEFAULTS.buttons}px / {DEFAULTS.panels}px</button>
         <p>Preview only · remembered in this browser</p>
       </div>
     </aside>
