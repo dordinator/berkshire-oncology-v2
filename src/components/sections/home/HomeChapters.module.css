@@ -49,10 +49,28 @@
 .quoteControls button { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); background: var(--home-white); transition: background-color 200ms; }
 .quoteControls button:hover { background: var(--home-ice); }
 
+/* Temporary, user-requested A/B preview. One reader is retained so switching
+   styles does not reset the selected quotation or duplicate accessible content. */
+.feedbackPreview { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: .75rem; margin-bottom: 2rem; font-size: .875rem; }
+.feedbackVariants { display: inline-flex; border: 2px solid var(--home-blue); border-radius: 8px; padding: 3px; gap: 3px; }
+.feedbackVariants button { min-height: 44px; padding: .5rem 1rem; border-radius: 4px; color: var(--home-blue); background: transparent; }
+.feedbackVariants button[aria-pressed="true"] { color: var(--home-white); background: var(--home-blue); }
+.feedbackVariants button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 5px; }
+.feedback[data-variant="refined"] .feedbackLayout { grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); align-items: center; }
+.feedback[data-variant="refined"] .intro h2 { font-size: clamp(2rem, 2.8vw, 2.5rem); line-height: 1.15; font-weight: 500; max-width: 15ch; }
+.feedback[data-variant="refined"] .intro p { font-size: 1.0625rem; line-height: 1.75; }
+.feedback[data-variant="refined"] .quotePanel { display: flex; flex-direction: column; border-top-width: 2px; border-radius: 8px; padding: clamp(1.5rem, 3.5vw, 3.5rem); }
+.feedback[data-variant="refined"] .quoteStack { order: 1; }
+.feedback[data-variant="refined"] .quote blockquote { font-size: clamp(1.65rem, 2.8vw, 2.5rem); line-height: 1.35; }
+.feedback[data-variant="refined"] .quoteMark { height: 3rem; font-size: 5rem; }
+.feedback[data-variant="refined"] .warning { order: 2; margin: 1.75rem 0 0; padding-top: 1.25rem; border-top: 1px solid color-mix(in srgb, var(--home-mulberry) 25%, transparent); }
+.feedback[data-variant="refined"] .warning strong { font-weight: 500; }
+.feedback[data-variant="refined"] .quoteControls { order: 3; margin-top: 1.5rem; padding-top: 0; border-top: 0; }
+
 @media (max-width: 1000px) {
   .cancerLayout { grid-template-columns: 1fr; }
   .cancerIntro { max-width: 38rem; padding-block: 0; }
-  .feedbackLayout { grid-template-columns: 1fr; }
+  .feedbackLayout, .feedback[data-variant="refined"] .feedbackLayout { grid-template-columns: 1fr; }
   .feedbackLayout .intro { max-width: 44rem; }
 }
 @media (max-width: 600px) {
