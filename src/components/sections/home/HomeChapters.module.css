@@ -1,26 +1,41 @@
 .cancers, .feedback { color: var(--home-ink); padding-block: clamp(4rem, 7vw, 7rem); }
-.cancers { background: var(--home-sage); }
+.cancers { background: var(--home-white); }
 .feedback { background: var(--home-ice); }
 .inner { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--site-gutter); }
 .intro { min-width: 0; }
 .intro h2, .intro p { color: var(--home-ink); }
-.cancerIntro { display: grid; grid-template-columns: 1fr 1fr; column-gap: 5rem; }
-.cancerIntro > :first-child { grid-row: 1 / 3; }
-.cancerIntro > :nth-child(2) p { margin-top: 0; max-width: 36rem; }
+.cancerLayout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.7fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+.cancerIntro { padding-block: 1.5rem; }
+.cancerIntro p { max-width: 32rem; }
+.cancerEyebrow { display: block; margin-bottom: 1.75rem; font-size: .875rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--home-mulberry); }
 
 /* Local button rollout: no changes to buttons elsewhere on the site. */
 .intro a { min-height: 50px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); padding: .75rem 1.2rem; box-shadow: none; }
 .intro a > span[aria-hidden] { background: var(--home-white); border-radius: inherit; transform: translateX(-101%); transition: transform 500ms cubic-bezier(.65, 0, .25, 1); }
 .intro a:hover > span[aria-hidden], .intro a:focus-visible > span[aria-hidden] { transform: translateX(0); }
+.cancerIntro a > span[aria-hidden] { background: var(--home-ice); }
 .intro a:focus-visible, .directoryLink:focus-visible, .quoteControls button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 5px; }
-.directory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 2.5rem; margin-top: 3.5rem; padding: 0; list-style: none; }
-.directory li { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
-.directoryLink { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 142px; height: 100%; padding: 1.5rem .5rem; text-decoration: none; color: var(--home-ink); border-radius: 4px; transition: background-color 200ms; }
+.directoryPanel { min-width: 0; background: var(--home-sage); border-radius: 8px; padding: clamp(1.5rem, 3vw, 3rem); }
+.directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(1.5rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; }
+.directory li { min-width: 0; }
+.directory li:nth-child(n+3) { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
+.directoryLink { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 160px; height: 100%; padding: 2rem 0; text-decoration: none; color: var(--home-ink); border-radius: 4px; transition: background-color 200ms; }
+.directoryLink > span { min-width: 0; }
 .directoryLink:hover { background: color-mix(in srgb, var(--home-white) 38%, transparent); }
 .directoryTitle { display: block; font-family: var(--font-display), sans-serif; font-size: clamp(1.35rem, 2vw, 1.7rem); line-height: 1.2; font-weight: 600; }
 .directoryAction { display: block; margin-top: .65rem; font-size: .875rem; color: var(--home-blue); }
 .directoryArrow { flex: 0 0 24px; transition: transform 200ms; }
 .directoryLink:hover .directoryArrow { transform: translateX(3px); }
+.rotatingCopy { width: 100%; }
+.rotatingTitles { display: grid; align-items: center; }
+.rotatingTitles > span { grid-area: 1 / 1; overflow-wrap: anywhere; }
+.rotatingTitles > span[aria-hidden="true"] { visibility: hidden; }
+.rotatingTitles > span[aria-hidden="false"] { animation: cancer-appear 300ms ease-out; }
+@keyframes cancer-appear { from { opacity: 0; } to { opacity: 1; } }
+.directoryFooter { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1rem; margin-top: .75rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); font-size: .875rem; }
+.directoryFooter button { min-height: 44px; padding: .5rem .75rem; color: var(--home-blue); border: 2px solid var(--home-blue); border-radius: 8px; background: transparent; }
+.directoryFooter button:hover { background: var(--home-white); }
+.directoryFooter button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 4px; }
 
 .feedbackLayout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
 .quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: 0 0 8px 8px; }
@@ -39,19 +54,19 @@
 .quoteControls button:hover { background: var(--home-ice); }
 
 @media (max-width: 1000px) {
-  .cancerIntro { column-gap: 2.5rem; }
-  .directory { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cancerLayout { grid-template-columns: 1fr; }
+  .cancerIntro { max-width: 38rem; padding-block: 0; }
   .feedbackLayout { grid-template-columns: 1fr; }
   .feedbackLayout .intro { max-width: 44rem; }
 }
 @media (max-width: 600px) {
-  .cancerIntro { display: block; }
-  .cancerIntro > :nth-child(2) p { margin-top: 1.5rem; }
-  .directory { grid-template-columns: 1fr; margin-top: 2.5rem; }
+  .directory { grid-template-columns: 1fr; }
+  .directory li:nth-child(n+2) { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
   .directoryLink { min-height: 108px; }
   .quotePanel { padding: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .intro a > span[aria-hidden], .directoryLink, .directoryArrow, .quoteControls button { transition: none; }
   .directoryLink:hover .directoryArrow { transform: none; }
+  .rotatingTitles > span[aria-hidden="false"] { animation: none; }
 }

@@ -53,16 +53,13 @@ const consultants = getAllConsultants();
 const specialities = getAllSpecialities();
 
 /**
- * The six cards in "Cancers we treat", ordered by how common the cancer is in
- * the UK rather than by how many of our consultants list it. Ranking by
- * internal coverage put bladder and kidney above bowel and lung, which is not
- * what a newly diagnosed reader is scanning for — they arrive already knowing
- * the name of their own diagnosis. Labels come from the speciality data so they
- * cannot drift; only the order and the selection are set here.
+ * Five stable destinations plus a sixth slot that cycles through the remaining
+ * maintained specialities, starting with lymphoma. All labels and destinations
+ * come from the same data used by the full cancer directory.
  */
 const CARD_ORDER = ["breast", "prostate", "lung", "colorectal", "skin", "lymphoma"];
 
-const topCancers = CARD_ORDER.map((slug) => {
+const cancerCards = [...CARD_ORDER, ...specialities.map((s) => s.slug).filter((slug) => !CARD_ORDER.includes(slug))].map((slug) => {
   const s = specialities.find((x) => x.slug === slug);
   if (!s) return null;
 
@@ -293,7 +290,7 @@ export default function Home() {
       {/* A compact directory with section-local colour, without sticky columns
           or a viewport-wide tint. Cancer destinations remain unchanged. */}
       <CancerCards
-          cards={topCancers}
+          cards={cancerCards}
           intro={
             <>
               <Reveal delay={1}>
