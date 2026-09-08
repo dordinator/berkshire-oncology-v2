@@ -290,11 +290,8 @@ export default function Home() {
 
       </div>
 
-      {/* ── Cancers we treat ────────────────────────────────────────────────
-          A full-bleed coloured band with its own sticky behaviour — the one
-          place on the page where the background changes. It carries its own
-          container and vertical rhythm, and sits outside the page container so
-          the colour reaches both edges without a 100vw trick. */}
+      {/* A compact directory with section-local colour, without sticky columns
+          or a viewport-wide tint. Cancer destinations remain unchanged. */}
       <CancerCards
           cards={topCancers}
           intro={

@@ -31,6 +31,13 @@
 }
 
 :root {
+  /* Agreed palette, initially scoped to the redesigned homepage chapters. */
+  --home-ink: #0e2f55;
+  --home-blue: #164c88;
+  --home-white: #ffffff;
+  --home-ice: #eef5fa;
+  --home-sage: #cbd3ce;
+  --home-mulberry: #843d57;
   --bg: #fafbfc;
   --fg: #061c46;
   --brand-ink: #061c46;

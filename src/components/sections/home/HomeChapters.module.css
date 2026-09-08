@@ -1,0 +1,57 @@
+.cancers, .feedback { color: var(--home-ink); padding-block: clamp(4rem, 7vw, 7rem); }
+.cancers { background: var(--home-sage); }
+.feedback { background: var(--home-ice); }
+.inner { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--site-gutter); }
+.intro { min-width: 0; }
+.intro h2, .intro p { color: var(--home-ink); }
+.cancerIntro { display: grid; grid-template-columns: 1fr 1fr; column-gap: 5rem; }
+.cancerIntro > :first-child { grid-row: 1 / 3; }
+.cancerIntro > :nth-child(2) p { margin-top: 0; max-width: 36rem; }
+
+/* Local button rollout: no changes to buttons elsewhere on the site. */
+.intro a { min-height: 50px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); padding: .75rem 1.2rem; box-shadow: none; }
+.intro a > span[aria-hidden] { background: var(--home-white); border-radius: inherit; transform: translateX(-101%); transition: transform 500ms cubic-bezier(.65, 0, .25, 1); }
+.intro a:hover > span[aria-hidden], .intro a:focus-visible > span[aria-hidden] { transform: translateX(0); }
+.intro a:focus-visible, .directoryLink:focus-visible, .quoteControls button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 5px; }
+.directory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 2.5rem; margin-top: 3.5rem; padding: 0; list-style: none; }
+.directory li { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
+.directoryLink { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 142px; height: 100%; padding: 1.5rem .5rem; text-decoration: none; color: var(--home-ink); border-radius: 4px; transition: background-color 200ms; }
+.directoryLink:hover { background: color-mix(in srgb, var(--home-white) 38%, transparent); }
+.directoryTitle { display: block; font-family: var(--font-display), sans-serif; font-size: clamp(1.35rem, 2vw, 1.7rem); line-height: 1.2; font-weight: 600; }
+.directoryAction { display: block; margin-top: .65rem; font-size: .875rem; color: var(--home-blue); }
+.directoryArrow { flex: 0 0 24px; transition: transform 200ms; }
+.directoryLink:hover .directoryArrow { transform: translateX(3px); }
+
+.feedbackLayout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+.quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: 0 0 8px 8px; }
+.warning { margin: 0 0 2rem; font-size: .875rem; line-height: 1.6; color: var(--home-mulberry); }
+.warning strong { display: block; font-weight: 600; }
+.quoteStack { display: grid; }
+.quote { grid-area: 1 / 1; margin: 0; min-width: 0; }
+.quote[aria-hidden="true"] { visibility: hidden; pointer-events: none; }
+.quoteMark { display: block; height: 3.6rem; color: var(--home-mulberry); font-family: Georgia, serif; font-size: 6rem; line-height: 1; }
+.quote blockquote { margin: 0; font-family: var(--font-display), sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 1.4; font-weight: 500; letter-spacing: -.015em; }
+.quote figcaption { margin-top: 2rem; font-size: .875rem; line-height: 1.5; }
+.quoteControls { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--home-ink) 18%, transparent); }
+.quoteCount { font-size: .875rem; font-variant-numeric: tabular-nums; }
+.quoteButtons { display: flex; gap: .6rem; }
+.quoteControls button { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); background: var(--home-white); transition: background-color 200ms; }
+.quoteControls button:hover { background: var(--home-ice); }
+
+@media (max-width: 1000px) {
+  .cancerIntro { column-gap: 2.5rem; }
+  .directory { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feedbackLayout { grid-template-columns: 1fr; }
+  .feedbackLayout .intro { max-width: 44rem; }
+}
+@media (max-width: 600px) {
+  .cancerIntro { display: block; }
+  .cancerIntro > :nth-child(2) p { margin-top: 1.5rem; }
+  .directory { grid-template-columns: 1fr; margin-top: 2.5rem; }
+  .directoryLink { min-height: 108px; }
+  .quotePanel { padding: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro a > span[aria-hidden], .directoryLink, .directoryArrow, .quoteControls button { transition: none; }
+  .directoryLink:hover .directoryArrow { transform: none; }
+}
