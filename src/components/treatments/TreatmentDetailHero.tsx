@@ -51,7 +51,7 @@ function GuidePanel({
     <nav
       aria-label="On this page"
       style={style}
-      className={`flex flex-col rounded-[2rem] border border-ink/[0.09] bg-paper/[0.985] px-6 py-5 shadow-[0_24px_60px_-34px_rgba(6,28,70,0.38)] lg:px-5 lg:py-4 xl:px-8 xl:py-5 ${className}`}
+      className={`flex flex-col rounded-panel border border-ink/[0.09] bg-paper/[0.985] px-6 py-5 shadow-[0_24px_60px_-34px_rgba(6,28,70,0.38)] lg:px-5 lg:py-4 xl:px-8 xl:py-5 ${className}`}
     >
       <h2 className="type-card-title text-ink lg:text-xl xl:text-[1.75rem] 2xl:text-[2rem]">
         On this page
@@ -158,10 +158,10 @@ export default function TreatmentDetailHero({
             <div className="relative aspect-[800/704] w-full min-w-0 max-w-[800px]">
               <div
                 aria-hidden
-                className="absolute left-[1.2%] top-[4%] z-0 h-[79.5%] w-[39%] rounded-[2.75rem] bg-sage-panel"
+                className="absolute left-[1.2%] top-[4%] z-0 h-[79.5%] w-[39%] rounded-panel bg-sage-panel"
               />
 
-              <div className="absolute left-[17.5%] top-[8.8%] z-10 h-[66.2%] w-[82.5%] overflow-hidden rounded-[2.5rem] border border-white/70 bg-canvas-soft">
+              <div className="absolute left-[17.5%] top-[8.8%] z-10 h-[66.2%] w-[82.5%] overflow-hidden rounded-panel border border-white/70 bg-canvas-soft">
                 <HeroImage presentation={presentation} />
               </div>
 
@@ -177,8 +177,8 @@ export default function TreatmentDetailHero({
           </div>
 
           <div className="relative mx-auto mt-2 w-full max-w-xl pb-6 lg:hidden">
-            <div aria-hidden className="absolute -left-3 -top-4 h-52 w-44 rounded-[2rem] bg-sage-panel" />
-            <div className="relative aspect-[3/2] overflow-hidden rounded-[2rem]">
+            <div aria-hidden className="absolute -left-3 -top-4 h-52 w-44 rounded-panel bg-sage-panel" />
+            <div className="relative aspect-[3/2] overflow-hidden rounded-panel">
               <HeroImage presentation={presentation} mobile />
             </div>
             <GuidePanel

@@ -220,7 +220,7 @@ export default function ContactConceptHero() {
           </div>
 
           <div
-            className="rounded-[2rem] border border-white/55 bg-paper/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
+            className="rounded-panel border border-white/55 bg-paper/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.45)] backdrop-blur-md sm:p-8 lg:h-full lg:p-11 xl:p-12"
           >
             <p className="type-supporting text-ink-muted">
               We&apos;ll show you the right form or online service next.

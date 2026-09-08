@@ -10,12 +10,12 @@
 .cancerIntro p { max-width: 32rem; }
 
 /* Local button rollout: no changes to buttons elsewhere on the site. */
-.intro a { min-height: 50px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); padding: .75rem 1.2rem; box-shadow: none; }
+.intro a { min-height: 50px; border: 2px solid var(--home-blue); border-radius: var(--radius-button); color: var(--home-blue); padding: .75rem 1.2rem; box-shadow: none; }
 .intro a > span[aria-hidden] { background: var(--home-white); border-radius: inherit; transform: translateX(-101%); transition: transform 500ms cubic-bezier(.65, 0, .25, 1); }
 .intro a:hover > span[aria-hidden], .intro a:focus-visible > span[aria-hidden] { transform: translateX(0); }
 .cancerIntro a > span[aria-hidden] { background: var(--home-ice); }
 .intro a:focus-visible, .directoryLink:focus-visible, .quoteControls button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 5px; }
-.directoryPanel { min-width: 0; background: var(--home-sage); border-radius: 1.75rem; padding: clamp(1.5rem, 3vw, 3rem); }
+.directoryPanel { min-width: 0; background: var(--home-sage); border-radius: var(--radius-panel); padding: clamp(1.5rem, 3vw, 3rem); }
 .directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(1.5rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; }
 .directory li { min-width: 0; }
 .directory li:nth-child(n+3) { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
@@ -34,7 +34,7 @@
 @keyframes cancer-appear { from { opacity: 0; } to { opacity: 1; } }
 
 .feedbackLayout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
-.quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: 1.75rem; }
+.quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: var(--radius-panel); }
 .warning { margin: 0 0 2rem; font-size: .875rem; line-height: 1.6; color: var(--home-mulberry); }
 .warning strong { display: block; font-weight: 600; }
 .quoteStack { display: grid; }
@@ -48,7 +48,7 @@
 .quoteControls { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--home-ink) 18%, transparent); }
 .quoteCount { font-size: .875rem; font-variant-numeric: tabular-nums; }
 .quoteButtons { display: flex; gap: .6rem; }
-.quoteControls button { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); background: var(--home-white); transition: background-color 200ms; }
+.quoteControls button { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 2px solid var(--home-blue); border-radius: var(--radius-button); color: var(--home-blue); background: var(--home-white); transition: background-color 200ms; }
 .quoteControls button:hover { background: var(--home-ice); }
 
 /* Approved refined treatment: quieter intro, quotation-led hierarchy. */

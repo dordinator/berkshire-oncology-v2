@@ -95,7 +95,7 @@ export default function ConsultantAboutJourney({
           )}
         </div>
 
-        <div className="min-w-0 rounded-[2.5rem] bg-accent-mist px-6 py-8 md:px-9 md:py-9 lg:px-10 xl:px-12">
+        <div className="min-w-0 rounded-panel bg-accent-mist px-6 py-8 md:px-9 md:py-9 lg:px-10 xl:px-12">
           <div className="border-t border-ink/20">
             {detailChapters.map((chapter, index) => {
               const isActive = activePanel === index;

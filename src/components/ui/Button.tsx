@@ -21,27 +21,23 @@ type Variant =
   | "onPhotoGhost"
   | "sage";
 
-// There is no focus ring on this site, so keyboard focus has to come from the
-// button itself. focus-visible runs the same fill that hover wipes in — the
-// difference being it arrives at once rather than wiping across, which reads as
-// "landed here" rather than "pointer passing over".
+// Keyboard focus uses the same shaped side-fill as hover plus a visible outline.
 const base =
-  "type-button group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 transition-colors duration-300";
+  "site-button type-button group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-button px-7 py-3.5 transition-colors duration-300";
 
-// Blue-fill hover states use the button's own two-pixel border. Keeping the
-// border transparent in the resting state prevents movement when its active
-// colour appears, and the animated fill cannot paint over it.
+// A visible two-pixel border is present in both states, so the animated fill
+// cannot paint over it and no dimensions change on hover or keyboard focus.
 const variants: Record<Variant, string> = {
   primary:
-    "border-2 border-transparent bg-ink text-white hover:border-ink focus-visible:border-ink",
-  ghost: "border border-ink/15 text-ink hover:border-ink/40",
-  light: "bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
+    "border-2 border-ink bg-ink text-white hover:border-ink focus-visible:border-ink",
+  ghost: "border-2 border-ink/60 text-ink hover:border-ink",
+  light: "border-2 border-ink/60 bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
-    "border-2 border-transparent bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
+    "border-2 border-white bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
   onPhotoGhost:
-    "border border-white/45 text-white hover:border-white/80",
-  // The cancer-types sheet's pill: deep sage, AA against white numerals.
-  sage: "bg-sage text-white",
+    "border-2 border-white text-white hover:border-white",
+  // Deep sage with white text.
+  sage: "border-2 border-sage bg-sage text-white",
 };
 
 /** The colour that wipes in behind the label on hover. */
@@ -78,7 +74,7 @@ export default function Button({
     >
       <span
         aria-hidden
-        className={`absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-500 ease-smooth group-hover:scale-x-100 group-focus-visible:scale-x-100 group-focus-visible:duration-150 motion-reduce:transition-none ${fills[variant]}`}
+        className={`absolute inset-0 -z-10 rounded-[inherit] -translate-x-[101%] transition-transform duration-500 ease-[cubic-bezier(.65,0,.25,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0 motion-reduce:transition-none ${fills[variant]}`}
       />
       <span className="relative">{children}</span>
       {external && <span className="sr-only"> (opens in a new tab)</span>}

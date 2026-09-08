@@ -208,7 +208,7 @@ const TypeCard = memo(function TypeCard({
 
   return (
     <article
-      className="flex flex-col overflow-hidden rounded-[2rem] border border-ink/10 lg:max-h-[calc(100svh-9rem)] lg:rounded-[2.5rem]"
+      className="flex flex-col overflow-hidden rounded-panel border border-ink/10 lg:max-h-[calc(100svh-9rem)] lg:rounded-panel"
       style={{ backgroundColor: SHEET, "--sheet": SHEET } as React.CSSProperties}
       aria-hidden={interactive ? undefined : true}
     >

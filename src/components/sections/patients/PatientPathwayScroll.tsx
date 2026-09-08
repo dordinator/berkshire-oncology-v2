@@ -98,7 +98,7 @@ export default function PatientPathwayScroll() {
     <section
       id="start-here"
       data-anchor-align="viewport"
-      className="relative z-20 -mt-14 scroll-mt-24 rounded-t-[2.5rem] bg-white pb-24 pt-28 md:-mt-20 md:rounded-t-[3.5rem] md:pb-32 md:pt-32"
+      className="relative z-20 -mt-14 scroll-mt-24 rounded-t-panel bg-white pb-24 pt-28 md:-mt-20 md:rounded-t-panel md:pb-32 md:pt-32"
     >
       <div className="container-wide">
         <header className="mx-auto max-w-5xl text-center">
@@ -154,7 +154,7 @@ export default function PatientPathwayScroll() {
                   aria-labelledby={`${route.id}-title`}
                   data-patient-route
                   data-fx="rise"
-                  className={`flex overflow-hidden rounded-[2.25rem] border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-[3rem] md:p-12 lg:p-14 ${route.tone}`}
+                  className={`flex overflow-hidden rounded-panel border border-ink/[0.06] p-7 will-change-transform sm:p-9 md:min-h-[570px] md:rounded-panel md:p-12 lg:p-14 ${route.tone}`}
                 >
                   <div className="flex min-w-0 flex-1 flex-col">
                     <div>

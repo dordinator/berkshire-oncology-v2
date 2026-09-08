@@ -46,7 +46,7 @@ function IntegrationCard({
   note: string;
 }) {
   return (
-    <div className="rounded-[2rem] border border-black/[0.07] bg-white p-7 shadow-[0_26px_70px_-38px_rgba(6,28,70,0.28)] md:p-10">
+    <div className="rounded-panel border border-black/[0.07] bg-white p-7 shadow-[0_26px_70px_-38px_rgba(6,28,70,0.28)] md:p-10">
       <h3 className="type-card-title text-ink">
         {title}
       </h3>
@@ -71,7 +71,7 @@ function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string 
     "mt-2 min-h-12 w-full rounded-xl border border-black/10 bg-paper px-4 text-base text-ink outline-none disabled:cursor-not-allowed disabled:text-ink-muted";
 
   return (
-    <div className="rounded-[2rem] border border-black/[0.07] bg-white p-7 shadow-[0_26px_70px_-38px_rgba(6,28,70,0.28)] md:p-10">
+    <div className="rounded-panel border border-black/[0.07] bg-white p-7 shadow-[0_26px_70px_-38px_rgba(6,28,70,0.28)] md:p-10">
       <p
         id="guidance-prototype-note"
         className="type-supporting mb-6 max-w-lg text-ink-muted"

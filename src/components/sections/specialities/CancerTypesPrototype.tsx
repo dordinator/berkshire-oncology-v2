@@ -164,7 +164,7 @@ function Finder({
   };
 
   return (
-    <div className="mt-8 rounded-[1.6rem] border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-[2rem]">
+    <div className="mt-8 rounded-panel border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-panel">
       <div className="px-1">
         <label htmlFor="cancer-finder" className="block font-display text-lg font-semibold text-ink md:text-xl">
           What have you been told?
@@ -809,8 +809,8 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
         <div>
           {activeStop ? (
             <>
-              <div className="relative min-h-[520px] rounded-[2.25rem] border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
-                <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-canvas">
+              <div className="relative min-h-[520px] rounded-panel border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
+                <div className="absolute inset-0 overflow-hidden rounded-[calc(var(--radius-panel)-1px)] bg-canvas">
                   <JourneyMapCanvas stops={stops} active={activeLocation} progress={mapProgress} />
 
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/65 via-transparent to-transparent" aria-hidden />
@@ -822,7 +822,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: reducedMotion ? 0 : 0.55, ease }}
-                      className={`absolute bottom-5 left-5 right-5 rounded-[1.65rem] border border-ink/10 bg-paper/95 p-5 shadow-[0_22px_60px_-38px_rgba(6,28,70,0.38)] backdrop-blur-md md:bottom-7 md:w-[40%] md:p-6 ${panelOnRight ? "md:left-auto md:right-7" : "md:left-7 md:right-auto"}`}
+                      className={`absolute bottom-5 left-5 right-5 rounded-panel border border-ink/10 bg-paper/95 p-5 shadow-[0_22px_60px_-38px_rgba(6,28,70,0.38)] backdrop-blur-md md:bottom-7 md:w-[40%] md:p-6 ${panelOnRight ? "md:left-auto md:right-7" : "md:left-7 md:right-auto"}`}
                     >
                       <div className="flex items-center justify-between gap-4">
                         <span className="type-label text-ink-muted">{activeStop.area}</span>
@@ -841,7 +841,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                 </div>
               </div>
 
-              <div className={`mt-4 grid gap-px overflow-hidden rounded-[1.35rem] border border-ink/10 bg-ink/10 ${stopGridClass}`}>
+              <div className={`mt-4 grid gap-px overflow-hidden rounded-panel border border-ink/10 bg-ink/10 ${stopGridClass}`}>
                 {stops.map((stop, index) => {
                   const active = index === activeLocation;
                   return (
@@ -867,7 +867,7 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
               </div>
             </>
           ) : (
-            <div className="flex min-h-[520px] items-center rounded-[2.25rem] border border-ink/10 bg-canvas p-8 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] md:p-12 lg:min-h-[clamp(480px,62svh,620px)]">
+            <div className="flex min-h-[520px] items-center rounded-panel border border-ink/10 bg-canvas p-8 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] md:p-12 lg:min-h-[clamp(480px,62svh,620px)]">
               <div className="max-w-xl">
                 <h3 className="type-section-title text-ink">Where you go depends on the care you need.</h3>
                 <p className="mt-5 text-base leading-relaxed text-ink-muted">We do not have a location listed for this cancer type. Once a consultant has reviewed your diagnosis, the practice team can explain where your appointments and treatment would take place.</p>
@@ -1148,9 +1148,9 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
           </div>
 
           <div className="relative hidden min-h-[610px] lg:block">
-            <div className="absolute right-0 top-[2%] h-[74%] w-[55%] rounded-[2.75rem] bg-accent-mist" />
+            <div className="absolute right-0 top-[2%] h-[74%] w-[55%] rounded-panel bg-accent-mist" />
 
-            <div className="absolute left-0 top-[8%] h-[68%] w-[73%] overflow-hidden rounded-[2.4rem] border border-ink/10 bg-white shadow-[0_30px_76px_-42px_rgba(6,28,70,0.4)]">
+            <div className="absolute left-0 top-[8%] h-[68%] w-[73%] overflow-hidden rounded-panel border border-ink/10 bg-white shadow-[0_30px_76px_-42px_rgba(6,28,70,0.4)]">
               <div className="relative h-full w-full">
                 <Image
                   src="/home/hero.jpg"
@@ -1163,7 +1163,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
               </div>
             </div>
 
-            <div className="absolute bottom-0 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-paper p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
+            <div className="absolute bottom-0 right-0 w-[82%] rounded-panel border border-ink/10 bg-paper p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
               <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
                 <p className="font-display text-lg font-semibold text-ink">Your cancer pathway</p>
                 <span className="type-label text-ink-muted">{journeySteps.length === 3 ? "Three steps" : "Four steps"}</span>

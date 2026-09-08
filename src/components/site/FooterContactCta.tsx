@@ -77,7 +77,7 @@ export default function FooterContactCta() {
           </Reveal>
 
           <Reveal delay={1}>
-            <div className="rounded-[2rem] border border-white/55 bg-paper/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.55)] backdrop-blur-md sm:p-8 lg:p-10">
+            <div className="rounded-panel border border-white/55 bg-paper/95 p-6 text-ink shadow-[0_32px_90px_-28px_rgba(6,28,70,0.55)] backdrop-blur-md sm:p-8 lg:p-10">
               <p className="type-supporting text-ink-muted">
                 What would help now?
               </p>

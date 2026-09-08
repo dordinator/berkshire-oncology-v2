@@ -54,7 +54,7 @@ export default function ProofImage({
           they did — 3:4 buys ~60px of height at 375px, which is the difference
           between a picture with cards on it and two cards with a strip of
           picture behind them. */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[1.75rem] bg-canvas-soft sm:aspect-[4/5]">
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-panel bg-canvas-soft sm:aspect-[4/5]">
         <Image
           src={src}
           alt={alt}

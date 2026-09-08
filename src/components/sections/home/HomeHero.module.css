@@ -1,0 +1,52 @@
+/* Approved dark-background buttons; the shared component keeps its link semantics. */
+.button {
+  min-height: 50px;
+  border: 2px solid var(--home-white);
+  border-radius: var(--radius-button);
+  padding: .75rem 1.2rem;
+  box-shadow: none;
+}
+
+.primary {
+  background: var(--home-white);
+  color: var(--home-ink);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--home-white);
+}
+
+.button > span[aria-hidden] {
+  border-radius: inherit;
+  transform: translateX(-101%);
+  transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
+}
+
+.primary > span[aria-hidden] { background: var(--home-blue); }
+.secondary > span[aria-hidden] { background: var(--home-white); }
+
+.button:hover,
+.button:focus-visible { border-color: var(--home-white); }
+.button:hover > span[aria-hidden],
+.button:focus-visible > span[aria-hidden] { transform: translateX(0); }
+.primary:hover,
+.primary:focus-visible { color: var(--home-white); }
+.secondary:hover,
+.secondary:focus-visible { color: var(--home-ink); }
+
+.button:focus-visible {
+  outline: 3px solid var(--home-white);
+  outline-offset: 5px;
+}
+
+.button:hover > svg,
+.button:focus-visible > svg { transform: translateX(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .button > span[aria-hidden],
+  .button > svg { transition: none; }
+  .button:hover > svg,
+  .button:focus-visible > svg { transform: none; }
+}

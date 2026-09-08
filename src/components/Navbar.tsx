@@ -273,7 +273,7 @@ export default function Navbar() {
             // continues the same surface, and goes solid regardless of scroll —
             // a white sheet hanging off a transparent bar would look detached.
             sheetOpen
-              ? "rounded-t-[2.25rem] rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
+              ? "rounded-t-panel rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
               : scrolled || menuOpen || solidFromTop
                 ? "rounded-full border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
                 : "rounded-full border border-transparent bg-transparent"

@@ -31,6 +31,9 @@
 }
 
 :root {
+  /* Shared shape defaults; the local preview adjusts these independently. */
+  --radius-button: 8px;
+  --radius-panel: 28px;
   /* Agreed palette, initially scoped to the redesigned homepage chapters. */
   --home-ink: #0e2f55;
   --home-blue: #164c88;
@@ -162,7 +165,7 @@ html.lenis body {
 /* Pill-shaped controls (the buttons, the CTA) carry their own focus-visible
    styles, so they're excluded here — an underline inside a filled pill reads as
    a mistake rather than as focus. */
-a:not([class*="rounded-full"]):focus-visible {
+a:not([class*="rounded-full"]):not(.site-button):focus-visible {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
@@ -180,6 +183,27 @@ summary:focus-visible {
 ::selection {
   background-color: #1a4d8f;
   color: #ffffff;
+}
+
+/* Actual controls follow the button setting; portrait circles, badges, map
+   markers and decorative shapes keep their existing geometry. Utility-based
+   panels use the panel setting through Tailwind's shared radius tokens. */
+:is(a, button, span).type-button,
+.ink-cta,
+a.rounded-full:not([class*="h-full"]):not([class*="overflow-hidden"]),
+button[class*="rounded-"] {
+  border-radius: var(--radius-button);
+}
+
+.site-button:focus-visible,
+.ink-cta:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-cta::before,
+  .ink-cta:focus-visible::before { transition: none; }
 }
 
 /* Hide default cursor when custom cursor active (desktop only) */
@@ -302,7 +326,7 @@ summary:focus-visible {
      full interaction: an accent-blue fill wipes in from the left while a real
      two-pixel navy border appears without changing the control's dimensions. */
   .ink-cta {
-    @apply relative isolate overflow-hidden border-2 border-transparent bg-ink text-white transition-colors duration-300 hover:border-ink focus-visible:border-ink;
+    @apply relative isolate overflow-hidden border-2 border-ink bg-ink text-white transition-colors duration-300 hover:border-ink focus-visible:border-ink;
   }
   .ink-cta::before {
     content: "";
@@ -310,16 +334,16 @@ summary:focus-visible {
     inset: 0;
     z-index: -1;
     background: #1a4d8f;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    border-radius: inherit;
+    transform: translateX(-101%);
+    transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
   }
   .ink-cta:hover::before,
   .ink-cta:focus-visible::before {
-    transform: scaleX(1);
+    transform: translateX(0);
   }
   .ink-cta:focus-visible::before {
-    transition-duration: 150ms;
+    transition-duration: 500ms;
   }
   /* One consultant-profile route uses a navy circular arrow rather than a
      filled pill. It gets the same colour movement while the circle itself

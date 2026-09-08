@@ -137,7 +137,7 @@ function RowPanel({
         aria-hidden
         data-fx="drift"
         data-drift="0.3"
-        className={`absolute bottom-[8%] top-[2%] w-[47%] rounded-[2.5rem] ${
+        className={`absolute bottom-[8%] top-[2%] w-[47%] rounded-panel ${
           right ? "right-0" : "left-0"
         }`}
         style={{ backgroundColor: tint }}
@@ -145,7 +145,7 @@ function RowPanel({
 
       <div
         data-parallax-frame
-        className={`absolute top-[5%] h-[60%] w-[72%] overflow-hidden rounded-[2.5rem] border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)] ${
+        className={`absolute top-[5%] h-[60%] w-[72%] overflow-hidden rounded-panel border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)] ${
           right ? "left-0" : "right-0"
         }`}
       >
@@ -169,7 +169,7 @@ function RowPanel({
         data-fx="rise"
         data-rise-y="55"
         data-lock={LOCK}
-        className={`absolute bottom-3 w-[78%] rounded-[2rem] border border-ink/10 bg-white p-6 md:p-7 ${
+        className={`absolute bottom-3 w-[78%] rounded-panel border border-ink/10 bg-white p-6 md:p-7 ${
           right ? "right-0" : "left-0"
         }`}
       >
@@ -405,7 +405,7 @@ function Faqs() {
     <div
       data-fx="rise"
       data-lock={LOCK}
-      className="rounded-[2rem] border border-ink/10 bg-white p-6 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] md:p-9"
+      className="rounded-panel border border-ink/10 bg-white p-6 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] md:p-9"
     >
       <div className="divide-y divide-ink/10">
         {FAQS.map((f, i) => {
@@ -531,7 +531,7 @@ export default function FeesBody() {
               data-fx="rise"
               data-lock={LOCK}
               id="self-funding"
-              className="scroll-mt-24 rounded-[2rem] p-8 md:p-10"
+              className="scroll-mt-24 rounded-panel p-8 md:p-10"
               style={{ backgroundColor: "var(--brand-sage-mist)" }}
             >
               <p className="type-label text-ink/70">
@@ -553,7 +553,7 @@ export default function FeesBody() {
               data-fx="rise"
               data-lock={LOCK}
               id="insurance"
-              className="scroll-mt-24 rounded-[2rem] p-8 md:p-10"
+              className="scroll-mt-24 rounded-panel p-8 md:p-10"
               style={{ backgroundColor: "var(--brand-blue-mist)" }}
             >
               <p className="type-label text-ink/70">
@@ -635,7 +635,7 @@ export default function FeesBody() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] border border-ink/10 bg-white/90 p-6 shadow-[0_30px_80px_-45px_rgba(6,28,70,0.3)] sm:p-8 md:p-10 lg:p-12">
+            <div className="rounded-panel border border-ink/10 bg-white/90 p-6 shadow-[0_30px_80px_-45px_rgba(6,28,70,0.3)] sm:p-8 md:p-10 lg:p-12">
               <p className="type-hero-lede max-w-xl text-ink/70">
                 Contact the practice for tariff details, then ask your insurer
                 whether the cost will be covered in full before treatment
