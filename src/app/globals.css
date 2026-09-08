@@ -331,7 +331,8 @@ button[class*="rounded-"] {
   .ink-cta::before {
     content: "";
     position: absolute;
-    inset: 0;
+    /* Same outer-box geometry as the shared Button fill: no inner crescents. */
+    inset: -2px;
     z-index: -1;
     background: #1a4d8f;
     border-radius: inherit;

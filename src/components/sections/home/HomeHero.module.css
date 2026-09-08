@@ -7,12 +7,12 @@
   box-shadow: none;
 }
 
-.primary {
+.button.primary {
   background: var(--home-white);
   color: var(--home-ink);
 }
 
-.secondary {
+.button.secondary {
   background: transparent;
   color: var(--home-white);
 }
@@ -23,17 +23,21 @@
   transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
 }
 
-.primary > span[aria-hidden] { background: var(--home-blue); }
-.secondary > span[aria-hidden] { background: var(--home-white); }
+.button.primary > span[aria-hidden] { background: var(--home-blue); }
+.button.secondary > span[aria-hidden] { background: var(--home-white); }
 
-.button:hover,
-.button:focus-visible { border-color: var(--home-white); }
 .button:hover > span[aria-hidden],
 .button:focus-visible > span[aria-hidden] { transform: translateX(0); }
-.primary:hover,
-.primary:focus-visible { color: var(--home-white); }
-.secondary:hover,
-.secondary:focus-visible { color: var(--home-ink); }
+.button.primary:hover,
+.button.primary:focus-visible {
+  border-color: var(--home-blue);
+  color: var(--home-white);
+}
+.button.secondary:hover,
+.button.secondary:focus-visible {
+  border-color: var(--home-white);
+  color: var(--home-ink);
+}
 
 .button:focus-visible {
   outline: 3px solid var(--home-white);

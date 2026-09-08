@@ -33,7 +33,7 @@ const variants: Record<Variant, string> = {
   ghost: "border-2 border-ink/60 text-ink hover:border-ink",
   light: "border-2 border-ink/60 bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
-    "border-2 border-white bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-white hover:text-white focus-visible:border-white",
+    "border-2 border-white bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-accent hover:text-white focus-visible:border-accent focus-visible:text-white",
   onPhotoGhost:
     "border-2 border-white text-white hover:border-white",
   // Deep sage with white text.
@@ -72,9 +72,12 @@ export default function Button({
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
     >
+      {/* Match the outer border box, not the smaller padding box. Reusing the
+          outer radius inside an inset box leaves crescent-shaped corner gaps.
+          The button's overflow clips the fill beneath its two-pixel border. */}
       <span
         aria-hidden
-        className={`absolute inset-0 -z-10 rounded-[inherit] -translate-x-[101%] transition-transform duration-500 ease-[cubic-bezier(.65,0,.25,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0 motion-reduce:transition-none ${fills[variant]}`}
+        className={`absolute -inset-[2px] -z-10 rounded-[inherit] -translate-x-[101%] transition-transform duration-500 ease-[cubic-bezier(.65,0,.25,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0 motion-reduce:transition-none ${fills[variant]}`}
       />
       <span className="relative">{children}</span>
       {external && <span className="sr-only"> (opens in a new tab)</span>}
