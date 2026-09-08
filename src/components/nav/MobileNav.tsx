@@ -201,7 +201,18 @@ export default function MobileNav({
                   strokeLinecap="round"
                 />
               </svg>
-              Search consultants, cancers, treatments
+              {/*
+                Built from three clauses so the label always sits on one line.
+                At 15px the full string measures 286px, and the button offers
+                274px of text at 390 — it cannot fit on a phone at all. Each
+                clause is therefore revealed at the width where it stops
+                wrapping: 360px for cancers, 430px for treatments.
+              */}
+              <span>
+                Search consultants
+                <span className="hidden min-[360px]:inline">, cancers</span>
+                <span className="hidden min-[430px]:inline">, treatments</span>
+              </span>
             </button>
 
             <ul className="mt-1">
