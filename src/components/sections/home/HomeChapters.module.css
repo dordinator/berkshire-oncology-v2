@@ -7,7 +7,6 @@
 .cancerLayout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.7fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; }
 .cancerIntro { padding-block: 1.5rem; }
 .cancerIntro p { max-width: 32rem; }
-.cancerEyebrow { display: block; margin-bottom: 1.75rem; font-size: .875rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--home-mulberry); }
 
 /* Local button rollout: no changes to buttons elsewhere on the site. */
 .intro a { min-height: 50px; border: 2px solid var(--home-blue); border-radius: 8px; color: var(--home-blue); padding: .75rem 1.2rem; box-shadow: none; }
@@ -32,10 +31,6 @@
 .rotatingTitles > span[aria-hidden="true"] { visibility: hidden; }
 .rotatingTitles > span[aria-hidden="false"] { animation: cancer-appear 300ms ease-out; }
 @keyframes cancer-appear { from { opacity: 0; } to { opacity: 1; } }
-.directoryFooter { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1rem; margin-top: .75rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); font-size: .875rem; }
-.directoryFooter button { min-height: 44px; padding: .5rem .75rem; color: var(--home-blue); border: 2px solid var(--home-blue); border-radius: 8px; background: transparent; }
-.directoryFooter button:hover { background: var(--home-white); }
-.directoryFooter button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 4px; }
 
 .feedbackLayout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
 .quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: 0 0 8px 8px; }

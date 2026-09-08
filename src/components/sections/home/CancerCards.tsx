@@ -13,7 +13,6 @@ export default function CancerCards({ cards, intro }: { cards: CancerCard[]; int
     <section className={styles.cancers} aria-labelledby="cancers">
       <div className={`${styles.inner} ${styles.cancerLayout}`}>
         <div className={`${styles.intro} ${styles.cancerIntro}`}>
-          <span className={styles.cancerEyebrow}>Our specialisms</span>
           {intro}
         </div>
         <CancerDirectory cards={cards} />

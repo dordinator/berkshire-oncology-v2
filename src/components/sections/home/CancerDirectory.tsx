@@ -9,7 +9,7 @@ export default function CancerDirectory({ cards }: { cards: CancerCard[] }) {
   const fixed = cards.slice(0, 5);
   const rotating = cards.slice(5);
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(true);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -19,7 +19,7 @@ export default function CancerDirectory({ cards }: { cards: CancerCard[] }) {
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMotion = () => setPaused(motion.matches);
+    const updateMotion = () => setReducedMotion(motion.matches);
     const updateVisibility = () => setPageVisible(!document.hidden);
     updateMotion();
     updateVisibility();
@@ -35,10 +35,10 @@ export default function CancerDirectory({ cards }: { cards: CancerCard[] }) {
   }, []);
 
   useEffect(() => {
-    if (rotating.length < 2 || paused || hovered || focused || !visible || !pageVisible) return;
+    if (rotating.length < 2 || reducedMotion || hovered || focused || !visible || !pageVisible) return;
     const timer = window.setInterval(() => setIndex((value) => (value + 1) % rotating.length), 5000);
     return () => window.clearInterval(timer);
-  }, [rotating.length, paused, hovered, focused, visible, pageVisible]);
+  }, [rotating.length, reducedMotion, hovered, focused, visible, pageVisible]);
 
   const arrow = (
     <svg className={styles.directoryArrow} width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -87,14 +87,6 @@ export default function CancerDirectory({ cards }: { cards: CancerCard[] }) {
           </li>
         )}
       </ul>
-      {rotating.length > 1 && (
-        <div className={styles.directoryFooter}>
-          <span>Explore more cancer types</span>
-          <button type="button" aria-controls="rotating-cancer-type" onClick={() => setPaused((value) => !value)}>
-            {paused ? "Resume rotation" : "Pause rotation"}
-          </button>
-        </div>
-      )}
     </div>
   );
 }

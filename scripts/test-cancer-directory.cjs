@@ -100,9 +100,7 @@ for (const [enter, leave] of [['onPointerEnter', 'onPointerLeave'], ['onFocus', 
   app.event(app.slot().props[leave]);
   assert.equal(app.timerCount(), 1);
 }
-app.event(app.button().props.onClick);
-assert.equal(app.timerCount(), 0);
-app.event(app.button().props.onClick);
+assert.equal(app.button(), undefined, 'no visible rotation control');
 assert.equal(app.timerCount(), 1);
 app.visible(false); assert.equal(app.timerCount(), 0);
 app.visible(true); assert.equal(app.timerCount(), 1);
@@ -119,4 +117,4 @@ for (const length of [0, 5, 6]) {
   assert.equal(small.button(), undefined);
   small.unmount();
 }
-console.log('PASS: six links; 5-second cycle through all remaining types; matching labels/destinations; wrap; hover/focus/pause; visibility; reduced motion; cleanup; short lists.');
+console.log('PASS: six links; 5-second cycle through all remaining types; matching labels/destinations; wrap; hover/focus; no rotation control; visibility; reduced motion; cleanup; short lists.');
