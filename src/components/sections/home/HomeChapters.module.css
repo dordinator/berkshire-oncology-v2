@@ -1,6 +1,7 @@
 .cancers, .feedback { color: var(--home-ink); padding-block: clamp(4rem, 7vw, 7rem); }
 .cancers { background: var(--home-white); }
-.feedback { background: var(--home-ice); }
+/* Fill a screen without clipping longer quotes, stacked layouts or enlarged text. */
+.feedback { background: var(--home-ice); min-height: 100vh; min-height: 100svh; display: flex; align-items: center; }
 .inner { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--site-gutter); }
 .intro { min-width: 0; }
 .intro h2, .intro p { color: var(--home-ink); }
