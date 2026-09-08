@@ -682,7 +682,13 @@ export default function LocationsJourney({
       >
         <div
           ref={stageRef}
-          className="relative lg:sticky lg:top-0 lg:h-[100svh] lg:overflow-hidden"
+          // pt-24 below lg: the map is the first thing on the page, and at
+          // top:0 it ran up under the floating header — whose pill bottom
+          // edge sits at 86px — so the artwork read as cut off at the top of
+          // the screen. 96px clears the pill and matches the top padding the
+          // other page heroes use. From lg the stage is the pinned viewport
+          // and starts at the top as before.
+          className="relative pt-24 lg:sticky lg:top-0 lg:h-[100svh] lg:overflow-hidden lg:pt-0"
         >
           {/* ── The map ──────────────────────────────────────────────────
               Below lg: a band across the top of the stage, its last 26px
@@ -697,6 +703,14 @@ export default function LocationsJourney({
                 stops={stops}
                 active={active >= 0 && active < N ? active : -1}
                 progress={progress}
+              />
+
+              {/* The band is cropped top and bottom, so both edges are faded
+                  into the canvas rather than left as hard cuts across the
+                  artwork. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-canvas to-transparent lg:hidden"
               />
 
               <div
