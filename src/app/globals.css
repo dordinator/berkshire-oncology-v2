@@ -408,25 +408,12 @@ summary:focus-visible {
    The profile used to mix section padding, viewport-height floors and a
    sticky scroll runway. That made nominally adjacent sections feel unrelated.
    These scoped variables keep the hero untouched while giving every chapter
-   the same outer spacing and letting the local review control tune the whole
-   journey as one system. */
+   the same balanced outer spacing throughout the profile. */
 [data-consultant-profile] {
   --consultant-section-space: clamp(4rem, 4.5vw, 5rem);
   --consultant-stage-height: 75svh;
   --consultant-treatment-height: 145svh;
   --consultant-location-nav-clearance: 5rem;
-}
-
-[data-consultant-profile][data-section-spacing="compact"] {
-  --consultant-section-space: clamp(3rem, 3.5vw, 4rem);
-  --consultant-stage-height: 68svh;
-  --consultant-treatment-height: 125svh;
-}
-
-[data-consultant-profile][data-section-spacing="spacious"] {
-  --consultant-section-space: clamp(5rem, 5.5vw, 6.5rem);
-  --consultant-stage-height: 82svh;
-  --consultant-treatment-height: 165svh;
 }
 
 .consultant-section-rhythm {

@@ -22,7 +22,6 @@ import Button from "@/components/ui/Button";
 import ConsultantAboutJourney from "@/components/consultants/ConsultantAboutJourney";
 import ConsultantTreatmentExperience from "@/components/consultants/ConsultantTreatmentExperience";
 import ConsultantLocationsJourney from "@/components/consultants/ConsultantLocationsJourney";
-import ConsultantSpacingControl from "@/components/consultants/ConsultantSpacingControl";
 
 export function generateStaticParams() {
   return getProfiledConsultantSlugs().map((slug) => ({ slug }));
@@ -374,7 +373,6 @@ export default function ConsultantProfile({
     <article
       className="bg-paper-soft"
       data-consultant-profile
-      data-section-spacing="balanced"
     >
       <JsonLd
         data={[
@@ -613,7 +611,6 @@ export default function ConsultantProfile({
         </div>
       </section>
 
-      {process.env.NODE_ENV === "development" && <ConsultantSpacingControl />}
     </article>
   );
 }
