@@ -21,15 +21,18 @@ function declaration(css, selector, property, outsideMedia = false) {
 assert.match(button, /absolute -inset-\[2px\] -z-10 rounded-\[inherit\]/);
 assert.match(button, /overflow-hidden rounded-button/);
 assert.equal(declaration(globalCss, '.ink-cta::before', 'inset'), '-2px');
+assert.equal(declaration(globalCss, ':where(.site-button, .ink-cta):focus-visible', 'outline'), '2px solid currentColor');
+assert.equal(declaration(globalCss, ':where(.site-button, .ink-cta):focus-visible', 'outline-offset'), '-4px');
+assert.match(button, /noopener noreferrer/);
 
 // End-state colour and border changes must agree for pointer and keyboard.
 for (const state of ['hover', 'focus-visible']) {
   assert.equal(declaration(hero, `.button.primary:${state}`, 'background-color'), undefined);
   assert.equal(declaration(hero, `.button.primary:${state}`, 'transition-delay'), undefined);
   assert.equal(declaration(hero, `.button.primary:${state}`, 'color'), 'var(--home-white)');
-  assert.equal(declaration(hero, `.button.primary:${state}`, 'border-color'), 'var(--home-blue)');
+  assert.equal(declaration(hero, `.button.primary:${state}`, 'border-color'), 'var(--home-ink)');
   assert.equal(declaration(hero, `.button.secondary:${state}`, 'color'), 'var(--home-ink)');
-  assert.equal(declaration(hero, `.button.secondary:${state}`, 'border-color'), 'var(--home-white)');
+  assert.equal(declaration(hero, `.button.secondary:${state}`, 'border-color'), 'var(--home-ink)');
 }
 // Uncover a solid blue surface: no white remains underneath the completed fill.
 // The link must not clip its keyboard focus ring or add a second rounded edge.

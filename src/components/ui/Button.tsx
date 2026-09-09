@@ -29,14 +29,14 @@ const base =
 const variants: Record<Variant, string> = {
   primary:
     "border-2 border-ink bg-ink text-white hover:border-ink focus-visible:border-ink",
-  ghost: "border-2 border-ink/60 text-ink hover:border-ink",
-  light: "border-2 border-ink/60 bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
+  ghost: "border-2 border-ink text-ink hover:border-ink",
+  light: "border-2 border-ink bg-white text-ink shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)]",
   onPhoto:
     "border-2 border-white bg-white text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] hover:border-accent hover:text-white focus-visible:border-accent focus-visible:text-white",
   onPhotoGhost:
     "border-2 border-white text-white hover:border-white",
   // Deep sage with white text.
-  sage: "border-2 border-sage bg-sage text-white",
+  sage: "border-2 border-sage-deep bg-sage text-white",
 };
 
 /** The colour that wipes in behind the label on hover. */
@@ -69,7 +69,7 @@ export default function Button({
       href={href}
       className={`${base} ${variants[variant]} ${className}`}
       target={external ? "_blank" : undefined}
-      rel={external ? "noreferrer" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
     >
       {/* Match the outer border box, not the smaller padding box. Reusing the
           outer radius inside an inset box leaves crescent-shaped corner gaps.

@@ -235,14 +235,17 @@ export default function ConsultantFocusStrip({
                   <Card c={c} interactive={open && desktopReady === i} />
                 </div>
 
-                {/* Keyboard and screen-reader surface for the collapsed
-                    state; hover's equivalent for focus. */}
+                {/* Pointer-only: clicking a collapsed portrait opens it. It is
+                    hidden from assistive technology and out of the tab order on
+                    purpose — the numbered rail below is the keyboard and
+                    screen-reader surface, and duplicating ten controls here
+                    would double the length of the wall for no benefit. */}
                 <button
                   type="button"
                   onClick={() => setActive(i)}
                   tabIndex={-1}
                   aria-hidden="true"
-                  className={`absolute inset-0 h-full w-full focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-gold ${
+                  className={`absolute inset-0 h-full w-full ${
                     open ? "pointer-events-none" : ""
                   }`}
                 />
@@ -275,8 +278,11 @@ export default function ConsultantFocusStrip({
                 }}
               >
                 <span
+                  // gold-ink, not gold: at 12px on paper-soft the brand gold
+                  // measured 2.45:1. gold-ink is the palette's own darker
+                  // variant for exactly this and measures 4.99:1.
                   className={`type-label tabular-nums ${
-                    open ? "text-gold" : "text-ink-muted"
+                    open ? "text-gold-ink" : "text-ink-muted"
                   }`}
                 >
                   {String(i + 1).padStart(2, "0")}
@@ -365,7 +371,14 @@ export default function ConsultantFocusStrip({
                     <span className="type-label block tabular-nums text-ink-muted">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="block whitespace-nowrap text-[clamp(0.625rem,1.1vw,0.875rem)] font-medium text-current">
+                    {/* 13px floor, not 10px. This strip is tablet-only (`hidden md:block
+                      xl:hidden`), and 1.1vw only clears the old 0.625rem minimum
+                      above about 910px — so on an iPad in portrait the surname
+                      rendered at 10px while the ordinal above it sat at 12px, which
+                      made the number louder than the name it labels. The tiles have
+                      room to spare; only the floor moves, so anything already above
+                      13px is unchanged. */}
+                  <span className="block whitespace-nowrap text-[clamp(0.8125rem,1.1vw,0.875rem)] font-medium text-current">
                       {surname}
                     </span>
                   </span>

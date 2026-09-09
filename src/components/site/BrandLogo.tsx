@@ -29,6 +29,10 @@ export default function BrandLogo({
           at 1.6rem it pushed the menu button off the right-hand edge, and
           `body { overflow-x: hidden }` meant it could not be scrolled to. */}
       <span
+        // The lockup is an inline-flex span, and text-decoration does not
+        // propagate into a flex container, so the link's focus underline never
+        // reached this text. globals.css targets this attribute instead.
+        data-brand-wordmark
         className={`font-display text-[1.15rem] leading-none tracking-tight ${main} min-[360px]:text-[1.3rem] sm:text-[1.6rem] md:text-[1.75rem]`}
       >
         Berkshire Oncology

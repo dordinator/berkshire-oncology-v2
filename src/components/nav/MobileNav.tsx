@@ -80,15 +80,53 @@ export default function MobileNav({
     };
   }, [open]);
 
+  // Opening a drawer has to move focus into it. Without this, focus stays on the
+  // hamburger: the trap below never engages (it only fires once focus is already
+  // inside), and a screen-reader user is told nothing has happened.
+  //
+  // Everything behind the drawer is made inert at the same moment. aria-modal is
+  // advisory and support varies, so on its own it does not stop a screen reader
+  // in browse mode reading straight past the drawer into the page beneath it —
+  // inert does. The header is spared so the hamburger stays live to take focus
+  // back when the drawer closes.
+  useEffect(() => {
+    if (!open) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const behind = (Array.from(document.body.children) as HTMLElement[]).filter(
+      (el) => !el.contains(panel) && !el.hasAttribute("inert"),
+    );
+    for (const el of behind) el.setAttribute("inert", "");
+
+    // After the inerting, so focus is never inside a subtree that just became
+    // inert. The panel itself takes focus rather than its first link, so the
+    // dialog and its name are announced before the first menu item.
+    panel.focus({ preventScroll: true });
+
+    return () => {
+      for (const el of behind) el.removeAttribute("inert");
+    };
+  }, [open]);
+
   /** Keep Tab inside the drawer while it is open. */
   function onPanelKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.key !== "Tab") return;
     const panel = panelRef.current;
     if (!panel) return;
+    // Everything focusable, not just links and buttons: the earlier selector
+    // missed inputs, summary elements and anything with an explicit tabindex,
+    // so Tab could escape the drawer through them.
     const focusables = Array.from(
       panel.querySelectorAll<HTMLElement>(
-        'a[href]:not([tabindex="-1"]), button:not([disabled])',
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, iframe, [tabindex]',
       ),
+    ).filter(
+      (el) =>
+        el.tabIndex >= 0 &&
+        !el.hasAttribute("disabled") &&
+        el.getAttribute("aria-hidden") !== "true" &&
+        (el.offsetWidth > 0 || el.offsetHeight > 0 || el === document.activeElement),
     );
     if (focusables.length === 0) return;
     const first = focusables[0];
@@ -133,6 +171,10 @@ export default function MobileNav({
             }}
             transition={{ duration: 0.25, ease: EASE }}
             id="site-mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+            tabIndex={-1}
             data-lenis-prevent
             // top-[5.5rem] clears the pill, whose bottom edge sits at 86px
             // (16 top padding + 1 border + 12 + 44 + 12 + 1).
@@ -144,7 +186,7 @@ export default function MobileNav({
             // could never be scrolled into view.
             className="absolute inset-x-4 top-[5.5rem] z-20 max-h-[calc(100svh_-_7rem)] overflow-y-auto overscroll-contain rounded-3xl border border-black/[0.06] bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_28px_80px_-24px_rgba(6,28,70,0.3)] backdrop-blur-xl xl:hidden"
           >
-          <nav aria-label="Site menu">
+          <nav aria-label="Sections">
             <button
               type="button"
               onClick={onOpenSearch}
@@ -159,7 +201,18 @@ export default function MobileNav({
                   strokeLinecap="round"
                 />
               </svg>
-              Search consultants, cancers, treatments
+              {/*
+                Built from three clauses so the label always sits on one line.
+                At 15px the full string measures 286px, and the button offers
+                274px of text at 390 — it cannot fit on a phone at all. Each
+                clause is therefore revealed at the width where it stops
+                wrapping: 360px for cancers, 430px for treatments.
+              */}
+              <span>
+                Search consultants
+                <span className="hidden min-[360px]:inline">, cancers</span>
+                <span className="hidden min-[430px]:inline">, treatments</span>
+              </span>
             </button>
 
             <ul className="mt-1">

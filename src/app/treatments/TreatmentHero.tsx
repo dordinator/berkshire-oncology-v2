@@ -32,9 +32,34 @@ function TextLink({ href, children }: { href: string; children: React.ReactNode 
   );
 }
 
+/**
+ * The two hero links. Rendered twice, because the two layouts want them in
+ * different places and CSS cannot move a node between containers: beside the
+ * photograph from xl up, below it under xl. Only one is ever in the document
+ * — `hidden` is display:none, so the other is out of the accessibility tree
+ * too, and nothing is announced twice.
+ *
+ * Callers pass the display utility (`hidden xl:flex` / `flex xl:hidden`), so
+ * this deliberately sets no display of its own.
+ */
+function HeroLinks({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`type-button flex-col items-start gap-4 xl:gap-5 ${className}`}
+    >
+      <TextLink href="#treatment-index">
+        Browse treatments
+      </TextLink>
+      <TextLink href="#what-we-do-not-provide">
+        How care is provided
+      </TextLink>
+    </div>
+  );
+}
+
 export default function TreatmentHero() {
   return (
-    <section className="relative overflow-x-clip bg-canvas pt-24 sm:pt-28 md:pt-28 xl:pt-36">
+    <section className="relative overflow-x-clip bg-canvas pb-32 pt-24 sm:pt-28 md:pb-28 md:pt-28 xl:pb-0 xl:pt-36">
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] xl:block">
         <Image
           src="/home/hero.jpg"
@@ -59,14 +84,7 @@ export default function TreatmentHero() {
             <p className="type-hero-lede mt-6 max-w-[34rem] text-ink-muted xl:mt-7">
               Read about cancer treatments and find consultants by cancer type.
             </p>
-            <div className="type-button mt-7 flex flex-col items-start gap-4 sm:mt-8 xl:mt-11 xl:gap-5">
-              <TextLink href="#treatment-index">
-                Browse treatments
-              </TextLink>
-              <TextLink href="#what-we-do-not-provide">
-                How care is provided
-              </TextLink>
-            </div>
+            <HeroLinks className="mt-7 hidden sm:mt-8 xl:mt-11 xl:flex" />
           </div>
 
           <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:h-[360px] lg:h-[400px] xl:h-auto xl:min-h-[clamp(580px,70svh,720px)]">
@@ -81,6 +99,8 @@ export default function TreatmentHero() {
               />
             </div>
           </div>
+
+          <HeroLinks className="flex xl:hidden" />
         </div>
 
       </div>

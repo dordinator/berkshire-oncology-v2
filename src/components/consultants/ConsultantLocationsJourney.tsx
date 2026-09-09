@@ -39,8 +39,6 @@ export default function ConsultantLocationsJourney({
   consultantName,
   locationSlugs,
 }: ConsultantLocationsJourneyProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const rotationDirection = useRef<1 | -1>(1);
   const reducedMotion = useReducedMotion();
   const stops = useMemo(
     () =>
@@ -50,36 +48,13 @@ export default function ConsultantLocationsJourney({
     [locationSlugs],
   );
   const [activeLocation, setActiveLocation] = useState(0);
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const [rotationCycle, setRotationCycle] = useState(0);
   const mapProgress = useMotionValue(1);
   const activeStop = stops[activeLocation] ?? stops[0];
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setSectionVisible(entry.isIntersecting),
-      { threshold: 0.35 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!sectionVisible || reducedMotion || stops.length < 2) return;
-
-    const interval = window.setInterval(() => {
-      setActiveLocation((current) => {
-        if (current >= stops.length - 1) rotationDirection.current = -1;
-        if (current <= 0) rotationDirection.current = 1;
-        return current + rotationDirection.current;
-      });
-    }, 5200);
-
-    return () => window.clearInterval(interval);
-  }, [reducedMotion, rotationCycle, sectionVisible, stops.length]);
+  // These locations used to advance on their own every 5.2 seconds. That is
+  // an SC 2.2.2 failure — auto-updating information with no way to pause it —
+  // and clicking a location restarted the timer rather than stopping it. The
+  // list is now driven only by the reader.
 
   useEffect(() => {
     const destination = activeLocation + 1;
@@ -92,9 +67,7 @@ export default function ConsultantLocationsJourney({
   }, [activeLocation, mapProgress, reducedMotion]);
 
   function chooseLocation(index: number) {
-    rotationDirection.current = index >= activeLocation ? 1 : -1;
     setActiveLocation(index);
-    setRotationCycle((cycle) => cycle + 1);
   }
 
   if (!activeStop) return null;
@@ -103,7 +76,6 @@ export default function ConsultantLocationsJourney({
     <section
       id="locations"
       data-anchor-align="viewport"
-      ref={sectionRef}
       className="consultant-locations-section consultant-section-rhythm flex min-h-[100svh] scroll-mt-24 items-center bg-sage-panel text-ink"
     >
       <div className="site-gutter grid w-full gap-12 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw]">
@@ -213,11 +185,20 @@ export default function ConsultantLocationsJourney({
                 aria-hidden
               />
 
-              <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">
+              {/* Same treatment as the cancer-types map on /specialities: the
+                  8px overlay is kept above `lg` (1024px), where the map is wide enough
+                  to carry it, and below `lg` the licence line moves out to a
+                  readable caption underneath rather than shrinking onto the
+                  map. Whichever does not apply is `display: none`, so a screen
+                  reader meets the attribution exactly once. */}
+              <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm lg:block">
                 {mapAttribution}
               </p>
             </div>
           </div>
+          <p className="mt-3 text-xs leading-relaxed text-ink-muted lg:hidden">
+            {mapAttribution}
+          </p>
         </div>
       </div>
     </section>

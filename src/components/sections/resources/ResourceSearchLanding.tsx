@@ -741,7 +741,7 @@ export default function ResourceSearchLanding() {
                             href={resource.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-[13px] font-semibold text-accent hover:underline"
+                            className="inline-flex items-center gap-2 py-1 text-[13px] font-semibold text-accent hover:underline"
                           >
                             Visit {resource.title}
                             <ArrowIcon external />
@@ -752,7 +752,7 @@ export default function ResourceSearchLanding() {
                       {faq.internalLink && (
                         <a
                           href={faq.internalLink.href}
-                          className="inline-flex items-center gap-2 text-[13px] font-semibold text-accent hover:underline"
+                          className="inline-flex items-center gap-2 py-1 text-[13px] font-semibold text-accent hover:underline"
                         >
                           {faq.internalLink.label}
                           <ArrowIcon />

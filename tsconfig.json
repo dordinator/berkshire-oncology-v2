@@ -46,7 +46,8 @@
     ".next-a11y-audit/types/**/*.ts",
     ".next-review/types/**/*.ts",
     ".next-rev/types/**/*.ts",
-    ".next-dev/types/**/*.ts"
+    ".next-dev/types/**/*.ts",
+    ".next-wcag-audit/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

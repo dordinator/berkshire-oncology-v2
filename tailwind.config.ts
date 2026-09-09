@@ -10,8 +10,11 @@ const config: Config = {
         // same navy/blue, sage and gold families.
         ink: {
           DEFAULT: "#061c46",
+          // muted darkened from #5a6884, which measured 3.67:1 on sage-panel and
+          // 4.48:1 on sage-mist — both under the 4.5:1 SC 1.4.3 minimum. This is
+          // the smallest darkening that clears every ground the palette uses.
+          muted: "#4d5870",
           soft: "#123056",
-          muted: "#5a6884",
         },
         canvas: {
           DEFAULT: "#fafbfc",
@@ -26,6 +29,10 @@ const config: Config = {
         },
         sage: {
           DEFAULT: "#5c7767",
+          // For sage *text*. The default measured 4.32:1 on sage-wash, and it
+          // cannot simply be darkened because DEFAULT also seeds every sage
+          // background below. Mirrors the gold/gold-ink pairing.
+          ink: "#587263",
           deep: "color-mix(in srgb, #5c7767 82%, #061c46)",
           mid: "color-mix(in srgb, #5c7767 82%, white)",
           soft: "color-mix(in srgb, #5c7767 68%, white)",

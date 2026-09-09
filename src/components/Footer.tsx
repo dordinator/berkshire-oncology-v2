@@ -29,7 +29,15 @@ export default function Footer() {
   const followsContact = hasFooterContact(pathname);
 
   return (
-    <footer className="relative overflow-hidden bg-ink text-white">
+    // -mt-px: the footer is bg-ink and so is whatever precedes it here — the
+    // shared contact CTA, or the home page's closing band. Lenis scrolls to
+    // fractional offsets, so mid-scroll their shared edge falls between device
+    // pixels and the near-white body bleeds through as a hairline that flickers
+    // as the page moves. Overlapping the previous section by one pixel means
+    // there is no seam to bleed through. Done here rather than by painting ink
+    // behind both, which would have needed a wrapper element and broken the
+    // `main:has(.close-merged) + footer` rule in globals.css.
+    <footer className="relative -mt-px overflow-hidden bg-ink text-white">
       <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[480px] w-[120%] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-accent/25 via-accent-glow/10 to-transparent blur-3xl" />
       <div
         className={`container-wide relative ${

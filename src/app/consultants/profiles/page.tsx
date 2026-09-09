@@ -87,6 +87,14 @@ export default function ConsultantProfilesPage() {
                             {c.role}
                             {c.gmc && (
                               <>
+                                {/* The middot is aria-hidden, so it was the only
+                                    thing standing between the role and the GMC
+                                    number — and removing it from the name left
+                                    "Consultant Clinical OncologistGMC 4259509"
+                                    for a screen reader to read as one word, on
+                                    all ten links. The comma is the separator
+                                    the middot is, spoken. */}
+                                <span className="sr-only">, </span>
                                 <span aria-hidden className="px-2 text-ink-muted/50">
                                   &middot;
                                 </span>

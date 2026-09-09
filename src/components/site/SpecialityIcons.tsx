@@ -11,6 +11,10 @@ const base = {
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
   viewBox: "0 0 24 24",
+  // Hidden by default. These icons sit beside a text label that already says
+  // what they mean, so the safe default is decorative and a caller that wants
+  // one announced opts in by passing aria-hidden={false} with a label.
+  "aria-hidden": true,
 };
 
 const IconBladder = (p: IconProps) => (

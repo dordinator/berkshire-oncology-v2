@@ -136,6 +136,41 @@ viewports; the next section should prove, explain or advance it.
 - Keep metadata, canonical URLs, structured data, navigation and visible copy
   accurate and consistent.
 
+## Accessibility
+
+The site targets WCAG 2.2 Level AA. `/accessibility` currently explains that
+assessment is incomplete and does not claim full conformance. Keep the public
+statement aligned with actual evidence; an automated pass is not certification.
+
+- Run `npm run a11y` before calling a change done. It sweeps every route at five
+  widths, with and without reduced motion, and writes a dated report to
+  `docs/a11y/`. It exits non-zero on any violation.
+- Automated testing catches roughly a third of it. The rest is keyboard
+  traversal, 200% zoom, 400% reflow at 320px and a screen-reader pass. Record
+  what was tested, when and by whom in `docs/accessibility-audit-2026-09.md`.
+- Every control must show where keyboard focus is. There is no global focus
+  ring, so a control that adds none has no indicator at all.
+- Automatically moving content lasting more than five seconds needs a way to
+  stop it. Auto-updating information has no five-second exception. Honour
+  `prefers-reduced-motion`, but do not treat it or temporary hover/focus pausing
+  as a replacement for a persistent stop mechanism in the default configuration.
+- Never take over keys the browser owns. Arrow, Page and Space scroll the page;
+  a component that preventDefaults them removes line-by-line scrolling for
+  keyboard users.
+- Content must be reachable without the animation that reveals it. A scroll
+  position is not an interaction, and a panel that exists only at one scroll
+  offset cannot be browsed ahead of.
+- Use the native element. A `<button>`, `<a>`, `<details>` or `<label>` carries
+  behaviour that a div with a role has to reimplement — and an ARIA role is a
+  promise of keyboard behaviour you must then deliver.
+- Announce what changes silently. A result count, a swapped panel or a submitted
+  form needs a live region that is already in the document before it updates.
+- Decorative images take `alt=""`; decorative SVG takes `aria-hidden`. If a
+  graphic carries meaning, give it a text equivalent.
+- Say when a link opens a new tab, in text a screen reader can reach.
+- Existing decisions are recorded in `docs/accessibility-audit-2026-09.md`.
+  Read it before reopening one.
+
 ## Working method
 
 - Work page by page and viewport by viewport when reviewing or rewriting copy.

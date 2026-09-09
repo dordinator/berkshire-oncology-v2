@@ -1,0 +1,47 @@
+# Accessibility gate.
+#
+# The conformance claim published at /accessibility has to stay true between
+# releases, so the sweep that evidences it runs on every push rather than being
+# repeated by hand. The report it writes is uploaded as an artifact and is the
+# same file committed under docs/a11y/.
+name: Accessibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # jsx-a11y/recommended runs here, not just the six rules that
+      # next/core-web-vitals enables on its own.
+      - name: Lint
+        run: npm run lint
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+
+      # Exits non-zero on any violation, so a regression fails the run.
+      - name: axe sweep
+        run: node scripts/a11y-audit.mjs --label=ci
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-report
+          path: docs/a11y/

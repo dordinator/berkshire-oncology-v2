@@ -149,6 +149,18 @@ export default function SearchBar({
     return () => window.removeEventListener(HOME_RETURN_UI_EVENT, onRestore);
   }, [open]);
 
+  // Escape closes from anywhere in the search surface. The input has its own
+  // handler for it, but focus is just as often on the close button or on a
+  // result row, and there Escape did nothing at all.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onCloseRef.current();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   // Close on route change, including after Enter navigates.
   useEffect(() => {
     onCloseRef.current();
@@ -192,6 +204,19 @@ export default function SearchBar({
 
   return (
     <>
+      {/* Typing in the field silently rewrote the result list. This says how
+          many there are. It sits outside the AnimatePresence blocks below on
+          purpose: a live region has to already be in the document for a screen
+          reader to notice it change, so one that mounts with the panel
+          announces nothing. */}
+      <p className="sr-only" role="status" aria-live="polite">
+        {open && trimmed
+          ? flat.length > 0
+            ? `${flat.length} ${flat.length === 1 ? "result" : "results"} for ${trimmed}.`
+            : `No matches for ${trimmed}.`
+          : ""}
+      </p>
+
       {/* The field, expanding along the bar from the search button's position. */}
       <AnimatePresence initial={false}>
         {open && (

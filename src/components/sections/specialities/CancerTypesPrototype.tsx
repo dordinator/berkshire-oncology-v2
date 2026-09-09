@@ -227,6 +227,11 @@ function Finder({
                       type="button"
                       role="option"
                       aria-selected={active}
+                      // The input keeps the tab stop and drives the highlight
+                      // through aria-activedescendant, so the options must not
+                      // be tab stops of their own — otherwise Tab walks every
+                      // result instead of leaving the field.
+                      tabIndex={-1}
                       onClick={() => onSelect(item)}
                       onMouseEnter={() => setActiveIndex(index)}
                       className={`group flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-sage-wash focus-visible:bg-sage-wash ${
@@ -558,8 +563,15 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                   ? item.treatmentIntro ?? `Treatment for ${item.title.toLowerCase()} depends on the exact diagnosis, the extent of the cancer, relevant test results, treatment you have already had, your general health and what matters to you. The approaches below may be discussed, but this page cannot show which, if any, are suitable for you.`
                   : `We do not yet have a clinically reviewed treatment guide for ${item.title.toLowerCase()}. You can read general information about treatment types, but their inclusion on this site does not mean they would form part of your care. A consultant would need to review your diagnosis and test results before explaining what, if anything, may be relevant.`}
             </p>
+            {/* type-supporting (14px), not text-xs (12px), and deliberately at
+                every width rather than on phones alone. This sentence sits
+                directly under 15px body copy and is doing safety work: it is
+                information a patient needs, which AGENTS.md says the smaller
+                supporting style must not be used to hide. Rendering the same
+                sentence at two sizes depending on device would be worse than
+                either size. */}
             {general && (
-              <p className="mt-6 max-w-sm text-xs leading-relaxed text-ink-muted">
+              <p className="type-supporting mt-6 max-w-sm text-ink-muted">
                 This is general information, not a treatment recommendation.
               </p>
             )}
@@ -593,6 +605,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                         className="font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
                       >
                         {source.label}
+                        <span className="sr-only"> (opens in a new tab)</span>
                       </a>
                     </span>
                   ))}
@@ -621,24 +634,39 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
                   transition={{ layout: { duration: treatmentReducedMotion ? 0 : 0.58, ease } }}
                   className="border-b border-ink/15"
                 >
-                  <button
-                    type="button"
-                    aria-expanded={open}
-                    onClick={() => chooseTreatment(index)}
-                    className="group grid w-full grid-cols-[28px_minmax(0,1fr)_32px] items-start gap-4 py-7 text-left md:grid-cols-[34px_minmax(0,1fr)_36px] md:gap-6 md:py-9"
-                  >
-                    <span className="pt-1 text-[10px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="type-card-title text-ink">
-                      {panel.title}
-                    </span>
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-lg leading-none text-ink transition-colors group-hover:border-ink/15" aria-hidden>
-                      {open ? "−" : "+"}
-                    </span>
-                  </button>
+                  {/* The title is a heading, not a styled span: these panels are
+                      the page's treatment sections, and without the h3 they were
+                      invisible to anyone navigating by headings. `m-0` keeps the
+                      rendering identical — this is the same pattern as the fees
+                      accordion in FeesBody. */}
+                  <h3 className="m-0">
+                    <button
+                      type="button"
+                      id={`treatment-accordion-${index}`}
+                      aria-expanded={open}
+                      // Only while the panel exists: it is unmounted when
+                      // closed, and pointing aria-controls at an absent id is
+                      // the mismatch this codebase has already been bitten by.
+                      aria-controls={open ? `treatment-panel-${index}` : undefined}
+                      onClick={() => chooseTreatment(index)}
+                      className="group grid w-full grid-cols-[28px_minmax(0,1fr)_32px] items-start gap-4 py-7 text-left md:grid-cols-[34px_minmax(0,1fr)_36px] md:gap-6 md:py-9"
+                    >
+                      <span className="pt-1 text-[10px] tabular-nums text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="type-card-title text-ink">
+                        {panel.title}
+                      </span>
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-lg leading-none text-ink transition-colors group-hover:border-ink/15" aria-hidden>
+                        {open ? "−" : "+"}
+                      </span>
+                    </button>
+                  </h3>
 
                   <AnimatePresence initial={false}>
                     {open && (
                       <motion.div
+                        id={`treatment-panel-${index}`}
+                        role="region"
+                        aria-labelledby={`treatment-accordion-${index}`}
                         initial={{ height: 0, opacity: 0, y: 8 }}
                         animate={{ height: "auto", opacity: 1, y: 0 }}
                         exit={{ height: 0, opacity: 0, y: -5 }}
@@ -722,56 +750,43 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
 }
 
 function GeneralLocationsViewport({ item, general = false }: { item: CancerTypePrototypeItem; general?: boolean }) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const rotationDirection = useRef<1 | -1>(1);
   const reducedMotion = useReducedMotion();
   const stops = useMemo(
     () => journeyStops.filter((stop) => item.locations.some((location) => location.slug === stop.slug)),
     [item.locations],
   );
   const [activeLocation, setActiveLocation] = useState(0);
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const [rotationCycle, setRotationCycle] = useState(0);
   const mapProgress = useMotionValue(1);
   const activeStop = stops[activeLocation] ?? stops[0];
   const mapFrames = useMemo(() => buildFrames(stops), [stops]);
   const activeCamera = activeStop ? cameraAt(mapFrames, activeLocation + 1) : null;
   const activePin = activeStop ? project(activeStop.lat, activeStop.lng) : null;
   const panelOnRight = Boolean(activeCamera && activePin && activePin.x < activeCamera.x);
-  const stopGridClass = [
-    "sm:grid-cols-1",
-    "sm:grid-cols-1",
-    "sm:grid-cols-2",
-    "sm:grid-cols-3",
-    "sm:grid-cols-4",
-    "sm:grid-cols-5",
-  ][Math.min(stops.length, 5)];
+  // The strip used to take one column per stop, capped at five, which left a
+  // sixth location alone on a second row beside five cells of bare divider.
+  // It is now six tracks wide with each tile spanning a share of them, so
+  // every row fills exactly: threes normally, and a short final row widened
+  // to take up the slack — six stops read 3 + 3, five read 3 + 2 with the
+  // last two wider. A remainder of one would strand a tile on its own, so
+  // the last four break into 2 + 2 instead.
+  //
+  // This holds at every width from `sm` up, the narrower right-hand column
+  // from `lg` included; below `sm` the tiles are still stacked one per row.
+  const stopCount = stops.length;
+  const remainder = stopCount % 3;
+  const tripleCount =
+    remainder === 1 && stopCount > 1 ? stopCount - 4 : stopCount - remainder;
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+  // Written out rather than interpolated: Tailwind scans for whole class names.
+  const spanClass = (index: number) => {
+    if (stopCount === 1) return "sm:col-span-6";
+    return index < tripleCount ? "sm:col-span-2" : "sm:col-span-3";
+  };
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setSectionVisible(entry.isIntersecting),
-      { threshold: 0.35 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!sectionVisible || reducedMotion || stops.length < 2) return;
-
-    const interval = window.setInterval(() => {
-      setActiveLocation((current) => {
-        if (current >= stops.length - 1) rotationDirection.current = -1;
-        if (current <= 0) rotationDirection.current = 1;
-        return current + rotationDirection.current;
-      });
-    }, 5200);
-
-    return () => window.clearInterval(interval);
-  }, [reducedMotion, rotationCycle, sectionVisible, stops.length]);
+  // These locations used to advance on their own every 5.2 seconds. That is
+  // an SC 2.2.2 failure — auto-updating information with no way to pause it —
+  // and clicking a location restarted the timer rather than stopping it. The
+  // list is now driven only by the reader.
 
   useEffect(() => {
     const destination = activeLocation + 1;
@@ -784,13 +799,11 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
   }, [activeLocation, mapProgress, reducedMotion]);
 
   function chooseLocation(index: number) {
-    rotationDirection.current = index >= activeLocation ? 1 : -1;
     setActiveLocation(index);
-    setRotationCycle((cycle) => cycle + 1);
   }
 
   return (
-    <section id="locations" data-anchor-align="viewport" ref={sectionRef} className={`flex min-h-[100svh] items-center bg-sage-panel text-ink ${sectionPadding}`}>
+    <section id="locations" data-anchor-align="viewport" className={`flex min-h-[100svh] items-center bg-sage-panel text-ink ${sectionPadding}`}>
       <div className="site-gutter grid w-full gap-12 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw]">
         <div>
           <h2 className="type-feature-title max-w-[8ch]">
@@ -830,18 +843,34 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       </div>
                       <h3 className="type-card-title mt-3">{activeStop.name}</h3>
                       <p className="mt-1 text-xs text-ink-muted">{activeStop.provider ?? activeStop.eyebrow}</p>
-                      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-ink-muted">{activeStop.description}</p>
+                      {/* No line-clamp. Clamping to two lines discards the rest of the
+                          description whenever it does not fit, which at 200%
+                          zoom is always — 45px of text with no scrollbar and no
+                          way to reach it. The card is anchored to the bottom of
+                          the map and grows upward, so it has room. */}
+                      <p className="mt-4 text-sm leading-relaxed text-ink-muted">{activeStop.description}</p>
                       <Link href={activeStop.href} className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink">
                         View this location <Arrow />
                       </Link>
                     </motion.article>
                   </AnimatePresence>
 
-                  <p className="pointer-events-none absolute right-3 top-3 rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm">{mapAttribution}</p>
+                  {/* The overlay is kept above `lg` (1024px), where the map is wide enough
+                      to carry it. On a phone it was 8px — the smallest text on
+                      the site on a phone or an iPad — and raising it in place doubled its height and
+                      swallowed the top of the map, so below `lg` it moves out
+                      to a caption underneath instead. The OGL and OSM licences
+                      ask for visible, legible attribution, not for it to sit on
+                      the map. Both nodes exist in the markup, but whichever
+                      does not apply is `display: none` and so is absent from
+                      the accessibility tree — a screen reader meets exactly
+                      one of them at any width. */}
+                  <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm lg:block">{mapAttribution}</p>
                 </div>
+                <p className="mt-3 text-xs leading-relaxed text-ink-muted lg:hidden">{mapAttribution}</p>
               </div>
 
-              <div className={`mt-4 grid gap-px overflow-hidden rounded-panel border border-ink/10 bg-ink/10 ${stopGridClass}`}>
+              <div className="mt-4 grid gap-px overflow-hidden rounded-panel border border-ink/10 bg-ink/10 sm:grid-cols-6">
                 {stops.map((stop, index) => {
                   const active = index === activeLocation;
                   return (
@@ -850,10 +879,15 @@ function GeneralLocationsViewport({ item, general = false }: { item: CancerTypeP
                       type="button"
                       aria-pressed={active}
                       onClick={() => chooseLocation(index)}
-                      className="group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60"
+                      className={`group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60 ${spanClass(index)}`}
                     >
                       <span className="type-label block text-ink-muted">{stop.area}</span>
-                      <span className={`mt-1 block truncate font-display text-sm font-semibold transition-colors ${active ? "text-ink" : "text-ink/60 group-hover:text-ink"}`}>{stop.name.replace(" Hospital", "")}</span>
+                      {/* No truncate. The tabs are a fixed grid, so at 200% zoom the text
+                          grew and the columns did not — up to 119px of a hospital
+                          name was replaced by an ellipsis, which is a loss of
+                          content on resize. Wrapping costs nothing at 100%, where
+                          the names already fit on one line. */}
+                      <span className={`mt-1 block font-display text-sm font-semibold transition-colors ${active ? "text-ink" : "text-ink/70 group-hover:text-ink"}`}>{stop.name.replace(" Hospital", "")}</span>
                       <motion.span
                         aria-hidden
                         initial={false}

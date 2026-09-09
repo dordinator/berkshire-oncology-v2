@@ -136,30 +136,40 @@ function TreatmentRows({
           transition={{ duration: 0.72, delay: index * 0.07, ease: EASE }}
           className="border-b border-ink/15"
         >
+          {/*
+            Under md the number, title and summary stack in one column with the
+            arrow beside them in a second; from md the row opens out into the
+            wider grids below. Every cell is placed explicitly, because a
+            mobile placement left to auto-flow does not unwind at md.
+          */}
           <Link
             href={`/treatments/${treatment.slug}`}
-            className={`group grid gap-4 py-7 md:items-start md:gap-7 md:py-9 ${
+            className={`group grid grid-cols-[minmax(0,1fr)_auto] gap-x-5 gap-y-4 py-7 md:items-start md:gap-x-7 md:gap-y-7 md:py-9 ${
               compact
                 ? "md:grid-cols-[2.4rem_minmax(0,1fr)_auto]"
                 : "md:grid-cols-[2.4rem_minmax(0,0.62fr)_minmax(0,1.38fr)_auto]"
             }`}
           >
-            <span className="type-label pt-1 text-ink-muted">
+            <span className="type-label col-start-1 row-start-1 pt-1 text-ink-muted">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <h3 className="type-card-title text-ink transition-colors duration-300 group-hover:text-accent">
+            <h3 className="type-card-title col-start-1 row-start-2 text-ink transition-colors duration-300 group-hover:text-accent md:col-start-2 md:row-start-1">
               {treatment.title}
             </h3>
             <p
-              className={`type-body max-w-[38rem] text-ink-muted ${
-                compact ? "md:col-start-2 md:row-start-2 md:pr-4" : ""
+              className={`type-body col-start-1 row-start-3 max-w-[38rem] text-ink-muted ${
+                compact
+                  ? "md:col-start-2 md:row-start-2 md:pr-4"
+                  : "md:col-start-3 md:row-start-1"
               }`}
             >
               {treatment.summary}
             </p>
             <span
-              className={`mt-1 flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink transition-all duration-300 ease-smooth group-hover:border-ink group-hover:bg-ink group-hover:text-white md:justify-self-end ${
-                compact ? "md:col-start-3 md:row-span-2 md:row-start-1" : ""
+              className={`col-start-2 row-span-3 row-start-1 flex h-11 w-11 items-center justify-center self-center rounded-full border border-ink/15 text-ink transition-all duration-300 ease-smooth group-hover:border-ink group-hover:bg-ink group-hover:text-white md:mt-1 md:self-start md:justify-self-end ${
+                compact
+                  ? "md:col-start-3 md:row-span-2 md:row-start-1"
+                  : "md:col-start-4 md:row-span-1 md:row-start-1"
               }`}
             >
               <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />

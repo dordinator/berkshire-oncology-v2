@@ -220,6 +220,11 @@ export default function DesktopNav({
 
   return (
     <>
+    {/* The handlers below delegate for the links and buttons inside — Escape to
+        close, pointer-leave and focus-leave to dismiss. The div is a layout
+        wrapper, not a control, so it takes no role and no tab stop; giving it
+        either would add a phantom stop between the nav items. */}
+    {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
     <div
       ref={containerRef}
       // Deliberately unpositioned: the panels below are absolute, and with no

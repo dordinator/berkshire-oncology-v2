@@ -23,16 +23,16 @@ export const cookies: LegalDoc = {
 <p>NB: The aboutcookies.org website has instructions for popular browsers on how you can delete and control the cookies that are stored on your computer.</p>
 <p>The cookies we may use on this website have been categorised as follows:</p>
 
-<h3>Category 1: strictly necessary cookies</h3>
+<h2 class="legal-subhead">Category 1: strictly necessary cookies</h2>
 <p>These cookies are essential in order to enable you to move around our sites and use their features, such as accessing secure areas of the website. Without these cookies services you have asked for, like shopping baskets or e-billing, cannot be provided. The list below shows the cookies that we use, other than those that are strictly necessary to this service.</p>
 
-<h3>Category 2: performance cookies</h3>
+<h2 class="legal-subhead">Category 2: performance cookies</h2>
 <p>These cookies collect information about how visitors use a website, for instance which pages visitors go to most often, and if they get error messages from web pages. These cookies don't collect information that identifies a visitor. All information these cookies collect is aggregated and therefore anonymous. It is only used to improve how a website works.</p>
 
-<h3>Social Media Cookies</h3>
+<h2 class="legal-subhead">Social Media Cookies</h2>
 <p>These cookies may be used by external social media websites, for example Facebook, YouTube, Twitter, Pinterest, and LinkedIn. Please refer to the social media websites' own cookies and privacy policies for more details.</p>
 
-<h3>ga.js – Cookie Usage</h3>
+<h2 class="legal-subhead">ga.js – Cookie Usage</h2>
 <p>The ga.js JavaScript library uses first-party cookies to:</p>
 <ul>
 <li>Determine which domain to measure</li>

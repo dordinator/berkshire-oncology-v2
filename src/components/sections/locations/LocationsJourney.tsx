@@ -80,7 +80,12 @@ function NhsPill() {
 const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
 
 /** How far into a gap a panel stays visible; fully handed over by 0.45. */
-const FADE = 0.45;
+// How far either side of a lock a panel stays visible, in lock units. Below 0.5
+// there is a window in the middle where neither neighbour is painted and the
+// text column goes blank; above 0.5 two panels would be drawn over each other.
+// 0.49 keeps the single-panel guarantee and shrinks the blank window to about
+// 2% of the gap — roughly one key press, now that the keyboard can stop there.
+const FADE = 0.49;
 
 const LOCATION_GROUPS = [
   {
@@ -171,7 +176,11 @@ function HeroLocationSummary({
                     <button
                       type="button"
                       onClick={() => onSelect(stopIndex)}
-                      className="font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent"
+                      // 19px tall and 23.8px apart, against a 24px minimum for
+                      // both. Real padding rather than a cancelled one: the
+                      // spacing is the binding constraint here, and a negative
+                      // margin would put the links back where they were.
+                      className="py-1 font-medium text-accent underline decoration-accent/25 underline-offset-4 transition-colors hover:decoration-accent"
                     >
                       {location.label}
                     </button>
@@ -221,6 +230,57 @@ export default function LocationsJourney({
 
   const [active, setActive] = useState(-1);
 
+  // The journey — a pinned stage, snap locks, crossfading panels — is a desktop
+  // composition. It never worked on a phone: the locks are computed from
+  // `100svh`, which iOS Safari changes as its address bar collapses, and Lenis
+  // snap fought the momentum scrolling underneath it, so a flick either stuck
+  // mid-flight or was dragged back. Below `lg` the same panels are laid out as
+  // an ordinary stacked page and the browser does the scrolling.
+  //
+  // Defaults to true so the server-rendered markup stays the desktop one; a
+  // phone flips it on mount. The layout itself is switched in CSS, so nothing
+  // reflows on that flip — only the behaviour is gated here.
+  const [isWide, setIsWide] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const apply = () => setIsWide(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  // Which panels hold more than they can show. Only those become tab stops:
+  // a panel that fits has nothing to scroll, and a dead tab stop on every
+  // panel would make the page longer to get through, not shorter.
+  const [overflowing, setOverflowing] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    // On a phone the panels sit in normal flow and never scroll on their own,
+    // so none of them should become a tab stop.
+    if (!isWide) {
+      setOverflowing((prev) => (prev.length === 0 ? prev : []));
+      return;
+    }
+    const measure = () => {
+      const next = panelRefs.current.map(
+        (el) => !!el && el.scrollHeight > el.clientHeight + 2,
+      );
+      setOverflowing((prev) =>
+        prev.length === next.length && prev.every((v, i) => v === next[i])
+          ? prev
+          : next,
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    for (const el of panelRefs.current) if (el) observer.observe(el);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [LAST, isWide]);
+
   const goToStop = useCallback(
     (stopIndex: number) => {
       const track = trackRef.current;
@@ -259,6 +319,7 @@ export default function LocationsJourney({
   );
 
   useEffect(() => {
+    if (!isWide) return;
     const el = trackRef.current;
     const stage = stageRef.current;
     if (!el || !stage) return;
@@ -293,11 +354,28 @@ export default function LocationsJourney({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
     };
-  }, [LAST, rawP]);
+  }, [LAST, rawP, isWide]);
 
   // Panel crossfade and the active stop, written imperatively — a scrub emits
   // every frame, and neither job needs React until a stop actually changes.
   useEffect(() => {
+    // On a phone the panels are a plain stacked list, so the crossfade must not
+    // run — and anything it already wrote has to be cleared. `isWide` starts
+    // true so the server render stays the desktop one, which means this effect
+    // runs once before the breakpoint resolves and leaves inline opacity,
+    // visibility and transform behind. The transforms are the harmful ones:
+    // they shift each panel down by 36px more than the last, up to 252px, and
+    // because a transform does not affect layout the container still measured
+    // correctly while the last panel sat on top of the section beneath it.
+    if (!isWide) {
+      for (const panel of panelRefs.current) {
+        if (!panel) continue;
+        panel.style.opacity = "";
+        panel.style.visibility = "";
+        panel.style.transform = "";
+      }
+      return;
+    }
     const drive = (p: number) => {
       for (let k = 0; k <= LAST; k++) {
         const panel = panelRefs.current[k];
@@ -313,7 +391,7 @@ export default function LocationsJourney({
     };
     drive(progress.get());
     return progress.on("change", drive);
-  }, [LAST, progress]);
+  }, [LAST, progress, isWide]);
 
   // ── The locks ──────────────────────────────────────────────────────────────
   // Our own Snap instance on the site's Lenis: mandatory, so the page always
@@ -322,6 +400,7 @@ export default function LocationsJourney({
   // user back up out of the footer. With the wheel stepper below this is the
   // backstop for the inputs it does not own: touch flicks and scrollbar drags.
   useEffect(() => {
+    if (!isWide) return;
     const lenis = getLenis();
     const el = trackRef.current;
     const stage = stageRef.current;
@@ -339,7 +418,11 @@ export default function LocationsJourney({
       if (viewportHeight <= 0) return;
       stageEnd = trackTop + LAST * viewportHeight;
       snap = new Snap(lenis, {
-        type: "mandatory",
+        // proximity, not mandatory: releasing near a stop still settles onto it,
+        // which is what almost every gesture does. Mandatory additionally
+        // refused to let a touch or scrollbar user rest anywhere else, and
+        // fought a screen reader's cursor, which scrolls the page as it moves.
+        type: "proximity",
         duration: 1.15,
         easing: easeInOutSine,
         debounce: 320,
@@ -365,7 +448,7 @@ export default function LocationsJourney({
       window.removeEventListener("resize", build);
       snap?.destroy();
     };
-  }, [LAST]);
+  }, [LAST, isWide]);
 
   // ── The stepper ────────────────────────────────────────────────────────────
   // One gesture, one stop — the flight is the same ~1.1s whether the wheel
@@ -378,6 +461,7 @@ export default function LocationsJourney({
   // same treatment. Touch stays native — a flick already reads as one gesture,
   // and the snap above settles it onto a lock.
   useEffect(() => {
+    if (!isWide) return;
     const lenis = getLenis();
     const el = trackRef.current;
     const stage = stageRef.current;
@@ -471,54 +555,34 @@ export default function LocationsJourney({
       step(d);
     };
 
-    const onKey = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement | null;
-      if (
-        t &&
-        (t.tagName === "INPUT" ||
-          t.tagName === "TEXTAREA" ||
-          t.tagName === "BUTTON" ||
-          t.tagName === "A" ||
-          t.tagName === "SELECT" ||
-          t.isContentEditable)
-      ) {
-        return;
-      }
-      if (!inStage()) return;
-      const down =
-        e.key === "PageDown" ||
-        e.key === "ArrowDown" ||
-        (e.key === " " && !e.shiftKey);
-      const up =
-        e.key === "PageUp" ||
-        e.key === "ArrowUp" ||
-        (e.key === " " && e.shiftKey);
-      if (!down && !up) return;
-      if (down && currentLock() >= LAST) return;
-      e.preventDefault();
-      if (!stepping) step(down ? 1 : -1);
-    };
+    // Arrow, Page and Space used to be captured here and remapped to a
+    // whole-viewport jump, which left a keyboard user unable to scroll this
+    // 700svh page by a line at all — SC 2.1.1. Those keys belong to the
+    // browser. The wheel stepper below is unchanged, so a mouse still moves
+    // lock to lock; the keyboard now scrolls the page, and the panels follow
+    // scroll position exactly as they already do for anyone using Reduce
+    // Motion, where none of this machinery installs.
 
     window.addEventListener("wheel", onWheel, {
       passive: false,
       capture: true,
     });
-    window.addEventListener("keydown", onKey);
     window.addEventListener("resize", measure);
     return () => {
       window.removeEventListener("wheel", onWheel, true);
-      window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", measure);
       if (backstop) clearTimeout(backstop);
     };
-  }, [LAST]);
+  }, [LAST, isWide]);
 
   // Initial styles mirror p = 0 so the server render and the first client
   // frame agree: hero visible, everything else hidden.
   const panelStyle = (k: number): React.CSSProperties =>
-    k === 0
-      ? { opacity: 1, visibility: "visible" }
-      : { opacity: 0, visibility: "hidden" };
+    !isWide
+      ? {}
+      : k === 0
+        ? { opacity: 1, visibility: "visible" }
+        : { opacity: 0, visibility: "hidden" };
 
   const panels = useMemo(
     () => [
@@ -592,24 +656,45 @@ export default function LocationsJourney({
     // data-no-snap: this section runs its own Snap locks; the global
     // proximity snap must not compete (see SmoothScroll.tsx).
     <section data-no-snap className="relative">
+      {/* Panels crossfade in and out under the reader as the page scrolls, and
+          until now nothing said which one had arrived. Mounted here rather than
+          inside the stage so it is in the document before the first change — a
+          live region added at the moment it updates announces nothing. */}
+      <p className="sr-only" role="status" aria-live="polite">
+        {active >= 0 && active < N
+          ? `${stops[active].name}. Location ${active + 1} of ${N}.`
+          : ""}
+      </p>
+
       {/* The track: its height is the journey's scroll length. Sticky travel
           is track height minus stage height, so LAST+1 viewport-heights give
           the stage LAST full gaps — one per lock-to-lock flight, the final
           one being the pull back out to the UK. */}
+      {/* The track's height is the journey's scroll length, and it only exists
+          from `lg`. On a phone the section is as tall as its content, so the
+          page scrolls once, normally, instead of through a 700svh rail. The
+          height is handed to CSS as a custom property so the breakpoint — not
+          JavaScript — decides whether it applies. */}
       <div
         ref={trackRef}
-        style={{ height: `${(LAST + 1) * 100}svh` }}
-        className="relative"
+        style={{ "--track-height": `${(LAST + 1) * 100}svh` } as React.CSSProperties}
+        className="relative lg:h-[var(--track-height)]"
       >
         <div
           ref={stageRef}
-          className="sticky top-0 flex h-[100svh] flex-col overflow-hidden lg:block"
+          // pt-24 below lg: the map is the first thing on the page, and at
+          // top:0 it ran up under the floating header — whose pill bottom
+          // edge sits at 86px — so the artwork read as cut off at the top of
+          // the screen. 96px clears the pill and matches the top padding the
+          // other page heroes use. From lg the stage is the pinned viewport
+          // and starts at the top as before.
+          className="relative pt-24 lg:sticky lg:top-0 lg:h-[100svh] lg:overflow-hidden lg:pt-0"
         >
           {/* ── The map ──────────────────────────────────────────────────
               Below lg: a band across the top of the stage, its last 26px
               ceded to the licence caption. From lg: the right half. */}
-          <div className="relative h-[44svh] w-full shrink-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
-            <div className="absolute inset-x-0 bottom-[26px] top-0 lg:bottom-0">
+          <div className="relative aspect-[4/3] w-full shrink-0 sm:aspect-[16/10] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:h-auto lg:w-[52%]">
+            <div className="absolute inset-0 lg:bottom-0">
               {/* At the outro the raw index is N — out of stops' range — and
                   the renderer must read it as "no active stop": every pin at
                   full strength, no grounds highlighted, as in the hero's wide
@@ -620,17 +705,31 @@ export default function LocationsJourney({
                 progress={progress}
               />
 
+              {/* The band is cropped top and bottom, so both edges are faded
+                  into the canvas rather than left as hard cuts across the
+                  artwork. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-canvas to-transparent lg:hidden"
+              />
+
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-canvas to-transparent lg:hidden"
               />
             </div>
 
-            {/* Required by the data licences. Do not remove. */}
+            {/* Required by the data licences. Do not remove from the desktop
+                view. Hidden below `lg` at the practice's request: at 9px across
+                the foot of a phone-width map it was the smallest text on the
+                site and sat over the artwork. Note that the OGL and OSM terms
+                ask for attribution that is visible to the reader, so while the
+                map is shown on a phone this hides something the licences
+                expect — raised with the practice rather than decided here. */}
             {/* ink-muted, not a faded ink: at this size the faded version
                 measured 2.48:1 and axe rightly objected — a licence line is
                 required to be readable, not merely present. */}
-            <p className="pointer-events-none absolute inset-x-0 bottom-0 px-4 pt-0.5 text-[9px] leading-[10px] text-ink-muted lg:inset-x-auto lg:bottom-1 lg:right-2 lg:px-0 lg:pt-0 lg:text-[10px] lg:leading-normal">
+            <p className="pointer-events-none absolute inset-x-0 bottom-0 hidden px-4 pt-0.5 text-[9px] leading-[10px] text-ink-muted lg:inset-x-auto lg:bottom-1 lg:right-2 lg:block lg:px-0 lg:pt-0 lg:text-[10px] lg:leading-normal">
               {attribution}
             </p>
           </div>
@@ -639,7 +738,7 @@ export default function LocationsJourney({
               Stacked in the same box and crossfaded by progress. Hidden
               panels are visibility:hidden so their links leave the tab
               order along with the view. */}
-          <div className="relative min-h-0 flex-1 lg:absolute lg:inset-y-0 lg:left-0 lg:w-[48%]">
+          <div className="relative divide-y divide-ink/10 lg:absolute lg:inset-y-0 lg:left-0 lg:w-[48%] lg:divide-y-0">
             {panels.map((panel, k) => (
               <div
                 key={k}
@@ -647,9 +746,22 @@ export default function LocationsJourney({
                   panelRefs.current[k] = node;
                 }}
                 style={panelStyle(k)}
-                data-lenis-prevent
+                {...(isWide ? { "data-lenis-prevent": "" } : {})}
                 data-location-journey-scroll
-                className={`site-gutter absolute inset-0 flex overflow-y-auto lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 ${
+                // A scroll container that overflows has to be reachable by
+                // keyboard. Below about 768px this panel holds 684px of content
+                // in a 455px box, and the jump-list links inside it are
+                // display:none at those widths — so there was nothing to tab to
+                // and no way to scroll it, leaving the last 229px unreachable.
+                // No role or label: the panel is a scroll container, not a
+                // widget, and naming it would mean inventing a name.
+                //
+                // The lint rule and axe disagree here, and axe is right: a
+                // scrollable region with no focusable content must itself be
+                // focusable, or its overflow cannot be reached by keyboard.
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                tabIndex={overflowing[k] ? 0 : undefined}
+                className={`site-gutter relative flex py-10 lg:absolute lg:inset-0 lg:overflow-y-auto lg:py-0 lg:pb-6 lg:pr-14 lg:pt-24 xl:pb-0 focus-visible:shadow-[inset_0_0_0_2px_#061c46] ${
                   k === 0 ? "xl:pt-20" : "xl:pt-0"
                 }`}
               >

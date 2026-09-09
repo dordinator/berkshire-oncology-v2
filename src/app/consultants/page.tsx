@@ -53,6 +53,11 @@ export default function ConsultantsPage() {
             the band reads as a card, and the point is a wall of the whole
             partnership. */}
         <div className="mt-8 lg:mt-10">
+          {/* The strip's consultant names are h3s, so without this the page ran
+              h1 straight to h3. The heading is not shown because the headline
+              band above already says what this is; it exists for anyone
+              navigating the page by its outline. */}
+          <h2 className="sr-only">The consultants</h2>
           <ConsultantFocusStrip consultants={focusConsultants} />
         </div>
       </section>

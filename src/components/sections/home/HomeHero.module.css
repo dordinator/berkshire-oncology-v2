@@ -23,13 +23,14 @@
 .button.primary {
   background: transparent;
   color: var(--home-ink);
+  border-color: var(--home-ink);
   /* The paint surface below owns the clip. Keep the link and focus ring
      outside it; overflow clipping each colour separately leaves a pale rim. */
   overflow: visible;
 }
 
-/* The solid surface provides this button's outline; a separately painted
-   border would change colour ahead of the wipe and expose another contour. */
+/* The primary's border is composited inside its single masked paint surface,
+   not on a second independently antialiased outer contour. */
 .button.primary::after { content: none; }
 
 .button.secondary {
@@ -60,6 +61,18 @@
   pointer-events: none;
 }
 .button.secondary > span[aria-hidden] { background: var(--home-white); }
+
+.button.primary > span[aria-hidden]::after {
+  content: "";
+  position: absolute;
+  inset: var(--cta-border-width);
+  z-index: 1;
+  border-radius: calc(var(--radius-button) - var(--cta-border-width));
+  /* The spread extends beyond the outer edge; only the existing 15px mask
+     clips it. Its 13px inner cut-out leaves an even, permanent 2px navy band. */
+  box-shadow: 0 0 0 20px var(--home-ink);
+  pointer-events: none;
+}
 
 .button.primary > span[aria-hidden] > span {
   position: absolute;
@@ -94,12 +107,12 @@
 .button.primary:focus-visible > span[aria-hidden] > span { transform: translateX(100%); }
 .button.primary:hover,
 .button.primary:focus-visible {
-  border-color: var(--home-blue);
+  border-color: var(--home-ink);
   color: var(--home-white);
 }
 .button.secondary:hover,
 .button.secondary:focus-visible {
-  border-color: var(--home-white);
+  border-color: var(--home-ink);
   color: var(--home-ink);
 }
 
