@@ -1,97 +1,91 @@
-.overview { padding-top: 7.2rem; color: var(--brand-ink); }
-.container { width: min(100% - 3.5rem, 1800px); margin-inline: auto; }
-.grid { display: grid; grid-template-columns: minmax(0, .94fr) minmax(0, 1.07fr) minmax(0, 1fr); gap: clamp(1.5rem, 2.6vw, 3rem); align-items: stretch; }
+.overview {
+  --profile-rule: color-mix(in srgb, var(--brand-ink) 20%, transparent);
+  --overview-top: clamp(8rem, 11.5vw, 12rem);
+  padding: var(--overview-top) 0 4rem;
+  color: var(--brand-ink);
+  background: var(--surface-canvas);
+}
+.container { width: min(calc(100% - clamp(3rem, 6.8vw, 8rem)), 1800px); margin-inline: auto; }
+.grid { display: grid; grid-template-columns: minmax(0, .87fr) minmax(0, 1.26fr) minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: clamp(1.5rem, 2.7vw, 3rem); row-gap: 2rem; min-height: calc(100svh - var(--overview-top) - 5.75rem); }
 .grid > * { min-width: 0; }
-.media { display: flex; flex-direction: column; gap: .4rem; }
-.photo { position: relative; flex: 1; min-height: 26rem; border-radius: 1rem; overflow: hidden; background: var(--surface-paper-soft); }
+.photo { position: relative; grid-column: 1; grid-row: 1 / 3; min-height: 36rem; border-radius: 20px; overflow: hidden; background: var(--surface-paper-soft); }
 .photo img { object-fit: cover; object-position: center top; }
-.initials { display: grid; place-items: center; height: 100%; font-size: 5rem; }
-.reviews { padding: 1.1rem 1.35rem; border-radius: 1rem; background: color-mix(in srgb, var(--brand-sage-panel) 45%, var(--surface-paper-soft)); }
-.rating { display: flex; align-items: center; gap: 1rem; font-size: 1.15rem; }
-.stars { display: flex; gap: .3rem; }
-.stars svg { width: 1.6rem; height: 1.6rem; }
-.reviews p { margin-top: .45rem; color: #4b5b74; font-size: .8rem; }
-.identity { padding-top: .75rem; }
-.identity h1 { font-family: var(--font-display), sans-serif; font-size: clamp(2.4rem, 3.9vw, 4.5rem); line-height: 1.04; font-weight: 700; letter-spacing: -.045em; overflow-wrap: anywhere; }
-.role { margin-top: .6rem; font-family: var(--font-display), sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.7rem); font-weight: 650; letter-spacing: -.03em; line-height: 1.2; }
-.credentials { margin-top: 1.55rem; font-size: .95rem; line-height: 1.45; color: #4b5b74; }
-.intro { margin-top: 1.7rem; padding-block: 1.6rem; border-block: 1px solid var(--profile-rule); font-size: clamp(1rem, 1.4vw, 1.35rem); line-height: 1.4; color: #4b5b74; }
-.overview { --profile-rule: color-mix(in srgb, var(--brand-ink) 20%, transparent); }
-.expertise { padding-top: 1.1rem; }
-.grid h2 { font-family: var(--font-display), sans-serif; font-size: clamp(1.125rem, 1.6vw, 1.7rem); line-height: 1.25; font-weight: 650; letter-spacing: -.035em; }
-.expertise ul { margin-top: .65rem; list-style: none; }
-.expertise li a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.4rem; padding-block: .8rem; border-bottom: 1px solid var(--profile-rule); font-family: var(--font-display), sans-serif; font-size: clamp(1rem, 1.4vw, 1.4rem); line-height: 1.3; font-weight: 600; letter-spacing: -.02em; }
-.grid a svg { width: 1.35rem; height: 1.35rem; flex: none; }
-.textLink { display: inline-flex; align-items: center; gap: .85rem; font-size: .95rem; line-height: 1.4; min-height: 2.75rem; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--brand-ink) 40%, transparent); text-underline-offset: .3rem; }
-.expertise > .textLink { margin-top: 1.2rem; }
-.appointments { padding: clamp(1.2rem, 1.7vw, 2rem); border-radius: 1rem; background: var(--brand-sage-panel); }
-.appointmentButton { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem 1.2rem; margin-top: 1rem; border-radius: 2rem; background: var(--brand-ink); color: white; font-size: clamp(.875rem, 1.05vw, 1.0625rem); line-height: 1.35; min-height: 3.1rem; }
+.initials { position: absolute; inset: 0; display: grid; place-items: center; font-size: 5rem; }
+.identity { grid-column: 2; grid-row: 1; padding-top: 1.3rem; }
+.identityHeader { padding-bottom: 2rem; border-bottom: 1px solid var(--profile-rule); }
+.identity h1 { font-family: var(--font-display), sans-serif; font-size: clamp(2.6rem, 5vw, 5rem); line-height: 1.06; font-weight: 600; letter-spacing: -.045em; overflow-wrap: anywhere; }
+.role { margin-top: .75rem; font-family: var(--font-display), sans-serif; font-size: clamp(1.125rem, 2.2vw, 2.2rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.22; }
+.credentials { margin-top: .7rem; font-size: clamp(.875rem, 1.4vw, 1.35rem); line-height: 1.45; color: #4b5b74; }
+.expertise { padding-top: clamp(1.4rem, 2.3vw, 2.3rem); }
+.grid h2 { font-family: var(--font-display), sans-serif; font-size: clamp(1.4rem, 2.5vw, 2.5rem); line-height: 1.2; font-weight: 600; letter-spacing: -.03em; }
+.intro { margin-top: 1rem; font-size: clamp(1rem, 1.5vw, 1.5rem); line-height: 1.45; color: #4b5b74; }
+.expertise ul { margin-top: 1.4rem; list-style: none; }
+.expertise li a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: clamp(3.5rem, 4.6vw, 4.75rem); padding-block: 1rem; border-bottom: 1px solid var(--profile-rule); font-family: var(--font-display), sans-serif; font-size: clamp(1rem, 1.4vw, 1.4rem); line-height: 1.3; font-weight: 500; letter-spacing: -.015em; }
+.expertise a:hover { color: var(--brand-blue); }
+.expertise a svg { width: 1.4rem; height: 1.4rem; flex: none; }
+.appointments { grid-column: 3; grid-row: 1; align-self: start; margin-top: 2.25rem; padding: clamp(1.25rem, 2vw, 2rem); border-radius: 20px; background: var(--brand-sage-panel); }
+.booking { padding-top: clamp(1.25rem, 4vw, 4rem); }
+.appointmentButton, .phone { display: flex; align-items: center; gap: .75rem; min-height: clamp(3.25rem, 4.5vw, 4.5rem); padding: .9rem 1.3rem; border-radius: 15px; font-size: clamp(.875rem, 1.35vw, 1.35rem); font-weight: 500; line-height: 1.35; }
+.appointmentButton { justify-content: space-between; margin-top: 2.5rem; background: var(--brand-ink); color: white; }
 .appointmentButton:hover { background: var(--brand-blue); }
-.phone { display: flex; align-items: center; gap: .9rem; width: fit-content; min-height: 2.75rem; margin-top: .6rem; font-size: 1.15rem; }
-.fees { border-block: 1px solid var(--profile-rule); margin-block: 1rem; padding-block: 1.1rem .7rem; }
-.fees dl { display: grid; grid-template-columns: 1.15fr 1fr; margin-top: .9rem; font-size: .95rem; line-height: 1.35; }
-.fees dl > div + div { border-left: 1px solid var(--profile-rule); padding-left: 1.2rem; margin-left: .8rem; }
-.fees dt { color: #4b5b74; }
-.fees dd { margin-top: .25rem; }
-.fees .textLink { margin-top: .65rem; }
-.locations ul { margin-top: .55rem; list-style: none; }
-.locations li + li { border-top: 1px solid var(--profile-rule); }
-.locations li a { display: flex; align-items: center; justify-content: space-between; gap: .65rem; padding-block: .65rem; min-height: 3rem; line-height: 1.25; }
-.locations li:last-child a { padding-bottom: 0; }
-.locationName { display: block; font-size: clamp(.875rem, 1.17vw, 1.15rem); }
-.town { display: block; color: #4b5b74; font-size: .875rem; margin-top: .15rem; }
-.expertise a:hover, .locations a:hover, .textLink:hover, .phone:hover { color: var(--brand-blue); }
-.sectionNav { margin-top: 1.3rem; border-block: 1px solid var(--profile-rule); }
-.sectionNav ul { display: flex; flex-wrap: wrap; column-gap: 1.7rem; list-style: none; }
-.sectionNav a { display: flex; align-items: center; position: relative; min-height: 3.6rem; font-size: .95rem; color: #4b5b74; }
-.sectionNav a[aria-current] { color: var(--brand-ink); font-weight: 650; }
-.sectionNav a[aria-current]::after { content: ""; height: 3px; background: var(--brand-ink); position: absolute; inset: auto 0 .5rem; }
-.overview a:focus-visible, .overview [tabindex="-1"]:focus-visible { outline: 2px solid var(--brand-ink); outline-offset: 4px; border-radius: 3px; }
-.appointmentButton:focus-visible { outline-offset: 4px; }
+.phone { position: relative; justify-content: center; padding-inline: 2.8rem; margin-top: 2rem; border: 1px solid var(--brand-ink); }
+.phone:hover { background: color-mix(in srgb, var(--brand-ink) 5%, transparent); }
+.appointmentButton svg, .phone svg { width: 1.25rem; height: 1.25rem; flex: none; }
+.phone svg { position: absolute; left: 1.25rem; }
+.reviews { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--profile-rule); }
+.reviews h3 { font-size: 1.25rem; font-weight: 500; line-height: 1.3; }
+.rating { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .6rem; font-size: 1.25rem; }
+.stars { display: flex; gap: .25rem; }
+.stars svg { width: 1.75rem; height: 1.75rem; }
+.reviews p { margin-top: .5rem; color: #4b5b74; font-size: 1rem; line-height: 1.4; }
+.sectionNav { grid-column: 2 / 4; grid-row: 2; align-self: end; padding-bottom: .9rem; border-bottom: 1px solid var(--profile-rule); }
+.sectionNav ul { display: flex; align-items: center; justify-content: space-between; gap: .6rem; list-style: none; }
+.sectionNav li { min-width: 0; }
+.sectionNav a { display: flex; align-items: center; justify-content: center; gap: .8rem; min-height: 5rem; padding: .8rem clamp(1rem, 2.5vw, 2.75rem); border-radius: 15px; font-size: clamp(1rem, 1.5vw, 1.5rem); font-weight: 500; line-height: 1.3; }
+.sectionNav svg { width: clamp(1.5rem, 2.4vw, 2.5rem); height: clamp(1.5rem, 2.4vw, 2.5rem); flex: none; }
+.sectionNav a[aria-current] { background: var(--brand-sage-panel); }
+.sectionNav a:hover { background: color-mix(in srgb, var(--brand-sage-panel) 65%, var(--surface-canvas)); }
+.overview a:focus-visible, .overview [tabindex="-1"]:focus-visible { outline: 2px solid var(--brand-ink); outline-offset: 4px; }
 .overview [id] { scroll-margin-top: 7rem; }
-@media (min-width: 1500px) {
-  .overview { padding-top: 8rem; }
-  .photo { min-height: 31rem; }
-  .reviews { padding-block: 1.2rem; }
-  .credentials { font-size: 1rem; margin-top: 1.8rem; }
-  .intro { margin-top: 2rem; padding-block: 1.9rem; }
-  .expertise li a { min-height: 4.4rem; }
-  .appointments { padding: 1.5rem; }
-  .fees { padding-block: 1.25rem .8rem; margin-block: 1.15rem; }
-  .locations li a { padding-block: .8rem; }
-}
+
 @media (max-width: 1099px) and (min-width: 700px) {
-  .grid { grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); gap: 1.5rem; }
-  .photo { min-height: 24rem; }
-  .appointments { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; }
-  .booking { grid-column: 1; grid-row: 1; }
-  .fees { grid-column: 1; grid-row: 2; margin-bottom: 0; border-bottom: 0; }
-  .locations { grid-column: 2; grid-row: 1 / 3; border-left: 1px solid var(--profile-rule); padding-left: 1.5rem; }
-  .locationName { font-size: 1rem; }
-  .role { font-size: 1.25rem; }
-  .grid h2 { font-size: 1.35rem; }
+  .overview { --overview-top: 8rem; }
+  .grid { grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); grid-template-rows: auto auto auto; min-height: 0; gap: 1.5rem; }
+  .photo { grid-row: 1; min-height: 25rem; }
+  .identity { padding-top: .5rem; }
+  .identity h1 { font-size: clamp(2.4rem, 4.4vw, 3rem); }
+  .role { font-size: 1.4rem; }
+  .grid h2 { font-size: 1.55rem; }
+  .appointments { grid-column: 1 / -1; grid-row: 2; margin: 0; display: grid; grid-template-columns: 1.15fr 1fr; gap: 2rem; padding: 1.5rem; }
+  .booking { padding-top: 0; }
+  .appointmentButton { margin-top: 1.25rem; }
+  .reviews { align-self: center; margin: 0; padding: .75rem 0 .75rem 1.5rem; border-top: 0; border-left: 1px solid var(--profile-rule); }
+  .sectionNav { grid-column: 1 / -1; grid-row: 3; }
+  .sectionNav a { min-height: 3.75rem; }
 }
+
 @media (max-width: 699px) {
-  .overview { padding-top: 6.6rem; }
+  .overview { --overview-top: 7rem; padding-bottom: 2rem; }
   .container { width: calc(100% - 2rem); }
-  .grid { grid-template-columns: minmax(0, .65fr) minmax(0, 1fr); gap: 1rem; }
-  .media, .identity { display: contents; }
-  .photo { grid-column: 1; grid-row: 1; min-height: 12rem; border-radius: .8rem; }
-  .identityHeader { grid-column: 2; grid-row: 1; align-self: center; }
-  .identity h1 { font-size: clamp(1.7rem, 6vw, 2.5rem); }
-  .role { font-size: 1rem; line-height: 1.25; margin-top: .5rem; }
-  .credentials { margin-top: .8rem; font-size: .8rem; }
-  .reviews { grid-column: 1 / -1; grid-row: 2; padding: .8rem 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
-  .reviews p { margin: 0; }
-  .rating { font-size: 1rem; gap: .75rem; }
-  .stars svg { width: 1.25rem; height: 1.25rem; }
-  .stars { gap: .15rem; }
-  .intro { grid-column: 1 / -1; grid-row: 3; margin: 0; padding-block: 1rem; font-size: 1rem; }
-  .expertise { grid-column: 1 / -1; grid-row: 4; padding: 0; }
-  .grid h2 { font-size: 1.25rem; }
-  .expertise > .textLink { margin-top: .6rem; }
-  .appointments { grid-column: 1 / -1; grid-row: 5; padding: 1.2rem; margin-top: .35rem; }
-  .locationName { font-size: 1rem; }
-  .sectionNav ul { gap: 0 1.2rem; }
-  .sectionNav a { min-height: 3rem; font-size: .875rem; }
+  .grid { grid-template-columns: minmax(0, .65fr) minmax(0, 1fr); grid-template-rows: repeat(4, auto); min-height: 0; gap: 1.4rem 1rem; }
+  .identity { display: contents; }
+  .photo { grid-column: 1; grid-row: 1; min-height: 14rem; }
+  .identityHeader { grid-column: 2; grid-row: 1; align-self: center; padding: 0; border: 0; }
+  .identity h1 { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+  .role { font-size: 1rem; line-height: 1.25; margin-top: .6rem; }
+  .credentials { margin-top: .7rem; font-size: .8rem; }
+  .expertise { grid-column: 1 / -1; grid-row: 2; padding: 1.25rem 0 0; border-top: 1px solid var(--profile-rule); }
+  .grid h2 { font-size: 1.5rem; }
+  .intro { margin-top: .75rem; font-size: 1rem; }
+  .expertise ul { margin-top: 1rem; }
+  .expertise li a { min-height: 3.5rem; }
+  .appointments { grid-column: 1 / -1; grid-row: 3; padding: 1.25rem; margin: 0; }
+  .booking { padding-top: .25rem; }
+  .appointmentButton, .phone { min-height: 3.25rem; font-size: .9375rem; }
+  .appointmentButton { margin-top: 1.25rem; }
+  .phone { margin-top: 1rem; }
+  .sectionNav { grid-column: 1 / -1; grid-row: 4; }
+  .sectionNav ul { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .sectionNav a { justify-content: flex-start; min-height: 3.5rem; padding: .75rem; font-size: 1rem; }
+  .sectionNav svg { width: 1.6rem; height: 1.6rem; }
 }

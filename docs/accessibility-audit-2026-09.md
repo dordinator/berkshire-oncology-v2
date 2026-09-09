@@ -378,3 +378,33 @@ unchanged routes and exits non-zero; all 66 distinct targets were present in the
 preceding profile-overview report. Five previous location-page targets were not
 reported on this run; that page was not changed, so these are not claimed as
 fixes. See `a11y/2026-09-09-profile-breadcrumb-removal.md` and its JSON.
+
+### Simplified consultant profile design — 9 September 2026
+
+Codex implemented the approved three-column overview across all ten profiles.
+The portrait extends through the four-link navigation; the middle column contains
+identity and cancer expertise, and the sage contact panel contains the request,
+call and unscored review status. Fees have a dedicated destination below.
+
+Production build, lint and TypeScript pass. The navigation audit checked eight
+dropdowns, ten mobile links, 103 redirects, 59 documents/UI states and 285
+destinations with no issues or browser errors. The full accessibility sweep
+completed 310 distinct route/width/motion configurations, all HTTP 200, with no
+load errors. All ten consultant profiles and `/contact` have zero automated
+violations. The wider site reports 264 contrast instances on eight unchanged
+routes. All 67 distinct route/rule/selector targets appeared in the earlier
+profile-overview baseline. One location target reappeared compared with the
+breadcrumb-removal run; that page was not changed. The sweep exits non-zero.
+See `a11y/2026-09-09-profile-simplified.md` and its JSON.
+
+Codex browser inspection covered Ruth Davis at 320–1600px and four additional
+profiles with longer names or larger expertise lists at 320 and 1440px. No
+horizontal overflow, clipped overview headings/links or duplicate IDs were
+found. A 720 × 450 CSS viewport, equivalent to 200% zoom from 1440 × 900,
+reflowed without clipping; this was not a manual browser-zoom session.
+Keyboard Enter activation of all four profile-section links reaches and focuses
+the correct destination below the fixed header, with visible control focus.
+Accessibility-tree inspection confirms meaningful headings and named links,
+including “Call to book”, and no invented review score. Manual VoiceOver and
+Safari testing remains outstanding. Further implementation notes are in
+`consultant-overview-2026-09-09.md`.

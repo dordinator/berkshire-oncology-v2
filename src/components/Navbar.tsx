@@ -258,6 +258,7 @@ export default function Navbar() {
             drawer — above the drawer's backdrop. */}
         <nav
           aria-label="Primary"
+          data-profile-navigation={pathname.startsWith("/consultants/") ? "" : undefined}
           // Below sm the wordmark, the gap and the two 44px buttons have to fit
           // inside a 320px viewport, so the padding and gap step down with it.
           // A one-cell grid, not a flex row: the bar content and the search

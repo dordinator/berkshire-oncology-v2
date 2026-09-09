@@ -272,6 +272,7 @@ export default function ConsultantProfile({
         ];
 
   const backgroundFacts = [
+    c.gmc ? `GMC registration: ${c.gmc}.` : "",
     c.consultantInReadingSince ? `Consultant in Reading since ${c.consultantInReadingSince}.` : "",
     c.medicalSchool ? `Medical school: ${c.medicalSchool.name}${c.medicalSchool.year ? `, ${c.medicalSchool.year}` : ""}.` : "",
   ].filter(Boolean);
@@ -322,11 +323,9 @@ export default function ConsultantProfile({
 
       <ConsultantProfileOverview
         consultant={c}
-        referenceName={name}
         intro={intro}
         specialities={treats.map(({ speciality }) => speciality)}
-        locationSlugs={locationSlugs}
-        hasTreatments={treatmentExperienceItems.length > 0}
+        hasLocations={locationSlugs.length > 0}
       />
 
       {treatmentExperienceItems.length > 0 && (
@@ -349,6 +348,22 @@ export default function ConsultantProfile({
           title={`About ${name}.`}
         />
       )}
+
+      <section id="fees" data-anchor-align="viewport" aria-labelledby="profile-fees-heading" className="consultant-section-rhythm scroll-mt-24 bg-canvas text-ink">
+        <div className="container-wide grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
+          <div>
+            <h2 id="profile-fees-heading" className="type-feature-title">Consultation fees.</h2>
+            <p className="type-section-lede mt-6 max-w-lg text-ink-muted">Contact the practice for initial and follow-up consultation fees.</p>
+          </div>
+          <div className="rounded-[20px] bg-white p-7 md:p-9">
+            <dl className="type-body divide-y divide-ink/15">
+              <div className="flex flex-wrap justify-between gap-4 pb-5"><dt>Initial consultation</dt><dd>On request</dd></div>
+              <div className="flex flex-wrap justify-between gap-4 py-5"><dt>Follow-up</dt><dd>On request</dd></div>
+            </dl>
+            <Link href="/tariffs" className="mt-3 inline-flex min-h-11 items-center gap-3 underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink">Fees and insurance <Arrow /></Link>
+          </div>
+        </div>
+      </section>
 
       {(leadershipParagraphs.length > 0 ||
         researchParagraphs?.length ||

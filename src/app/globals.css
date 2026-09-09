@@ -461,6 +461,11 @@ a:focus-visible [data-brand-wordmark] {
   }
 }
 
+/* Match the approved consultant overview controls while retaining the shared header. */
+[data-profile-navigation] :is(a, button)[class*="rounded-full"] {
+  border-radius: 15px;
+}
+
 /* Consultant profile rhythm -------------------------------------------------
    The profile used to mix section padding, viewport-height floors and a
    sticky scroll runway. That made nominally adjacent sections feel unrelated.
