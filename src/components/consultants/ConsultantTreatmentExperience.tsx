@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 export type ConsultantTreatmentExperienceItem = {
@@ -35,50 +35,10 @@ export default function ConsultantTreatmentExperience({
   consultantName,
   items,
 }: ConsultantTreatmentExperienceProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const manualSelectionUntil = useRef(0);
   const [openItem, setOpenItem] = useState(0);
   const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    if (reduceMotion || items.length < 2) return;
-
-    let animationFrame = 0;
-    const updateFromScroll = () => {
-      window.cancelAnimationFrame(animationFrame);
-      animationFrame = window.requestAnimationFrame(() => {
-        const section = sectionRef.current;
-        if (
-          !section ||
-          window.innerWidth < 1024 ||
-          Date.now() < manualSelectionUntil.current
-        ) {
-          return;
-        }
-
-        const bounds = section.getBoundingClientRect();
-        const lockedDistance = Math.max(1, bounds.height - window.innerHeight);
-        const progress = Math.max(0, Math.min(1, -bounds.top / lockedDistance));
-        const nextItem = Math.min(
-          items.length - 1,
-          Math.floor(progress * items.length),
-        );
-        setOpenItem((current) => (current === nextItem ? current : nextItem));
-      });
-    };
-
-    updateFromScroll();
-    window.addEventListener("scroll", updateFromScroll, { passive: true });
-    window.addEventListener("resize", updateFromScroll);
-    return () => {
-      window.cancelAnimationFrame(animationFrame);
-      window.removeEventListener("scroll", updateFromScroll);
-      window.removeEventListener("resize", updateFromScroll);
-    };
-  }, [items.length, reduceMotion]);
-
   function chooseItem(index: number) {
-    manualSelectionUntil.current = Date.now() + 1400;
     setOpenItem(index);
   }
 
@@ -86,11 +46,9 @@ export default function ConsultantTreatmentExperience({
     <section
       id="treatments"
       data-anchor-align="viewport"
-      ref={sectionRef}
-      data-treatment-count={Math.min(items.length, 6)}
       className="consultant-treatment-section relative scroll-mt-24 bg-paper-soft text-ink"
     >
-      <div className="consultant-treatment-stage site-gutter w-full lg:sticky lg:top-0 lg:flex lg:items-center">
+      <div className="consultant-treatment-stage site-gutter w-full lg:flex lg:items-center">
         <div className="grid w-full gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-[5vw]">
           <div>
             <h2 className="type-feature-title max-w-[9ch] text-ink">
@@ -142,45 +100,46 @@ export default function ConsultantTreatmentExperience({
                     </span>
                   </button>
 
-                  <AnimatePresence initial={false}>
-                    {open && (
-                      <motion.div
-                        id={panelId}
-                        initial={{ height: 0, opacity: 0, y: 8 }}
-                        animate={{ height: "auto", opacity: 1, y: 0 }}
-                        exit={{ height: 0, opacity: 0, y: -5 }}
-                        transition={{
-                          height: { duration: reduceMotion ? 0 : 0.62, ease: EASE },
-                          opacity: { duration: reduceMotion ? 0 : 0.4, ease: EASE },
-                          y: { duration: reduceMotion ? 0 : 0.48, ease: EASE },
-                        }}
-                        className="overflow-hidden"
-                      >
-                        <div className="grid grid-cols-[28px_minmax(0,1fr)] gap-4 pb-8 md:grid-cols-[34px_minmax(0,1fr)] md:gap-6 md:pb-10">
-                          <span aria-hidden />
-                          <div>
-                            <p className="type-body max-w-2xl text-ink-muted">
-                              {item.description}
-                            </p>
-                            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-                              {item.links.map((link) => (
-                                <Link
-                                  key={link.href}
-                                  href={link.href}
-                                  className="type-button group/link inline-flex items-center gap-3 text-ink underline decoration-ink/20 underline-offset-[7px] transition-colors hover:decoration-ink"
-                                >
-                                  {link.label}
-                                  <span className="transition-transform duration-300 group-hover/link:translate-x-1">
-                                    <Arrow />
-                                  </span>
-                                </Link>
-                              ))}
+                  <div id={panelId}>
+                    <AnimatePresence initial={false}>
+                      {open && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0, y: 8 }}
+                          animate={{ height: "auto", opacity: 1, y: 0 }}
+                          exit={{ height: 0, opacity: 0, y: -5 }}
+                          transition={{
+                            height: { duration: reduceMotion ? 0 : 0.62, ease: EASE },
+                            opacity: { duration: reduceMotion ? 0 : 0.4, ease: EASE },
+                            y: { duration: reduceMotion ? 0 : 0.48, ease: EASE },
+                          }}
+                          className="overflow-hidden"
+                        >
+                          <div className="grid grid-cols-[28px_minmax(0,1fr)] gap-4 pb-8 md:grid-cols-[34px_minmax(0,1fr)] md:gap-6 md:pb-10">
+                            <span aria-hidden />
+                            <div>
+                              <p className="type-body max-w-2xl text-ink-muted">
+                                {item.description}
+                              </p>
+                              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+                                {item.links.map((link) => (
+                                  <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className="type-button group/link inline-flex items-center gap-3 text-ink underline decoration-ink/20 underline-offset-[7px] transition-colors hover:decoration-ink"
+                                  >
+                                    {link.label}
+                                    <span className="transition-transform duration-300 group-hover/link:translate-x-1">
+                                      <Arrow />
+                                    </span>
+                                  </Link>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </motion.article>
               );
             })}

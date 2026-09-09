@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/content/site";
 
 export type ContactIntent =
@@ -154,7 +155,9 @@ function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string 
 export default function ContactNextStep({
   intent,
   professionalSubject,
+  consultant,
 }: {
+  consultant?: { name: string; slug: string } | null;
   intent: ContactIntent;
   professionalSubject?: ProfessionalSubject | null;
 }) {
@@ -167,7 +170,11 @@ export default function ContactNextStep({
       <div className="container-wide py-20 md:py-28 lg:py-32">
         {intent === "consultation" && (
           <div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-            <SectionHeading title="Request a consultation online.">
+            <SectionHeading title={consultant ? `Request a consultation with ${consultant.name}.` : "Request a consultation online."}>
+              {consultant && <p className="mb-6 rounded-xl border border-ink/15 bg-white p-5 text-base text-ink" role="status">
+                Consultant selected: <strong>{consultant.name}</strong>
+                <Link href={`/consultants/${consultant.slug}`} className="mt-2 block w-fit underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Back to consultant profile</Link>
+              </p>}
               <p>
                 Use the practice&apos;s online booking service to request or arrange
                 a consultation. You&apos;ll be shown the options currently made

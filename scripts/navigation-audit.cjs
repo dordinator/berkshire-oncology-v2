@@ -35,6 +35,7 @@ for (const group of groups)
             throw new Error('Cancer redirect mapping differs from finder: ' + slug);
     }
 const virtualContact = ['consultation', 'guidance', 'patient-portal', 'referral', 'professional', 'professional-joining-partnership', 'professional-practice-role'];
+virtualContact.push(...getAllConsultants().map(c => `consultation/${c.slug}`));
 (async () => {
     const browser = await chromium.launch({ args: ['--use-mock-keychain'] });
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
@@ -103,6 +104,9 @@ const virtualContact = ['consultation', 'guidance', 'patient-portal', 'referral'
                 await page.waitForTimeout(300);
                 if (!await page.locator('#next-step-heading').isVisible())
                     issues.push({ kind: 'contact-intent', hash });
+                const selected = getAllConsultants().find(c => hash === `consultation/${c.slug}`);
+                if (selected && !(await page.locator('#next-step-heading').innerText()).includes(selected.name))
+                    issues.push({ kind: 'consultant-contact-context', hash });
             }
             else if (!ids.includes(hash))
                 issues.push({ kind: 'missing-anchor', doc, hash });

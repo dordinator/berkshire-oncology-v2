@@ -46,9 +46,10 @@ export default function CareLocationsJourney({
   const reducedMotion = useReducedMotion();
   const stops = useMemo(
     () =>
-      journeyStops.filter(
-        (stop) => Boolean(stop.slug) && locationSlugs.includes(stop.slug ?? ""),
-      ),
+      locationSlugs.flatMap(slug => {
+        const stop = journeyStops.find(item => item.slug === slug);
+        return stop ? [stop] : [];
+      }),
     [locationSlugs],
   );
   const [activeLocation, setActiveLocation] = useState(0);
@@ -69,6 +70,30 @@ export default function CareLocationsJourney({
     });
     return () => controls.stop();
   }, [activeLocation, mapProgress, reducedMotion]);
+
+  useEffect(() => {
+    function selectHash(hash: string) {
+      const index = stops.findIndex(stop => hash === `#location-${stop.slug}`);
+      if (index >= 0) setActiveLocation(index);
+    }
+    const readHash = () => selectHash(window.location.hash);
+    const followLink = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>("a[href]");
+      if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+      const destination = new URL(link.href);
+      if (destination.origin === window.location.origin && destination.pathname === window.location.pathname && destination.search === window.location.search) selectHash(destination.hash);
+    };
+    readHash();
+    document.addEventListener("click", followLink, true);
+    window.addEventListener("hashchange", readHash);
+    window.addEventListener("popstate", readHash);
+    return () => {
+      document.removeEventListener("click", followLink, true);
+      window.removeEventListener("hashchange", readHash);
+      window.removeEventListener("popstate", readHash);
+    };
+  }, [stops]);
 
   function chooseLocation(index: number) {
     setActiveLocation(index);
@@ -103,6 +128,7 @@ export default function CareLocationsJourney({
                 >
                   <button
                     type="button"
+                    id={`location-${stop.slug}`}
                     aria-expanded={active}
                     aria-controls={panelId}
                     onClick={() => chooseLocation(index)}

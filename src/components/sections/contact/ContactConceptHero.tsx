@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getConsultantBySlug } from "@/content/queries";
 import { site } from "@/content/site";
 import { scrollToAnchor } from "@/components/SmoothScroll";
 import ContactNextStep, {
@@ -94,6 +95,7 @@ function RouteLink({
 
 export default function ContactConceptHero() {
   const tel = site.contact.phone.replace(/\s+/g, "");
+  const [consultant, setConsultant] = useState<{ name: string; slug: string } | null>(null);
   const [intent, setIntent] = useState<ContactIntent>("consultation");
   const [professionalSubject, setProfessionalSubject] =
     useState<ProfessionalSubject | null>(null);
@@ -101,7 +103,8 @@ export default function ContactConceptHero() {
   useEffect(() => {
     const readIntent = () => {
       const url = new URL(window.location.href);
-      const hashValue = url.hash.slice(1);
+      const [hashValue, consultantSlug] = url.hash.slice(1).split("/");
+      const selectedConsultant = hashValue === "consultation" && consultantSlug ? getConsultantBySlug(consultantSlug) : undefined;
       const hashSubject = PROFESSIONAL_HASHES[hashValue] ?? null;
       const hashIntent: ContactIntent | null = hashSubject
         ? "professional"
@@ -122,6 +125,7 @@ export default function ContactConceptHero() {
         nextIntent === "professional" ? hashSubject ?? querySubject : null;
       const hasExplicitIntent = Boolean(hashIntent || queryIntent);
 
+      setConsultant(selectedConsultant ? { name: selectedConsultant.name, slug: selectedConsultant.slug } : null);
       setIntent(nextIntent);
       setProfessionalSubject(nextProfessionalSubject);
       if (hasExplicitIntent) {
@@ -131,13 +135,13 @@ export default function ContactConceptHero() {
       // Older prototype links used query parameters, including cancer type.
       // Clear every query value from browser history and future referrers, then
       // preserve only a validated, non-clinical route in the URL fragment.
-      const hasInvalidHash = Boolean(url.hash && !hashIntent);
+      const hasInvalidHash = Boolean(url.hash && (!hashIntent || (consultantSlug && !selectedConsultant)));
       if (url.search || hasInvalidHash) {
         url.search = "";
         url.hash = hasExplicitIntent
           ? nextProfessionalSubject
             ? `professional-${nextProfessionalSubject}`
-            : nextIntent
+            : selectedConsultant ? `consultation/${selectedConsultant.slug}` : nextIntent
           : "";
         const currentState =
           window.history.state && typeof window.history.state === "object"
@@ -158,7 +162,7 @@ export default function ContactConceptHero() {
       const link = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>("a[href]");
       if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
       const destination = new URL(link.href, window.location.href);
-      const hash = destination.hash.slice(1);
+      const hash = destination.hash.slice(1).split("/")[0];
       if (destination.origin !== window.location.origin || destination.pathname !== "/contact" || (!isContactIntent(hash) && !PROFESSIONAL_HASHES[hash])) return;
 
       event.preventDefault();
@@ -181,6 +185,7 @@ export default function ContactConceptHero() {
 
   function selectIntent(nextIntent: ContactIntent) {
     setIntent(nextIntent);
+    setConsultant(null);
     setProfessionalSubject(null);
     const currentState =
       window.history.state && typeof window.history.state === "object"
@@ -293,6 +298,7 @@ export default function ContactConceptHero() {
     </section>
     <ContactNextStep
       intent={intent}
+      consultant={consultant}
       professionalSubject={professionalSubject}
     />
     </>

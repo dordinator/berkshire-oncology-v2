@@ -469,7 +469,6 @@ a:focus-visible [data-brand-wordmark] {
 [data-consultant-profile] {
   --consultant-section-space: clamp(4rem, 4.5vw, 5rem);
   --consultant-stage-height: 75svh;
-  --consultant-treatment-height: 145svh;
   --consultant-location-nav-clearance: 5rem;
 }
 
@@ -487,39 +486,6 @@ a:focus-visible [data-brand-wordmark] {
   .consultant-about-section,
   .consultant-contact-section {
     min-height: var(--consultant-stage-height);
-  }
-
-  .consultant-treatment-section {
-    min-height: calc(
-      var(--consultant-treatment-height) +
-        var(--consultant-treatment-count-adjustment, 0svh)
-    );
-    padding-block: 0;
-  }
-
-  .consultant-treatment-section[data-treatment-count="1"] {
-    min-height: 100svh;
-  }
-
-  .consultant-treatment-section[data-treatment-count="2"] {
-    --consultant-treatment-count-adjustment: -20svh;
-  }
-
-  .consultant-treatment-section[data-treatment-count="4"] {
-    --consultant-treatment-count-adjustment: 18svh;
-  }
-
-  .consultant-treatment-section[data-treatment-count="5"] {
-    --consultant-treatment-count-adjustment: 36svh;
-  }
-
-  .consultant-treatment-section[data-treatment-count="6"] {
-    --consultant-treatment-count-adjustment: 54svh;
-  }
-
-  .consultant-treatment-stage {
-    min-height: var(--consultant-stage-height);
-    padding-block: var(--consultant-section-space);
   }
 
   .consultant-locations-section {

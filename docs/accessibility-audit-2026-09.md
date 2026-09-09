@@ -333,3 +333,30 @@ Scripted keyboard activation of location accordions and reflow checks passed at
 320, 375, 768 and 1440px. The corresponding CSS viewport for 200% browser zoom
 also passed. This was not a new manual VoiceOver pass. Navigation results and
 reproduction instructions are in `navigation-audit-2026-09.md`.
+
+### Consultant profile overview update — 9 September 2026
+
+The approved profile layout is now shared by all ten consultants. Build,
+TypeScript and lint pass. The navigation audit checks 346 destinations, eight
+desktop dropdowns, ten mobile links and 103 redirects without issues or browser
+errors, including the new named consultant request fragments.
+
+The full axe sweep completed all 310 distinct route/width/motion combinations,
+with HTTP 200 responses and no load errors. Consultant profiles and `/contact`
+have no automated violations in any configuration. The wider sweep reports the
+same 270 colour-contrast instances and 71 distinct route/rule/selector targets as
+the earlier 9 September baseline, on the same eight unchanged routes. No new
+targets were introduced. The command exits non-zero because those inherited
+findings remain. See `a11y/2026-09-09-profile-overview.md` and its JSON.
+
+Browser inspection checked the overview from 320 to 1600px, longer consultant
+names and larger expertise lists at desktop and phone widths, direct hospital
+fragments, keyboard activation of treatment controls and all ten named contact
+destinations. No horizontal overflow or duplicate IDs were found in the checked
+profiles. At a 720 × 450 CSS viewport, corresponding to 200% zoom from
+1440 × 900, overview content reflows without horizontal overflow or clipped
+text. This equivalent reflow check was not a manual browser-zoom session.
+Accessibility-tree inspection confirmed named headings, links and fee labels;
+unscored reviews do not announce a fabricated rating. Manual VoiceOver and
+Safari testing remains outstanding. Scope and reproduction notes are in
+`consultant-overview-2026-09-09.md`.

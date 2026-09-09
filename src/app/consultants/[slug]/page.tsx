@@ -1,7 +1,5 @@
-import { cancerTypeHref } from "@/content/routes";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import {
   getConsultantBySlug,
@@ -13,13 +11,13 @@ import { modalitiesByConsultant } from "@/content/modalities";
 import { consultantProfileCopy } from "@/content/consultantProfileCopy";
 import {
   consultantSites,
-  sitesForConsultant,
   SITE_PAGE_SLUGS,
 } from "@/content/consultantSites";
 import { site } from "@/content/site";
 import { pageMeta, physicianLd, breadcrumbLd } from "@/content/seo";
 import JsonLd from "@/components/site/JsonLd";
-import Button from "@/components/ui/Button";
+import ConsultantProfileOverview from "@/components/consultants/ConsultantProfileOverview";
+import { consultantAppointmentHref } from "@/content/routes";
 import ConsultantAboutJourney from "@/components/consultants/ConsultantAboutJourney";
 import ConsultantTreatmentExperience from "@/components/consultants/ConsultantTreatmentExperience";
 import ConsultantLocationsJourney from "@/components/consultants/ConsultantLocationsJourney";
@@ -127,10 +125,6 @@ const MODALITY_DETAILS: Record<
   },
 };
 
-function firstName(name: string) {
-  return name.replace(/^Dr\.?\s+/i, "").split(/\s+/)[0];
-}
-
 function consultantReference(name: string) {
   const names = name.replace(/^Dr\.?\s+/i, "").trim().split(/\s+/);
   return `Dr ${names[names.length - 1]}`;
@@ -194,46 +188,6 @@ function Arrow() {
   );
 }
 
-function ProfileRow({
-  href,
-  title,
-  items,
-}: {
-  href: string;
-  title: string;
-  items: string[];
-}) {
-  return (
-    <Link
-      href={href}
-      className="group grid min-h-[86px] grid-cols-[1fr_auto] items-center gap-5 border-b border-ink/[0.12] py-4 text-ink transition-colors hover:text-accent focus-visible:text-accent md:min-h-[92px]"
-    >
-      <span>
-        <span className="type-card-title block">
-          {title}
-        </span>
-        <span className="type-supporting mt-1 block text-ink-muted">
-          {items.join(" · ")}
-        </span>
-      </span>
-      <span className="transition-transform duration-300 ease-smooth group-hover:translate-x-1">
-        <Arrow />
-      </span>
-    </Link>
-  );
-}
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex min-h-[86px] flex-col items-center justify-center gap-1.5 px-5 py-4 text-center text-ink md:min-h-[96px]">
-      <dt className="type-label text-ink-muted">
-        {label}
-      </dt>
-      <dd className="type-supporting leading-snug">{value}</dd>
-    </div>
-  );
-}
-
 function InformationDisclosure({
   title,
   paragraphs,
@@ -271,7 +225,6 @@ export default function ConsultantProfile({
 
   const treats = getSpecialitiesForConsultant(c.slug);
   const therapies = getTherapiesForConsultant(c.slug);
-  const locations = sitesForConsultant(c.slug);
   const listedModalities = modalitiesByConsultant[c.slug] ?? [];
   const profileCopy = consultantProfileCopy[c.slug];
   const locationSlugs = (consultantSites[c.slug] ?? []).map(
@@ -279,7 +232,6 @@ export default function ConsultantProfile({
   );
   const cancerLabels = treats.map((item) => item.speciality.title);
   const treatmentLabels = therapies.map((therapy) => therapy.title);
-  const givenName = firstName(c.name);
   const name = consultantReference(c.name);
   const intro =
     profileCopy?.intro ??
@@ -319,6 +271,12 @@ export default function ConsultantProfile({
           })),
         ];
 
+  const backgroundFacts = [
+    c.consultantInReadingSince ? `Consultant in Reading since ${c.consultantInReadingSince}.` : "",
+    c.medicalSchool ? `Medical school: ${c.medicalSchool.name}${c.medicalSchool.year ? `, ${c.medicalSchool.year}` : ""}.` : "",
+  ].filter(Boolean);
+  if (backgroundFacts.length) aboutChapters.push({ label: "Professional details", heading: "Professional details", paragraphs: backgroundFacts });
+
   const leadershipParagraphs = profileCopy?.leadership ?? [];
   const researchParagraphs = c.research?.map((paragraph) =>
     thirdPersonNarrative(paragraph, name),
@@ -343,25 +301,6 @@ export default function ConsultantProfile({
     };
   });
 
-  const facts = [
-    c.qualifications
-      ? { label: "Qualifications", value: c.qualifications }
-      : undefined,
-    c.gmc ? { label: "GMC registration", value: c.gmc } : undefined,
-    c.consultantInReadingSince
-      ? {
-          label: "Consultant in Reading",
-          value: `Since ${c.consultantInReadingSince}`,
-        }
-      : undefined,
-    c.medicalSchool
-      ? {
-          label: "Medical school",
-          value: `${c.medicalSchool.name}${c.medicalSchool.year ? `, ${c.medicalSchool.year}` : ""}`,
-        }
-      : undefined,
-  ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
-
   return (
     <article
       className="bg-paper-soft"
@@ -381,93 +320,14 @@ export default function ConsultantProfile({
         ]}
       />
 
-      <section className="pb-0 pt-28 md:pt-32 lg:pt-[8.5rem]">
-        <div className="container-wide">
-          <div className="grid gap-8 lg:grid-cols-[0.44fr_0.56fr] lg:gap-12 xl:gap-14">
-            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] bg-section-cool sm:min-h-[560px] lg:min-h-[650px]">
-              {c.photo ? (
-                <Image
-                  src={c.photo}
-                  alt={`${c.name}, ${c.shortRole ?? c.role}`}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 44vw"
-                  className="object-cover object-top"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center font-display text-7xl text-ink/35">
-                  {givenName.slice(0, 1)}
-                </div>
-              )}
-            </div>
-
-            <div className="flex min-w-0 flex-col py-1 lg:py-6 xl:py-8">
-              <div>
-                <h1 className="type-page-hero max-w-[14ch] text-ink">
-                  {c.name}
-                </h1>
-                <p className="type-card-title mt-4 text-ink">
-                  {c.role}
-                </p>
-                <p className="type-body mt-4 max-w-[640px] text-ink/80">
-                  {intro}
-                </p>
-                <Button
-                  href="/contact#consultation"
-                  variant="sage"
-                  arrow={false}
-                  className="mt-6 rounded-lg px-6 py-3"
-                >
-                  Request an appointment
-                </Button>
-              </div>
-
-              <div className="mt-3 lg:mt-auto">
-                <ProfileRow
-                  href="#cancer-expertise"
-                  title="Cancer expertise"
-                  items={cancerLabels}
-                />
-                {treatmentLabels.length > 0 && (
-                  <ProfileRow
-                    href="#treatments"
-                    title="Treatments"
-                    items={treatmentLabels}
-                  />
-                )}
-                {locations.length > 0 && (
-                  <ProfileRow href="#locations" title="Locations" items={locations} />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {facts.length > 0 && (
-          <div className="container-wide mt-8 md:mt-10">
-            <dl className="grid divide-y divide-ink/[0.12] overflow-hidden rounded-[24px] border border-ink/[0.06] bg-sage-mist shadow-[0_18px_45px_-42px_rgba(6,28,70,0.28)] md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-4">
-              {facts.map((fact) => (
-                <Fact key={fact.label} label={fact.label} value={fact.value} />
-              ))}
-            </dl>
-            <p className="type-supporting mt-3 text-center text-ink-muted">
-              Berkshire profile sources checked 30 August 2026.
-            </p>
-          </div>
-        )}
-      </section>
-
-      {aboutChapters.length > 0 && (
-        <ConsultantAboutJourney
-          chapters={aboutChapters}
-          consultantName={name}
-          expertise={treats.map(({ speciality }) => ({
-            href: cancerTypeHref(speciality.slug),
-            title: speciality.title,
-          }))}
-          title={`About ${name}.`}
-        />
-      )}
+      <ConsultantProfileOverview
+        consultant={c}
+        referenceName={name}
+        intro={intro}
+        specialities={treats.map(({ speciality }) => speciality)}
+        locationSlugs={locationSlugs}
+        hasTreatments={treatmentExperienceItems.length > 0}
+      />
 
       {treatmentExperienceItems.length > 0 && (
         <ConsultantTreatmentExperience
@@ -480,6 +340,13 @@ export default function ConsultantProfile({
         <ConsultantLocationsJourney
           consultantName={name}
           locationSlugs={locationSlugs}
+        />
+      )}
+
+      {aboutChapters.length > 0 && (
+        <ConsultantAboutJourney
+          chapters={aboutChapters}
+          title={`About ${name}.`}
         />
       )}
 
@@ -560,7 +427,7 @@ export default function ConsultantProfile({
           <div className="rounded-[2.5rem] border border-white/10 bg-paper-soft p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
             <p className="type-supporting text-ink-muted">What would help now?</p>
             <Link
-              href="/contact#consultation"
+              href={consultantAppointmentHref(c.slug)}
               className="group mt-5 grid min-h-[108px] grid-cols-[1fr_auto] items-center gap-5 border-y border-ink/[0.12] py-6"
             >
               <span>

@@ -5,7 +5,7 @@ const excludedFooterContactRoutes = [
 ];
 
 export function hasFooterContact(pathname: string) {
-  if (pathname === "/") return false;
+  if (pathname === "/" || /^\/consultants\/[^/]+$/.test(pathname)) return false;
 
   return !excludedFooterContactRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),

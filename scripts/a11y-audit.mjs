@@ -192,9 +192,13 @@ async function main() {
   const results = [];
   let checked = 0;
 
-  try {
-    for (const motion of MOTION) {
-      for (const vp of VIEWPORTS) {
+  // Each width/motion pair has its own browser context. An optional bounded
+  // worker pool speeds up the full sweep without sharing page state or
+  // dropping checks; the default remains the original sequential run.
+  const configurations = MOTION.flatMap(motion => VIEWPORTS.map(vp => ({ motion, vp })));
+  const pending = [...configurations];
+  const workers = Math.min(4, Math.max(1, Math.floor(Number(args.workers) || 1)));
+  async function checkConfiguration({ motion, vp }) {
         const context = await browser.newContext({
           viewport: { width: vp.width, height: vp.height },
           reducedMotion: motion.reducedMotion,
@@ -254,8 +258,20 @@ async function main() {
           );
         }
         await context.close();
+  }
+
+  try {
+    await Promise.all(Array.from({ length: workers }, async () => {
+      while (pending.length) {
+        const configuration = pending.shift();
+        if (configuration) await checkConfiguration(configuration);
       }
-    }
+    }));
+    // Reports retain their original order irrespective of completion order.
+    results.sort((a, b) =>
+      MOTION.findIndex(m => m.name === a.motion) - MOTION.findIndex(m => m.name === b.motion) ||
+      VIEWPORTS.findIndex(v => v.name === a.viewport) - VIEWPORTS.findIndex(v => v.name === b.viewport) ||
+      routes.indexOf(a.route) - routes.indexOf(b.route));
   } finally {
     await browser.close();
     if (serverProc) serverProc.kill("SIGTERM");
