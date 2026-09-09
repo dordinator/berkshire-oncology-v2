@@ -162,6 +162,43 @@ async function settle(page) {
     })
     .catch(() => {});
 
+  // getAnimations() only sees CSS animations/transitions and WAAPI. Framer
+  // Motion drives its whileInView reveals from requestAnimationFrame instead, so
+  // none of them appear there and the wait above returns instantly while the
+  // page is still fading in. That is what produced the standing ~250 phantom
+  // colour-contrast failures: axe measured half-faded text, read the composited
+  // grey (ink at ~44% over the section tint) as the author's colour, and the
+  // count wandered between runs because it was a race. They appeared only in
+  // default motion and never under prefers-reduced-motion, which is the tell.
+  //
+  // So settle on evidence rather than on a fixed delay: sample every non-unit
+  // opacity in the document until it stops changing. Bounded, because anything
+  // deliberately animating forever would otherwise never satisfy it.
+  await page
+    .evaluate(async (budgetMs) => {
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+      const sample = () => {
+        let out = "";
+        const els = document.body.getElementsByTagName("*");
+        for (let i = 0; i < els.length; i++) {
+          const o = getComputedStyle(els[i]).opacity;
+          if (o !== "1") out += i + ":" + o + ";";
+        }
+        return out;
+      };
+      const deadline = Date.now() + budgetMs;
+      let prev = sample();
+      let stable = 0;
+      while (Date.now() < deadline) {
+        await sleep(150);
+        const now = sample();
+        stable = now === prev ? stable + 1 : 0;
+        prev = now;
+        if (stable >= 2) return;
+      }
+    }, 6000)
+    .catch(() => {});
+
   await page.waitForTimeout(300);
 }
 
@@ -214,12 +251,38 @@ async function main() {
 
             const axe = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
 
+            // Colour contrast is only trusted from the reduced-motion pass.
+            //
+            // Several sections animate opacity against scroll progress, so an
+            // element below the fold legitimately rests part-faded while the
+            // page sits at the top - /tariffs #self-funding measures 0.45 there
+            // and 1 once scrolled to. axe walks the whole DOM regardless of what
+            // is on screen, composites that 0.45 into the text colour and
+            // reports a contrast failure against a state no reader ever sees.
+            // That was ~250 of the ~270 findings this sweep used to report, and
+            // why the total wandered between runs.
+            //
+            // Waiting longer does not fix it: a scroll-linked element parked at
+            // 0.45 is perfectly settled, so no settle condition can tell it from
+            // a finished animation. prefers-reduced-motion switches those
+            // animations off and leaves every element at its authored colour,
+            // which is the state a contrast check is asking about.
+            //
+            // Nothing real is lost. A genuine contrast failure is a choice of
+            // colour, identical under both motion settings - the wordmark one
+            // fixed alongside this change failed in both passes, as any true
+            // positive must.
+            const violations =
+              motion.reducedMotion === "reduce"
+                ? axe.violations
+                : axe.violations.filter((v) => v.id !== "color-contrast");
+
             results.push({
               route,
               viewport: vp.name,
               motion: motion.name,
               status,
-              violations: axe.violations.map((v) => ({
+              violations: violations.map((v) => ({
                 id: v.id,
                 impact: v.impact,
                 help: v.help,

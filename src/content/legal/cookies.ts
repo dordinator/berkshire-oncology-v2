@@ -15,6 +15,11 @@ import type { LegalDoc } from "../types";
 // third-party font request to declare. If any of that changes, this page changes
 // with it.
 //
+// The storage table carries tabindex="0": .legal-prose styles tables as
+// display:block with overflow-x:auto, so at 320px this one scrolls, and a
+// scrollable region has to be keyboard-reachable (SC 2.1.1). The same latent
+// issue applies to any future legal-page table wide enough to overflow.
+//
 // Deliberately not covered here: routine hosting/server logs. Those belong in
 // the Website Privacy Policy and cannot be written accurately until the
 // practice's hosting arrangement is settled.
@@ -37,12 +42,12 @@ export const cookies: LegalDoc = {
 
 <p>Three display settings are remembered, so a choice you make is still in place when you move between pages or come back later. They are held in your browser's local storage rather than in cookies. They stay on your device, they are never sent to us or to anyone else, and none of them identifies you.</p>
 
-<table>
-<thead><tr><th>What it remembers</th><th>Name</th><th>When it is written</th></tr></thead>
+<table tabindex="0" aria-label="What this website stores in your browser">
+<thead><tr><th>What it remembers</th><th>Stored as</th></tr></thead>
 <tbody>
-<tr><td>Your illustration style on the cancer and patient pages — Quiet, Integrated or Expressive</td><td>bop:graphic-mode</td><td>Only when you use that control</td></tr>
-<tr><td>Your illustration style on the treatment pages</td><td>bop:treatment-mode</td><td>Only when you use that control</td></tr>
-<tr><td>Your spacing preference on consultant profiles — Compact, Balanced or Spacious</td><td>bop:consultant-section-spacing</td><td>Only when you use that control</td></tr>
+<tr><td>Your illustration style on the cancer and patient pages — Quiet, Integrated or Expressive</td><td>bop:graphic-mode</td></tr>
+<tr><td>Your illustration style on the treatment pages</td><td>bop:treatment-mode</td></tr>
+<tr><td>Your spacing preference on consultant profiles — Compact, Balanced or Spacious</td><td>bop:consultant-section-spacing</td></tr>
 </tbody>
 </table>
 
