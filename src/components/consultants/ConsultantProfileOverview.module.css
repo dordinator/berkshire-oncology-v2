@@ -1,7 +1,5 @@
 .overview { padding-top: 7.2rem; color: var(--brand-ink); }
 .container { width: min(100% - 3.5rem, 1800px); margin-inline: auto; }
-.breadcrumb { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 1.5rem; color: #4b5b74; font-size: .875rem; }
-.breadcrumb a:hover { text-decoration: underline; }
 .grid { display: grid; grid-template-columns: minmax(0, .94fr) minmax(0, 1.07fr) minmax(0, 1fr); gap: clamp(1.5rem, 2.6vw, 3rem); align-items: stretch; }
 .grid > * { min-width: 0; }
 .media { display: flex; flex-direction: column; gap: .4rem; }
@@ -53,7 +51,6 @@
 .overview [id] { scroll-margin-top: 7rem; }
 @media (min-width: 1500px) {
   .overview { padding-top: 8rem; }
-  .breadcrumb { margin-bottom: 1.8rem; font-size: 1rem; }
   .photo { min-height: 31rem; }
   .reviews { padding-block: 1.2rem; }
   .credentials { font-size: 1rem; margin-top: 1.8rem; }
@@ -77,7 +74,6 @@
 @media (max-width: 699px) {
   .overview { padding-top: 6.6rem; }
   .container { width: calc(100% - 2rem); }
-  .breadcrumb { margin-bottom: 1.25rem; font-size: .8rem; }
   .grid { grid-template-columns: minmax(0, .65fr) minmax(0, 1fr); gap: 1rem; }
   .media, .identity { display: contents; }
   .photo { grid-column: 1; grid-row: 1; min-height: 12rem; border-radius: .8rem; }

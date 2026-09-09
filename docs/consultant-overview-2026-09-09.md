@@ -4,6 +4,8 @@ The approved D4 concept replaces the shared consultant profile opening with thre
 
 The layout is used by all ten consultant profiles. It reflows to two columns at tablet widths and a compact portrait beside the consultant's name on phones. Text and lists grow naturally for longer names or additional cancer specialisms; nothing is truncated to force a fixed viewport height.
 
+The breadcrumb above the overview was subsequently removed at the user's request. The portrait, profile and appointment panel now start directly beneath the main navigation.
+
 ## Content and connections
 
 - Hero summaries shorten the existing maintained biographies. Ruth Davis uses the approved wording about breast cancer and adult brain and spinal tumours. No new treatment, hospital, price or review claims are introduced.

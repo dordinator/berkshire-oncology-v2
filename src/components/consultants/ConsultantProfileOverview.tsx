@@ -57,9 +57,6 @@ export default function ConsultantProfileOverview({ consultant: c, referenceName
   return (
     <section id="overview" data-anchor-align="viewport" className={styles.overview} aria-label={`${c.name} at a glance`}>
       <div className={styles.container}>
-        <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
-          <Link href="/consultants">Consultants</Link><span aria-hidden="true">/</span><span aria-current="page">{c.name}</span>
-        </nav>
         <div className={styles.grid}>
           <div className={styles.media}>
             <div className={styles.photo}>

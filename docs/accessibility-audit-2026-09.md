@@ -360,3 +360,21 @@ Accessibility-tree inspection confirmed named headings, links and fee labels;
 unscored reviews do not announce a fabricated rating. Manual VoiceOver and
 Safari testing remains outstanding. Scope and reproduction notes are in
 `consultant-overview-2026-09-09.md`.
+
+### Consultant breadcrumb removal — 9 September 2026
+
+Removed the breadcrumb and its unused responsive styles from the shared
+consultant overview at the user's request. Codex browser inspection confirmed
+the breadcrumb is absent and Ruth Davis's profile has no horizontal overflow at
+1440, 720 and 320px. The 720 × 450 check represents the equivalent CSS viewport
+for 200% zoom from 1440 × 900; no new manual zoom, keyboard or VoiceOver pass was
+performed for this deletion.
+
+`npm run a11y -- --label=profile-breadcrumb-removal --workers=4` passed its build,
+lint and TypeScript stages, then completed all 310 distinct sweep configurations
+with HTTP 200 responses and no load errors. All consultant profiles have zero
+automated violations. The full site reports 260 contrast instances across eight
+unchanged routes and exits non-zero; all 66 distinct targets were present in the
+preceding profile-overview report. Five previous location-page targets were not
+reported on this run; that page was not changed, so these are not claimed as
+fixes. See `a11y/2026-09-09-profile-breadcrumb-removal.md` and its JSON.
