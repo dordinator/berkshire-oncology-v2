@@ -10,9 +10,8 @@ import type { ReactNode } from "react";
 // button box stays exactly where it is; only the fill and the arrow move.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// `onPhoto` and `onPhotoGhost` are the pair used over the home hero. They are
-// here rather than local to the hero so the wipe is one implementation: the
-// fill, timing and easing are shared with every other button on the site.
+// `onPhoto` and `onPhotoGhost` are the hero pair. The solid hero button adds an
+// inner paint layer so its local styles can uncover blue without a white rim.
 type Variant =
   | "primary"
   | "ghost"
@@ -78,7 +77,10 @@ export default function Button({
       <span
         aria-hidden
         className={`absolute -inset-[2px] -z-10 rounded-[inherit] -translate-x-[101%] transition-transform duration-500 ease-[cubic-bezier(.65,0,.25,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0 motion-reduce:transition-none ${fills[variant]}`}
-      />
+      >
+        {/* The hero styles move this white complement over a fixed blue face. */}
+        {variant === "onPhoto" && <span />}
+      </span>
       <span className="relative">{children}</span>
       {external && <span className="sr-only"> (opens in a new tab)</span>}
       {arrow && (
