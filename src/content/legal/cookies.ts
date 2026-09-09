@@ -1,52 +1,69 @@
 import type { LegalDoc } from "../types";
 
-// Verbatim reproduction of the old /cookies.htm.
-// Light fixes: "Facbook" → "Facebook"; "the Action website" → "this website".
+// Rewritten September 2026. The previous version was a verbatim carry-over from
+// the old PHP site and documented cookies this build does not set: Google
+// Analytics Classic (ga.js, and the _utma/_utmb/_utmc/_utmz set, retired by
+// Google around 2014) and PHPSESSID, on a site that runs no PHP. A notice that
+// names cookies which do not exist fails the "informed" limb of UK GDPR Art 13
+// as squarely as one that omits cookies which do.
+//
+// Everything below was checked against the build rather than rewritten from the
+// old copy. The three storage keys are the ones in GraphicMode.tsx,
+// TreatmentMode.tsx and ConsultantSpacingControl.tsx; all three are written only
+// from their setter, never on load. The map tiles are the OpenStreetMap request
+// in RegionMap.tsx. Fonts are self-hosted through next/font, so there is no
+// third-party font request to declare. If any of that changes, this page changes
+// with it.
+//
+// Deliberately not covered here: routine hosting/server logs. Those belong in
+// the Website Privacy Policy and cannot be written accurately until the
+// practice's hosting arrangement is settled.
+//
+// FLAGGED FOR THE PRACTICE'S LEGAL REVIEW before go-live.
 export const cookies: LegalDoc = {
   slug: "cookies",
   title: "Cookies Information",
+  updated: "9 September 2026",
   description:
-    "Information about the cookies used on the Berkshire Oncology Partnership website.",
+    "This website sets no cookies. What it stores on your device, and the one outside organisation whose content it loads.",
   html: `
-<p>Also known as browser cookies or tracking cookies, cookies are small, often encrypted text files, located in browser directories. They are used by web developers to help users navigate their websites efficiently and perform certain functions. Due to their core role of enhancing/enabling usability or site processes, disabling cookies may prevent users from using certain websites.</p>
-<p>Cookies are created when a user's browser loads a particular website. The website sends information to the browser which then creates a text file. Every time the user goes back to the same website, the browser retrieves and sends this file to the website's server.</p>
-<p>Computer Cookies are created not just by the website the user is browsing, but also by other websites that run ads, widgets, or other elements on the page being loaded. These cookies regulate how the ads appear or how the widgets and other elements function on the page.</p>
-<p>When we provide services, we want to make them easy, useful and reliable. This sometimes involves placing cookies on your computer. These cookies cannot be used to identify you personally and are used to improve services for you, for example through:</p>
-<ul>
-<li>Letting you navigate between pages efficiently.</li>
-<li>Enabling a service to recognise your computer so you don't have to give the same information during one task.</li>
-<li>Recognising that you have already given a username and password so you don't need to enter it for every web page requested.</li>
-<li>Measuring how many people are using services, so they can be made easier to use and that there is enough capacity to ensure they are fast.</li>
-</ul>
-<p>All About Cookies (www.allaboutcookies.org) is a free resource website to help users understand the issues surrounding the use of cookies.</p>
-<p>Users typically have the opportunity to set their browser to accept all or some cookies, to notify them when a cookie is issued, or not to receive cookies at any time. The last of these options, of course, means that personalised services cannot be provided and the user may not be able to take full advantage of all of a website's features.</p>
-<p>NB: The aboutcookies.org website has instructions for popular browsers on how you can delete and control the cookies that are stored on your computer.</p>
-<p>The cookies we may use on this website have been categorised as follows:</p>
+<p><strong>This website does not use cookies.</strong></p>
 
-<h2 class="legal-subhead">Category 1: strictly necessary cookies</h2>
-<p>These cookies are essential in order to enable you to move around our sites and use their features, such as accessing secure areas of the website. Without these cookies services you have asked for, like shopping baskets or e-billing, cannot be provided. The list below shows the cookies that we use, other than those that are strictly necessary to this service.</p>
+<p>We set no cookies of our own. The site carries no analytics, no advertising tags and no social media tracking, so nothing you read here is used to build a picture of you or passed to an advertising network. That matters more on a site like this one than on most: the pages someone chooses to read on an oncology practice's website can suggest something about their health, and we would rather that stayed with them.</p>
 
-<h2 class="legal-subhead">Category 2: performance cookies</h2>
-<p>These cookies collect information about how visitors use a website, for instance which pages visitors go to most often, and if they get error messages from web pages. These cookies don't collect information that identifies a visitor. All information these cookies collect is aggregated and therefore anonymous. It is only used to improve how a website works.</p>
+<p>Cookies are small files a website asks your browser to keep, so it can recognise your device on a later visit. Some sites use them to make a service work; many use them to follow what you look at. This page sets out the small amount of information this site does keep on your device, and the one outside organisation whose content it loads.</p>
 
-<h2 class="legal-subhead">Social Media Cookies</h2>
-<p>These cookies may be used by external social media websites, for example Facebook, YouTube, Twitter, Pinterest, and LinkedIn. Please refer to the social media websites' own cookies and privacy policies for more details.</p>
+<h2 class="legal-subhead">What this site stores on your device</h2>
 
-<h2 class="legal-subhead">ga.js – Cookie Usage</h2>
-<p>The ga.js JavaScript library uses first-party cookies to:</p>
-<ul>
-<li>Determine which domain to measure</li>
-<li>Distinguish unique users</li>
-<li>Remember the number and time of previous visits</li>
-<li>Remember traffic source information</li>
-<li>Determine the start and end of a session</li>
-<li>Remember the value of visitor-level custom variables.</li>
-</ul>
-<p>By default, this library sets cookies on the domain specified in the document.host browser property and sets the cookie path to the root level (/). This library sets the following cookies:</p>
-<p><strong>_utma</strong> — The _utma cookie is part of Google analytics, and is primarily used to track visits to any site that uses Google analytics. _utma stores the number of visits made from your device, the time of the first visit, the previous visit, and the current visit. This cookie does not contain any personal information other than the IP address of your device. This is a third-party cookie.</p>
-<p><strong>_utmb</strong> — This cookie is used to establish and continue a user session with your site. When a user views a page on your site, the Google Analytics code attempts to update this cookie. If it does not find the cookie, a new one is written and a new session is established. Each time a user visits a different page on your site, this cookie is updated to expire in 30 minutes, thus continuing a single session for as long as user activity continues within 30-minute intervals. This cookie expires when a user pauses on a page on your site for longer than 30 minutes.</p>
-<p><strong>_utmc</strong> — This cookie is no longer used by the ga.js tracking code to determine session status. Historically, this cookie operated in conjunction with the __utmb cookie to determine whether or not to establish a new session for the user. For backwards compatibility purposes with sites still using the urchin.js tracking code, this cookie will continue to be written and will expire when the user exits the browser.</p>
-<p><strong>_utmz</strong> — This cookie stores the type of referral used by the visitor to reach your site, whether via a direct method, a referring link, a website search, or a campaign such as an ad or an email link. It is used to calculate search engine traffic, ad campaigns and page navigation within your own site. The cookie is updated with each page view to your site.</p>
-<p><strong>PHPSESSID</strong> — The PHPSESSID cookie is native to PHP and enables websites to store serialised state data. On this website it is used to establish a user session and to pass state data via a temporary cookie, which is commonly referred to as a session cookie. As the PHPSESSID cookie has no timed expiry, it disappears when the client is closed.</p>
+<p>Three display settings are remembered, so a choice you make is still in place when you move between pages or come back later. They are held in your browser's local storage rather than in cookies. They stay on your device, they are never sent to us or to anyone else, and none of them identifies you.</p>
+
+<table>
+<thead><tr><th>What it remembers</th><th>Name</th><th>When it is written</th></tr></thead>
+<tbody>
+<tr><td>Your illustration style on the cancer and patient pages — Quiet, Integrated or Expressive</td><td>bop:graphic-mode</td><td>Only when you use that control</td></tr>
+<tr><td>Your illustration style on the treatment pages</td><td>bop:treatment-mode</td><td>Only when you use that control</td></tr>
+<tr><td>Your spacing preference on consultant profiles — Compact, Balanced or Spacious</td><td>bop:consultant-section-spacing</td><td>Only when you use that control</td></tr>
+</tbody>
+</table>
+
+<p>Nothing is written until you actively change one of these settings. If you never touch them, this site stores nothing on your device at all.</p>
+
+<h2 class="legal-subhead">Content loaded from another organisation</h2>
+
+<p>The maps on the home page and the resources page are drawn with map tiles from OpenStreetMap, a not-for-profit mapping project. When a map scrolls into view your browser fetches those tiles from OpenStreetMap directly, which means OpenStreetMap can see your device's IP address and the address of the page you are on. The tiles set no cookies and are not used to track visitors. The OpenStreetMap Foundation publishes its privacy policy at osmfoundation.org.</p>
+
+<p>Maps are the only content on this site loaded from a third party. There are no embedded videos, social media feeds, advertisements, chat widgets or externally hosted fonts.</p>
+
+<h2 class="legal-subhead">Managing what is stored</h2>
+
+<p>You can see and delete everything this site has stored through your browser's privacy or site data settings, usually reached from the padlock icon in the address bar. Because the site sets no cookies and depends on no tracking, clearing it will not lock you out of anything. The only effect is that the three display settings above return to their defaults.</p>
+
+<h2 class="legal-subhead">If this ever changes</h2>
+
+<p>If the practice adds something that does set cookies — website statistics, or an online booking or enquiry service, for example — this page will be updated before that service goes live, and where the law requires your consent we will ask for it rather than assume it.</p>
+
+<h2 class="legal-subhead">Questions about this page</h2>
+
+<p>Our Practice Manager can be contacted on 0118 959 8866 or by email — <a href="mailto:practicemanager@berkshire-oncology.org.uk">practicemanager@berkshire-oncology.org.uk</a>. How the practice handles patient information more generally is set out in our <a href="/privacy">Privacy Notice</a>, and how this website handles information you send through it is set out in our <a href="/website-privacy">Website Privacy Policy</a>.</p>
 `,
 };
