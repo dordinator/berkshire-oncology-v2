@@ -2,26 +2,8 @@
 
 // Slugs kept in sync with src/content. Used to 301-redirect every old .htm URL
 // to its new route so existing search rankings and inbound links are preserved.
-const specialities = [
-  "bladder",
-  "brain",
-  "breast",
-  "cancer-unknown-primary",
-  "colorectal",
-  "gynaecology",
-  "head-and-neck",
-  "kidney",
-  "liver",
-  "lung",
-  "lymphoma",
-  "oesophagus",
-  "pancreas",
-  "prostate",
-  "skin",
-  "stomach",
-  "testicular",
-  "sarcoma",
-];
+import { readFileSync } from "node:fs";
+const cancerRoutes = JSON.parse(readFileSync(new URL("./src/content/cancerRoutes.json", import.meta.url), "utf8"));
 
 const consultants = [
   "joss-adams",
@@ -225,7 +207,7 @@ const nextConfig = {
       { source: "/contact.htm", destination: "/contact", permanent: true },
       { source: "/contacts", destination: "/contact", permanent: true },
       { source: "/tariffs.htm", destination: "/tariffs", permanent: true },
-      { source: "/useful-links.htm", destination: "/links", permanent: true },
+      { source: "/useful-links.htm", destination: "/resources", permanent: true },
       { source: "/privacy-notice.htm", destination: "/privacy", permanent: true },
       { source: "/privacy.htm", destination: "/website-privacy", permanent: true },
       { source: "/cookies.htm", destination: "/cookies", permanent: true },
@@ -235,12 +217,22 @@ const nextConfig = {
         permanent: true,
       },
       { source: "/accessibility.htm", destination: "/accessibility", permanent: true },
-      // Speciality pages
-      ...specialities.map((s) => ({
-        source: `/specialities/${s}.htm`,
-        destination: `/specialities/${s}`,
-        permanent: true,
-      })),
+      // Retire the old templates; preserve inbound links with a direct hop.
+      ...Object.entries(cancerRoutes).flatMap(([slug, group]) =>
+        ["", ".htm"].map((suffix) => ({
+          source: `/specialities/${slug}${suffix}`,
+          destination: `/specialities?type=${group}#specialists`,
+          permanent: true,
+        })),
+      ),
+      ...Object.entries({
+        "/consultants/by-treatment": "/consultants?view=treatments#consultant-list",
+        "/consultants/profiles": "/consultants?sort=az#consultant-list",
+        "/consultants/clinical-oncologists": "/consultants?role=clinical#consultant-list",
+        "/consultants/medical-oncologists": "/consultants?role=medical#consultant-list",
+        "/links": "/resources",
+        "/contact-concept": "/contact",
+      }).map(([source, destination]) => ({ source, destination, permanent: true })),
       // Consultant profile pages
       ...consultants.map((s) => ({
         source: `/consultant-dr-${s}.htm`,

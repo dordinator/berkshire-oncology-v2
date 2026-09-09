@@ -2,13 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ChapterTint from "@/components/sections/home/ChapterTint";
-import JourneyMapCanvas from "@/components/sections/locations/JourneyMapCanvas";
-import { buildFrames, cameraAt, project } from "@/components/sections/locations/mapCamera";
+import CareLocationsJourney from "@/components/locations/CareLocationsJourney";
 import Button from "@/components/ui/Button";
-import { mapAttribution } from "@/content/mapAttribution";
 import { journeyStops } from "@/content/journey";
 import {
   scrollToAnchor,
@@ -480,8 +478,8 @@ function cancerTreatmentPanels(item: CancerTypePrototypeItem): TreatmentPanel[] 
     {
       title: "Your treatment plan",
       summary: `We do not have a general treatment overview for ${item.title.toLowerCase()} here yet. A consultant can talk you through what information they need and what happens next.`,
-      href: `/specialities/${item.entries[0]?.slug ?? item.id}`,
-      linkLabel: `Read about ${item.title.toLowerCase()}`,
+      href: "/contact#guidance",
+      linkLabel: "Ask the practice team",
     },
   ];
 }
@@ -749,173 +747,16 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
   );
 }
 
-function GeneralLocationsViewport({ item, general = false }: { item: CancerTypePrototypeItem; general?: boolean }) {
-  const reducedMotion = useReducedMotion();
-  const stops = useMemo(
-    () => journeyStops.filter((stop) => item.locations.some((location) => location.slug === stop.slug)),
-    [item.locations],
-  );
-  const [activeLocation, setActiveLocation] = useState(0);
-  const mapProgress = useMotionValue(1);
-  const activeStop = stops[activeLocation] ?? stops[0];
-  const mapFrames = useMemo(() => buildFrames(stops), [stops]);
-  const activeCamera = activeStop ? cameraAt(mapFrames, activeLocation + 1) : null;
-  const activePin = activeStop ? project(activeStop.lat, activeStop.lng) : null;
-  const panelOnRight = Boolean(activeCamera && activePin && activePin.x < activeCamera.x);
-  // The strip used to take one column per stop, capped at five, which left a
-  // sixth location alone on a second row beside five cells of bare divider.
-  // It is now six tracks wide with each tile spanning a share of them, so
-  // every row fills exactly: threes normally, and a short final row widened
-  // to take up the slack — six stops read 3 + 3, five read 3 + 2 with the
-  // last two wider. A remainder of one would strand a tile on its own, so
-  // the last four break into 2 + 2 instead.
-  //
-  // This holds at every width from `sm` up, the narrower right-hand column
-  // from `lg` included; below `sm` the tiles are still stacked one per row.
-  const stopCount = stops.length;
-  const remainder = stopCount % 3;
-  const tripleCount =
-    remainder === 1 && stopCount > 1 ? stopCount - 4 : stopCount - remainder;
-
-  // Written out rather than interpolated: Tailwind scans for whole class names.
-  const spanClass = (index: number) => {
-    if (stopCount === 1) return "sm:col-span-6";
-    return index < tripleCount ? "sm:col-span-2" : "sm:col-span-3";
-  };
-
-  // These locations used to advance on their own every 5.2 seconds. That is
-  // an SC 2.2.2 failure — auto-updating information with no way to pause it —
-  // and clicking a location restarted the timer rather than stopping it. The
-  // list is now driven only by the reader.
-
-  useEffect(() => {
-    const destination = activeLocation + 1;
-    const distance = Math.abs(mapProgress.get() - destination);
-    const controls = animate(mapProgress, destination, {
-      duration: reducedMotion ? 0 : Math.min(1.9, 1.05 + distance * 0.18),
-      ease,
-    });
-    return () => controls.stop();
-  }, [activeLocation, mapProgress, reducedMotion]);
-
-  function chooseLocation(index: number) {
-    setActiveLocation(index);
-  }
-
-  return (
-    <section id="locations" data-anchor-align="viewport" className={`flex min-h-[100svh] items-center bg-sage-panel text-ink ${sectionPadding}`}>
-      <div className="site-gutter grid w-full gap-12 lg:grid-cols-[0.35fr_0.65fr] lg:items-center lg:gap-[5vw]">
-        <div>
-          <h2 className="type-feature-title max-w-[8ch]">
-            Where care can happen.
-          </h2>
-          <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
-            {general
-              ? "Our consultants practise across hospitals and specialist centres in Reading, Windsor and Oxford. The right place depends on your consultant and the care you need."
-              : item.treatmentBasis === "consultant-linked"
-                ? `These are some of the places connected to consultants who treat ${item.title.toLowerCase()}. Your consultant will confirm where your appointments and treatment would take place.`
-                : `Where appointments or treatment take place depends on your exact care plan and provider. We have not inferred a location from the general treatment information for ${item.title.toLowerCase()}; the practice team or your consultant will confirm it.`}
-          </p>
-          <Button href="/locations" variant="ghost" className="mt-8">Explore all locations</Button>
-        </div>
-
-        <div>
-          {activeStop ? (
-            <>
-              <div className="relative min-h-[520px] rounded-[2.25rem] border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
-                <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-canvas">
-                  <JourneyMapCanvas stops={stops} active={activeLocation} progress={mapProgress} />
-
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/65 via-transparent to-transparent" aria-hidden />
-
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.article
-                      key={activeStop.slug}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: reducedMotion ? 0 : 0.55, ease }}
-                      className={`absolute bottom-5 left-5 right-5 rounded-[1.65rem] border border-ink/10 bg-paper/95 p-5 shadow-[0_22px_60px_-38px_rgba(6,28,70,0.38)] backdrop-blur-md md:bottom-7 md:w-[40%] md:p-6 ${panelOnRight ? "md:left-auto md:right-7" : "md:left-7 md:right-auto"}`}
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="type-label text-ink-muted">{activeStop.area}</span>
-                        <span className="text-[10px] tabular-nums text-ink-muted">{String(activeLocation + 1).padStart(2, "0")} / {String(stops.length).padStart(2, "0")}</span>
-                      </div>
-                      <h3 className="type-card-title mt-3">{activeStop.name}</h3>
-                      <p className="mt-1 text-xs text-ink-muted">{activeStop.provider ?? activeStop.eyebrow}</p>
-                      {/* No line-clamp. Clamping to two lines discards the rest of the
-                          description whenever it does not fit, which at 200%
-                          zoom is always — 45px of text with no scrollbar and no
-                          way to reach it. The card is anchored to the bottom of
-                          the map and grows upward, so it has room. */}
-                      <p className="mt-4 text-sm leading-relaxed text-ink-muted">{activeStop.description}</p>
-                      <Link href={activeStop.href} className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-ink">
-                        View this location <Arrow />
-                      </Link>
-                    </motion.article>
-                  </AnimatePresence>
-
-                  {/* The overlay is kept above `lg` (1024px), where the map is wide enough
-                      to carry it. On a phone it was 8px — the smallest text on
-                      the site on a phone or an iPad — and raising it in place doubled its height and
-                      swallowed the top of the map, so below `lg` it moves out
-                      to a caption underneath instead. The OGL and OSM licences
-                      ask for visible, legible attribution, not for it to sit on
-                      the map. Both nodes exist in the markup, but whichever
-                      does not apply is `display: none` and so is absent from
-                      the accessibility tree — a screen reader meets exactly
-                      one of them at any width. */}
-                  <p className="pointer-events-none absolute right-3 top-3 hidden rounded-full bg-canvas/80 px-2.5 py-1 text-[8px] leading-none text-ink-muted backdrop-blur-sm lg:block">{mapAttribution}</p>
-                </div>
-                <p className="mt-3 text-xs leading-relaxed text-ink-muted lg:hidden">{mapAttribution}</p>
-              </div>
-
-              <div className={`mt-4 grid gap-px overflow-hidden rounded-[1.35rem] border border-ink/10 bg-ink/10 sm:grid-cols-6`}>
-                {stops.map((stop, index) => {
-                  const active = index === activeLocation;
-                  return (
-                    <button
-                      key={stop.slug}
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() => chooseLocation(index)}
-                      className={`group relative min-w-0 bg-sage-wash px-4 py-4 text-left transition-colors hover:bg-white/60 ${spanClass(index)}`}
-                    >
-                      <span className="type-label block text-ink-muted">{stop.area}</span>
-                      {/* No truncate. The tabs are a fixed grid, so at 200% zoom the text
-                          grew and the columns did not — up to 119px of a hospital
-                          name was replaced by an ellipsis, which is a loss of
-                          content on resize. Wrapping costs nothing at 100%, where
-                          the names already fit on one line. */}
-                      <span className={`mt-1 block font-display text-sm font-semibold transition-colors ${active ? "text-ink" : "text-ink/70 group-hover:text-ink"}`}>{stop.name.replace(" Hospital", "")}</span>
-                      <motion.span
-                        aria-hidden
-                        initial={false}
-                        animate={{ scaleX: active ? 1 : 0 }}
-                        transition={{ duration: reducedMotion ? 0 : 0.5, ease }}
-                        className="absolute inset-x-0 bottom-0 h-[3px] origin-left bg-ink"
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          ) : (
-            <div className="flex min-h-[520px] items-center rounded-[2.25rem] border border-ink/10 bg-canvas p-8 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] md:p-12 lg:min-h-[clamp(480px,62svh,620px)]">
-              <div className="max-w-xl">
-                <h3 className="type-section-title text-ink">Where you go depends on the care you need.</h3>
-                <p className="mt-5 text-base leading-relaxed text-ink-muted">We do not have a location listed for this cancer type. Once a consultant has reviewed your diagnosis, the practice team can explain where your appointments and treatment would take place.</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function LocationsViewport({ item, general = false }: { item: CancerTypePrototypeItem; general?: boolean }) {
-  return <GeneralLocationsViewport item={item} general={general} />;
+  return <CareLocationsJourney
+    key={item.id}
+    title="Where care can happen."
+    introduction={general
+      ? "Our consultants work at these hospitals and cancer centres. The practice team will confirm where your appointments and treatment take place."
+      : `The consultants listed for ${item.title.toLowerCase()} practise at these sites. Your consultant or the practice team will confirm where your appointments and treatment take place.`}
+    locationSlugs={item.locations.map((location) => location.slug)}
+    className="pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-16 lg:pt-40"
+  />;
 }
 
 function CancerJourney({ item, onReset, general = false }: { item: CancerTypePrototypeItem; onReset: () => void; general?: boolean }) {
@@ -947,9 +788,12 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
   );
 }
 
-export default function CancerTypesPrototype({ items }: { items: CancerTypePrototypeItem[] }) {
-  const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+export default function CancerTypesPrototype({ items, selectedType }: {
+  items: CancerTypePrototypeItem[];
+  selectedType?: string;
+}) {
+  const [query, setQuery] = useState(() => items.find((item) => item.id === selectedType)?.title ?? "");
+  const [selectedId, setSelectedId] = useState<string | null>(() => items.find((item) => item.id === selectedType)?.id ?? null);
   const [showUnsure, setShowUnsure] = useState(false);
   const selected = items.find((item) => item.id === selectedId);
   const generalItem = useMemo<CancerTypePrototypeItem>(() => {
@@ -1064,12 +908,11 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
       // viewport. Repeat the anchor scroll after React has replaced the
       // general journey with the selected one, otherwise the change in content
       // height can leave the visitor above or below the intended section.
-      const isSpecialistDestination =
-        window.location.hash === "#specialists" ||
-        window.location.hash === "#cancer-journey";
+      const destination = window.location.hash.slice(1);
+      const isSpecialistDestination = ["specialists", "cancer-journey", "treatments", "locations"].includes(destination);
 
       if (item && isSpecialistDestination) {
-        if (window.location.hash !== "#specialists") {
+        if (destination === "cancer-journey") {
           const canonicalUrl = new URL(window.location.href);
           canonicalUrl.hash = "specialists";
           window.history.replaceState(
@@ -1081,7 +924,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
 
         requestAnimationFrame(() =>
           window.setTimeout(
-            () => scrollTo("specialists"),
+            () => scrollTo(destination === "cancer-journey" ? "specialists" : destination),
             60,
           ),
         );
@@ -1098,7 +941,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
     syncSelectionFromUrl();
     window.addEventListener("popstate", syncSelectionFromUrl);
     return () => window.removeEventListener("popstate", syncSelectionFromUrl);
-  }, [alignBrowseAll, items, scrollTo]);
+  }, [alignBrowseAll, items, scrollTo, selectedType]);
 
   function selectItem(item: CancerTypePrototypeItem) {
     const url = new URL(window.location.href);

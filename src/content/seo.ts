@@ -1,3 +1,4 @@
+import { cancerTypeHref } from "./routes";
 import type { Metadata } from "next";
 import { site } from "./site";
 import type { Consultant, Speciality } from "./types";
@@ -112,7 +113,7 @@ export function conditionLd(speciality: Speciality) {
     "@context": schema,
     "@type": "MedicalWebPage",
     name: `${speciality.title} — ${site.name}`,
-    url: `${site.url}/specialities/${speciality.slug}`,
+    url: `${site.url}${cancerTypeHref(speciality.slug)}`,
     about: { "@type": "MedicalCondition", name: speciality.title },
     audience: { "@type": "MedicalAudience", audienceType: "Patient" },
   };

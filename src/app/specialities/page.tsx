@@ -1,3 +1,5 @@
+import { locationSlugsForConsultant } from "@/content/consultantSites";
+import { locations as allLocations } from "@/content/locations";
 import type { Metadata } from "next";
 import JsonLd from "@/components/site/JsonLd";
 import { pageMeta, breadcrumbLd } from "@/content/seo";
@@ -12,14 +14,6 @@ import { therapies } from "@/content/therapies";
 import CancerTypesPrototype, {
   type CancerTypePrototypeItem,
 } from "@/components/sections/specialities/CancerTypesPrototype";
-
-/*
-  Cancer-types prototype: a forgiving, search-first entrance followed by a
-  joined-up care picture. This server page owns the relationships; the client
-  component owns only finder state and transitions. The original site remains
-  unchanged in its own worktree while this direction is reviewed on port 3001.
-*/
-
 export const metadata: Metadata = pageMeta({
   title: "Cancer Types",
   description:
@@ -35,10 +29,8 @@ function toItem(
 ): CancerTypePrototypeItem {
   const consultants = new Map<string, { name: string; slug: string; photo?: string; role?: string }>();
   const treatments = new Map<string, { slug?: string; href?: string; title: string; summary: string; byOthers?: boolean }>();
-  // A facility offering a therapy does not establish that it provides that
-  // therapy for this cancer. Keep cancer-specific locations empty until the
-  // practice supplies a verified cancer × treatment × site mapping.
-  const locations: CancerTypePrototypeItem["locations"] = [];
+  // Show the same verified practising sites as the selected consultants’ profiles.
+  const locationSlugs = new Set<string>();
   const listedModalities = new Set<string>();
   let hasCancerSpecificApproaches = false;
   let treatmentIntro: string | undefined;
@@ -74,7 +66,7 @@ function toItem(
             ? undefined
             : approach.therapy
               ? `/treatments/${approach.therapy}`
-              : approach.href ?? ("overview" in treatmentGuide ? `/specialities/${fallbackSlug}` : undefined),
+              : approach.href,
           title: approach.title,
           summary: approach.body,
           byOthers: approach.byOthers,
@@ -86,11 +78,12 @@ function toItem(
   for (const slug of group.slugs) {
     for (const c of getConsultantsForSpeciality(slug)) {
       if (!consultants.has(c.slug)) consultants.set(c.slug, { name: c.name, slug: c.slug, photo: c.photo, role: c.shortRole ?? c.role });
+      locationSlugsForConsultant(c.slug).forEach((site) => locationSlugs.add(site));
       c.modality?.forEach((modality) => listedModalities.add(modality));
     }
     const info = cancerInfo[slug];
     if (!groupTreatmentGuide && info) {
-      addTreatmentGuide(info, slug, `/specialities/${slug}#clinical-review`);
+      addTreatmentGuide(info, slug);
     }
   }
 
@@ -129,7 +122,7 @@ function toItem(
     entries,
     consultants: Array.from(consultants.values()),
     treatments: Array.from(treatments.values()),
-    locations,
+    locations: allLocations.filter((location) => locationSlugs.has(location.slug)),
     treatmentBasis: hasCancerSpecificApproaches
       ? "cancer-specific"
       : treatments.size > 0
@@ -140,7 +133,9 @@ function toItem(
   };
 }
 
-export default function SpecialitiesPage() {
+export default function SpecialitiesPage({ searchParams = {} }: {
+  searchParams?: { type?: string };
+}) {
   const items = [...cancerGroups.map((group) => toItem(group)), toItem(unlistedGroup, false)];
   const missingTreatmentGuides = items.filter(
     (item) => item.treatmentBasis !== "cancer-specific",
@@ -161,7 +156,7 @@ export default function SpecialitiesPage() {
         ])}
       />
 
-      <CancerTypesPrototype items={items} />
+      <CancerTypesPrototype items={items} selectedType={searchParams.type} />
     </>
   );
 }

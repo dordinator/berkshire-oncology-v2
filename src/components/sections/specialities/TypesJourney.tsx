@@ -1,5 +1,6 @@
 "use client";
 
+import { cancerTypeHref } from "@/content/routes";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -234,7 +235,7 @@ const TypeCard = memo(function TypeCard({
               {card.entries.map((entry) => (
                 <Link
                   key={entry.slug}
-                  href={`/specialities/${entry.slug}`}
+                  href={cancerTypeHref(entry.slug)}
                   tabIndex={interactive ? undefined : -1}
                   className="rounded-full border border-ink/15 bg-white/70 px-3.5 py-1.5 text-[13px] font-medium text-ink/80 transition-colors focus-visible:border-ink/45 focus-visible:text-ink lg:hover:border-ink/40 lg:hover:text-ink"
                 >

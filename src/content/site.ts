@@ -37,7 +37,7 @@ export const nav: NavItem[] = [
   { label: "Specialities", href: "/specialities" },
   { label: "Tariffs", href: "/tariffs" },
   { label: "Contact", href: "/contact" },
-  { label: "Links", href: "/links" },
+  { label: "Resources", href: "/resources" },
 ];
 
 // Registered/legal footer links (the old site's "Policies" group).

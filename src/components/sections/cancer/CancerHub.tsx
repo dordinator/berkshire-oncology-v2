@@ -1,5 +1,6 @@
 "use client";
 
+import { cancerTypeHref } from "@/content/routes";
 import { useState } from "react";
 import Link from "next/link";
 import { specialityIcon } from "@/components/site/SpecialityIcons";
@@ -44,7 +45,7 @@ function surname(name: string) {
 function GroupCard({ group }: { group: HubGroup }) {
   const Icon = specialityIcon[group.icon];
   const single = group.entries.length === 1;
-  const primaryHref = `/specialities/${group.entries[0].slug}`;
+  const primaryHref = cancerTypeHref(group.entries[0].slug);
 
   const inner = (
     <>
@@ -117,7 +118,7 @@ function GroupCard({ group }: { group: HubGroup }) {
         {group.entries.map((e) => (
           <li key={e.slug}>
             <Link
-              href={`/specialities/${e.slug}`}
+              href={cancerTypeHref(e.slug)}
               className="type-button inline-flex min-h-[40px] items-center rounded-full border border-ink/12 px-4 text-ink transition-colors hover:border-accent/45 hover:bg-accent/[0.05] hover:text-accent"
             >
               {e.title}

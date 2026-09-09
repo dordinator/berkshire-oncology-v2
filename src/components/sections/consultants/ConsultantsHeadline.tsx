@@ -11,8 +11,8 @@ const LINES = ["Ten consultants.", "Different expertise.", "One partnership."];
 
 const TABS = [
   { label: "By cancer type", href: "/specialities" },
-  { label: "By treatment", href: "/consultants/by-treatment" },
-  { label: "A–Z", href: "/consultants/profiles" },
+  { label: "By treatment", href: "/consultants?view=treatments#consultant-list" },
+  { label: "A–Z", href: "/consultants?sort=az#consultant-list" },
 ];
 
 export default function ConsultantsHeadline() {

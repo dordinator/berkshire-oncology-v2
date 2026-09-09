@@ -13,6 +13,7 @@
   initial HTML (SSR) so they stay crawlable.
 */
 
+import { cancerTypeHref } from "@/content/routes";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { specialityIcon } from "@/components/site/SpecialityIcons";
@@ -56,7 +57,7 @@ function Bubble({ item, size = BUBBLE }: { item: ConstellationItem; size?: numbe
   const Icon = specialityIcon[item.slug];
   return (
     <Link
-      href={`/specialities/${item.slug}`}
+      href={cancerTypeHref(item.slug)}
       className="group flex flex-col items-center justify-center rounded-full bg-white text-center shadow-[0_2px_6px_rgba(61,45,10,0.05),0_20px_40px_-22px_rgba(30,40,70,0.45)] ring-1 ring-[#efe7d6] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_4px_10px_rgba(61,45,10,0.06),0_28px_54px_-22px_rgba(30,40,70,0.5)]"
       style={{ width: size, height: size, padding: size * 0.14 }}
     >

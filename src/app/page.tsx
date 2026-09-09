@@ -7,7 +7,7 @@ import PartnershipIntro from "@/components/sections/home/PartnershipIntro";
 import RegionMap from "@/components/site/RegionMap";
 import { pageMeta, organizationLd } from "@/content/seo";
 import { hospitals } from "@/content/hospitals";
-import { getGroupForSlug } from "@/content/cancerGroups";
+import { cancerTypeHref } from "@/content/routes";
 import ConsultantScroller from "@/components/sections/home/ConsultantScroller";
 import CancerCards from "@/components/sections/home/CancerCards";
 import HospitalStrip from "@/components/sections/home/HospitalStrip";
@@ -64,11 +64,10 @@ const topCancers = CARD_ORDER.map((slug) => {
   const s = specialities.find((x) => x.slug === slug);
   if (!s) return null;
 
-  const group = getGroupForSlug(s.slug);
   return {
     slug: s.slug,
     label: s.title ?? s.name,
-    href: `/specialities?type=${group?.id ?? s.slug}#specialists`,
+    href: cancerTypeHref(s.slug),
   };
 }).filter(
   (c): c is { slug: string; label: string; href: string } => c !== null,

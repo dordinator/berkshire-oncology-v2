@@ -1,3 +1,4 @@
+import { cancerTypeHref } from "@/content/routes";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -365,7 +366,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                   </h3>
                   <p className="type-supporting mt-2 text-ink-muted">{consultantCount}</p>
                 </div>
-                <TextLink href="/consultants/by-treatment">
+                <TextLink href="/consultants?view=treatments#consultant-list">
                   See all consultants
                 </TextLink>
               </div>
@@ -559,7 +560,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                 <ul className="mt-6 flex flex-wrap gap-2.5">
                   {cancerTypes.map((cancerType) => (
                     <li key={cancerType.slug}>
-                      <Chip href={"/specialities/" + cancerType.slug}>
+                      <Chip href={cancerTypeHref(cancerType.slug)}>
                         {cancerType.name}
                       </Chip>
                     </li>

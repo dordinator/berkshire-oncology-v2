@@ -1,1 +1,33 @@
-export { metadata, default } from "../links/page";
+import type { Metadata } from "next";
+import { pageMeta, breadcrumbLd } from "@/content/seo";
+import JsonLd from "@/components/site/JsonLd";
+import ResourceSearchLanding from "@/components/sections/resources/ResourceSearchLanding";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Resources and support — full-screen search over the partnership's curated
+// external organisations and services. This file is also /resources:
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const metadata: Metadata = pageMeta({
+  title: "Resources and support",
+  description:
+    "Links to cancer information, practical support and hospitals where Berkshire Oncology Partnership consultants provide care.",
+  path: "/resources",
+});
+
+export default function ResourcesPage() {
+  return (
+    <>
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Home", path: "/" },
+          { name: "Resources", path: "/resources" },
+        ])}
+      />
+      <div className="overflow-x-clip">
+        <ResourceSearchLanding />
+      </div>
+    </>
+  );
+}

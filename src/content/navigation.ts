@@ -1,3 +1,4 @@
+import { cancerTypeHref } from "./routes";
 import { specialities } from "./specialities";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -154,8 +155,7 @@ const patients: NavSection = {
 };
 
 // ── 2. Cancer Types ──────────────────────────────────────────────────────────
-// Driven entirely by the existing speciality data — these pages are already
-// live, so the dropdown links straight at them.
+// Each speciality opens its current group in the same finder as the homepage.
 const cancerTypes: NavSection = {
   id: "cancer-types",
   label: "Cancer Types",
@@ -167,7 +167,7 @@ const cancerTypes: NavSection = {
     {
       links: specialities.map((s) => ({
         label: s.title,
-        href: `/specialities/${s.slug}`,
+        href: cancerTypeHref(s.slug),
         description: `Consultants, treatments and appointments for ${s.title.toLowerCase()}.`,
         built: true,
       })),
@@ -279,7 +279,7 @@ const consultantsSection: NavSection = {
         },
         {
           label: "Browse by treatment",
-          href: "/consultants/by-treatment",
+          href: "/consultants?view=treatments#consultant-list",
           description: "Every treatment, and the consultants who provide it.",
           built: true,
         },
@@ -290,19 +290,19 @@ const consultantsSection: NavSection = {
       links: [
         {
           label: "Consultant clinical oncologists",
-          href: "/consultants/clinical-oncologists",
+          href: "/consultants?role=clinical#consultant-list",
           description: "Consultants who provide radiotherapy alongside drug treatments.",
           built: true,
         },
         {
           label: "Consultant medical oncologists",
-          href: "/consultants/medical-oncologists",
+          href: "/consultants?role=medical#consultant-list",
           description: "Consultants who specialise in drug treatments for cancer.",
           built: true,
         },
         {
           label: "Consultant profiles",
-          href: "/consultants/profiles",
+          href: "/consultants?sort=az#consultant-list",
           description: "Every profile, A to Z.",
           built: true,
         },

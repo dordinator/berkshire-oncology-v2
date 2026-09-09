@@ -319,6 +319,12 @@ export default function DesktopNav({
       >
         <div ref={measureRef}>
           <motion.div
+            onClick={(event) => {
+              if ((event.target as HTMLElement).closest("a[href]")) {
+                cancelClose();
+                setOpenId(null);
+              }
+            }}
             id={PANEL_ID}
             role="group"
             aria-hidden={!active}
@@ -371,7 +377,7 @@ export default function DesktopNav({
                       ? // The single ungrouped run of cancer types.
                         active.groups[0].links.map((link) => (
                           <Link
-                            key={link.href}
+                            key={`${link.label}:${link.href}`}
                             href={link.href}
                             aria-current={pathname === link.href ? "page" : undefined}
                             className={`block break-inside-avoid rounded-xl px-3 py-2 text-[15px] font-semibold transition-colors hover:bg-accent/[0.06] hover:text-ink ${
@@ -391,7 +397,7 @@ export default function DesktopNav({
                             <div className="flex flex-col">
                               {group.links.map((link) => (
                                 <Link
-                                  key={link.href}
+                                  key={`${link.label}:${link.href}`}
                                   href={link.href}
                                   aria-current={pathname === link.href ? "page" : undefined}
                                   className={`block rounded-xl px-3 py-2 text-[15px] font-semibold transition-colors hover:bg-accent/[0.06] hover:text-ink ${

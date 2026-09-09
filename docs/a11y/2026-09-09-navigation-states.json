@@ -1,0 +1,646 @@
+{
+  "date": "2026-09-09T11:51:53.583Z",
+  "base": "http://127.0.0.1:3003",
+  "results": [
+    {
+      "url": "/specialities?type=bladder-and-kidney#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=bladder-and-kidney#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=bladder-and-kidney#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=bladder-and-kidney#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=brain-and-spinal#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=brain-and-spinal#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=brain-and-spinal#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=brain-and-spinal#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=breast#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=breast#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=breast#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=breast#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=cancer-of-unknown-primary#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=cancer-of-unknown-primary#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=cancer-of-unknown-primary#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=cancer-of-unknown-primary#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=colorectal#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=colorectal#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=colorectal#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=colorectal#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=gynaecological#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=gynaecological#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=gynaecological#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=gynaecological#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=head-and-neck#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=head-and-neck#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=head-and-neck#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=head-and-neck#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=liver-and-pancreatic#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=liver-and-pancreatic#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=liver-and-pancreatic#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=liver-and-pancreatic#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lung#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lung#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lung#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lung#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lymphoma#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lymphoma#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lymphoma#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=lymphoma#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=upper-gi#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=upper-gi#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=upper-gi#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=upper-gi#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=prostate#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=prostate#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=prostate#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=prostate#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=skin-and-melanoma#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=skin-and-melanoma#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=skin-and-melanoma#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=skin-and-melanoma#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=testicular#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=testicular#locations",
+      "scope": "#locations",
+      "width": 320,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=testicular#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/specialities?type=testicular#locations",
+      "scope": "#locations",
+      "width": 1440,
+      "motion": "no-preference",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?role=clinical#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?role=clinical#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?role=medical#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?role=medical#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?sort=az#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?sort=az#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments&treatment=brachytherapy#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments&treatment=brachytherapy#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments&treatment=chemotherapy#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments&treatment=radioisotope-therapy#consultant-list",
+      "scope": "main",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments&treatment=chemotherapy#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#consultation",
+      "scope": "#next-step",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#consultation",
+      "scope": "#next-step",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/consultants?view=treatments&treatment=radioisotope-therapy#consultant-list",
+      "scope": "main",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#guidance",
+      "scope": "#next-step",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#guidance",
+      "scope": "#next-step",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#referral",
+      "scope": "#next-step",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#referral",
+      "scope": "#next-step",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#professional",
+      "scope": "#next-step",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#professional",
+      "scope": "#next-step",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#patient-portal",
+      "scope": "#next-step",
+      "width": 320,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    },
+    {
+      "url": "/contact#patient-portal",
+      "scope": "#next-step",
+      "width": 1440,
+      "motion": "reduce",
+      "status": 200,
+      "violations": []
+    }
+  ]
+}

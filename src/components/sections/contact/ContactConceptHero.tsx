@@ -151,10 +151,29 @@ export default function ContactConceptHero() {
       }
     };
 
+    // Next's same-page hash links use pushState, which emits no hashchange.
+    // Handle these intent links here so the visible route changes with the URL.
+    const followIntentLink = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>("a[href]");
+      if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+      const destination = new URL(link.href, window.location.href);
+      const hash = destination.hash.slice(1);
+      if (destination.origin !== window.location.origin || destination.pathname !== "/contact" || (!isContactIntent(hash) && !PROFESSIONAL_HASHES[hash])) return;
+
+      event.preventDefault();
+      if (destination.href !== window.location.href) {
+        window.history.pushState(window.history.state, "", destination);
+      }
+      readIntent();
+    };
+
     readIntent();
+    document.addEventListener("click", followIntentLink, true);
     window.addEventListener("popstate", readIntent);
     window.addEventListener("hashchange", readIntent);
     return () => {
+      document.removeEventListener("click", followIntentLink, true);
       window.removeEventListener("popstate", readIntent);
       window.removeEventListener("hashchange", readIntent);
     };

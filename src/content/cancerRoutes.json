@@ -1,0 +1,20 @@
+{
+  "bladder": "bladder-and-kidney",
+  "brain": "brain-and-spinal",
+  "breast": "breast",
+  "cancer-unknown-primary": "cancer-of-unknown-primary",
+  "colorectal": "colorectal",
+  "gynaecology": "gynaecological",
+  "head-and-neck": "head-and-neck",
+  "kidney": "bladder-and-kidney",
+  "liver": "liver-and-pancreatic",
+  "lung": "lung",
+  "lymphoma": "lymphoma",
+  "oesophagus": "upper-gi",
+  "pancreas": "liver-and-pancreatic",
+  "prostate": "prostate",
+  "skin": "skin-and-melanoma",
+  "stomach": "upper-gi",
+  "testicular": "testicular",
+  "sarcoma": "sarcoma"
+}

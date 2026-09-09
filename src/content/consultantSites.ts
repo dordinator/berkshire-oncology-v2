@@ -124,3 +124,15 @@ export const consultantSites: Partial<Record<Slug, ConsultantSite[]>> = {
 export function sitesForConsultant(slug: Slug): string[] {
   return (consultantSites[slug] ?? []).map((s) => SITE_LABELS[s.site]);
 }
+
+export const SITE_PAGE_SLUGS: Record<ConsultantSiteId, string> = {
+  "spire-dunedin": "spire-dunedin-reading",
+  "princess-margaret": "princess-margaret-windsor",
+  "genesiscare-windsor": "genesiscare-windsor",
+  "genesiscare-oxford": "genesiscare-oxford",
+  "royal-berkshire": "royal-berkshire-hospital",
+};
+
+export function locationSlugsForConsultant(slug: Slug): string[] {
+  return (consultantSites[slug] ?? []).map(({ site }) => SITE_PAGE_SLUGS[site]);
+}

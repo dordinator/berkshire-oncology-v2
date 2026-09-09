@@ -4,10 +4,8 @@ import { specialities } from "./specialities";
 // ─────────────────────────────────────────────────────────────────────────────
 // The cancer-type hub's information architecture.
 //
-// The practice asked for fourteen groupings. The underlying pages keep their
-// existing slugs — they map 1:1 onto the old site's /specialities/*.htm files
-// and the 301s depend on them — so a group is a *presentation* layer over one
-// or more existing speciality pages, never a replacement for them.
+// Fourteen groupings share the finder. Original speciality slugs remain data
+// keys; cancerRoutes.json maps their old URLs to the current selections.
 //
 // Order is the order the practice gave, which is roughly by how often the
 // partnership sees each cancer, not alphabetical. The A–Z view on the hub is

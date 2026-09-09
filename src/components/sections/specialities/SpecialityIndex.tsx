@@ -7,6 +7,7 @@
   links to that speciality. Letters with no cancer type are disabled/greyed.
 */
 
+import { cancerTypeHref } from "@/content/routes";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 
@@ -91,7 +92,7 @@ export default function SpecialityIndex({ items }: { items: IndexItem[] }) {
             <ul className="mt-3 space-y-5">
               {g.list.map((it) => (
                 <li key={it.slug}>
-                  <Link href={`/specialities/${it.slug}`} className="group block">
+                  <Link href={cancerTypeHref(it.slug)} className="group block">
                     <span className="block font-medium leading-snug text-ink transition-colors group-hover:text-accent">
                       {it.title}
                     </span>

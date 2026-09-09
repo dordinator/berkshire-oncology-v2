@@ -14,6 +14,7 @@
   finished, static drawing.
 */
 
+import { cancerTypeHref } from "@/content/routes";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
@@ -313,7 +314,7 @@ export default function SpecialitiesHelix({
           >
             <div style={{ transform: "translate(-50%, -50%)" }}>
               <Link
-                href={`/specialities/${it.slug}`}
+                href={cancerTypeHref(it.slug)}
                 className="group relative block"
               >
                 <IconCircle slug={it.slug} />

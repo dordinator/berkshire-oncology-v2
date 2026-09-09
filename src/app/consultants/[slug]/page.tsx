@@ -1,3 +1,4 @@
+import { cancerTypeHref } from "@/content/routes";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -13,7 +14,7 @@ import { consultantProfileCopy } from "@/content/consultantProfileCopy";
 import {
   consultantSites,
   sitesForConsultant,
-  type ConsultantSiteId,
+  SITE_PAGE_SLUGS,
 } from "@/content/consultantSites";
 import { site } from "@/content/site";
 import { pageMeta, physicianLd, breadcrumbLd } from "@/content/seo";
@@ -22,7 +23,6 @@ import Button from "@/components/ui/Button";
 import ConsultantAboutJourney from "@/components/consultants/ConsultantAboutJourney";
 import ConsultantTreatmentExperience from "@/components/consultants/ConsultantTreatmentExperience";
 import ConsultantLocationsJourney from "@/components/consultants/ConsultantLocationsJourney";
-import ConsultantSpacingControl from "@/components/consultants/ConsultantSpacingControl";
 
 export function generateStaticParams() {
   return getProfiledConsultantSlugs().map((slug) => ({ slug }));
@@ -44,14 +44,6 @@ export function generateMetadata({
     }.`;
   return pageMeta({ title, description, path: `/consultants/${c.slug}` });
 }
-
-const SITE_PAGE_SLUGS: Record<ConsultantSiteId, string> = {
-  "spire-dunedin": "spire-dunedin-reading",
-  "princess-margaret": "princess-margaret-windsor",
-  "genesiscare-windsor": "genesiscare-windsor",
-  "genesiscare-oxford": "genesiscare-oxford",
-  "royal-berkshire": "royal-berkshire-hospital",
-};
 
 type TreatmentLink = { label: string; href: string };
 
@@ -374,7 +366,6 @@ export default function ConsultantProfile({
     <article
       className="bg-paper-soft"
       data-consultant-profile
-      data-section-spacing="balanced"
     >
       <JsonLd
         data={[
@@ -471,7 +462,7 @@ export default function ConsultantProfile({
           chapters={aboutChapters}
           consultantName={name}
           expertise={treats.map(({ speciality }) => ({
-            href: `/specialities/${speciality.slug}`,
+            href: cancerTypeHref(speciality.slug),
             title: speciality.title,
           }))}
           title={`About ${name}.`}
@@ -612,8 +603,6 @@ export default function ConsultantProfile({
           </div>
         </div>
       </section>
-
-      {process.env.NODE_ENV === "development" && <ConsultantSpacingControl />}
     </article>
   );
 }

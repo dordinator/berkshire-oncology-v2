@@ -123,8 +123,8 @@ export default function ConsultantFocusStrip({
 }: {
   consultants: FocusConsultant[];
 }) {
-  const [active, setActive] = useState(3);
-  const [desktopReady, setDesktopReady] = useState(3);
+  const [active, setActive] = useState(() => Math.min(3, consultants.length - 1));
+  const [desktopReady, setDesktopReady] = useState(() => Math.min(3, consultants.length - 1));
   const [mobileOpen, setMobileOpen] = useState<number | null>(null);
   const reducedMotion = useReducedMotion();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);

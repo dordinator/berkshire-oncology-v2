@@ -1,3 +1,4 @@
+import { cancerTypeHref } from "@/content/routes";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import { getAllSpecialities } from "@/content/queries";
@@ -56,7 +57,7 @@ export default function SpecialitiesPreview() {
             {specialities.map((s) => (
               <Link
                 key={s.slug}
-                href={`/specialities/${s.slug}`}
+                href={cancerTypeHref(s.slug)}
                 className="group flex flex-col items-center text-center"
               >
                 <IconCircle slug={s.slug} />

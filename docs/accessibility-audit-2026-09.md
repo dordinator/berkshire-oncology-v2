@@ -309,3 +309,27 @@ The screen-reader pass is scripted in
 carried out and attributed here.** The statement at `/accessibility` deliberately
 does not describe screen-reader testing, and must not until this row is filled
 in.
+
+
+### Navigation and cancer locations update — 9 September 2026
+
+The current canonical site has 31 page routes after retiring the 18 legacy
+cancer views, four consultant browse routes and two duplicate routes. Query-based
+cancer selections and consultant filters remain available through the current
+hubs; old URLs redirect directly into them.
+
+Codex ran the production build, the browser navigation audit, the full axe
+route sweep and supplemental checks on selected UI states. The full sweep
+completed all 310 loads without a load error, and reported 270 colour-contrast
+instances. All 71 distinct route/selector targets were already present in the
+committed 5–6 September sweep reports. See `a11y/2026-09-09.md` and its JSON.
+
+The supplemental selected-state audit covers every supported cancer group's
+location section, consultant filters and all five contact intents at 320px and
+1440px (both motion settings for cancer locations): 80 checks, zero violations.
+See `a11y/2026-09-09-navigation-states.md` and its JSON.
+
+Scripted keyboard activation of location accordions and reflow checks passed at
+320, 375, 768 and 1440px. The corresponding CSS viewport for 200% browser zoom
+also passed. This was not a new manual VoiceOver pass. Navigation results and
+reproduction instructions are in `navigation-audit-2026-09.md`.

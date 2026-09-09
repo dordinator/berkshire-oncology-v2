@@ -1,3 +1,5 @@
+import { cancerTypeHref } from "./routes";
+import { cancerGroups, unlistedGroup } from "./cancerGroups";
 import { allNavLinks, navSections } from "./navigation";
 import { locations } from "./locations";
 import { getAllConsultants } from "./queries";
@@ -134,8 +136,8 @@ const pageKeywords: Record<string, string[]> = {
   "/": ["home", "berkshire oncology partnership"],
   "/contact": ["contact", "phone", "telephone", "email", "enquiry", "appointment", "book", "referral"],
   "/consultants": ["doctor", "doctors", "oncologist", "oncologists", "specialist", "find a consultant"],
-  "/consultants/clinical-oncologists": ["clinical oncologist", "radiotherapy"],
-  "/consultants/medical-oncologists": ["medical oncologist"],
+  "/consultants?role=clinical#consultant-list": ["clinical oncologist", "radiotherapy"],
+  "/consultants?role=medical#consultant-list": ["medical oncologist"],
   "/specialities": ["cancer types", "conditions", "specialities"],
   "/treatments": ["treatment", "therapies"],
   "/locations": [...locationKeywords, "hospitals", "where"],
@@ -169,13 +171,16 @@ const consultantEntries: SearchEntry[] = getAllConsultants().map((c) => {
   };
 });
 
-const cancerEntries: SearchEntry[] = specialities.map((s) => ({
-  id: `cancer:${s.slug}`,
-  title: s.title,
-  href: `/specialities/${s.slug}`,
-  kind: "cancer",
-  keywords: [s.name, ...(cancerKeywords[s.slug] ?? [])],
-}));
+const cancerEntries: SearchEntry[] = [...cancerGroups, unlistedGroup].map((group) => {
+  const entries = specialities.filter((speciality) => group.slugs.includes(speciality.slug));
+  return {
+    id: `cancer:${group.id}`,
+    title: entries.length === 1 ? entries[0].title : `${group.label} cancers`,
+    href: cancerTypeHref(group.id),
+    kind: "cancer",
+    keywords: entries.flatMap((entry) => [entry.name, entry.title, ...(cancerKeywords[entry.slug] ?? [])]),
+  };
+});
 
 const treatmentEntries: SearchEntry[] = [
   ...therapies.map((t) => ({

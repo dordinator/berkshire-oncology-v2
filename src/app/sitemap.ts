@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
-import { getProfiledConsultantSlugs, getAllSpecialities } from "@/content/queries";
+import { getProfiledConsultantSlugs } from "@/content/queries";
 import { allNavRoutes, navSections, scaffoldedSectionRoots } from "@/content/navigation";
 
 // Routes that exist outside the information architecture — the home page, the
@@ -14,14 +14,6 @@ const standalonePaths = [
   "/cookies",
   "/terms",
   "/accessibility",
-];
-
-// The consultant browse pages, which sit alongside /consultants/[slug].
-const consultantBrowsePaths = [
-  "/consultants/clinical-oncologists",
-  "/consultants/medical-oncologists",
-  "/consultants/by-treatment",
-  "/consultants/profiles",
 ];
 
 // The eight section landing pages rank above their children. Not all of them
@@ -51,12 +43,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const consultantPaths = getProfiledConsultantSlugs().map(
     (s) => `/consultants/${s}`,
   );
-  const specialityPaths = getAllSpecialities().map((s) => `/specialities/${s.slug}`);
 
-  // These lists overlap heavily — allNavRoutes() already contains /consultants,
-  // /tariffs, /links and the browse pages — so the Set does the deduplication.
+  // Deduplicate canonical documents shared by multiple navigation entries.
   //
-  // Fragments are stripped first. Some navigation links point at a section
+  // Query filters and fragments are stripped first. Some navigation links point at a section
   // within a page rather than a page of its own (palliative radiotherapy lives
   // under /treatments/radiotherapy), and a sitemap entry carrying a #fragment
   // is not a distinct URL — it would just duplicate its parent. Stripping
@@ -66,11 +56,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...standalonePaths,
       ...sectionRootPaths,
       ...allNavRoutes(),
-      ...consultantBrowsePaths,
       ...consultantPaths,
-      ...specialityPaths,
     ]
-      .map((path) => path.split("#")[0])
+      .map((path) => path.split(/[?#]/)[0])
       .filter((path) => !redirectedPaths.has(path)),
   );
 
