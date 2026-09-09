@@ -23,6 +23,9 @@
 .button.primary {
   background: var(--home-white);
   color: var(--home-ink);
+  /* Restore the white base immediately on exit so the reverse wipe remains
+     visible. Only the completed incoming wipe changes the base colour. */
+  transition: background-color 0s, color 300ms, border-color 300ms;
 }
 
 .button.secondary {
@@ -45,6 +48,10 @@
 .button:focus-visible > span[aria-hidden] { transform: translateX(0); }
 .button.primary:hover,
 .button.primary:focus-visible {
+  /* A white base can bleed through the antialiased outer clip under a blue
+     fill. Match the base after the 500ms wipe without changing its geometry. */
+  background-color: var(--home-blue);
+  transition-delay: 500ms, 0s, 0s;
   border-color: var(--home-blue);
   color: var(--home-white);
 }
@@ -63,7 +70,8 @@
 .button:focus-visible > svg { transform: translateX(3px); }
 
 @media (prefers-reduced-motion: reduce) {
-  .button,
+  .button.button,
+  .button.button:is(:hover, :focus-visible),
   .button > span[aria-hidden],
   .button > svg { transition: none; }
   .button:hover > svg,
