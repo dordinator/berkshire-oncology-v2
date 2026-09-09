@@ -10,7 +10,6 @@ import MotionProvider from "@/components/MotionProvider";
 import CopyReviewEditor from "@/components/site/CopyReviewEditor";
 import HomepageReturnState from "@/components/site/HomepageReturnState";
 import RouteIntroMotion from "@/components/site/RouteIntroMotion";
-import CornerPreview from "@/components/site/CornerPreview";
 
 // Outfit for titles, Inter for everything else — chosen from the comparison
 // toggle that used to live here. Outfit is a geometric sans, so headings are
@@ -94,7 +93,6 @@ export default function RootLayout({
           <Footer />
         </MotionProvider>
         <CopyReviewEditor />
-        {process.env.NODE_ENV === "development" && <CornerPreview />}
       </body>
     </html>
   );

@@ -21,12 +21,25 @@
 }
 
 .button.primary {
-  background: var(--home-white);
+  background: transparent;
   color: var(--home-ink);
-  /* Restore the white base immediately on exit so the reverse wipe remains
-     visible. Only the completed incoming wipe changes the base colour. */
-  transition: background-color 0s, color 300ms, border-color 300ms;
 }
+
+/* Composite the white base and blue wipe BEFORE the parent's single rounded
+   clip. Painting a rounded white background on the parent itself leaves a
+   second antialiased edge visible underneath the moving blue layer. */
+.button.primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--home-white);
+  pointer-events: none;
+}
+
+/* The solid surface provides this button's outline; a separately painted
+   border would change colour ahead of the wipe and expose another contour. */
+.button.primary::after { content: none; }
 
 .button.secondary {
   background: transparent;
@@ -41,17 +54,20 @@
   transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
 }
 
-.button.primary > span[aria-hidden] { background: var(--home-blue); }
+.button.primary > span[aria-hidden] {
+  background: var(--home-blue);
+  z-index: -1;
+  /* Keep the rounded leading edge, but let it travel beyond the fixed box.
+     The outer clip alone defines every settled corner, without a late snap. */
+  inset: 0 calc(0px - var(--radius-button)) 0 0;
+  border-radius: 0 var(--radius-button) var(--radius-button) 0;
+}
 .button.secondary > span[aria-hidden] { background: var(--home-white); }
 
 .button:hover > span[aria-hidden],
 .button:focus-visible > span[aria-hidden] { transform: translateX(0); }
 .button.primary:hover,
 .button.primary:focus-visible {
-  /* A white base can bleed through the antialiased outer clip under a blue
-     fill. Match the base after the 500ms wipe without changing its geometry. */
-  background-color: var(--home-blue);
-  transition-delay: 500ms, 0s, 0s;
   border-color: var(--home-blue);
   color: var(--home-white);
 }

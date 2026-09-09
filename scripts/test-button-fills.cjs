@@ -24,17 +24,24 @@ assert.equal(declaration(globalCss, '.ink-cta::before', 'inset'), '-2px');
 
 // End-state colour and border changes must agree for pointer and keyboard.
 for (const state of ['hover', 'focus-visible']) {
-  assert.equal(declaration(hero, `.button.primary:${state}`, 'background-color'), 'var(--home-blue)');
-  assert.equal(declaration(hero, `.button.primary:${state}`, 'transition-delay'), '500ms, 0s, 0s');
+  assert.equal(declaration(hero, `.button.primary:${state}`, 'background-color'), undefined);
+  assert.equal(declaration(hero, `.button.primary:${state}`, 'transition-delay'), undefined);
   assert.equal(declaration(hero, `.button.primary:${state}`, 'color'), 'var(--home-white)');
   assert.equal(declaration(hero, `.button.primary:${state}`, 'border-color'), 'var(--home-blue)');
   assert.equal(declaration(hero, `.button.secondary:${state}`, 'color'), 'var(--home-ink)');
   assert.equal(declaration(hero, `.button.secondary:${state}`, 'border-color'), 'var(--home-white)');
 }
-// Preserve the side wipe and instant base reset on exit. The matching settled
-// base prevents white from showing through the rounded, antialiased clip.
-assert.equal(declaration(hero, '.button.primary', 'background'), 'var(--home-white)');
-assert.equal(declaration(hero, '.button.primary', 'transition'), 'background-color 0s, color 300ms, border-color 300ms');
+// Compose square base + moving fill before one outer clip, not two rounded
+// paint layers. The leading curve passes beyond the right edge on completion.
+assert.equal(declaration(hero, '.button.primary', 'background'), 'transparent');
+assert.equal(declaration(hero, '.button.primary::before', 'background'), 'var(--home-white)');
+assert.equal(declaration(hero, '.button.primary::before', 'inset'), '0');
+assert.equal(declaration(hero, '.button.primary::before', 'border-radius'), undefined);
+assert.equal(declaration(hero, '.button.primary::before', 'z-index'), '-2');
+assert.equal(declaration(hero, '.button.primary::after', 'content'), 'none');
+assert.equal(declaration(hero, '.button.primary > span[aria-hidden]', 'z-index'), '-1');
+assert.equal(declaration(hero, '.button.primary > span[aria-hidden]', 'inset'), '0 calc(0px - var(--radius-button)) 0 0');
+assert.equal(declaration(hero, '.button.primary > span[aria-hidden]', 'border-radius'), '0 var(--radius-button) var(--radius-button) 0');
 assert.equal(declaration(hero, '.button > span[aria-hidden]', 'transition', true), 'transform 500ms cubic-bezier(.65, 0, .25, 1)');
 let reducedMotion;
 hero.walkAtRules('media', rule => {
