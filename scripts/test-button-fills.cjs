@@ -15,16 +15,11 @@ function declaration(css, selector, property) {
   return value;
 }
 
-// The fill has the same dimensions and radius as the outer border box.
-// At every preview radius, its corner centre coincides with the parent's.
+// Source-level layout contracts; these do not test browser antialiasing.
+// Hero buttons use the separate overlay border asserted below.
 assert.match(button, /absolute -inset-\[2px\] -z-10 rounded-\[inherit\]/);
 assert.match(button, /overflow-hidden rounded-button/);
 assert.equal(declaration(globalCss, '.ink-cta::before', 'inset'), '-2px');
-for (let radius = 8; radius <= 28; radius++) {
-  const border = 2;
-  const fillInset = -2;
-  assert.equal(border + fillInset + radius, radius);
-}
 
 // End-state colour and border changes must agree for pointer and keyboard.
 for (const state of ['hover', 'focus-visible']) {
@@ -37,6 +32,12 @@ assert.match(button, /focus-visible:text-white/);
 assert.match(button, /group-hover:translate-x-0 group-focus-visible:translate-x-0 motion-reduce:transition-none/);
 assert.equal(declaration(hero, '.button.primary > span[aria-hidden]', 'background'), 'var(--home-blue)');
 assert.equal(declaration(hero, '.button.secondary > span[aria-hidden]', 'background'), 'var(--home-white)');
-assert.equal(declaration(hero, '.button', 'border-radius'), 'var(--radius-button)');
+assert.equal(declaration(hero, '.button.button', 'border-radius'), 'var(--radius-button)');
+assert.equal(declaration(hero, '.button.button', 'border'), '0 solid var(--home-white)');
+assert.equal(declaration(hero, '.button > span[aria-hidden]', 'inset'), '0');
+assert.equal(declaration(hero, '.button::after', 'inset'), '0');
+assert.equal(declaration(hero, '.button::after', 'border'), '2px solid');
+assert.equal(declaration(hero, '.button::after', 'border-color'), 'inherit');
+assert.equal(declaration(hero, '.button::after', 'pointer-events'), 'none');
 assert.equal(declaration(hero, '.button:focus-visible', 'outline'), '3px solid var(--home-white)');
-console.log('PASS: site-wide fill geometry at 8–28px, hero hover/focus colours, side-fill and reduced-motion hooks.');
+console.log('PASS: shared fill CSS, hero single-clip/overlay-border structure, hover/focus colours and reduced-motion hooks. Browser visual verification is separate.');
