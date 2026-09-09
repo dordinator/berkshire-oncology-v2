@@ -107,7 +107,8 @@ export default function CloseBand() {
               <Link
                 key={r.href}
                 href={r.href}
-                className="type-button group flex items-center justify-center gap-2.5 rounded-full border border-white/35 px-6 py-4 text-white transition-colors hover:border-white hover:bg-white/10"
+                data-cta-outline="white"
+                className="type-button group flex items-center justify-center gap-2.5 rounded-full px-[calc(1.5rem-1px)] py-[calc(1rem-1px)] text-white transition-colors hover:bg-white/10"
               >
                 <RouteIcon name={r.icon} />
                 <span data-copy-key={`close.action.${r.icon}`}>

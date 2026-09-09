@@ -96,7 +96,8 @@ function Card({
         <Link
           href={`/consultants/${c.slug}`}
           tabIndex={interactive ? undefined : -1}
-          className="type-button inline-flex max-w-full items-center justify-center rounded-full border border-ink/20 bg-white/70 px-4 py-1.5 text-center leading-tight text-ink transition-colors hover:border-ink/45 hover:bg-white focus-visible:border-ink/45 focus-visible:bg-white"
+          data-cta-outline="ink"
+          className="type-button inline-flex max-w-full items-center justify-center rounded-full bg-white/70 px-[calc(1rem-1px)] py-[calc(.375rem-1px)] text-center leading-tight text-ink transition-colors hover:bg-white focus-visible:bg-white"
         >
           Read full profile
         </Link>

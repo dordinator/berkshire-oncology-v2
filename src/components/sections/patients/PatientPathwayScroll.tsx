@@ -181,7 +181,8 @@ export default function PatientPathwayScroll() {
                         </ul>
                         <Link
                           href={route.action.href}
-                          className="group inline-flex items-center justify-center gap-3 rounded-full border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-white/30 focus-visible:border-ink/40 focus-visible:bg-white/30"
+                          data-cta-outline="ink"
+                          className="group inline-flex items-center justify-center gap-3 rounded-full px-[calc(1.25rem-1px)] py-[calc(.75rem-1px)] text-sm font-medium text-ink transition-colors hover:bg-white/30 focus-visible:bg-white/30"
                         >
                           {route.action.label}
                           <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>

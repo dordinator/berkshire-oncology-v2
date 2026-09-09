@@ -187,7 +187,8 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
               href={therapy.sources[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full border border-ink/15 px-6 text-ink transition-colors hover:border-sage/70 hover:text-sage-ink"
+              data-cta-outline="sage-hover"
+              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full px-[calc(1.5rem-1px)] text-ink transition-colors hover:text-sage-ink"
             >
               Read more about {lowerTitle}
               <span className="sr-only"> (opens in a new tab)</span>

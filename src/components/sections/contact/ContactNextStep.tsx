@@ -56,7 +56,8 @@ function IntegrationCard({
       <button
         type="button"
         disabled
-        className="type-button mt-8 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-6 text-white opacity-80"
+        data-cta-outline="ink"
+        className="type-button mt-8 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-[calc(1.5rem-2px)] text-white opacity-80"
       >
         {action}
         <span aria-hidden className="ml-3">→</span>
@@ -140,7 +141,8 @@ function GuidanceFormPreview({ defaultSubject = "" }: { defaultSubject?: string 
         <button
           type="button"
           disabled
-          className="type-button mt-7 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-6 text-white opacity-80"
+          data-cta-outline="ink"
+          className="type-button mt-7 inline-flex min-h-12 cursor-not-allowed items-center rounded-full bg-ink px-[calc(1.5rem-2px)] text-white opacity-80"
         >
           Send securely to the practice
           <span className="ml-3" aria-hidden>→</span>

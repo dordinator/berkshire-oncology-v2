@@ -844,7 +844,8 @@ export default function SpecialityPage({
               <Button href="/contact#guidance">Make an enquiry</Button>
               <a
                 href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
-                className="rounded-full border border-ink/15 px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/40 hover:bg-ink/[0.03]"
+                data-cta-outline="ink"
+                className="rounded-full px-[calc(1.5rem-1px)] py-[calc(.875rem-1px)] text-sm font-medium text-ink transition-colors hover:bg-ink/[0.03]"
               >
                 {site.contact.phone}
               </a>

@@ -929,7 +929,7 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
             </div>
             <div>
               <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find an appropriate specialist service.</p>
-              <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium">Choose another type</button></div>
+              <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} data-cta-outline="ink" className="rounded-full px-[calc(1.5rem-1px)] py-[calc(.75rem-1px)] text-sm font-medium">Choose another type</button></div>
             </div>
           </div>
         </section>
@@ -1234,7 +1234,7 @@ export default function CancerTypesPrototype({ items }: { items: CancerTypeProto
                 <p className="text-base leading-relaxed text-ink/75">If you have a referral letter, scan report or consultant’s name, send us what you have. The practice team can help work out who you need to speak to.</p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Button href="/contact#guidance">Ask the practice team</Button>
-                  <button type="button" onClick={browseAll} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink hover:border-ink/40">Browse all cancer types</button>
+                  <button type="button" onClick={browseAll} data-cta-outline="ink" className="rounded-full px-[calc(1.5rem-1px)] py-[calc(.75rem-1px)] text-sm font-medium text-ink">Browse all cancer types</button>
                 </div>
               </div>
             </div>
