@@ -1,4 +1,4 @@
-import Image from "next/image";
+import MediaHeroImage from "@/components/site/MediaHeroImage";
 import Button from "@/components/ui/Button";
 
 /**
@@ -28,11 +28,10 @@ export default function TreatmentHero() {
   return (
     <section className="relative overflow-x-clip bg-canvas pb-[6.5rem] pt-24 sm:pt-28 md:pb-28 md:pt-28 xl:pb-0 xl:pt-36">
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] xl:block">
-        <Image
+        <MediaHeroImage
           src="/home/hero.jpg"
           alt="A consultant speaking with a patient during an appointment"
-          fill
-          fetchPriority="high"
+          media="(min-width: 1280px)"
           sizes="70vw"
           className="object-cover object-[60%_50%]"
         />
@@ -56,11 +55,10 @@ export default function TreatmentHero() {
 
           <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:h-[360px] lg:h-[400px] xl:h-auto xl:min-h-[clamp(580px,70svh,720px)]">
             <div className="absolute inset-y-0 left-0 right-0 overflow-hidden rounded-panel md:-left-10 md:right-[calc(50%-50vw)] md:rounded-l-panel md:rounded-r-none xl:hidden">
-              <Image
+              <MediaHeroImage
                 src="/home/hero.jpg"
                 alt="A consultant speaking with a patient during an appointment"
-                fill
-                fetchPriority="high"
+                media="(width < 1280px)"
                 sizes="(max-width: 1279px) 100vw, 70vw"
                 className="object-cover object-[61%_45%]"
               />

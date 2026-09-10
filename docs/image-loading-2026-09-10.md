@@ -112,3 +112,63 @@ Before claiming performance on slower phones, measure the production deployment
 with a cold cache, realistic mobile network/CPU conditions and real device pixel
 ratios. Record LCP, image request timing and layout shifts. This audit is not a
 WCAG conformance review and did not change accessibility behaviour.
+
+## Approved implementation and verification
+
+The user subsequently approved the four delivery improvements. Implemented locally
+on 10 September; no push or deployment performed.
+
+- Added `MediaHeroImage`, using Next's `getImageProps` for the existing fill
+  geometry and optimised candidates, inside a native media-gated `picture`.
+  Visible heroes use eager loading and high fetch priority, without hydration.
+  Inactive layouts use an inline transparent fallback and make no image request.
+  An initial media-preload approach still allowed a hidden image request in the
+  browser, so it was replaced with this stronger native source selection.
+- Applied to the treatments hub, all seven treatment-detail heroes, the
+  desktop-only cancer-types hero, and the two fees hero layouts. Breakpoints,
+  photo positions, masks, parallax, dimensions, copy and alt text are unchanged.
+- Fees has 1280px and 1920px whole-image derivatives, conservatively encoded at
+  WebP quality 90. These are 61,862 and 110,562 bytes versus the original 128,776
+  bytes (52% and 14% smaller). Its original 2880px image remains the highest-density
+  candidate. `sizes` accounts for the tall cover crop: 1,214 CSS pixels on phones,
+  with width/height-aware conservative minima on desktop. High-density displays
+  may still receive the original to preserve sharpness. Other Next image quality
+  settings remain unchanged at the existing default.
+- Five resource logos have responsive lossless WebP derivatives, preserving
+  transparency and every resized visible RGB pixel. Only candidates smaller than
+  their originals are included. Original files remain the highest-size candidates;
+  Sciensus's existing small image/crop is untouched. Explicit original aspect
+  ratios prevent rounding of derivative heights changing the layout.
+- For example, the compact Macmillan logo changes from 59,459 to 10,426 bytes
+  (82% less), and Cancer Care Map from 25,561 to 8,454 bytes (67% less). Actual
+  selection depends on density and the browser's reusable cached candidates.
+
+Validation of the final implementation:
+
+- Production build passed (61 generated pages); compilation, lint and type checks
+  included. Build output isolated in `.next-image-check`, leaving the preview
+  running. Removed the build's incidental tsconfig include afterwards.
+- All 53 sitemap routes and all 462 rendered image candidates returned successful
+  image responses. This includes every `source`/`srcset` candidate, not only the
+  default `img` URL. Reproducible with `node scripts/check-image-responses.cjs`.
+- Browser pass repeated for all 53 routes at 390 × 844 and 1440 × 900. No incomplete
+  visible images in the changed heroes at the sampled observations. Deferred
+  directory portraits finished on subsequent inspection; no broken images found.
+- Browser asset inventory on mobile `/specialities` confirmed no hero photograph
+  resource request; the hidden image selected the inline fallback. Treatment and
+  fees inactive image copies also selected that fallback.
+- Checked the changed templates at the tablet width of 768px as well. Inspected
+  the fees image derivatives visually and retained the original crop positions.
+- All six compact resource logo bounds matched the original measured dimensions
+  exactly. Logos loaded successfully in the expanded browse state.
+- `test-image-delivery.cjs` passed: native media selection, no network fallback
+  srcset, existing Next optimisation, eager/high priority, cover-resolution guards,
+  source retention, smaller derivative files, and decoded lossless logo pixels.
+- Existing button-fill, corner-token, CTA-outline, hero-palette and phone-layout
+  regression scripts all passed. No button or design token files changed.
+- The full `npm run a11y` suite was not rerun: it launches an external Playwright
+  browser, while this session's UI testing is restricted to the supplied in-app
+  browser. No WCAG conformance claim is made.
+
+Production cold-cache/slow-network testing remains outstanding as described above;
+the measured byte savings are not a promised reduction in real-world seconds.

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import MediaHeroImage from "@/components/site/MediaHeroImage";
 import Link from "next/link";
 import { useRef } from "react";
 import {
@@ -14,6 +14,8 @@ import {
 } from "framer-motion";
 import { useCenterGap } from "./useCenterGap";
 import styles from "./FeesHero.module.css";
+
+const HERO_SRC_SET = "/tariffs/hero-plan-a-1280.webp 1280w, /tariffs/hero-plan-a-1920.webp 1920w, /tariffs/hero-plan-a.webp 2880w";
 
 /*
   The fees hero: the comp's composition set in the site's own type — display
@@ -152,13 +154,12 @@ export default function FeesHero() {
           className="absolute inset-0"
           style={reduce ? undefined : { y: parallaxY }}
         >
-          <Image
+          <MediaHeroImage
             src="/tariffs/hero-plan-a.webp"
             alt=""
-            fill
-            priority
-            unoptimized
-            sizes="100vw"
+            srcSet={HERO_SRC_SET}
+            media="(width < 768px)"
+            sizes="1214px"
             className="object-cover object-[58%_center]"
           />
         </motion.div>
@@ -176,13 +177,12 @@ export default function FeesHero() {
           className="absolute inset-0"
           style={reduce ? undefined : { y: parallaxY }}
         >
-          <Image
+          <MediaHeroImage
             src="/tariffs/hero-plan-a.webp"
             alt=""
-            fill
-            priority
-            unoptimized
-            sizes="80vw"
+            srcSet={HERO_SRC_SET}
+            media="(min-width: 768px)"
+            sizes="(max-width: 1023px) max(74vw, 1440px, 180svh), max(80vw, 1440px, 180svh)"
             className="object-cover object-[50%_38%]"
           />
         </motion.div>
