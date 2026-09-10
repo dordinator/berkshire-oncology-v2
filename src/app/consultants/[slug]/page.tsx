@@ -198,7 +198,11 @@ function InformationDisclosure({
   defaultOpen?: boolean;
 }) {
   return (
-    <details className="group border-b border-ink/[0.14]" open={defaultOpen}>
+    <details
+      name="consultant-professional-work"
+      className="group border-b border-ink/[0.14]"
+      open={defaultOpen}
+    >
       <summary className="type-card-title flex min-h-[86px] cursor-pointer list-none items-center justify-between gap-6 py-6 text-ink marker:content-none">
         {title}
         <span className="relative h-5 w-5 flex-none" aria-hidden>

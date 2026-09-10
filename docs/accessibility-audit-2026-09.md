@@ -513,3 +513,31 @@ Build, lint and TypeScript pass. The required accessibility sweep completed all
 report, the audit excludes default-motion colour-contrast findings and includes
 contrast only for reduced-motion checks. These results do not establish full
 WCAG conformance.
+
+
+### Exclusive Professional work panels — 10 September 2026
+
+Codex grouped the native disclosures in the consultant “Professional work”
+section with a shared `details` name. Opening Clinical leadership, Research
+and publications, Achievements or Disclosures now closes the previously open
+panel. The active panel can also be closed. The initial open state and the
+separate About disclosures are preserved.
+
+A production-browser interaction check covered all 36 panels across ten
+consultant profiles with JavaScript disabled. It confirmed one open panel
+after each selection, the ability to close the active panel and independence
+from About. In the in-app browser, mouse selection and keyboard Enter/Space
+activation were checked on Dr Davis’s profile at 1440px. At 320px,
+Dr Bhattacharyya’s Research and publications panel opens by keyboard, closes
+Clinical leadership and keeps the visible focus underline. The accessibility
+tree exposes the corresponding expanded/collapsed states and the newly
+visible text. There is no horizontal overflow at 320px or at the 720 × 450 CSS
+viewport equivalent to 200% zoom. This was not a manual browser-zoom session.
+Manual VoiceOver/Safari testing remains outstanding.
+
+Build, lint and TypeScript pass. The required full accessibility sweep completed
+310 configurations with zero reported violations; see
+`a11y/2026-09-10-professional-work-accordion.md` and its JSON. The existing audit
+method includes colour-contrast findings only in reduced-motion results;
+default-motion contrast is excluded. This is automated evidence within that
+scope, not proof of full WCAG conformance.
