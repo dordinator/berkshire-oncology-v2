@@ -92,7 +92,7 @@ export default function ProofImage({
           </div>
         </div>
 
-        <div className="pointer-events-auto flex w-fit items-baseline gap-2.5 rounded-full bg-white/95 px-4 py-2 shadow-[0_20px_60px_-20px_rgba(6,28,70,0.45)] backdrop-blur-sm sm:gap-3 sm:px-5 sm:py-2.5">
+        <div className="pointer-events-auto flex w-fit items-baseline gap-2.5 rounded-[15px] bg-white/95 px-4 py-2 shadow-[0_20px_60px_-20px_rgba(6,28,70,0.45)] backdrop-blur-sm sm:gap-3 sm:px-5 sm:py-2.5">
           <span className="font-display text-base leading-none text-ink sm:text-lg">
             {statValue}
           </span>

@@ -335,6 +335,7 @@ export default function ConsultantProfile({
         hasLocations={locationSlugs.length > 0}
       />
 
+
       {aboutChapters.length > 0 && (
         <ConsultantAboutJourney
           chapters={aboutChapters}
@@ -463,7 +464,7 @@ export default function ConsultantProfile({
                   Request an appointment with {name} and share the details you have.
                 </span>
               </span>
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/45 text-gold-ink transition-transform duration-300 group-hover:translate-x-1">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-mulberry/45 text-mulberry-ink transition-transform duration-300 group-hover:translate-x-1">
                 <Arrow />
               </span>
             </Link>

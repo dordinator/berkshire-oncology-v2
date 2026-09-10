@@ -56,7 +56,7 @@ export default function ExpressiveNetwork({
         opacity: 0.1 + rand() * 0.26,
         delay: (rand() * 14).toFixed(2),
         duration: (16 + rand() * 12).toFixed(2),
-        gold: rand() > 0.78,
+        mulberry: rand() > 0.78,
         node: rand() > 0.55 ? 0.35 + rand() * 0.3 : null,
       };
     });
@@ -86,7 +86,7 @@ export default function ExpressiveNetwork({
             <path
               key={i}
               d={p.d}
-              stroke={p.gold ? palette.gold : palette.accent}
+              stroke={p.mulberry ? palette.mulberry : palette.accent}
               strokeOpacity={p.opacity}
               strokeWidth={p.width}
             />
@@ -100,7 +100,7 @@ export default function ExpressiveNetwork({
               <path
                 key={`f-${i}`}
                 d={p.d}
-                stroke={p.gold ? palette.goldSoft : palette.accentSoft}
+                stroke={p.mulberry ? palette.mulberrySoft : palette.accentSoft}
                 strokeOpacity={Math.min(0.5, p.opacity + 0.2)}
                 strokeWidth={p.width + 0.35}
                 pathLength={1}

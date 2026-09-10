@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import MediaHeroImage from "@/components/site/MediaHeroImage";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -1040,11 +1041,10 @@ export default function CancerTypesPrototype({ items, selectedType }: {
 
             <div className="absolute left-0 top-[8%] h-[68%] w-[73%] overflow-hidden rounded-panel border border-ink/10 bg-white shadow-[0_30px_76px_-42px_rgba(6,28,70,0.4)]">
               <div className="relative h-full w-full">
-                <Image
+                <MediaHeroImage
                   src="/home/hero.jpg"
                   alt=""
-                  fill
-                  priority
+                  media="(min-width: 1024px)"
                   sizes="42vw"
                   className="object-cover object-[66%_center]"
                 />

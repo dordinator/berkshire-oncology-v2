@@ -41,7 +41,7 @@ export default function LegalLayout({ doc }: { doc: LegalDoc }) {
       <header className="bg-ink pb-14 pt-32 md:pb-20 md:pt-44">
         <div className="container-wide">
           <p className="type-label flex items-center gap-3 text-white/50">
-            <span aria-hidden className="h-px w-8 bg-gold/70" />
+            <span aria-hidden className="h-px w-8 bg-mulberry/70" />
             Legal information
           </p>
           <h1 className="type-page-hero mt-5 max-w-4xl text-white">

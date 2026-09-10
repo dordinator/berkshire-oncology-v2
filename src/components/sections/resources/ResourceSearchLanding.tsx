@@ -63,6 +63,15 @@ const compactResourceLogoSizes: Record<string, string> = {
   "/links/cancer-care-map.png": "w-full",
 };
 
+// Only candidates that are smaller than their original file are shipped.
+const responsiveLogoWidths: Record<string, number[]> = {
+  "/links/macmillan.png": [240, 480, 960],
+  "/links/cancer-research-uk.png": [240],
+  "/links/nhs.png": [240],
+  "/links/maggies.png": [240, 480],
+  "/links/cancer-care-map.png": [240, 480],
+};
+
 /** Preserve each logo's intrinsic ratio while it is waiting to lazy-load. */
 const resourceLogoDimensions: Record<
   string,
@@ -279,10 +288,22 @@ function ResourceLogo({
     );
   }
 
-  const dimensions = resourceLogoDimensions[result.logo] ?? {
+  const logo = result.logo;
+  const dimensions = resourceLogoDimensions[logo] ?? {
     width: 600,
     height: 300,
   };
+
+  // Keep the original for high-density displays and the small, specially cropped
+  // Sciensus asset. Other logos use lossless WebP derivatives: no chroma loss.
+  const srcSet = responsiveLogoWidths[logo]
+    ? [
+        ...responsiveLogoWidths[logo].map(width =>
+          `${logo.replace("/links/", "/links/responsive/").replace(".png", `-${width}.webp`)} ${width}w`,
+        ),
+        `${logo} ${dimensions.width}w`,
+      ].join(", ")
+    : undefined;
 
   if (result.logo === "/links/sciensus.png") {
     return (
@@ -309,6 +330,9 @@ function ResourceLogo({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={result.logo}
+      srcSet={srcSet}
+      sizes={srcSet ? (compact ? "120px" : "430px") : undefined}
+      style={srcSet ? { aspectRatio: `${dimensions.width} / ${dimensions.height}` } : undefined}
       alt=""
       width={dimensions.width}
       height={dimensions.height}
@@ -462,7 +486,7 @@ export default function ResourceSearchLanding() {
                     ? `${results.length} matching ${results.length === 1 ? "resource" : "resources"}`
                     : "Suggested searches"}
                 </span>
-                {!trimmed && <span className="text-gold-ink">Start anywhere</span>}
+                {!trimmed && <span className="text-mulberry-ink">Start anywhere</span>}
                 {trimmed && (
                   <button
                     type="button"

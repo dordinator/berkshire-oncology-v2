@@ -5,9 +5,19 @@ and WCAG for decisions 4–10, then authorised the merge.
 
 ## Sources and decisions
 
-Main: `5d3fac5`. Local WCAG work: `0e7a245`. Upstream WCAG: `bbae997`.
+Compared Main snapshot: `5d3fac5`. Local WCAG work: `0e7a245`.
+Upstream WCAG: `bbae997`. Final incorporated Main tip: `9dea9bc`.
 The upstream WCAG documentation was merged first. Main was then merged into
 that history, retaining both branches' ancestry.
+
+The final push check discovered six additional Main commits: this checkout's
+fetch refspec had tracked only WCAG, leaving its Main comparison ref stale.
+The non-fast-forward push was safely rejected. Fetching both branches is now
+configured. The newer shared palette, image delivery, mobile treatments hero
+and homepage banner-radius changes were merged as well. The only additional
+conflicts were the old consultant overview and deleted cancer route; both
+retain the user's WCAG choices. The consultant CTA palette test now checks
+the selected overview's existing shared-colour styles instead of the old hero.
 
 1. Homepage cancer directory: Main.
 2. Homepage care expectations section: Main.
@@ -79,3 +89,25 @@ tree. The focused control has a visible ring. The consultant overview retains
 the request/call/review panel and keyboard Enter on Treatments navigates to its
 section. No new manual VoiceOver or actual browser-zoom pass was performed;
 720 × 450 is a reduced CSS viewport, not a claim of manual 200% zoom testing.
+
+## Final validation including Main 9dea9bc
+
+The full build and accessibility sweep were repeated after incorporating the
+newer Main commits. All 310 configurations pass with zero reported violations:
+`a11y/2026-09-10-approved-merge-latest-main.md` and JSON. Lint passes, as do
+the image-delivery, hero palette and mobile treatment layout checks. The
+read-only image response audit checked 31 pages and 462 candidates, all valid.
+
+The final navigation audit again passes eight menus, ten mobile links, 103
+redirects, 60 documents/states and 320 destinations with no errors:
+`a11y/2026-09-10-approved-merge-final-navigation/link-audit.json`.
+
+An additional treatment geometry run found three failures when a reused page
+changed viewport and motion settings between cases. The isolated medicine
+recheck passed all four narrow cases. The fresh-arrival harness now creates
+a new page per case rather than carrying native hash-scroll state between
+configurations. All 24 fresh treatment-section arrivals pass at 1440, 720 and
+320px in both motion settings. The initial observations and isolated recheck
+are retained alongside
+`a11y/2026-09-10-approved-merge-final-treatment-fresh-arrivals.json`.
+This establishes fresh arrivals, not every possible live-resize sequence.

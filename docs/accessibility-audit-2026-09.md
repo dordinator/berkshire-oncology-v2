@@ -4,6 +4,11 @@
 > directory, care expectations and feedback sections, and WCAG's consultant
 > profiles, cancer locations, canonical navigation, anchor behaviour and policy
 > wording. See [the approved merge record](./approved-merge-2026-09-10.md).
+> Final validation includes Main `9dea9bc`: build/lint pass, 310 automated
+> configurations report no violations, 320 navigation destinations pass, and
+> all 24 fresh treatment arrivals pass. The runner's default-motion contrast
+> exclusion and outstanding manual/automatic-content limitations are recorded
+> in that report; no new full conformance claim is made.
 
 > Current-version update, 9 September: the WCAG branch has been reconciled with
 > the newer design work. The historical findings below are not a conformance
@@ -301,6 +306,27 @@ Authentication: no multi-step process and no authentication. SC 2.3.1 and 2.3.2
 ---
 
 ## 6. Manual testing record
+
+### Palette consistency, 10 September
+
+Codex checked the shared header search in the local browser after consolidating
+the public palette. Its focused input renders a 2px mulberry underline
+(`rgb(132, 61, 87)`, `#843d57`), matching the homepage quotation accent.
+Calculated contrast for full-strength mulberry is 7.54:1 on white, 6.85:1 on
+ice and 4.93:1 on the sage panel. The same focus rule applies to inputs,
+textareas and selects throughout the site. This focused colour check does not
+constitute a new keyboard traversal, zoom, reflow or screen-reader assessment.
+
+The accompanying automated sweep is recorded separately in
+`docs/a11y/2026-09-10-palette-consistency.md`. All 550 checks completed with no
+HTTP or execution failures. It reported 350 contrast instances: 250 on animated
+sections of Patients, Locations and Fees (the same counts and affected sections
+as the 9 September report), and 100 in the translucent header on legal pages.
+The header background was then increased from 70% to 95% white, matching its
+dropdown surfaces. A targeted recheck of all five affected legal pages, at all
+five widths and both motion settings, passed all 50 checks with zero violations:
+`docs/a11y/2026-09-10-palette-header-verification.md`. The earlier animated-section
+findings remain unresolved; this is not a clean site-wide accessibility pass.
 
 | Pass | Status | Date | By |
 |---|---|---|---|

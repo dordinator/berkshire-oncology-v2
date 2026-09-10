@@ -35,35 +35,40 @@
   --radius-button: 15px;
   --radius-panel: 20px;
   --cta-border-width: 2px;
-  /* Agreed palette, initially scoped to the redesigned homepage chapters. */
-  --home-ink: #0e2f55;
-  --home-blue: #164c88;
-  --home-white: #ffffff;
-  --home-ice: #eef5fa;
-  --home-sage: #cbd3ce;
-  --home-mulberry: #843d57;
-  --bg: #fafbfc;
-  --fg: #061c46;
-  --brand-ink: #061c46;
-  --brand-blue: #1a4d8f;
-  --brand-blue-soft: #3f6fb0;
-  --brand-blue-glow: #9fb9dc;
-  --brand-blue-mist: color-mix(in srgb, var(--brand-blue) 12%, white);
-  --brand-sage: #5c7767;
-  --brand-sage-mid: color-mix(in srgb, var(--brand-sage) 82%, white);
-  --brand-sage-soft: color-mix(in srgb, var(--brand-sage) 68%, white);
-  --brand-sage-mist: color-mix(in srgb, var(--brand-sage) 18%, white);
-  --brand-gold: #c8992f;
-  --brand-gold-ink: #8a6516;
-  --brand-gold-soft: #e3bd6a;
-  --brand-gold-panel: #f3dca2;
-  --brand-sage-panel: color-mix(in srgb, var(--brand-sage) 32%, white);
-  --brand-paper: #fbfaf5;
-  --surface-canvas: #fafbfc;
-  --surface-canvas-soft: #eef2f7;
-  --surface-paper-soft: #f8f8f4;
-  --surface-warm: #f0ece2;
-  --surface-cool: #e7edf1;
+  /* All surfaces and graphics draw from the shared Tailwind/JS palette. */
+  --home-ink: var(--brand-ink);
+  --home-blue: var(--brand-blue);
+  --home-white: theme(colors.white);
+  --home-ice: theme(colors.ice);
+  --home-sage: var(--brand-sage-panel);
+  --home-mulberry: var(--brand-mulberry);
+  --bg: theme(colors.canvas.DEFAULT);
+  --fg: var(--brand-ink);
+  --brand-ink: theme(colors.ink.DEFAULT);
+  --brand-blue: theme(colors.accent.DEFAULT);
+  --brand-blue-soft: theme(colors.accent.soft);
+  --brand-blue-glow: theme(colors.accent.glow);
+  --brand-blue-mist: theme(colors.accent.mist);
+  --brand-sage: theme(colors.sage.DEFAULT);
+  --brand-sage-mid: theme(colors.sage.mid);
+  --brand-sage-soft: theme(colors.sage.soft);
+  --brand-sage-mist: theme(colors.sage.mist);
+  --brand-sage-panel: theme(colors.sage.panel);
+  --brand-mulberry: theme(colors.mulberry.DEFAULT);
+  --brand-mulberry-ink: theme(colors.mulberry.ink);
+  --brand-mulberry-soft: theme(colors.mulberry.soft);
+  --brand-mulberry-panel: theme(colors.mulberry.panel);
+  /* Compatibility with decorative compositions using the previous token names. */
+  --brand-gold: var(--brand-mulberry);
+  --brand-gold-ink: var(--brand-mulberry-ink);
+  --brand-gold-soft: var(--brand-mulberry-soft);
+  --brand-gold-panel: var(--brand-mulberry-panel);
+  --brand-paper: theme(colors.paper.DEFAULT);
+  --surface-canvas: theme(colors.canvas.DEFAULT);
+  --surface-canvas-soft: theme(colors.canvas.soft);
+  --surface-paper-soft: theme(colors.paper.soft);
+  --surface-warm: theme(colors.section.warm);
+  --surface-cool: theme(colors.section.cool);
   /* One horizontal page grid, measured from the HCA reference site. The
      content stays fluid on wide screens; readable copy widths are constrained
      by the component inside the grid, never by shrinking the page wrapper. */
@@ -224,11 +229,10 @@ button:not([class*="rounded-full"]):not(.site-button):not(.ink-cta):focus-visibl
    placeholder and the typed value are painted by the control itself and an
    underline does not reach them; and rather than `border-bottom`, which would
    change the field's height on focus.
-   gold-ink, not the brand gold: #c8992f is 2.61:1 on white, and this line is
-   the only thing marking focus. #8a6516 is 5.31:1 — the pairing the palette
-   already defines, for the same reason sage-ink exists. */
+   Full-strength mulberry matches the shared accent and keeps the focus
+   indicator visible against the site's light input surfaces. */
 :is(input, textarea, select):focus-visible {
-  box-shadow: 0 2px 0 0 theme(colors.gold.ink);
+  box-shadow: 0 2px 0 0 var(--brand-mulberry);
 }
 
 /* The home link in the header. Its label is an inline-flex lockup, and
@@ -241,7 +245,7 @@ a:focus-visible [data-brand-wordmark] {
 }
 
 ::selection {
-  background-color: #1a4d8f;
+  background-color: var(--brand-blue);
   color: #ffffff;
 }
 
@@ -275,6 +279,30 @@ button[class*="rounded-"] {
 }
 [data-cta-outline="white"] { --cta-border-color: #ffffff; }
 [data-cta-outline="sage-hover"]:hover { --cta-border-color: var(--brand-sage); }
+
+/* Explicit hero-action opt-ins: share the approved homepage navy/blue without
+   recolouring headings, navigation, telephone links or buttons further down
+   the page. Paint only; the existing borders, geometry and wipe motion stay.
+   The homepage's single-mask photo buttons deliberately do not opt in. */
+.type-button.hero-cta-primary,
+.type-button.hero-cta-primary:is(:hover, :focus-visible) {
+  background-color: var(--home-ink);
+  border-color: var(--home-ink);
+  color: var(--home-white);
+}
+.site-button.hero-cta-primary > span[aria-hidden],
+.ink-cta.hero-cta-primary::before {
+  background: var(--home-blue);
+}
+.type-button.hero-cta-secondary,
+.type-button.hero-cta-secondary:is(:hover, :focus-visible) {
+  --cta-border-color: var(--home-ink);
+  border-color: var(--home-ink);
+  color: var(--home-ink);
+}
+.site-button.hero-cta-secondary > span[aria-hidden] {
+  background: color-mix(in srgb, var(--home-ink) 5%, transparent);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .ink-cta::before,
@@ -402,7 +430,7 @@ button[class*="rounded-"] {
     /* Same outer-box geometry as the shared Button fill: no inner crescents. */
     inset: -2px;
     z-index: -1;
-    background: #1a4d8f;
+    background: var(--brand-blue);
     border-radius: inherit;
     transform: translateX(-101%);
     transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
@@ -425,7 +453,7 @@ button[class*="rounded-"] {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: #1a4d8f;
+    background: var(--brand-blue);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -807,7 +835,7 @@ button[class*="rounded-"] {
       ),
       radial-gradient(
         circle at 87% 80%,
-        color-mix(in srgb, var(--brand-gold) 9%, transparent),
+        color-mix(in srgb, var(--brand-mulberry) 9%, transparent),
         transparent 24%
       );
   }
@@ -821,7 +849,7 @@ button[class*="rounded-"] {
       ),
       radial-gradient(
         circle at 8% 88%,
-        color-mix(in srgb, var(--brand-gold) 8%, transparent),
+        color-mix(in srgb, var(--brand-mulberry) 8%, transparent),
         transparent 24%
       );
   }

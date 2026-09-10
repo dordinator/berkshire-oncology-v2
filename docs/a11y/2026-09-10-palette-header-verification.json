@@ -1,0 +1,713 @@
+{
+  "generated": "2026-09-10T17:34:31.279Z",
+  "base": "http://localhost:61055",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "results": [
+    {
+      "route": "/accessibility",
+      "viewport": "320",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "320",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "320",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "320",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "320",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "375",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "375",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "375",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "375",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "375",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "768",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "768",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "768",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "768",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "768",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "1024",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "1024",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "1024",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "1024",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "1024",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "1440",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "1440",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "1440",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "1440",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "1440",
+      "motion": "default",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "320",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "320",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "320",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "320",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "320",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "375",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "375",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "375",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "375",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "375",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "768",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "768",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "768",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "768",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "768",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "1024",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "1024",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "1024",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "1024",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "1024",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "route": "/accessibility",
+      "viewport": "1440",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/cookies",
+      "viewport": "1440",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "viewport": "1440",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/terms",
+      "viewport": "1440",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "route": "/website-privacy",
+      "viewport": "1440",
+      "motion": "reduced",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 16
+        }
+      ]
+    }
+  ]
+}

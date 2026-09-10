@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
+import MediaHeroImage from "@/components/site/MediaHeroImage";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { site } from "@/content/site";
@@ -102,11 +102,10 @@ function HeroImage({
 }) {
   return (
     <>
-      <Image
+      <MediaHeroImage
         src={presentation.hero.src}
         alt={presentation.hero.alt}
-        fill
-        fetchPriority="high"
+        media={mobile ? "(width < 1024px)" : "(min-width: 1024px)"}
         sizes={
           mobile
             ? "100vw"
@@ -152,7 +151,7 @@ export default function TreatmentDetailHero({
               {therapy.summary}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-start gap-5">
-              <Button href="/contact#guidance" variant="sage">
+              <Button href="/contact#guidance" variant="primary" className="hero-cta-primary">
                 Contact the practice
               </Button>
               <span aria-hidden className="hidden h-10 w-px bg-ink/15 sm:block" />

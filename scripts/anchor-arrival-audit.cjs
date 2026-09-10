@@ -40,9 +40,11 @@ const results=[];
  try {
   await Promise.all(Array.from({length:Number(process.env.WORKERS)||4},async()=>{
    const context=await browser.newContext();
-   const page=await context.newPage();
    while(jobs.length){
     const job=jobs.shift();
+    // Each case measures a fresh arrival. Reusing a document while changing
+    // viewport/motion can retain its native hash scroll and animation state.
+    const page=await context.newPage();
     try{
      await page.setViewportSize({width:job.width,height:job.width===720?450:job.width===320?780:900});
      await page.emulateMedia({reducedMotion:job.motion});
@@ -67,6 +69,7 @@ const results=[];
      });
      results.push({...job,status:res?.status(),...data});
     }catch(e){results.push({...job,error:e.message});}
+    finally{await page.close();}
     if(results.length%25===0)console.log(`Measured ${results.length}, ${jobs.length} remaining`);
    }
    await context.close();

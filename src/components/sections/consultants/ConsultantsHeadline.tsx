@@ -2,7 +2,7 @@ import Link from "next/link";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The band above the focus strip: three stacked lines, and to their right —
-// behind the gold hairline — the quiet steer with the begin-with tabs
+// behind the mulberry hairline — the quiet steer with the begin-with tabs
 // beneath it. Settled from a five-way review; the strip below is the page,
 // so this band carries all of its wayfinding.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ export default function ConsultantsHeadline() {
         ))}
       </h1>
 
-      <div className="lg:border-l lg:border-gold/50 lg:pl-8">
+      <div className="lg:border-l lg:border-mulberry/50 lg:pl-8">
         <p className="type-section-lede max-w-sm text-ink-muted">
           Browse the partnership, or begin with the cancer type or treatment
           you already know.
@@ -43,7 +43,7 @@ export default function ConsultantsHeadline() {
                   {t.label}
                   <span
                     aria-hidden
-                    className="absolute inset-x-0 bottom-0 h-[2px] bg-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    className="absolute inset-x-0 bottom-0 h-[2px] bg-mulberry opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
                   />
                 </Link>
               </li>

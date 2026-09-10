@@ -141,9 +141,9 @@ export default function CareMap({
             <stop offset="100%" stopColor={palette.accent} stopOpacity="0.2" />
           </linearGradient>
           <linearGradient id="cm-link-accent" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor={palette.gold} stopOpacity="0.1" />
-            <stop offset="55%" stopColor={palette.gold} stopOpacity="0.55" />
-            <stop offset="100%" stopColor={palette.gold} stopOpacity="0.3" />
+            <stop offset="0%" stopColor={palette.mulberry} stopOpacity="0.1" />
+            <stop offset="55%" stopColor={palette.mulberry} stopOpacity="0.55" />
+            <stop offset="100%" stopColor={palette.mulberry} stopOpacity="0.3" />
           </linearGradient>
         </defs>
 
@@ -193,7 +193,7 @@ export default function CareMap({
                   r={isRoot ? DOT + 1.5 : DOT}
                   className={
                     node.accent
-                      ? "fill-gold"
+                      ? "fill-mulberry"
                       : isRoot
                         ? "fill-ink"
                         : "fill-accent"
@@ -230,7 +230,7 @@ export default function CareMap({
         <ol className="relative space-y-6 pl-7">
           <span
             aria-hidden
-            className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-ink/25 via-accent/25 to-gold/40"
+            className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-ink/25 via-accent/25 to-mulberry/40"
           />
           {[
             { title: "Cancer type", items: [{ id: "c", label: cancer }] },
@@ -252,7 +252,7 @@ export default function CareMap({
                     key={item.id}
                     className={`type-supporting rounded-full border px-3 py-1.5 ${
                       item.accent
-                        ? "border-gold/45 bg-gold/[0.08] text-ink"
+                        ? "border-mulberry/45 bg-mulberry/[0.08] text-ink"
                         : "border-black/[0.07] bg-white text-ink/85"
                     }`}
                   >

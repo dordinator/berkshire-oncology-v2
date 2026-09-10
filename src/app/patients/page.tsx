@@ -98,13 +98,13 @@ export default function PatientsPage() {
         <div className="container-wide">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
             <div className="relative order-2 min-h-[560px] py-6 lg:order-1 lg:min-h-[660px]">
-              {/* The home page's chapter gold. The hero's panel is sage, so
+              {/* The home page's chapter mulberry. The hero's panel is sage, so
                   the two bookend compositions each get their own colour. */}
               <div
                 aria-hidden
                 data-fx="drift"
                 data-drift="0.5"
-                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-panel bg-gold-panel"
+                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-panel bg-mulberry-panel"
               />
 
               <div

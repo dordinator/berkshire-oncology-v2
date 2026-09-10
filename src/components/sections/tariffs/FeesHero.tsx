@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import MediaHeroImage from "@/components/site/MediaHeroImage";
 import Link from "next/link";
 import { useRef } from "react";
 import {
@@ -14,6 +14,8 @@ import {
 } from "framer-motion";
 import { useCenterGap } from "./useCenterGap";
 import styles from "./FeesHero.module.css";
+
+const HERO_SRC_SET = "/tariffs/hero-plan-a-1280.webp 1280w, /tariffs/hero-plan-a-1920.webp 1920w, /tariffs/hero-plan-a.webp 2880w";
 
 /*
   The fees hero: the comp's composition set in the site's own type — display
@@ -152,13 +154,12 @@ export default function FeesHero() {
           className="absolute inset-0"
           style={reduce ? undefined : { y: parallaxY }}
         >
-          <Image
+          <MediaHeroImage
             src="/tariffs/hero-plan-a.webp"
             alt=""
-            fill
-            priority
-            unoptimized
-            sizes="100vw"
+            srcSet={HERO_SRC_SET}
+            media="(width < 768px)"
+            sizes="1214px"
             className="object-cover object-[58%_center]"
           />
         </motion.div>
@@ -176,13 +177,12 @@ export default function FeesHero() {
           className="absolute inset-0"
           style={reduce ? undefined : { y: parallaxY }}
         >
-          <Image
+          <MediaHeroImage
             src="/tariffs/hero-plan-a.webp"
             alt=""
-            fill
-            priority
-            unoptimized
-            sizes="80vw"
+            srcSet={HERO_SRC_SET}
+            media="(min-width: 768px)"
+            sizes="(max-width: 1023px) max(74vw, 1440px, 180svh), max(80vw, 1440px, 180svh)"
             className="object-cover object-[50%_38%]"
           />
         </motion.div>
@@ -224,14 +224,14 @@ export default function FeesHero() {
             >
               <a
                 href="#tailored"
-                className={`${pill} ink-cta`}
+                className={`${pill} ink-cta hero-cta-primary`}
               >
                 How fees work
               </a>
               <Link
                 href="/contact#guidance"
                 data-cta-outline="ink"
-                className={`type-button group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full bg-white/60 px-[calc(1.5rem-1px)] py-[calc(.875rem-1px)] text-ink backdrop-blur-sm md:px-[calc(1rem-1px)] lg:px-[calc(1.75rem-1px)] ${styles.secondary}`}
+                className={`type-button group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full bg-white/60 px-[calc(1.5rem-1px)] py-[calc(.875rem-1px)] text-ink backdrop-blur-sm md:px-[calc(1rem-1px)] lg:px-[calc(1.75rem-1px)] hero-cta-secondary ${styles.secondary}`}
               >
                 <span aria-hidden className={styles.fill} />
                 <span className="relative">Request tariff details</span>
