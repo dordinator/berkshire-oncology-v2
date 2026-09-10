@@ -325,8 +325,16 @@ export default function ConsultantProfile({
         consultant={c}
         intro={intro}
         specialities={treats.map(({ speciality }) => speciality)}
+        hasTreatments={treatmentExperienceItems.length > 0}
         hasLocations={locationSlugs.length > 0}
       />
+
+      {aboutChapters.length > 0 && (
+        <ConsultantAboutJourney
+          chapters={aboutChapters}
+          title={`About ${name}.`}
+        />
+      )}
 
       {treatmentExperienceItems.length > 0 && (
         <ConsultantTreatmentExperience
@@ -339,13 +347,6 @@ export default function ConsultantProfile({
         <ConsultantLocationsJourney
           consultantName={name}
           locationSlugs={locationSlugs}
-        />
-      )}
-
-      {aboutChapters.length > 0 && (
-        <ConsultantAboutJourney
-          chapters={aboutChapters}
-          title={`About ${name}.`}
         />
       )}
 

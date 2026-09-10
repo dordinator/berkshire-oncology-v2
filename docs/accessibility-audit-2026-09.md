@@ -428,3 +428,30 @@ Accessibility-tree inspection confirms meaningful headings and named links,
 including “Call to book”, and no invented review score. Manual VoiceOver and
 Safari testing remains outstanding. Further implementation notes are in
 `consultant-overview-2026-09-09.md`.
+
+
+### About-first profile order and Treatments navigation — 10 September 2026
+
+Codex moved About directly below the overview and added Treatments after About
+in the shared section navigation. The new link uses the existing treatment
+section and is only rendered when that section exists. Its capsule illustration
+is decorative; the visible label supplies its accessible name.
+
+Browser inspection confirmed the order overview → about → treatments → locations
+→ fees and valid targets for every section link across all ten profiles. The
+five-link navigation fits at 320, 375, 700, 768, 1024, 1100, 1280, 1440 and
+1600px without clipping or horizontal overflow. At the 720 × 450 CSS viewport
+equivalent to 200% zoom, navigation also reflows without clipping. This was an
+equivalent reflow check, not a manual zoom session. Keyboard Enter activation
+of Treatments at 320px updates the hash and active state, shows control focus
+and focuses the treatment section; its heading remains below the fixed header.
+About and Treatments were also checked on desktop. No new manual VoiceOver or
+Safari pass was performed.
+
+Build, lint and TypeScript pass. The required full sweep completed all 310
+distinct route/width/motion configurations with HTTP 200 responses and no load
+errors. All ten consultant profiles have zero automated violations. The wider
+site still reports 270 contrast instances across the same 71 distinct targets
+as the preceding panel-alignment report, with no new targets. The command exits
+non-zero for these inherited findings. See
+`a11y/2026-09-10-profile-about-first.md` and its JSON.

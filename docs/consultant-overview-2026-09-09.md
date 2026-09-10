@@ -4,7 +4,7 @@
 
 The final three-column design replaces the earlier D4 overview on all ten consultant profiles. The left column is the maintained consultant portrait, extending to the bottom of the navigation row. The middle column contains identity, qualifications, a short introduction and cancer expertise links. The right column is the shared homepage sage panel with “Request an appointment”, “Call to book” and the unscored patient-review status.
 
-The four icon links — About, Locations, Fees and Reviews — span only the last two columns. Custom outline illustrations show a person, folded map, pound receipt and quotation marks. Buttons have 15px corners; the green panel and portrait have 20px corners. At the inspected 1600 × 1000 viewport the portrait and navigation both end at 908px, and the contact panel is 529px high. The panel uses `--brand-sage-panel` directly, the same token as the homepage. Fonts, navy and canvas also use the shared site styles.
+The five icon links — About, Treatments, Locations, Fees and Reviews — span only the last two columns. Custom outline illustrations show a person, capsule, folded map, pound receipt and quotation marks. Buttons have 15px corners; the green panel and portrait have 20px corners. At the inspected 1600 × 1000 viewport the portrait and navigation both end at 908px, and the contact panel is 529px high. The panel uses `--brand-sage-panel` directly, the same token as the homepage. Fonts, navy and canvas also use the shared site styles.
 
 The overview reflows to two columns on tablets and a compact photo beside identity on phones, with expertise and contact actions below. Longer names and larger expertise lists grow naturally. The removed breadcrumb and section-spacing toggle remain absent; detail sections retain balanced spacing.
 
@@ -12,7 +12,7 @@ The overview reflows to two columns on tablets and a compact photo beside identi
 
 - Existing summaries, qualifications, photographs and cancer relationships are retained. No new clinical, treatment, hospital, price or review claims are introduced.
 - GMC registration moves from the overview into About’s professional details. The first viewport now concentrates on the consultant, their expertise and contacting the practice.
-- Cancer links open the selected cancer information on the current hub. Existing treatment experience, hospital accordions/maps, biography and professional work remain below.
+- Cancer links open the selected cancer information on the current hub. About is the first section below the overview, followed by treatment experience, hospital accordions/maps, fees and professional work.
 - Fees move from the first viewport into a dedicated section reached by the Fees link. Both consultation prices remain “On request”, with a link to the current fees and insurance page.
 - Appointment links retain the consultant’s validated slug and show that consultant on the contact page. The contact page’s external booking integration remains unconnected; this redesign does not change it.
 - The telephone link uses the maintained practice number and the user’s requested visible label “Call to book”. Its accessible name includes the consultant and number.
@@ -36,3 +36,11 @@ The contact panel now distributes its existing vertical space equally above and 
 Patient-review text and the stars/score group are centred. Each button centres its icon and label together with a 12px gap; the call icon is in normal flow beside “Call to book”. Button and box corner radii remain 15px and 20px. Browser checks found no clipping or horizontal overflow at the five widths or at the 720 × 450 CSS viewport equivalent to 200% zoom. Keyboard Tab reaches the telephone link with its existing accessible name and a visible 2px focus outline.
 
 Build, lint and TypeScript pass. The full accessibility sweep completed all 310 distinct configurations with no load errors and zero violations on all consultant profiles. The wider site reports 270 inherited contrast instances, matching all 71 distinct targets in the earlier profile-overview baseline. No new targets were introduced; the command exits non-zero for the existing findings. See `docs/a11y/2026-09-10-profile-panel-alignment.md` and its JSON.
+
+## About first and Treatments navigation — 10 September 2026
+
+About now follows the overview immediately, before Treatments and Locations, on all ten consultant profiles. Treatments has a labelled section link and a decorative capsule icon after About. Navigation spacing accommodates five links within the last two desktop columns and wraps into two columns on phones. The Treatments link is only included when its destination exists.
+
+All ten profiles were checked for the new section order and valid section-link targets. The navigation fits from 320 to 1600px, including tablet breakpoints and the 720 × 450 CSS viewport equivalent to 200% zoom. Keyboard and desktop activation of Treatments updates the fragment, active state and destination focus. About remains reachable below the fixed header.
+
+Build, lint and TypeScript pass. The full 310-configuration accessibility sweep returned HTTP 200 throughout, with no load errors and zero automated profile violations. The same 270 inherited contrast instances and 71 targets remain elsewhere on the site. See `docs/a11y/2026-09-10-profile-about-first.md` and its JSON. This is not a site-wide accessibility pass or a new manual VoiceOver pass.

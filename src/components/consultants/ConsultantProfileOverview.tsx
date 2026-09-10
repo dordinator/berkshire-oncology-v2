@@ -24,10 +24,11 @@ function Arrow() {
   return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 12h15m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 }
 
-export default function ConsultantProfileOverview({ consultant: c, intro, specialities, hasLocations }: {
+export default function ConsultantProfileOverview({ consultant: c, intro, specialities, hasTreatments, hasLocations }: {
   consultant: Consultant;
   intro: string;
   specialities: Speciality[];
+  hasTreatments: boolean;
   hasLocations: boolean;
 }) {
   const expertise = specialities.map(speciality => ({
@@ -40,6 +41,7 @@ export default function ConsultantProfileOverview({ consultant: c, intro, specia
   })).sort((a, b) => c.slug === "ruth-davis" ? Number(b.slug === "breast") - Number(a.slug === "breast") : 0);
   const navItems: ProfileSectionNavItem[] = [
     { id: "about", label: "About" },
+    ...(hasTreatments ? [{ id: "treatments" as const, label: "Treatments" }] : []),
     ...(hasLocations ? [{ id: "locations" as const, label: "Locations" }] : []),
     { id: "fees", label: "Fees" },
     { id: "reviews", label: "Reviews" },
