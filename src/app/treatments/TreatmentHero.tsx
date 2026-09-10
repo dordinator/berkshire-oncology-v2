@@ -1,36 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-
-function Arrow({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 18 18"
-      fill="none"
-      className={`h-4 w-4 ${className}`}
-      aria-hidden
-    >
-      <path
-        d="M3.5 9h11M10.5 5l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function TextLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="group inline-flex items-center gap-4 font-medium text-ink underline decoration-ink/25 underline-offset-[7px] transition-colors hover:decoration-ink"
-    >
-      <span>{children}</span>
-      <Arrow className="transition-transform duration-300 group-hover:translate-x-1" />
-    </Link>
-  );
-}
+import Button from "@/components/ui/Button";
 
 /**
  * The two hero links. Rendered twice, because the two layouts want them in
@@ -47,12 +16,12 @@ function HeroLinks({ className = "" }: { className?: string }) {
     <div
       className={`type-button flex-col items-start gap-4 xl:gap-5 ${className}`}
     >
-      <TextLink href="#treatment-index">
+      <Button href="#treatment-index" className="hero-cta-primary">
         Browse treatments
-      </TextLink>
-      <TextLink href="#what-we-do-not-provide">
+      </Button>
+      <Button href="#what-we-do-not-provide" variant="ghost" className="hero-cta-secondary">
         How care is provided
-      </TextLink>
+      </Button>
     </div>
   );
 }

@@ -152,7 +152,7 @@ export default function TreatmentDetailHero({
               {therapy.summary}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-start gap-5">
-              <Button href="/contact#guidance" variant="sage">
+              <Button href="/contact#guidance" variant="primary" className="hero-cta-primary">
                 Contact the practice
               </Button>
               <span aria-hidden className="hidden h-10 w-px bg-ink/15 sm:block" />

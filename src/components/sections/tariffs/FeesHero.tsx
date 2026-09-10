@@ -224,14 +224,14 @@ export default function FeesHero() {
             >
               <a
                 href="#tailored"
-                className={`${pill} ink-cta`}
+                className={`${pill} ink-cta hero-cta-primary`}
               >
                 How fees work
               </a>
               <Link
                 href="/contact#guidance"
                 data-cta-outline="ink"
-                className={`type-button group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full bg-white/60 px-[calc(1.5rem-1px)] py-[calc(.875rem-1px)] text-ink backdrop-blur-sm md:px-[calc(1rem-1px)] lg:px-[calc(1.75rem-1px)] ${styles.secondary}`}
+                className={`type-button group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full bg-white/60 px-[calc(1.5rem-1px)] py-[calc(.875rem-1px)] text-ink backdrop-blur-sm md:px-[calc(1rem-1px)] lg:px-[calc(1.75rem-1px)] hero-cta-secondary ${styles.secondary}`}
               >
                 <span aria-hidden className={styles.fill} />
                 <span className="relative">Request tariff details</span>

@@ -421,9 +421,9 @@ export default function ConsultantProfile({
                 </p>
                 <Button
                   href="/contact#consultation"
-                  variant="sage"
+                  variant="primary"
                   arrow={false}
-                  className="mt-6 rounded-lg px-6 py-3"
+                  className="hero-cta-primary mt-6 rounded-lg px-6 py-3"
                 >
                   Request an appointment
                 </Button>

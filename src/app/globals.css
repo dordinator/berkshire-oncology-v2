@@ -276,6 +276,30 @@ button[class*="rounded-"] {
 [data-cta-outline="white"] { --cta-border-color: #ffffff; }
 [data-cta-outline="sage-hover"]:hover { --cta-border-color: var(--brand-sage); }
 
+/* Explicit hero-action opt-ins: share the approved homepage navy/blue without
+   recolouring headings, navigation, telephone links or buttons further down
+   the page. Paint only; the existing borders, geometry and wipe motion stay.
+   The homepage's single-mask photo buttons deliberately do not opt in. */
+.type-button.hero-cta-primary,
+.type-button.hero-cta-primary:is(:hover, :focus-visible) {
+  background-color: var(--home-ink);
+  border-color: var(--home-ink);
+  color: var(--home-white);
+}
+.site-button.hero-cta-primary > span[aria-hidden],
+.ink-cta.hero-cta-primary::before {
+  background: var(--home-blue);
+}
+.type-button.hero-cta-secondary,
+.type-button.hero-cta-secondary:is(:hover, :focus-visible) {
+  --cta-border-color: var(--home-ink);
+  border-color: var(--home-ink);
+  color: var(--home-ink);
+}
+.site-button.hero-cta-secondary > span[aria-hidden] {
+  background: color-mix(in srgb, var(--home-ink) 5%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ink-cta::before,
   .ink-cta:focus-visible::before { transition: none; }

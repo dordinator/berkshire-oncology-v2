@@ -38,10 +38,11 @@ export default function PatientsHero() {
             <Button
               href="#start-here"
               variant="primary"
+              className="hero-cta-primary"
             >
               Find your next step
             </Button>
-            <Button href="/contact#guidance" variant="ghost" arrow={false}>
+            <Button href="/contact#guidance" variant="ghost" arrow={false} className="hero-cta-secondary">
               Talk to our team
             </Button>
           </div>
