@@ -1,0 +1,122 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "reducedMotion": "no-preference",
+    "method": "direct",
+    "padding": "48px",
+    "tabTop": 109.640625,
+    "headerBottom": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "reducedMotion": "no-preference",
+    "method": "keyboard",
+    "padding": "48px",
+    "tabTop": 109.640625,
+    "headerBottom": 94,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "reducedMotion": "no-preference",
+    "method": "direct",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "reducedMotion": "no-preference",
+    "method": "keyboard",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "reducedMotion": "no-preference",
+    "method": "direct",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "reducedMotion": "no-preference",
+    "method": "keyboard",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "reducedMotion": "reduce",
+    "method": "direct",
+    "padding": "48px",
+    "tabTop": 109.640625,
+    "headerBottom": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "reducedMotion": "reduce",
+    "method": "keyboard",
+    "padding": "48px",
+    "tabTop": 109.640625,
+    "headerBottom": 94,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "reducedMotion": "reduce",
+    "method": "direct",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "reducedMotion": "reduce",
+    "method": "keyboard",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "reducedMotion": "reduce",
+    "method": "direct",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "reducedMotion": "reduce",
+    "method": "keyboard",
+    "padding": "32px",
+    "tabTop": 101.875,
+    "headerBottom": 86,
+    "overflow": false
+  }
+]

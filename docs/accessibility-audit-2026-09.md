@@ -658,3 +658,31 @@ configurations with zero reported violations; see
 `a11y/2026-09-10-consultant-reviews-heading.md` and its JSON. As above, the
 standard sweep filters default-motion colour-contrast findings. This is scoped
 automated evidence, not a full WCAG conformance assessment.
+
+### Reduced review-section top spacing — 10 September 2026
+
+Codex reduced the review section's top padding from 112px to a responsive
+32–48px. The bottom spacing, selector and rating card dimensions are unchanged.
+The reviews anchor now targets the inner content so its scroll position uses
+the measured navbar clearance instead of relying on large section padding.
+The section retains its accessible name and screen-reader-only h2.
+
+Fresh production-page checks exposed an entrance-animation timing issue in the
+shared header measurement. Its settled layout height now reserves clearance
+while the navbar slides into view, preventing direct review links from placing
+the selector behind it. This does not change the navbar's appearance or motion.
+
+Twelve production checks covered direct links and keyboard Enter at 1440 × 900,
+720 × 450 and 320 × 780, with both default and reduced motion. All land with the
+selector approximately 16px below the header, without horizontal overflow.
+Native arrow-key switching passed in all six viewport/motion combinations.
+Results are in `a11y/2026-09-10-consultant-reviews-spacing-anchors.json`.
+In-app checks also covered the desktop and mobile profile layouts. The
+720 × 450 configuration is a CSS viewport equivalent of 200% zoom, not manual
+browser zoom. A new manual VoiceOver/Safari pass was not performed.
+
+The final production build, lint and TypeScript checks pass. The required
+full-site sweep completed 310 configurations with zero reported violations;
+see `a11y/2026-09-10-consultant-reviews-spacing.md` and its JSON. The standard
+sweep filters default-motion colour-contrast findings. These automated results
+do not establish full WCAG conformance.

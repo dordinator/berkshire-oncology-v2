@@ -1,4 +1,4 @@
-.section { color: var(--brand-ink); background: var(--surface-canvas); }
+.section { color: var(--brand-ink); background: var(--surface-canvas); padding-top: clamp(2rem, 4vw, 3rem); padding-bottom: var(--consultant-section-space); }
 .layout { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(17rem, 1fr); align-items: start; gap: clamp(2rem, 5vw, 5rem); }
 .main { min-width: 0; }
 .switcher { display: flex; flex-wrap: wrap; gap: .75rem; border-bottom: 1px solid color-mix(in srgb, var(--brand-ink) 20%, transparent); padding-bottom: 1.5rem; }

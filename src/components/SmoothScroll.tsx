@@ -86,7 +86,13 @@ function navbarClearance(): number {
   const header = document.querySelector<HTMLElement>("[data-site-header]");
   if (!header || isHidden(header)) return 0;
 
-  const bottom = Math.max(0, header.getBoundingClientRect().bottom);
+  // Reserve the header's settled height while its entrance animation is still
+  // above the viewport, so a direct hash link cannot land underneath it.
+  const bottom = Math.max(
+    0,
+    header.getBoundingClientRect().bottom,
+    header.offsetTop + header.offsetHeight,
+  );
   return Math.ceil(bottom + ANCHOR_GUTTER);
 }
 
