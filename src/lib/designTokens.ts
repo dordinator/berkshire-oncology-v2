@@ -1,5 +1,5 @@
 /**
- * JavaScript/canvas mirror of the public CSS palette.
+ * Canonical public palette, shared by Tailwind, CSS and canvas graphics.
  *
  * Most UI should use Tailwind's named colours. Canvas and calculated SVG
  * styles cannot resolve utility classes, so they import this shared map instead
@@ -19,31 +19,41 @@ function mixHex(foreground: string, background: string, weight: number) {
   return `#${mixChannel(1)}${mixChannel(3)}${mixChannel(5)}`;
 }
 
-const ink = "#061c46";
-const accent = "#1a4d8f";
+const ink = "#0e2f55";
+const accent = "#164c88";
 const sage = "#5c7767";
+const mulberry = "#843d57";
+const mulberrySoft = mixHex(mulberry, "#ffffff", 0.5);
+const mulberryPanel = mixHex(mulberry, "#ffffff", 0.12);
 
 export const palette = Object.freeze({
   ink,
-  inkMuted: "#5a6884",
+  inkMuted: "#4d5870",
+  inkSoft: "#123056",
   accent,
   accentSoft: "#3f6fb0",
   accentGlow: "#9fb9dc",
   accentMist: mixHex(accent, "#ffffff", 0.12),
   sage,
+  sageInk: "#587263",
   sageDeep: mixHex(sage, ink, 0.82),
   sageMid: mixHex(sage, "#ffffff", 0.82),
   sageSoft: mixHex(sage, "#ffffff", 0.68),
   sagePanel: mixHex(sage, "#ffffff", 0.32),
   sageMist: mixHex(sage, "#ffffff", 0.18),
   sageWash: mixHex(sage, "#ffffff", 0.1),
-  gold: "#c8992f",
-  goldInk: "#8a6516",
-  goldSoft: "#e3bd6a",
-  // Approved homepage/Patients panel: deliberately yellower than an opacity
-  // tint of the accent gold, so it remains the one named family exception.
-  goldPanel: "#f3dca2",
+  mulberry,
+  mulberryInk: mulberry,
+  mulberrySoft,
+  mulberryPanel,
+  // Compatibility for older, unused compositions; public UI uses mulberry.
+  gold: mulberry,
+  goldInk: mulberry,
+  goldSoft: mulberrySoft,
+  goldPanel: mulberryPanel,
   canvas: "#fafbfc",
+  canvasSoft: "#eef2f7",
+  ice: "#eef5fa",
   paper: "#fbfaf5",
   paperSoft: "#f8f8f4",
   sectionWarm: "#f0ece2",

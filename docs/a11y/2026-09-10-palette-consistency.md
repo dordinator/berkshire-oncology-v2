@@ -1,0 +1,244 @@
+# Accessibility sweep — 2026-09-10
+
+axe-core against `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa` over 55 routes, 5 widths (320, 375, 768, 1024, 1440px) and 2 motion settings — 550 page loads, each measured in settled state.
+
+**350 violating elements across 1 rules.**
+
+## Summary
+
+| Rule | Impact | Elements | Routes | Criterion |
+|---|---|---:|---:|---|
+| `color-contrast` | serious | 350 | 8 | 1.4.3 |
+
+## Detail
+
+### `color-contrast` — Elements must meet minimum color contrast ratio thresholds
+
+https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright
+
+- **/patients** `#newly-diagnosed-title` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.57 (foreground color: #8b9bac, background color: #f2f4f3, font size: 25.2pt (33.6px), font weight: normal). Expected contrast ratio of 3:1
+- **/patients** `.bg-sage-mist > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.95 (foreground color: #a5b2be, background color: #f2f4f3, font size: 12.8pt (17px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.bg-sage-mist > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(1) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.95 (foreground color: #a5b2be, background color: #f2f4f3, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.bg-sage-mist > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(2) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.95 (foreground color: #a5b2be, background color: #f2f4f3, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.bg-sage-mist > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(3) > span:nth-child(2)` — 320/375/768px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.95 (foreground color: #a5b2be, background color: #f2f4f3, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.px-\[calc\(1\.25rem-1px\)\].py-\[calc\(\.75rem-1px\)\][href$="specialities"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.57 (foreground color: #8b9bac, background color: #f2f4f3, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `#second-opinion-title` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.58 (foreground color: #8b9caf, background color: #f2f6f9, font size: 25.2pt (33.6px), font weight: normal). Expected contrast ratio of 3:1
+- **/patients** `article[aria-labelledby="second-opinion-title"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 12.8pt (17px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="second-opinion-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(1) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="second-opinion-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(2) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="second-opinion-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(3) > span:nth-child(2)` — 320/375/768px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.px-\[calc\(1\.25rem-1px\)\].py-\[calc\(\.75rem-1px\)\][href$="contact"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.58 (foreground color: #8b9caf, background color: #f2f6f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `#private-treatment-title` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.59 (foreground color: #8f9cab, background color: #f8f6f2, font size: 25.2pt (33.6px), font weight: normal). Expected contrast ratio of 3:1
+- **/patients** `article[aria-labelledby="private-treatment-title"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.97 (foreground color: #a9b3bd, background color: #f8f6f2, font size: 12.8pt (17px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="private-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(1) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.97 (foreground color: #a9b3bd, background color: #f8f6f2, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="private-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(2) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.97 (foreground color: #a9b3bd, background color: #f8f6f2, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="private-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(3) > span:nth-child(2)` — 320/375px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.97 (foreground color: #a9b3bd, background color: #f8f6f2, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.px-\[calc\(1\.25rem-1px\)\].py-\[calc\(\.75rem-1px\)\][href$="tariffs"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.59 (foreground color: #8f9cab, background color: #f8f6f2, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `#receiving-treatment-title` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.58 (foreground color: #8b9caf, background color: #f2f6f9, font size: 25.2pt (33.6px), font weight: normal). Expected contrast ratio of 3:1
+- **/patients** `article[aria-labelledby="receiving-treatment-title"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 12.8pt (17px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="receiving-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(1) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="receiving-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(2) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="receiving-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(3) > span:nth-child(2)` — 320/375px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.96 (foreground color: #a5b3c2, background color: #f2f6f9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="receiving-treatment-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > .px-\[calc\(1\.25rem-1px\)\].py-\[calc\(\.75rem-1px\)\].hover\:bg-white\/30` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.58 (foreground color: #8b9caf, background color: #f2f6f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `#supporting-someone-title` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #8696a6, background color: #e8ebe9, font size: 25.2pt (33.6px), font weight: normal). Expected contrast ratio of 3:1
+- **/patients** `article[aria-labelledby="supporting-someone-title"] > .flex-col.flex-1.min-w-0 > div:nth-child(1) > .type-section-lede.mt-7.max-w-2xl` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.93 (foreground color: #9eacb7, background color: #e8ebe9, font size: 12.8pt (17px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="supporting-someone-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(1) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.93 (foreground color: #9eacb7, background color: #e8ebe9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="supporting-someone-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(2) > span:nth-child(2)` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.93 (foreground color: #9eacb7, background color: #e8ebe9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="supporting-someone-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > ul > .type-body.text-ink\/75:nth-child(3) > span:nth-child(2)` — 320/375/768px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.93 (foreground color: #9eacb7, background color: #e8ebe9, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `article[aria-labelledby="supporting-someone-title"] > .flex-col.flex-1.min-w-0 > .mt-12.md\:mt-auto.md\:pt-12 > .gap-8.border-ink\/15.md\:grid-cols-\[minmax\(0\,1fr\)_auto\] > .px-\[calc\(1\.25rem-1px\)\].py-\[calc\(\.75rem-1px\)\].hover\:bg-white\/30` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #8696a6, background color: #e8ebe9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.gap-4.px-3[href$="resources"] > .flex-1.min-w-0` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.65 (foreground color: #8598ab, background color: #f0f3f3, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `#self-funding > .type-label.text-ink\/70` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.74 (foreground color: #aeb9c2, background color: #eef0ed, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `#self-funding > .tracking-tight.text-2xl.leading-tight` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.39 (foreground color: #8f9eac, background color: #eef0ed, font size: 18.0pt (24px), font weight: normal). Expected contrast ratio of 3:1
+- **/tariffs** `#self-funding > .max-w-md.type-body.mt-3` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.83 (foreground color: #a9b4be, background color: #eef0ed, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `a[href$="#request"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.39 (foreground color: #8f9eac, background color: #eef0ed, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `#insurance > .type-label.text-ink\/70` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.77 (foreground color: #aeb9c2, background color: #eff2f3, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `#insurance > .tracking-tight.text-2xl.leading-tight` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.43 (foreground color: #8f9eac, background color: #eff2f3, font size: 18.0pt (24px), font weight: normal). Expected contrast ratio of 3:1
+- **/tariffs** `#insurance > .max-w-md.type-body.mt-3` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 1.87 (foreground color: #a9b4be, background color: #eff2f3, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `a[href$="#shortfalls"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.43 (foreground color: #8f9eac, background color: #eff2f3, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `button[aria-controls="fees-faq-0"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `button[aria-controls="fees-faq-1"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `button[aria-controls="fees-faq-2"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `button[aria-controls="fees-faq-3"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `button[aria-controls="fees-faq-4"]` — 320/375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `a[href$="#first-appointment"] > .flex-1.min-w-0` — 375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.65 (foreground color: #8598ab, background color: #f0f3f3, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.pb-12.md\:pt-32.lg\:grid-cols-\[minmax\(0\,0\.85fr\)_minmax\(0\,1\.15fr\)\] > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .divide-y.divide-ink\/10.mt-3 > .gap-3\.5.py-3\.5.flex:nth-child(3) > .md\:text-xl.text-lg.font-display` — 375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.lg\:order-1 > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .divide-y.divide-ink\/10.mt-3 > .gap-3\.5.py-3\.5.flex:nth-child(3) > .md\:text-xl.text-lg.font-display` — 375/768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `.sm\:max-xl\:inline` — 768/1024px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 3.9 (foreground color: #4d5870, background color: #b7c1cc, font size: 7.2pt (9.6px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `.sm\:max-xl\:inline` — 768/1024px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 3.9 (foreground color: #4d5870, background color: #b7c1cc, font size: 7.2pt (9.6px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `a[href$="#faqs"] > .flex-1.min-w-0` — 768/1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.65 (foreground color: #8598ab, background color: #f0f3f3, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `.sm\:max-xl\:inline` — 768/1024px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 3.9 (foreground color: #4d5870, background color: #b7c1cc, font size: 7.2pt (9.6px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.pb-12.md\:pt-32.lg\:grid-cols-\[minmax\(0\,0\.85fr\)_minmax\(0\,1\.15fr\)\] > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .divide-y.divide-ink\/10.mt-3 > .gap-3\.5.py-3\.5.flex:nth-child(1) > .md\:text-xl.text-lg.font-display` — 768/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.pb-12.md\:pt-32.lg\:grid-cols-\[minmax\(0\,0\.85fr\)_minmax\(0\,1\.15fr\)\] > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .divide-y.divide-ink\/10.mt-3 > .gap-3\.5.py-3\.5.flex:nth-child(2) > .md\:text-xl.text-lg.font-display` — 768/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.64 (foreground color: #8f9eac, background color: #fbfbf9, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.lg\:order-1 > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .type-label.text-ink-muted` — 768px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #a0a8b7, background color: #f0f3f7, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.lg\:order-1 > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .divide-y.divide-ink\/10.mt-3 > .gap-3\.5.py-3\.5.flex:nth-child(1) > .md\:text-xl.text-lg.font-display` — 768px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.72 (foreground color: #8396ab, background color: #f0f3f7, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.lg\:order-1 > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .divide-y.divide-ink\/10.mt-3 > .gap-3\.5.py-3\.5.flex:nth-child(2) > .md\:text-xl.text-lg.font-display` — 768/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.72 (foreground color: #8396ab, background color: #f0f3f7, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `.sm\:max-xl\:inline` — 768/1024px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 3.9 (foreground color: #4d5870, background color: #b7c1cc, font size: 7.2pt (9.6px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `.sm\:max-xl\:inline` — 768/1024px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 3.9 (foreground color: #4d5870, background color: #b7c1cc, font size: 7.2pt (9.6px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.body-lg.max-w-xl.mt-6` — 1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.59 (foreground color: #989eac, background color: #fafbfc, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.body-lg.max-w-xl.mt-5` — 1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.59 (foreground color: #989eac, background color: #fafbfc, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.border-b` — 1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.59 (foreground color: #989eac, background color: #fafbfc, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.grid-cols-\[6\.5rem_minmax\(0\,1fr\)\].gap-4.py-3:nth-child(2) > .lg\:text-lg.font-display.text-base` — 1024px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 3.55 (foreground color: #74879d, background color: #fafbfc, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.grid-cols-\[6\.5rem_minmax\(0\,1fr\)\].gap-4.py-3:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\/25.hover\:decoration-accent.py-1` — 1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.92 (foreground color: #7897ba, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.grid-cols-\[6\.5rem_minmax\(0\,1fr\)\].gap-4.py-3:nth-child(2) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\/25.hover\:decoration-accent.py-1` — 1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.92 (foreground color: #7897ba, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/patients** `.pb-4 > .font-display.text-xl` — 1024/1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.65 (foreground color: #8598ab, background color: #f0f3f3, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/tariffs** `.pb-12.md\:pt-32.lg\:grid-cols-\[minmax\(0\,0\.85fr\)_minmax\(0\,1\.15fr\)\] > .min-h-\[480px\].lg\:min-h-\[560px\].py-6 > .bottom-3.w-\[78\%\].md\:p-7 > .type-label.text-ink-muted` — 1024px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 2.1 (foreground color: #abb0b9, background color: #fbfbf9, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-about` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-patients` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-cancer-types` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-treatments` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-consultants` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-locations` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-fees` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/accessibility** `#nav-trigger-resources` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-about` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-patients` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-cancer-types` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-treatments` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-consultants` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-locations` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-fees` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/cookies** `#nav-trigger-resources` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.gap-2.inline-flex.items-center:nth-child(3) > .decoration-accent\/25.hover\:decoration-accent.py-1` — 1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 4.37 (foreground color: #5179a6, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.grid-cols-\[6\.5rem_minmax\(0\,1fr\)\].gap-4.border-ink\/\[0\.07\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(1) > .decoration-accent\/25.hover\:decoration-accent.py-1` — 1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 4.37 (foreground color: #5179a6, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.grid-cols-\[6\.5rem_minmax\(0\,1fr\)\].gap-4.border-ink\/\[0\.07\]:nth-child(3) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center:nth-child(2) > .decoration-accent\/25.hover\:decoration-accent.py-1` — 1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 4.37 (foreground color: #5179a6, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.grid-cols-\[6\.5rem_minmax\(0\,1fr\)\].gap-4.border-ink\/\[0\.07\]:nth-child(4) > .justify-end.gap-x-2.gap-y-1 > .gap-2.inline-flex.items-center > .decoration-accent\/25.hover\:decoration-accent.py-1` — 1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 4.37 (foreground color: #5179a6, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/locations** `.gap-2\.5` — 1440px, default motion
+  - Fix any of the following: Element has insufficient color contrast of 3.72 (foreground color: #7a8294, background color: #fafbfc, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-about` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-patients` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-cancer-types` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-treatments` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-consultants` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-locations` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-fees` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/privacy** `#nav-trigger-resources` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-about` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-patients` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-cancer-types` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-treatments` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-consultants` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-locations` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-fees` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/terms** `#nav-trigger-resources` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-about` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-patients` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-cancer-types` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-treatments` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-consultants` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-locations` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-fees` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+- **/website-privacy** `#nav-trigger-resources` — 1440px, default/reduced motion
+  - Fix any of the following: Element has insufficient color contrast of 4.28 (foreground color: #385473, background color: #b7c1cc, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1
+
+---
+
+Automated testing cannot establish WCAG conformance. This report is one input to an assessment; the status of manual keyboard, zoom, reflow and screen-reader checks is recorded separately in `docs/accessibility-audit-2026-09.md`.

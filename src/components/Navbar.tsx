@@ -275,7 +275,7 @@ export default function Navbar() {
             sheetOpen
               ? "rounded-t-panel rounded-b-none border border-b-0 border-black/[0.06] bg-white/95 backdrop-blur-xl"
               : scrolled || menuOpen || solidFromTop
-                ? "rounded-panel border border-black/[0.06] bg-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
+              ? "rounded-panel border border-black/[0.06] bg-white/95 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] backdrop-blur-xl"
                 : "rounded-panel border border-transparent bg-transparent"
           }`}
         >

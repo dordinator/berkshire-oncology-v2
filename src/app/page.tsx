@@ -222,7 +222,7 @@ export default function Home() {
       {/* ── 01 · About the partnership ─────────────────────────────────────── */}
       <PartnershipIntro />
 
-      {/* The bottom padding is what keeps the photograph above off the gold.
+      {/* The bottom padding is what keeps the photograph above off the mulberry.
           Sections are spaced by their own top margins (see Section), so the
           last one before the band contributed nothing below itself and the
           image's lower edge landed within a few pixels of the colour — it read

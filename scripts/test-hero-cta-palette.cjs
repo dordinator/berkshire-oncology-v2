@@ -1,6 +1,10 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const path = require('node:path');
 const postcss = require('postcss');
+const resolveConfig = require('tailwindcss/resolveConfig');
+const loadConfig = require('tailwindcss/loadConfig');
+const { theme } = resolveConfig(loadConfig(path.resolve('tailwind.config.ts')));
 
 const read = file => fs.readFileSync(file, 'utf8');
 const css = postcss.parse(read('src/app/globals.css'));
@@ -14,10 +18,22 @@ function declaration(selector, property) {
   return value;
 }
 
-assert.equal(declaration(':root', '--home-ink'), '#0e2f55');
-assert.equal(declaration(':root', '--home-blue'), '#164c88');
-assert.equal(declaration(':root', '--brand-ink'), '#061c46');
-assert.equal(declaration(':root', '--brand-blue'), '#1a4d8f');
+// Resolve the shared palette aliases; the homepage and public UI now use
+// the same approved colours rather than maintaining separate literal values.
+function rootColour(name) {
+  const value = declaration(':root', name);
+  const variable = /^var\((--[\w-]+)\)$/.exec(value);
+  if (variable) return rootColour(variable[1]);
+  const reference = /^theme\(([\w.]+)\)$/.exec(value);
+  if (reference) return reference[1].split('.').reduce((object, key) => object[key], theme);
+  return value;
+}
+assert.equal(rootColour('--home-ink'), '#0e2f55');
+assert.equal(rootColour('--home-blue'), '#164c88');
+assert.equal(rootColour('--brand-ink'), rootColour('--home-ink'));
+assert.equal(rootColour('--brand-blue'), rootColour('--home-blue'));
+assert.equal(rootColour('--brand-mulberry'), '#843d57');
+assert.equal(rootColour('--home-mulberry'), rootColour('--brand-mulberry'));
 for (const selector of ['.type-button.hero-cta-primary', '.type-button.hero-cta-primary:is(:hover, :focus-visible)']) {
   assert.equal(declaration(selector, 'background-color'), 'var(--home-ink)');
   assert.equal(declaration(selector, 'border-color'), 'var(--home-ink)');

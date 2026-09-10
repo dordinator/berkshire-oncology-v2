@@ -57,7 +57,7 @@ function Card({
         {c.name}
       </h3>
       <p className="type-body mt-1.5 text-ink-muted">{c.shortRole}</p>
-      <div aria-hidden className="mt-3.5 h-px w-10 bg-gold" />
+      <div aria-hidden className="mt-3.5 h-px w-10 bg-mulberry" />
 
       <dl className="mt-4 divide-y divide-ink/10 border-t border-ink/10">
         {c.cancerTypes.length > 0 && (
@@ -257,7 +257,7 @@ export default function ConsultantFocusStrip({
 
         {/* The numbered rail. Cells share the panels' grow values and the
             same easing, so each number rides with its portrait; the open
-            cell carries the name and the gold underline. */}
+            cell carries the name and the mulberry underline. */}
         <div className="mt-4 flex gap-[3px]">
           {consultants.map((c, i) => {
             const open = i === active;
@@ -279,11 +279,9 @@ export default function ConsultantFocusStrip({
                 }}
               >
                 <span
-                  // gold-ink, not gold: at 12px on paper-soft the brand gold
-                  // measured 2.45:1. gold-ink is the palette's own darker
-                  // variant for exactly this and measures 4.99:1.
+                  // Full-strength mulberry keeps the small active label readable.
                   className={`type-label tabular-nums ${
-                    open ? "text-gold-ink" : "text-ink-muted"
+                    open ? "text-mulberry-ink" : "text-ink-muted"
                   }`}
                 >
                   {String(i + 1).padStart(2, "0")}
@@ -296,7 +294,7 @@ export default function ConsultantFocusStrip({
                   {c.name}
                   <span
                     aria-hidden
-                    className="mx-auto mt-1 block h-px w-16 bg-gold"
+                    className="mx-auto mt-1 block h-px w-16 bg-mulberry"
                   />
                 </span>
               </button>
@@ -355,7 +353,7 @@ export default function ConsultantFocusStrip({
                   }}
                   className={`group flex min-w-0 items-center gap-2 border px-2 py-2 text-left transition-colors ${
                     selectedTab
-                      ? "border-gold/55 bg-white text-ink"
+                      ? "border-mulberry/55 bg-white text-ink"
                       : "border-transparent bg-canvas-soft text-ink-muted hover:border-ink/15 hover:bg-white"
                   }`}
                 >

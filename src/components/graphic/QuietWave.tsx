@@ -26,7 +26,7 @@ export default function QuietWave({
             <stop offset="0%" stopColor={palette.accent} stopOpacity="0" />
             <stop offset="18%" stopColor={palette.accent} stopOpacity="0.45" />
             <stop offset="72%" stopColor={palette.accentSoft} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={palette.gold} stopOpacity="0.22" />
+            <stop offset="100%" stopColor={palette.mulberry} stopOpacity="0.22" />
           </linearGradient>
         </defs>
 

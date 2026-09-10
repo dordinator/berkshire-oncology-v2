@@ -85,7 +85,7 @@ function RouteLink({
           {description}
         </span>
       </span>
-      <span className="shrink-0 text-gold-ink">
+      <span className="shrink-0 text-mulberry-ink">
         <Arrow />
       </span>
     </button>
@@ -213,7 +213,7 @@ export default function ContactConceptHero() {
 
             <a
               href={`tel:${tel}`}
-              className="mt-8 inline-flex min-h-12 w-fit items-center border-t border-white/35 pt-3 font-display text-2xl font-semibold text-white transition-colors hover:text-gold-panel md:mt-10 md:text-[1.7rem]"
+              className="mt-8 inline-flex min-h-12 w-fit items-center border-t border-white/35 pt-3 font-display text-2xl font-semibold text-white transition-colors hover:text-mulberry-panel md:mt-10 md:text-[1.7rem]"
             >
               {site.contact.phone}
             </a>

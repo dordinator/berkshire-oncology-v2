@@ -42,7 +42,7 @@ function ContactRoute({
           {description}
         </span>
       </span>
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold-ink/30 text-gold-ink transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-mulberry-ink/30 text-mulberry-ink transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
         <Arrow />
       </span>
     </Link>
@@ -99,7 +99,7 @@ export default function FooterContactCta() {
                 </span>
                 <a
                   href={phoneHref}
-                  className="font-display text-xl font-semibold text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-gold-ink"
+                  className="font-display text-xl font-semibold text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:text-mulberry-ink"
                 >
                   {site.contact.phone}
                 </a>

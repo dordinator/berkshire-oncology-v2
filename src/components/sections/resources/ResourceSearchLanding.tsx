@@ -486,7 +486,7 @@ export default function ResourceSearchLanding() {
                     ? `${results.length} matching ${results.length === 1 ? "resource" : "resources"}`
                     : "Suggested searches"}
                 </span>
-                {!trimmed && <span className="text-gold-ink">Start anywhere</span>}
+                {!trimmed && <span className="text-mulberry-ink">Start anywhere</span>}
                 {trimmed && (
                   <button
                     type="button"

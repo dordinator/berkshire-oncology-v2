@@ -290,14 +290,14 @@ function SiteCard({ site: s, radiotherapy }: { site: CareSite; radiotherapy: boo
   return (
     <div
       className={`card-soft h-full p-6 md:p-7 ${
-        radiotherapy ? "border-gold/35" : ""
+        radiotherapy ? "border-mulberry/35" : ""
       }`}
     >
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <h3 className="font-display text-xl text-ink">{s.name}</h3>
         <span className="type-supporting text-ink-muted">{s.area}</span>
         {radiotherapy && (
-          <span className="type-label rounded-full border border-gold/40 bg-gold/[0.09] px-2.5 py-1 text-gold-ink">
+          <span className="type-label rounded-full border border-mulberry/40 bg-mulberry/[0.09] px-2.5 py-1 text-mulberry-ink">
             Radiotherapy
           </span>
         )}
