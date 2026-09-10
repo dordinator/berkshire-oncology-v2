@@ -23,18 +23,17 @@
 .expertise li a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: clamp(3.5rem, 4.6vw, 4.75rem); padding-block: 1rem; border-bottom: 1px solid var(--profile-rule); font-family: var(--font-display), sans-serif; font-size: clamp(1rem, 1.4vw, 1.4rem); line-height: 1.3; font-weight: 500; letter-spacing: -.015em; }
 .expertise a:hover { color: var(--brand-blue); }
 .expertise a svg { width: 1.4rem; height: 1.4rem; flex: none; }
-.appointments { grid-column: 3; grid-row: 1; align-self: start; margin-top: 2.25rem; padding: clamp(1.25rem, 2vw, 2rem); border-radius: 20px; background: var(--brand-sage-panel); }
-.booking { padding-top: clamp(1.25rem, 4vw, 4rem); }
-.appointmentButton, .phone { display: flex; align-items: center; gap: .75rem; min-height: clamp(3.25rem, 4.5vw, 4.5rem); padding: .9rem 1.3rem; border-radius: 15px; font-size: clamp(.875rem, 1.35vw, 1.35rem); font-weight: 500; line-height: 1.35; }
-.appointmentButton { justify-content: space-between; margin-top: 2.5rem; background: var(--brand-ink); color: white; }
+.appointments { grid-column: 3; grid-row: 1; align-self: start; margin-top: 2.25rem; padding: clamp(1.25rem, 2vw, 2rem); padding-block: clamp(2.5rem, 4vw, 4rem); border-radius: 20px; background: var(--brand-sage-panel); }
+.booking { min-width: 0; }
+.appointmentButton, .phone { display: flex; align-items: center; justify-content: center; gap: .75rem; min-height: clamp(3.25rem, 4.5vw, 4.5rem); padding: .9rem 1.3rem; border-radius: 15px; font-size: clamp(.875rem, 1.35vw, 1.35rem); font-weight: 500; line-height: 1.35; text-align: center; }
+.appointmentButton { margin-top: 2.5rem; background: var(--brand-ink); color: white; }
 .appointmentButton:hover { background: var(--brand-blue); }
-.phone { position: relative; justify-content: center; padding-inline: 2.8rem; margin-top: 2rem; border: 1px solid var(--brand-ink); }
+.phone { padding-inline: 2.8rem; margin-top: 2rem; border: 1px solid var(--brand-ink); }
 .phone:hover { background: color-mix(in srgb, var(--brand-ink) 5%, transparent); }
 .appointmentButton svg, .phone svg { width: 1.25rem; height: 1.25rem; flex: none; }
-.phone svg { position: absolute; left: 1.25rem; }
-.reviews { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--profile-rule); }
+.reviews { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--profile-rule); text-align: center; }
 .reviews h3 { font-size: 1.25rem; font-weight: 500; line-height: 1.3; }
-.rating { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .6rem; font-size: 1.25rem; }
+.rating { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem 1rem; margin-top: .6rem; font-size: 1.25rem; }
 .stars { display: flex; gap: .25rem; }
 .stars svg { width: 1.75rem; height: 1.75rem; }
 .reviews p { margin-top: .5rem; color: #4b5b74; font-size: 1rem; line-height: 1.4; }
@@ -57,7 +56,6 @@
   .role { font-size: 1.4rem; }
   .grid h2 { font-size: 1.55rem; }
   .appointments { grid-column: 1 / -1; grid-row: 2; margin: 0; display: grid; grid-template-columns: 1.15fr 1fr; gap: 2rem; padding: 1.5rem; }
-  .booking { padding-top: 0; }
   .appointmentButton { margin-top: 1.25rem; }
   .reviews { align-self: center; margin: 0; padding: .75rem 0 .75rem 1.5rem; border-top: 0; border-left: 1px solid var(--profile-rule); }
   .sectionNav { grid-column: 1 / -1; grid-row: 3; }
@@ -79,8 +77,7 @@
   .intro { margin-top: .75rem; font-size: 1rem; }
   .expertise ul { margin-top: 1rem; }
   .expertise li a { min-height: 3.5rem; }
-  .appointments { grid-column: 1 / -1; grid-row: 3; padding: 1.25rem; margin: 0; }
-  .booking { padding-top: .25rem; }
+  .appointments { grid-column: 1 / -1; grid-row: 3; padding: 1.375rem 1.25rem; margin: 0; }
   .appointmentButton, .phone { min-height: 3.25rem; font-size: .9375rem; }
   .appointmentButton { margin-top: 1.25rem; }
   .phone { margin-top: 1rem; }

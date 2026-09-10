@@ -361,6 +361,26 @@ unscored reviews do not announce a fabricated rating. Manual VoiceOver and
 Safari testing remains outstanding. Scope and reproduction notes are in
 `consultant-overview-2026-09-09.md`.
 
+### Consultant contact-panel alignment — 10 September 2026
+
+Codex balanced the existing top/bottom space, centred the review content and
+centred each button's icon/label pair. Panel dimensions are unchanged at the
+checked 1600, 1440, 768, 375 and 320px widths. Every checked button has a 12px
+icon/label gap and a group-centre error below 0.01px. No clipping or horizontal
+overflow was found, including at a 720 × 450 CSS viewport representing 200%
+zoom from 1440 × 900. This was an equivalent reflow check, not manual zoom.
+Keyboard Tab reaches “Call to book” with its existing accessible name and a
+visible 2px outline. Build, lint and TypeScript pass. No new manual VoiceOver
+or Safari pass was performed for this CSS-only adjustment.
+
+The required `npm run a11y -- --label=profile-panel-alignment --workers=4`
+completed all 310 distinct configurations with HTTP 200 responses and no load
+errors. All ten consultant profiles have zero automated violations. The wider
+site reports 270 contrast instances on eight unchanged routes, covering the same
+71 distinct targets as the earlier profile-overview baseline; no new targets
+were introduced. The command exits non-zero for these inherited findings.
+See `a11y/2026-09-10-profile-panel-alignment.md` and its JSON.
+
 ### Consultant breadcrumb removal — 9 September 2026
 
 Removed the breadcrumb and its unused responsive styles from the shared
