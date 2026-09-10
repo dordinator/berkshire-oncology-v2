@@ -60,9 +60,11 @@ function groupResults(query: string, results: SearchEntry[]): ResultGroup[] {
 export default function SearchBar({
   open,
   onClose,
+  onNavigate,
 }: {
   open: boolean;
   onClose: () => void;
+  onNavigate: () => void;
 }) {
   const pathname = usePathname();
   const [query, setQuery] = useState("");
@@ -88,6 +90,8 @@ export default function SearchBar({
 
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
+  const onNavigateRef = useRef(onNavigate);
+  onNavigateRef.current = onNavigate;
 
   const trimmed = query.trim();
   const groups = useMemo(
@@ -161,9 +165,9 @@ export default function SearchBar({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  // Close on route change, including after Enter navigates.
+  // Navigation hands focus to the destination, not back to the search trigger.
   useEffect(() => {
-    onCloseRef.current();
+    onNavigateRef.current();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
@@ -175,8 +179,9 @@ export default function SearchBar({
 
   // Keep the highlighted row visible.
   useEffect(() => {
+    if (!open) return;
     document.getElementById(`search-option-${activeIndex}`)?.scrollIntoView({ block: "nearest" });
-  }, [activeIndex, flat]);
+  }, [activeIndex, flat, open]);
 
   function onInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Escape") {
@@ -316,7 +321,7 @@ export default function SearchBar({
                 </p>
                 <Link
                   href="/contact"
-                  onClick={onClose}
+                  onClick={onNavigate}
                   className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-ink"
                 >
                   Contact the practice
@@ -349,7 +354,7 @@ export default function SearchBar({
                           aria-selected={isActive}
                           tabIndex={-1}
                           href={entry.href}
-                          onClick={onClose}
+                          onClick={onNavigate}
                           onMouseEnter={() => setActiveIndex(index)}
                           className={`block rounded-2xl px-3 py-2.5 transition-colors ${
                             isActive ? "bg-accent/[0.08]" : ""

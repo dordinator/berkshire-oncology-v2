@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ANCHOR_NAVIGATION_EVENT } from "@/components/SmoothScroll";
 import styles from "./ConsultantProfileOverview.module.css";
 
 type SectionId = "about" | "treatments" | "locations" | "fees" | "reviews";
@@ -21,17 +22,25 @@ function SectionIcon({ section }: { section: SectionId }) {
 export default function ProfileSectionNav({ items }: { items: ProfileSectionNavItem[] }) {
   const [active, setActive] = useState<SectionId>("about");
   useEffect(() => {
-    const readHash = () => {
-      const hash = window.location.hash.slice(1);
-      const section = hash.startsWith("location-") ? "locations" : hash;
+    const selectSection = (id: string) => {
+      const section = id.startsWith("location-") ? "locations"
+        : id === "professional-work" ? "about"
+        : id.endsWith("-reviews") ? "reviews"
+        : id;
       setActive(items.find(item => item.id === section)?.id ?? "about");
     };
+    const readHash = () => {
+      selectSection(window.location.hash.slice(1));
+    };
+    const followAnchor = (event: Event) => selectSection((event as CustomEvent<{ id: string }>).detail.id);
     readHash();
     window.addEventListener("hashchange", readHash);
     window.addEventListener("popstate", readHash);
+    window.addEventListener(ANCHOR_NAVIGATION_EVENT, followAnchor);
     return () => {
       window.removeEventListener("hashchange", readHash);
       window.removeEventListener("popstate", readHash);
+      window.removeEventListener(ANCHOR_NAVIGATION_EVENT, followAnchor);
     };
   }, [items]);
   return (

@@ -80,7 +80,7 @@ export default function ConsultantProfileOverview({ consultant: c, intro, specia
               </a>
             </div>
             <div id="review-summary" className={styles.reviews} aria-labelledby="profile-reviews-heading">
-              <h3 id="profile-reviews-heading"><a href="#reviews">Patient reviews</a></h3>
+              <h3 id="profile-reviews-heading"><a href="#patient-reviews">Patient reviews</a></h3>
               <div className={styles.rating} aria-hidden={reviewSummary.average === undefined ? true : undefined}>
                 <span className={styles.stars} aria-hidden="true"><ReviewStars rating={reviewSummary.average} /></span>
                 <span>{reviewSummary.average?.toFixed(2) ?? "—"} / 5</span>

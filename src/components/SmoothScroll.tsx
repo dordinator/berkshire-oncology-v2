@@ -14,6 +14,7 @@ let pageSnapPaused = false;
 let anchorSnapTimer = 0;
 
 const ANCHOR_GUTTER = 16;
+export const ANCHOR_NAVIGATION_EVENT = "site:anchor-navigation";
 
 type AnchorAlign = "content" | "viewport";
 
@@ -140,6 +141,10 @@ export function scrollToAnchor(
   const target = resolveAnchorTarget(idOrHash);
   if (!target) return null;
 
+  window.dispatchEvent(new CustomEvent(ANCHOR_NAVIGATION_EVENT, {
+    detail: { id: target.id },
+  }));
+
   updateAnchorClearance();
   resizeSmoothScroll();
   pauseSnapForAnchor();
@@ -186,6 +191,36 @@ export function scrollToAnchor(
   }
 
   return target;
+}
+
+// Hash/history navigation can open an accordion before its closing neighbour
+// has finished animating. Keep the same short settling window as a route load,
+// and relinquish it as soon as the reader takes control.
+function settleAnchorArrival(id: string): () => void {
+  let cancelled = false;
+  let firstFrame = 0;
+  let secondFrame = 0;
+  const align = () => {
+    if (!cancelled) scrollToAnchor(id, { immediate: true, focus: false });
+  };
+  const cancel = () => { cancelled = true; };
+  const events = ["pointerdown", "touchstart", "wheel", "keydown", "focusin"] as const;
+
+  firstFrame = window.requestAnimationFrame(() => {
+    align();
+    secondFrame = window.requestAnimationFrame(align);
+  });
+  const timers = [150, 500, 1000].map(delay => window.setTimeout(align, delay));
+  void document.fonts?.ready.then(align);
+  events.forEach(event => window.addEventListener(event, cancel, { once: true }));
+
+  return () => {
+    cancel();
+    window.cancelAnimationFrame(firstFrame);
+    window.cancelAnimationFrame(secondFrame);
+    timers.forEach(window.clearTimeout);
+    events.forEach(event => window.removeEventListener(event, cancel));
+  };
 }
 
 export default function SmoothScroll() {
@@ -287,13 +322,16 @@ export default function SmoothScroll() {
       scrollToAnchor(destination.hash, { focus: true });
     };
 
+    let cancelHistoryArrival = () => {};
+    let historyFrame = 0;
     const alignHistoryAnchor = () => {
+      cancelHistoryArrival();
+      window.cancelAnimationFrame(historyFrame);
       if (!window.location.hash) return;
-      window.requestAnimationFrame(() => {
-        scrollToAnchor(window.location.hash, {
-          immediate: true,
-          focus: false,
-        });
+      // The browser's native hash focus happens before this frame. It must not
+      // be mistaken for someone deliberately moving away from the destination.
+      historyFrame = window.requestAnimationFrame(() => {
+        cancelHistoryArrival = settleAnchorArrival(window.location.hash);
       });
     };
 
@@ -306,6 +344,8 @@ export default function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(historyFrame);
+      cancelHistoryArrival();
       document.removeEventListener("click", handleAnchor, true);
       window.removeEventListener("hashchange", alignHistoryAnchor);
       window.removeEventListener("popstate", alignHistoryAnchor);
@@ -328,51 +368,7 @@ export default function SmoothScroll() {
     const targetId = decodeAnchorId(window.location.hash);
     if (!targetId) return;
 
-    let cancelled = false;
-    let firstFrame = 0;
-    let secondFrame = 0;
-    const timers: number[] = [];
-
-    const align = () => {
-      if (cancelled) return;
-      scrollToAnchor(targetId, { immediate: true, focus: false });
-    };
-    const cancel = () => {
-      cancelled = true;
-    };
-
-    firstFrame = window.requestAnimationFrame(() => {
-      align();
-      secondFrame = window.requestAnimationFrame(align);
-    });
-    timers.push(
-      window.setTimeout(align, 150),
-      window.setTimeout(align, 500),
-      window.setTimeout(align, 1000),
-    );
-    void document.fonts?.ready.then(align);
-
-    window.addEventListener("pointerdown", cancel, { once: true });
-    window.addEventListener("touchstart", cancel, { once: true });
-    window.addEventListener("wheel", cancel, { once: true });
-    window.addEventListener("keydown", cancel, { once: true });
-    // Focus moving is the signal that someone is navigating with a keyboard or
-    // a screen reader. Without it, the realignment kept yanking the page back
-    // to the anchor for a second while they were already reading elsewhere —
-    // none of the other four events fire for a virtual cursor.
-    window.addEventListener("focusin", cancel, { once: true });
-
-    return () => {
-      cancelled = true;
-      window.cancelAnimationFrame(firstFrame);
-      window.cancelAnimationFrame(secondFrame);
-      timers.forEach(window.clearTimeout);
-      window.removeEventListener("pointerdown", cancel);
-      window.removeEventListener("touchstart", cancel);
-      window.removeEventListener("wheel", cancel);
-      window.removeEventListener("keydown", cancel);
-      window.removeEventListener("focusin", cancel);
-    };
+    return settleAnchorArrival(targetId);
   }, [pathname]);
 
   // Page snapping is opt-in. Global auto-registration used to pull anchor

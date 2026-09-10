@@ -282,7 +282,7 @@ export default function Navbar() {
         >
           {/* Searching takes the whole bar over: the wordmark, the sections and
               the actions step aside so the field can run the full width. */}
-          <SearchBar open={searchOpen} onClose={dismissSearch} />
+          <SearchBar open={searchOpen} onClose={dismissSearch} onNavigate={() => setSearchOpen(false)} />
 
           <AnimatePresence initial={false}>
             {!searchOpen && (

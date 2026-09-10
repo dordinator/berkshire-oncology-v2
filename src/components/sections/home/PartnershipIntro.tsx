@@ -69,7 +69,8 @@ export default function PartnershipIntro() {
         </Reveal>
 
         <div>
-          <Reveal delay={1}>
+          {/* Keep the direct-link heading stationary while nearby copy reveals. */}
+          <div>
             <h2
               id="partnership"
               tabIndex={-1}
@@ -83,7 +84,7 @@ export default function PartnershipIntro() {
                 led by your consultant.
               </span>
             </h2>
-          </Reveal>
+          </div>
 
           <Reveal delay={2}>
             <p

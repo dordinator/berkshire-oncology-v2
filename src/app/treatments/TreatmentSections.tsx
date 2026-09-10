@@ -13,6 +13,7 @@ import {
   useTransform,
 } from "framer-motion";
 import TreatmentOverviewConcepts from "./TreatmentOverviewConcepts";
+import useAnchorSelection from "@/components/useAnchorSelection";
 
 export interface TreatmentSummary {
   slug: string;
@@ -227,6 +228,7 @@ function AccordionList({
   const reduce = useReducedMotion();
   const open = openIndex === undefined ? internalOpen : openIndex;
   const setOpen = onOpenChange ?? setInternalOpen;
+  useAnchorSelection(rows.map(row => row.id), setOpen);
 
   return (
     <div
@@ -292,8 +294,6 @@ function AccordionList({
 function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
   return (
     <section
-      id="radiotherapy-treatments"
-      data-anchor-align="viewport"
       className="scroll-mt-24 overflow-clip bg-sage-wash"
     >
       <div className="container-wide grid items-center gap-12 py-20 md:py-24 lg:hidden">
@@ -313,7 +313,7 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
           </div>
         </figure>
 
-        <div>
+        <div id="radiotherapy-treatments-mobile" data-anchor-fallback-id="radiotherapy-treatments">
           <Reveal>
             <h2 className="type-feature-title max-w-[10ch] text-ink">
               Types of radiotherapy
@@ -330,7 +330,7 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
         </div>
       </div>
 
-      <div className="container-wide hidden min-h-screen items-center pb-8 pt-28 lg:flex">
+      <div id="radiotherapy-treatments" data-anchor-fallback-id="radiotherapy-treatments-mobile" data-anchor-align="viewport" className="container-wide hidden min-h-screen items-center pb-8 pt-28 lg:flex">
         <div className="grid h-[min(620px,calc(100svh-10rem))] min-h-[420px] w-full items-center gap-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:gap-24">
           <figure className="relative h-[min(560px,100%)] overflow-hidden rounded-panel bg-accent-glow/55 shadow-[0_35px_90px_-42px_rgba(6,28,70,0.34)]">
             <Image

@@ -1,0 +1,200 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "attempt": 2,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 109.734375,
+    "bottom": 212.140625,
+    "header": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "attempt": 1,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 109.734375,
+    "bottom": 212.140625,
+    "header": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "attempt": 3,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 109.734375,
+    "bottom": 212.140625,
+    "header": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "attempt": 2,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 109.734375,
+    "bottom": 212.140625,
+    "header": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "attempt": 1,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 109.734375,
+    "bottom": 212.140625,
+    "header": 94,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "attempt": 3,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 109.734375,
+    "bottom": 212.140625,
+    "header": 94,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "attempt": 1,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 101.5,
+    "bottom": 197.5,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "attempt": 2,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 101.5,
+    "bottom": 197.5,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "attempt": 3,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 101.5,
+    "bottom": 197.5,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "attempt": 1,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 101.5,
+    "bottom": 197.5,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "attempt": 2,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 101.5,
+    "bottom": 197.5,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "attempt": 3,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 101.5,
+    "bottom": 197.5,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "attempt": 2,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 102,
+    "bottom": 247.125,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "attempt": 1,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 102,
+    "bottom": 247.125,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "attempt": 3,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 102,
+    "bottom": 247.125,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "attempt": 1,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 102,
+    "bottom": 247.125,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "attempt": 2,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 102,
+    "bottom": 247.125,
+    "header": 86,
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "attempt": 3,
+    "text": "Specialist cancer care,led by your consultant.",
+    "top": 102,
+    "bottom": 247.125,
+    "header": 86,
+    "overflow": false
+  }
+]

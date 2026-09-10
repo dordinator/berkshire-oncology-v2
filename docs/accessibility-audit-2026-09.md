@@ -686,3 +686,91 @@ full-site sweep completed 310 configurations with zero reported violations;
 see `a11y/2026-09-10-consultant-reviews-spacing.md` and its JSON. The standard
 sweep filters default-motion colour-contrast findings. These automated results
 do not establish full WCAG conformance.
+
+
+### Clear link destinations — 10 September 2026
+
+Codex checked site navigation, search and section links so arrival exposes the
+intended heading or control below the floating navbar. A shared navigation
+event now selects linked content for same-page navigation, alongside initial
+hash loads and browser history. Consultant section highlighting follows named
+hospital and review destinations. Patient reviews links explicitly select the
+patient view, even after viewing peer reviews. Named clinical-trial and
+insurance-authorisation links open the corresponding answers without preventing
+subsequent manual closing or selection.
+
+Default-motion testing exposed an additional hash/history timing issue:
+a hospital heading moved above the viewport as its previously open neighbour
+collapsed. Hash/history arrivals now use the same short settling window as
+route loads. Browser-provided hash focus is allowed to finish first, while
+pointer, touch, wheel, keyboard or subsequent focus movement still cancels
+settling immediately. The final homepage adjustment below removes the heading motion itself,
+covering native browser focus during fresh loads as well.
+
+The search overlay previously restored focus to its trigger on route changes
+and initial mounting, interrupting arrival-position settling. Navigation now
+closes search without taking focus back; Escape still returns focus to the
+trigger. No browser-owned keyboard commands were intercepted. Review labels
+retain visible focus when targeted by a keyboard-activated link, and their
+native radio controls remain available for switching views.
+
+Selected cancer specialist sections now name the selected cancer in their
+heading instead of the generic “Different expertise. One partnership.” Their
+heading and roster begin together below the navbar. A former self-link now
+reads “Choose another cancer type” and targets the visible finder label and
+instructions. Cancer pathway selection follows the chosen section, and direct
+“not sure” links reveal their conditional content. Treatment-section spacing
+reserves the measured header clearance. On narrow screens, radiotherapy links
+land at the explanatory heading after the illustration, instead of showing only
+the illustration. These changes preserve existing clinical/service information.
+
+The production navigation audit covered all eight dropdown menus, ten mobile
+links, 103 legacy redirects, 59 documents/states and 319 distinct internal
+destinations, with zero issues or runtime errors. Results are in
+`a11y/2026-09-10-anchor-navigation-links.json`.
+
+The arrival-geometry run measured 253 named destinations at all three sizes
+and both motion settings: 1,518 cases. It covered consultant sections and
+named hospitals/review types, cancer and treatment sections, and navigation
+and search destinations. There were 1,517 passes and one remaining issue:
+a fresh 320px/default-motion homepage partnership link placed its heading
+under the header after the entrance animation. The heading is now stationary;
+the surrounding content retains its animation. Eighteen fresh production
+loads after that final change (three repetitions per size/motion combination)
+all place the heading approximately 16px below the navbar, with no overflow.
+
+The original findings are preserved in
+`a11y/2026-09-10-anchor-arrival-geometry.json`; the final homepage recheck is in
+`a11y/2026-09-10-anchor-arrival-homepage-recheck.json`. The other 1,512 cases
+were not repeated after the homepage-only animation change. The complete
+arrival audit can be repeated with `node scripts/anchor-arrival-audit.cjs`
+against a running local server; `AUDIT_BASE` selects its URL and `HREF_FILTER`
+can narrow a follow-up run. The geometry test measures visible headings or
+controls, including the active medicine heading rather than its invisible
+scroll-position marker. It does not assert that a whole long section fits in
+a single viewport.
+
+Fifty-four production interaction checks passed across 1440 × 900, 720 × 450
+and 320 × 780, with default and reduced motion. They cover named patient/peer
+arrival and Back, keyboard Enter on each consultant section link and its
+highlighted state, search navigation to the opened clinical-trials answer,
+and Escape returning search focus. Results are in
+`a11y/2026-09-10-anchor-arrival-interactions.json`.
+
+Twelve additional production checks reproduced animated second-hospital
+selection and the homepage partnership link at all three sizes. Each final
+heading/control clears the header by approximately 16px, and every named
+hospital panel is open; see `a11y/2026-09-10-anchor-arrival-settling.json`.
+
+In-app inspection confirmed the selected liver/pancreatic specialist heading
+and roster, review selection, opened clinical-trials answer, and narrow
+radiotherapy heading/intro placement. The 720 × 450 configuration is a CSS
+viewport equivalent of 200% zoom, not manual browser zoom; 320px checks cover
+reflow. No new manual VoiceOver/Safari pass was performed. Prior accessibility
+tree inspection does not substitute for that outstanding screen-reader work.
+
+Build, lint and TypeScript pass. The required full-site accessibility sweep
+completed 310 configurations with zero reported violations; see
+`a11y/2026-09-10-clear-anchor-arrivals.md` and its JSON. The standard sweep
+filters default-motion colour-contrast findings. These results provide scoped
+automated evidence and do not establish full WCAG conformance.

@@ -1,0 +1,380 @@
+[
+  {
+    "name": "Patient review link selects patient view and highlights Reviews",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Back restores the named peer review destination",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: about",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: treatments",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: locations",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: fees",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: reviews",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Search result opens clinical trials without returning focus to search",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Escape still returns focus to the search trigger",
+    "width": 1440,
+    "height": 900,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Patient review link selects patient view and highlights Reviews",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Back restores the named peer review destination",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: about",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: treatments",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: locations",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: fees",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: reviews",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Search result opens clinical trials without returning focus to search",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Escape still returns focus to the search trigger",
+    "width": 720,
+    "height": 450,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Patient review link selects patient view and highlights Reviews",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Back restores the named peer review destination",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: about",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: treatments",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: locations",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: fees",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: reviews",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Search result opens clinical trials without returning focus to search",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Escape still returns focus to the search trigger",
+    "width": 320,
+    "height": 780,
+    "motion": "reduce",
+    "passed": true
+  },
+  {
+    "name": "Patient review link selects patient view and highlights Reviews",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Back restores the named peer review destination",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: about",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: treatments",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: locations",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: fees",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: reviews",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Search result opens clinical trials without returning focus to search",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Escape still returns focus to the search trigger",
+    "width": 1440,
+    "height": 900,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Patient review link selects patient view and highlights Reviews",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Back restores the named peer review destination",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: about",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: treatments",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: locations",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: fees",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: reviews",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Search result opens clinical trials without returning focus to search",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Escape still returns focus to the search trigger",
+    "width": 720,
+    "height": 450,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Patient review link selects patient view and highlights Reviews",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Back restores the named peer review destination",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: about",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: treatments",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: locations",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: fees",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Keyboard section link: reviews",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Search result opens clinical trials without returning focus to search",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  },
+  {
+    "name": "Escape still returns focus to the search trigger",
+    "width": 320,
+    "height": 780,
+    "motion": "no-preference",
+    "passed": true
+  }
+]

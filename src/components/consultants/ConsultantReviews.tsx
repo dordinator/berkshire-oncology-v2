@@ -5,6 +5,7 @@ import { useState } from "react";
 import { patientReviewSummary, type ConsultantReviewsContent } from "@/content/consultantReviews";
 import { site } from "@/content/site";
 import Button from "@/components/ui/Button";
+import useAnchorSelection from "@/components/useAnchorSelection";
 import ReviewStars from "./ReviewStars";
 import styles from "./ConsultantReviews.module.css";
 
@@ -24,6 +25,7 @@ export default function ConsultantReviews({ consultantName, reviews }: {
   reviews: ConsultantReviewsContent;
 }) {
   const [selected, setSelected] = useState<"patient" | "peer">("patient");
+  useAnchorSelection(reviewTypes.map(type => `${type.id}-reviews`), index => setSelected(reviewTypes[index].id));
   const summary = patientReviewSummary(reviews.patient);
   const selectedReviews = reviews[selected];
   const reviewLabel = selected === "patient" ? "patient" : "peer";
@@ -36,7 +38,7 @@ export default function ConsultantReviews({ consultantName, reviews }: {
           <div className={styles.main}>
             <fieldset className={styles.switcher}>
               <legend className="sr-only">Review type</legend>
-              {reviewTypes.map(type => <label key={type.id}>
+              {reviewTypes.map(type => <label key={type.id} id={`${type.id}-reviews`}>
                 <input className="sr-only" type="radio" name="consultant-review-type" value={type.id} checked={selected === type.id} onChange={() => setSelected(type.id)} aria-controls={`consultant-${type.id}-reviews`} />
                 <span>{type.label}{reviews[type.id].length > 0 && ` (${reviews[type.id].length})`}</span>
               </label>)}

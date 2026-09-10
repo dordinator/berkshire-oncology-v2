@@ -14,6 +14,7 @@ import {
 import Button from "@/components/ui/Button";
 import { site } from "@/content/site";
 import { useCenterGap } from "./useCenterGap";
+import useAnchorSelection from "@/components/useAnchorSelection";
 
 /*
   The fees page below the hero. One constant warm off-white ground; colour
@@ -339,6 +340,7 @@ const BAND_ROWS = [
  *  them part of one calm information panel; the plus rotates when open. */
 function BandRows() {
   const [open, setOpen] = useState<number | null>(null);
+  useAnchorSelection(BAND_ROWS.map(row => "id" in row ? row.id : undefined), setOpen);
   return (
     <div className="mt-10 border-t border-ink/15">
       {BAND_ROWS.map((row, i) => {

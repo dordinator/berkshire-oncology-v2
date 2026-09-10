@@ -323,7 +323,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
           key={section.id}
           id={section.id}
           data-anchor-align="viewport"
-          className="scroll-mt-28 border-t border-ink/[0.06] bg-paper pb-20 pt-28 md:py-24"
+          className="scroll-mt-28 border-t border-ink/[0.06] bg-paper pb-20 pt-[max(7rem,var(--anchor-clearance,7rem))] md:pb-24"
         >
           <div className="container-wide grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
             <Reveal>

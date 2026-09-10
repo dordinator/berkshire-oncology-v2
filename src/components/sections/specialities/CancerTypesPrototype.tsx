@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ChapterTint from "@/components/sections/home/ChapterTint";
 import CareLocationsJourney from "@/components/locations/CareLocationsJourney";
 import Button from "@/components/ui/Button";
+import useAnchorSelection from "@/components/useAnchorSelection";
 import { journeyStops } from "@/content/journey";
 import {
   scrollToAnchor,
@@ -162,7 +163,7 @@ function Finder({
   };
 
   return (
-    <div className="mt-8 rounded-panel border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-panel">
+    <div id="cancer-finder-panel" className="mt-8 rounded-panel border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-panel">
       <div className="px-1">
         <label htmlFor="cancer-finder" className="block font-display text-lg font-semibold text-ink md:text-xl">
           What have you been told?
@@ -302,7 +303,7 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
       : "lg:min-h-[clamp(230px,27svh,310px)]";
   const specialistHref = general
     ? "/consultants"
-    : `/specialities?type=${item.id}#specialists`;
+    : "#cancer-finder-panel";
   const specialistIntro = general
     ? "Each consultant focuses on a smaller group of cancers and treatments. Together, the team covers a broad range of needs."
     : examples.length === 1
@@ -313,22 +314,25 @@ function GeneralSpecialistsViewport({ item, general = false }: { item: CancerTyp
     <section
       id="specialists"
       data-anchor-align="viewport"
-      className={`relative isolate text-ink ${sectionPadding} ${compactRoster ? "lg:flex lg:min-h-[100svh] lg:items-center" : "lg:min-h-[100svh]"}`}
+      aria-labelledby="specialists-heading"
+      className="relative isolate pb-16 pt-[max(7rem,var(--anchor-clearance,7rem))] text-ink md:pb-20 lg:min-h-[100svh]"
     >
       <ChapterTint colour="var(--surface-warm)" triggerSelector="[data-chapter-tint-trigger]" />
       <div className="site-gutter w-full">
-        <div className={`grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 ${compactRoster ? "lg:items-center" : "items-start"}`}>
-          <div className={compactRoster ? "" : "lg:sticky lg:top-0 lg:flex lg:h-[100svh] lg:items-center"}>
+        <div className="grid items-start gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div className="lg:sticky lg:top-[var(--anchor-clearance,7rem)]">
             <div data-chapter-tint-trigger>
-              <h2 className="type-feature-title">
-                <span className="block lg:whitespace-nowrap">Different expertise.</span>
-                <span className="block lg:whitespace-nowrap">One partnership.</span>
+              <h2 id="specialists-heading" className="type-feature-title">
+                {general ? <>
+                  <span className="block lg:whitespace-nowrap">Different expertise.</span>
+                  <span className="block lg:whitespace-nowrap">One partnership.</span>
+                </> : <>Specialists in {item.title.toLowerCase()}.</>}
               </h2>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted md:text-lg">
                 {specialistIntro}
               </p>
               <Button href={specialistHref} variant="ghost" className="mt-7">
-                {general ? "Meet all 10 consultants" : `View ${item.title.toLowerCase()} specialists`}
+                {general ? "Meet all 10 consultants" : "Choose another cancer type"}
               </Button>
             </div>
           </div>
@@ -546,7 +550,7 @@ function TreatmentsViewport({ item, general = false }: { item: CancerTypePrototy
 
   return (
     <section id="treatments" data-anchor-align="viewport" ref={treatmentSectionRef} className={`relative bg-transparent pb-16 pt-28 text-ink md:pb-20 md:pt-32 lg:py-0 ${sectionHeight}`}>
-      <div className="site-gutter w-full lg:sticky lg:top-0 lg:flex lg:min-h-[100svh] lg:items-center lg:py-16">
+      <div className="site-gutter w-full lg:sticky lg:top-0 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-16 lg:pt-[max(7rem,var(--anchor-clearance,7rem))]">
         <div className="grid w-full gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-[5vw]">
           <div>
             <h2 className="type-feature-title max-w-[9ch]">
@@ -766,7 +770,7 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
         <section className={`flex min-h-[82svh] items-center bg-section-warm text-ink ${sectionPadding}`}>
           <div className="site-gutter grid w-full gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
             <div>
-              <h2 className="type-editorial-hero max-w-2xl">We do not currently have a consultant who treats this cancer.</h2>
+              <h2 className="type-editorial-hero max-w-2xl">We do not currently have a consultant who treats {item.title.toLowerCase()}.</h2>
             </div>
             <div>
               <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find an appropriate specialist service.</p>
@@ -855,6 +859,9 @@ export default function CancerTypesPrototype({ items, selectedType }: {
         { label: "Contact and next steps", href: "#contact-next-step" },
       ];
 
+  const [activeStep, setActiveStep] = useState("specialists");
+  useAnchorSelection(journeySteps.map(step => step.href.slice(1)), index => setActiveStep(journeySteps[index].href.slice(1)));
+
   const scrollTo = useCallback(
     (id: string) => {
       requestAnimationFrame(() =>
@@ -902,7 +909,7 @@ export default function CancerTypesPrototype({ items, selectedType }: {
       const item = items.find((candidate) => candidate.id === type);
       setSelectedId(item?.id ?? null);
       setQuery(item?.title ?? "");
-      setShowUnsure(false);
+      setShowUnsure(!item && window.location.hash === "#not-sure");
 
       // A homepage cancer card links straight to the selected specialists
       // viewport. Repeat the anchor scroll after React has replaced the
@@ -928,6 +935,8 @@ export default function CancerTypesPrototype({ items, selectedType }: {
             60,
           ),
         );
+      } else if (!item && window.location.hash === "#not-sure") {
+        scrollTo("not-sure");
       } else if (!item && window.location.hash === "#browse-all") {
         requestAnimationFrame(() =>
           window.setTimeout(
@@ -996,7 +1005,9 @@ export default function CancerTypesPrototype({ items, selectedType }: {
     setQuery("");
     requestAnimationFrame(() =>
       window.setTimeout(
-        () => scrollToAnchor("cancer-finder", { focus: true }),
+        () => scrollToAnchor("cancer-finder-panel", {
+          onComplete: () => document.getElementById("cancer-finder")?.focus({ preventScroll: true }),
+        }),
         60,
       ),
     );
@@ -1046,13 +1057,14 @@ export default function CancerTypesPrototype({ items, selectedType }: {
                 <span className="type-label text-ink-muted">{journeySteps.length === 3 ? "Three steps" : "Four steps"}</span>
               </div>
               <ol className="divide-y divide-ink/10">
-                {journeySteps.map(({ label, href }, index) => (
+                {journeySteps.map(({ label, href }) => (
                   <li key={label}>
                     <a
                       href={href}
+                      aria-current={activeStep === href.slice(1) ? "location" : undefined}
                       className="group flex items-center gap-3 rounded-lg px-2 py-3.5 transition-colors hover:bg-ink/[0.035] focus-visible:bg-ink/[0.035] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20"
                     >
-                      <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-full transition-colors group-hover:bg-sage-soft ${index === 0 ? "bg-sage-soft" : "border border-ink/20"}`} />
+                      <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-full transition-colors group-hover:bg-sage-soft ${activeStep === href.slice(1) ? "bg-sage-soft" : "border border-ink/20"}`} />
                       <span className="type-compact-title min-w-0 flex-1 leading-tight text-ink">{label}</span>
                       <span className="text-ink transition-transform duration-300 group-hover:translate-x-1"><Arrow /></span>
                     </a>
