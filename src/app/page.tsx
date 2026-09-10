@@ -54,7 +54,8 @@ const specialities = getAllSpecialities();
 
 /**
  * Five stable destinations plus a sixth slot that cycles through the remaining
- * maintained specialities, starting with lymphoma. All labels and destinations
+ * maintained specialities, starting with lymphoma. Wide desktops show eight
+ * fixed types and cycle the ninth through the rest. All labels and destinations
  * come from the same data used by the full cancer directory.
  */
 const CARD_ORDER = ["breast", "prostate", "lung", "colorectal", "skin", "lymphoma"];

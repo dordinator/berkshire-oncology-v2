@@ -10,7 +10,7 @@ const source = fs.readFileSync(path.join(__dirname, '../src/components/sections/
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX } }).outputText;
 const cards = Array.from({ length: 18 }, (_, i) => ({ slug: `type-${i}`, label: `Cancer ${i}`, href: `/specialities?type=${i}#specialists` }));
 
-function mount({ reduced = false, items = cards } = {}) {
+function mount({ reduced = false, wide = false, items = cards } = {}) {
   const slots = [], effects = [], timers = new Map(), listeners = new Map();
   let cursor = 0, pending = [], dirty = true, tree, timerId = 0, intersection, disconnected = false;
   const state = (initial) => {
@@ -32,6 +32,7 @@ function mount({ reduced = false, items = cards } = {}) {
   };
   const jsx = (type, props) => ({ type, props });
   const media = { matches: reduced, addEventListener: (_, fn) => listeners.set('motion', fn), removeEventListener: () => listeners.delete('motion') };
+  const desktop = { matches: wide, addEventListener: (_, fn) => listeners.set('desktop', fn), removeEventListener: () => listeners.delete('desktop') };
   const document = { hidden: false, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name) };
   const exports = {};
   vm.runInNewContext(compiled, {
@@ -43,7 +44,7 @@ function mount({ reduced = false, items = cards } = {}) {
       if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => key }) };
       throw new Error(`Unexpected import: ${name}`);
     },
-    window: { matchMedia: () => media, setInterval: (fn, ms) => { assert.equal(ms, 5000); timers.set(++timerId, fn); return timerId; }, clearInterval: (id) => timers.delete(id) },
+    window: { matchMedia: (query) => query.includes('min-width') ? desktop : media, setInterval: (fn, ms) => { assert.equal(ms, 5000); timers.set(++timerId, fn); return timerId; }, clearInterval: (id) => timers.delete(id) },
     document,
     IntersectionObserver: class {
       constructor(fn) { intersection = fn; }
@@ -73,6 +74,7 @@ function mount({ reduced = false, items = cards } = {}) {
     event: (fn) => { fn(); flush(); },
     visible: (value) => { intersection([{ isIntersecting: value }]); flush(); },
     pageVisible: (value) => { document.hidden = !value; listeners.get('visibilitychange')(); flush(); },
+    resize: (wide) => { desktop.matches = wide; listeners.get('desktop')(); flush(); },
     activeLabels: () => walk(tree, (n) => n.props['aria-hidden'] === false),
     timerCount: () => timers.size,
     unmount: () => { effects.forEach((effect) => effect?.cleanup?.()); assert.equal(timers.size, 0); assert.equal(listeners.size, 0); assert.ok(disconnected); },
@@ -110,6 +112,20 @@ app.unmount();
 const reduced = mount({ reduced: true });
 assert.equal(reduced.timerCount(), 0, 'reduced motion disables autoplay by default');
 reduced.unmount();
+const desktop = mount({ wide: true });
+assert.equal(desktop.links().length, 9, 'wide desktop displays nine links');
+for (let i = 0; i < 10; i++) {
+  const hrefs = desktop.links().map((n) => n.props.href);
+  assert.equal(new Set(hrefs).size, 9, 'fixed and rotating types never duplicate');
+  assert.equal(hrefs[8], cards[i + 8].href);
+  desktop.tick();
+}
+desktop.resize(false);
+assert.equal(desktop.links().length, 6, 'narrowing restores six links');
+desktop.resize(true);
+assert.equal(desktop.links().length, 9, 'widening restores nine links');
+assert.equal(desktop.timerCount(), 1, 'resizing keeps a single rotation timer');
+desktop.unmount();
 for (const length of [0, 5, 6]) {
   const small = mount({ items: cards.slice(0, length) });
   assert.equal(small.links().length, length);
@@ -117,4 +133,4 @@ for (const length of [0, 5, 6]) {
   assert.equal(small.button(), undefined);
   small.unmount();
 }
-console.log('PASS: six links; 5-second cycle through all remaining types; matching labels/destinations; wrap; hover/focus; no rotation control; visibility; reduced motion; cleanup; short lists.');
+console.log('PASS: six links, nine on wide desktop; resize; unique destinations; 5-second cycle; matching labels; wrap; hover/focus; visibility; reduced motion; cleanup; short lists.');

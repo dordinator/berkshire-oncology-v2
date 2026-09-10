@@ -6,8 +6,10 @@ import type { CancerCard } from "./CancerCards";
 import styles from "./HomeChapters.module.css";
 
 export default function CancerDirectory({ cards }: { cards: CancerCard[] }) {
-  const fixed = cards.slice(0, 5);
-  const rotating = cards.slice(5);
+  const [wideDesktop, setWideDesktop] = useState(false);
+  const fixedCount = wideDesktop ? 8 : 5;
+  const fixed = cards.slice(0, fixedCount);
+  const rotating = cards.slice(fixedCount);
   const [index, setIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(true);
   const [hovered, setHovered] = useState(false);
@@ -16,6 +18,15 @@ export default function CancerDirectory({ cards }: { cards: CancerCard[] }) {
   const [pageVisible, setPageVisible] = useState(true);
   const panel = useRef<HTMLDivElement>(null);
   const current = rotating[index % rotating.length];
+
+  useEffect(() => {
+    // Keep this breakpoint in sync with the three-column directory styles.
+    const desktop = window.matchMedia("(min-width: 1600px)");
+    const updateDesktop = () => setWideDesktop(desktop.matches);
+    updateDesktop();
+    desktop.addEventListener("change", updateDesktop);
+    return () => desktop.removeEventListener("change", updateDesktop);
+  }, []);
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");

@@ -811,3 +811,26 @@ completed 310 configurations with zero reported violations; see
 `a11y/2026-09-10-clear-anchor-arrivals.md` and its JSON. The standard sweep
 filters default-motion colour-contrast findings. These results provide scoped
 automated evidence and do not establish full WCAG conformance.
+
+## 2026-09-10 — Wider homepage cancer directory
+
+Codex checked the production build after removing this section's 1440px width
+cap and introducing a three-column, nine-item grid at 1600px and wider. Smaller
+screens retain six items. Eight fixed links and one rotating link on wide
+desktops use the existing maintained cancer data and destinations.
+
+In-app browser inspection at 1728px confirmed the three-by-three layout and
+shared 104px page gutters. DOM measurements at 1600, 1599, 1440 and 320px
+confirmed the expected nine/six item counts, unique destinations and no
+horizontal overflow. Keyboard Tab between cancer links showed the existing
+3px focus outline. Component checks passed for resizing, rotation, duplicate
+prevention, reduced motion, focus/hover pausing and cleanup. Build, lint and
+TypeScript checks passed. No new manual screen-reader or browser zoom pass was
+performed; the prior rotation-control limitation remains unchanged.
+
+The required full accessibility sweep passed all 310 configurations with zero
+reported violations; see `a11y/2026-09-10-desktop-cancer-grid.md` and its JSON.
+This covers the sweep's standard 320–1440px widths; the wider desktop layout
+received the separate visual, geometry and keyboard checks above. The standard
+default-motion contrast filter still applies. This is automated evidence, not
+a claim of full WCAG conformance.
