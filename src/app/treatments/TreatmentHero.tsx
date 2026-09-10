@@ -2,19 +2,17 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 
 /**
- * The two hero links. Rendered twice, because the two layouts want them in
- * different places and CSS cannot move a node between containers: beside the
- * photograph from xl up, below it under xl. Only one is ever in the document
- * — `hidden` is display:none, so the other is out of the accessibility tree
- * too, and nothing is announced twice.
+ * One visible pair at each breakpoint. Phones place the actions with the intro,
+ * before the photo; the existing tablet layout keeps them below the photo;
+ * desktop places them beside it. The hidden copy is also excluded from the
+ * accessibility tree and keyboard order.
  *
- * Callers pass the display utility (`hidden xl:flex` / `flex xl:hidden`), so
- * this deliberately sets no display of its own.
+ * Callers supply the display utilities; this sets no display of its own.
  */
 function HeroLinks({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`type-button flex-col items-start gap-4 xl:gap-5 ${className}`}
+      className={`type-button flex-col items-start gap-4 max-md:w-fit max-md:max-w-full max-md:items-stretch xl:gap-5 ${className}`}
     >
       <Button href="#treatment-index" className="hero-cta-primary">
         Browse treatments
@@ -28,7 +26,7 @@ function HeroLinks({ className = "" }: { className?: string }) {
 
 export default function TreatmentHero() {
   return (
-    <section className="relative overflow-x-clip bg-canvas pb-32 pt-24 sm:pt-28 md:pb-28 md:pt-28 xl:pb-0 xl:pt-36">
+    <section className="relative overflow-x-clip bg-canvas pb-[6.5rem] pt-24 sm:pt-28 md:pb-28 md:pt-28 xl:pb-0 xl:pt-36">
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] xl:block">
         <Image
           src="/home/hero.jpg"
@@ -53,11 +51,11 @@ export default function TreatmentHero() {
             <p className="type-hero-lede mt-6 max-w-[34rem] text-ink-muted xl:mt-7">
               Read about cancer treatments and find consultants by cancer type.
             </p>
-            <HeroLinks className="mt-7 hidden sm:mt-8 xl:mt-11 xl:flex" />
+            <HeroLinks className="mt-7 flex sm:mt-8 md:hidden xl:mt-11 xl:flex" />
           </div>
 
           <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:h-[360px] lg:h-[400px] xl:h-auto xl:min-h-[clamp(580px,70svh,720px)]">
-            <div className="absolute inset-y-0 -left-6 right-[calc(50%-50vw)] overflow-hidden rounded-l-panel sm:rounded-l-panel md:-left-10 xl:hidden">
+            <div className="absolute inset-y-0 left-0 right-0 overflow-hidden rounded-panel md:-left-10 md:right-[calc(50%-50vw)] md:rounded-l-panel md:rounded-r-none xl:hidden">
               <Image
                 src="/home/hero.jpg"
                 alt="A consultant speaking with a patient during an appointment"
@@ -69,7 +67,7 @@ export default function TreatmentHero() {
             </div>
           </div>
 
-          <HeroLinks className="flex xl:hidden" />
+          <HeroLinks className="hidden md:flex xl:hidden" />
         </div>
 
       </div>

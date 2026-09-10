@@ -59,8 +59,8 @@ for (const file of ['src/components/ui/Button.tsx', 'src/components/sections/hom
 const treatments = read('src/app/treatments/TreatmentHero.tsx');
 assert.match(treatments, /href="#treatment-index" className="hero-cta-primary"/);
 assert.match(treatments, /href="#what-we-do-not-provide" variant="ghost" className="hero-cta-secondary"/);
-assert.match(treatments, /hidden sm:mt-8 xl:mt-11 xl:flex/);
-assert.match(treatments, /HeroLinks className="flex xl:hidden"/);
+assert.match(treatments, /flex sm:mt-8 md:hidden xl:mt-11 xl:flex/);
+assert.match(treatments, /HeroLinks className="hidden md:flex xl:hidden"/);
 assert.match(read('src/components/treatments/TreatmentDetailHero.tsx'), /font-medium text-sage-ink/);
 
 function contrastOnWhite(hex) {
