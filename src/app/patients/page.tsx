@@ -104,12 +104,12 @@ export default function PatientsPage() {
                 aria-hidden
                 data-fx="drift"
                 data-drift="0.5"
-                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-gold-panel"
+                className="absolute bottom-[8%] right-[4%] top-[2%] w-[47%] rounded-panel bg-gold-panel"
               />
 
               <div
                 data-parallax-frame
-                className="absolute left-0 top-[7%] h-[69%] w-[64%] overflow-hidden rounded-[2.5rem] border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)]"
+                className="absolute left-0 top-[7%] h-[69%] w-[64%] overflow-hidden rounded-panel border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)]"
               >
                 {/* Taller than its frame so the parallax never shows an edge. */}
                 <div
@@ -128,7 +128,7 @@ export default function PatientsPage() {
 
               <div
                 data-fx="rise"
-                className="absolute bottom-4 right-0 w-[92%] rounded-[2.25rem] border border-ink/10 bg-paper p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:bottom-5 sm:p-5 lg:w-[88%]"
+                className="absolute bottom-4 right-0 w-[92%] rounded-panel border border-ink/10 bg-paper p-4 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:bottom-5 sm:p-5 lg:w-[88%]"
               >
                 <div className="flex items-center border-b border-ink/10 px-3 pb-4">
                   <p className="font-display text-xl">What would help right now?</p>
@@ -248,7 +248,7 @@ export default function PatientsPage() {
               </div>
             </Reveal>
 
-            <div className="overflow-hidden rounded-[1.75rem] border border-ink/[0.09] bg-white px-5 shadow-[0_24px_80px_-48px_rgba(6,28,70,0.34)] sm:rounded-[2rem] sm:px-8">
+            <div className="overflow-hidden rounded-panel border border-ink/[0.09] bg-white px-5 shadow-[0_24px_80px_-48px_rgba(6,28,70,0.34)] sm:rounded-panel sm:px-8">
               {faqs.map((faq) => (
                 <details
                   key={faq.q}

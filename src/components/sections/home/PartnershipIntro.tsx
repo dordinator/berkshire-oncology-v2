@@ -57,7 +57,7 @@ export default function PartnershipIntro() {
           as the section's equal half rather than its thumbnail. */}
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
         <Reveal>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-canvas-soft sm:aspect-[4/3] lg:aspect-[3/4]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-panel bg-canvas-soft sm:aspect-[4/3] lg:aspect-[3/4]">
             <Image
               src="/home/partnership.jpg"
               alt="A consultation in progress — a clinician talking a patient through her care in a clinic room"

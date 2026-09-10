@@ -1,0 +1,83 @@
+.cancers, .feedback { color: var(--home-ink); padding-block: clamp(4rem, 7vw, 7rem); }
+.cancers { background: var(--home-white); }
+/* Fill a screen without clipping longer quotes, stacked layouts or enlarged text. */
+.feedback { background: var(--home-ice); min-height: 100vh; min-height: 100svh; display: flex; align-items: center; }
+.inner { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--site-gutter); }
+.intro { min-width: 0; }
+.intro h2, .intro p { color: var(--home-ink); }
+.cancerLayout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.7fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+.cancerIntro { padding-block: 1.5rem; }
+.cancerIntro p { max-width: 32rem; }
+
+/* Local button rollout: no changes to buttons elsewhere on the site. */
+.intro a { min-height: 50px; border: 2px solid var(--home-blue); border-radius: var(--radius-button); color: var(--home-blue); padding: .75rem 1.2rem; box-shadow: none; }
+.intro a > span[aria-hidden] { background: var(--home-white); border-radius: inherit; transform: translateX(-101%); transition: transform 500ms cubic-bezier(.65, 0, .25, 1); }
+.intro a:hover > span[aria-hidden], .intro a:focus-visible > span[aria-hidden] { transform: translateX(0); }
+.cancerIntro a > span[aria-hidden] { background: var(--home-ice); }
+.intro a:focus-visible, .directoryLink:focus-visible, .quoteControls button:focus-visible { outline: 3px solid var(--home-blue); outline-offset: 5px; }
+.directoryPanel { min-width: 0; background: var(--home-sage); border-radius: var(--radius-panel); padding: clamp(1.5rem, 3vw, 3rem); }
+.directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(1.5rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; }
+.directory li { min-width: 0; }
+.directory li:nth-child(n+3) { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
+.directoryLink { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 160px; height: 100%; padding: 2rem 0; text-decoration: none; color: var(--home-ink); border-radius: 4px; transition: background-color 200ms; }
+.directoryLink > span { min-width: 0; }
+.directoryLink:hover { background: color-mix(in srgb, var(--home-white) 38%, transparent); }
+.directoryTitle { display: block; font-family: var(--font-display), sans-serif; font-size: clamp(1.35rem, 2vw, 1.7rem); line-height: 1.2; font-weight: 600; }
+.directoryAction { display: block; margin-top: .65rem; font-size: .875rem; color: var(--home-blue); }
+.directoryArrow { flex: 0 0 24px; transition: transform 200ms; }
+.directoryLink:hover .directoryArrow { transform: translateX(3px); }
+.rotatingCopy { width: 100%; }
+.rotatingTitles { display: grid; align-items: center; }
+.rotatingTitles > span { grid-area: 1 / 1; overflow-wrap: anywhere; }
+.rotatingTitles > span[aria-hidden="true"] { visibility: hidden; }
+.rotatingTitles > span[aria-hidden="false"] { animation: cancer-appear 300ms ease-out; }
+@keyframes cancer-appear { from { opacity: 0; } to { opacity: 1; } }
+
+.feedbackLayout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+.quotePanel { min-width: 0; padding: clamp(1.5rem, 3vw, 3rem); background: var(--home-white); border-top: 4px solid var(--home-mulberry); border-radius: var(--radius-panel); }
+.warning { margin: 0 0 2rem; font-size: .875rem; line-height: 1.6; color: var(--home-mulberry); }
+.warning strong { display: block; font-weight: 600; }
+.quoteStack { display: grid; }
+.quote { grid-area: 1 / 1; margin: 0; min-width: 0; opacity: 1; visibility: visible; transition: opacity 600ms ease-in-out, visibility 0s; }
+/* Keep the outgoing quote painted until its fade finishes; the shared grid
+   reserves the longest quote's height throughout both automatic and arrow changes. */
+.quote[aria-hidden="true"] { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 600ms ease-in-out, visibility 0s 600ms; }
+.quoteMark { display: block; height: 3.6rem; color: var(--home-mulberry); font-family: Georgia, serif; font-size: 6rem; line-height: 1; }
+.quote blockquote { margin: 0; font-family: var(--font-display), sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 1.4; font-weight: 500; letter-spacing: -.015em; }
+.quote figcaption { margin-top: 2rem; font-size: .875rem; line-height: 1.5; }
+.quoteControls { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--home-ink) 18%, transparent); }
+.quoteCount { font-size: .875rem; font-variant-numeric: tabular-nums; }
+.quoteButtons { display: flex; gap: .6rem; }
+.quoteControls button { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 2px solid var(--home-blue); border-radius: var(--radius-button); color: var(--home-blue); background: var(--home-white); transition: background-color 200ms; }
+.quoteControls button:hover { background: var(--home-ice); }
+
+/* Approved refined treatment: quieter intro, quotation-led hierarchy. */
+.feedback[data-variant="refined"] .feedbackLayout { grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); align-items: center; }
+.feedback[data-variant="refined"] .intro h2 { font-size: clamp(2rem, 2.8vw, 2.5rem); line-height: 1.15; font-weight: 500; max-width: 15ch; }
+.feedback[data-variant="refined"] .intro p { font-size: 1.0625rem; line-height: 1.75; }
+.feedback[data-variant="refined"] .quotePanel { display: flex; flex-direction: column; border-top-width: 2px; padding: clamp(1.5rem, 3.5vw, 3.5rem); }
+.feedback[data-variant="refined"] .quoteStack { order: 1; }
+.feedback[data-variant="refined"] .quote blockquote { font-size: clamp(1.65rem, 2.8vw, 2.5rem); line-height: 1.35; }
+.feedback[data-variant="refined"] .quoteMark { height: 3rem; font-size: 5rem; }
+.feedback[data-variant="refined"] .warning { order: 2; margin: 1.75rem 0 0; padding-top: 1.25rem; border-top: 1px solid color-mix(in srgb, var(--home-mulberry) 25%, transparent); }
+.feedback[data-variant="refined"] .warning strong { font-weight: 500; }
+.feedback[data-variant="refined"] .quoteControls { order: 3; margin-top: 1.5rem; padding-top: 0; border-top: 0; }
+
+@media (max-width: 1000px) {
+  .cancerLayout { grid-template-columns: 1fr; }
+  .cancerIntro { max-width: 38rem; padding-block: 0; }
+  .feedbackLayout, .feedback[data-variant="refined"] .feedbackLayout { grid-template-columns: 1fr; }
+  .feedbackLayout .intro { max-width: 44rem; }
+}
+@media (max-width: 600px) {
+  .directory { grid-template-columns: 1fr; }
+  .directory li:nth-child(n+2) { border-top: 1px solid color-mix(in srgb, var(--home-ink) 28%, transparent); }
+  .directoryLink { min-height: 108px; }
+  .quotePanel { padding: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quote, .quote[aria-hidden="true"] { transition: none; }
+  .intro a > span[aria-hidden], .directoryLink, .directoryArrow, .quoteControls button { transition: none; }
+  .directoryLink:hover .directoryArrow { transform: none; }
+  .rotatingTitles > span[aria-hidden="false"] { animation: none; }
+}

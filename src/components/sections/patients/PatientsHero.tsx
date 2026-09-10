@@ -52,12 +52,12 @@ export default function PatientsHero() {
             aria-hidden
             data-fx="drift"
             data-drift="0.5"
-            className="absolute bottom-[8%] left-[4%] top-[2%] w-[47%] rounded-[2.5rem] bg-sage-panel"
+            className="absolute bottom-[8%] left-[4%] top-[2%] w-[47%] rounded-panel bg-sage-panel"
           />
 
           <div
             data-parallax-frame
-            className="absolute right-0 top-[7%] h-[69%] w-[64%] overflow-hidden rounded-[2.5rem] border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)]"
+            className="absolute right-0 top-[7%] h-[69%] w-[64%] overflow-hidden rounded-panel border border-ink/10 bg-white shadow-[0_35px_90px_-40px_rgba(6,28,70,0.35)]"
           >
             {/* Taller than its frame so the parallax never shows an edge. */}
             <div
@@ -79,7 +79,7 @@ export default function PatientsHero() {
               and a scrubbed entrance catches mid-flight on first paint.
               half-transparent and adrift over the photograph. Entrances belong
               to elements the reader scrolls TO. */}
-          <div className="absolute bottom-3 left-0 w-[82%] rounded-[2rem] border border-ink/10 bg-paper p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]">
+          <div className="absolute bottom-3 left-0 w-[82%] rounded-panel border border-ink/10 bg-paper p-3 shadow-[0_30px_80px_-35px_rgba(6,28,70,0.35)] sm:p-4 lg:w-[76%]">
             <div className="flex items-center border-b border-ink/10 px-2 pb-3">
               <p className="font-display text-lg">Where are you starting from?</p>
             </div>

@@ -518,7 +518,7 @@ button[class*="rounded-"] {
    The profile used to mix section padding, viewport-height floors and a
    sticky scroll runway. That made nominally adjacent sections feel unrelated.
    These scoped variables keep the hero untouched while giving every chapter
-   the same balanced outer spacing throughout the journey. */
+   the same balanced outer spacing throughout the profile. */
 [data-consultant-profile] {
   --consultant-section-space: clamp(4rem, 4.5vw, 5rem);
   --consultant-stage-height: 75svh;

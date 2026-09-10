@@ -4,6 +4,8 @@ import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import HomeHero from "@/components/sections/home/HomeHero";
 import PartnershipIntro from "@/components/sections/home/PartnershipIntro";
+import ProofImage from "@/components/sections/home/ProofImage";
+import TestimonialCards from "@/components/sections/home/TestimonialCards";
 import RegionMap from "@/components/site/RegionMap";
 import { pageMeta, organizationLd } from "@/content/seo";
 import { hospitals } from "@/content/hospitals";
@@ -51,16 +53,13 @@ const consultants = getAllConsultants();
 const specialities = getAllSpecialities();
 
 /**
- * The six cards in "Cancers we treat", ordered by how common the cancer is in
- * the UK rather than by how many of our consultants list it. Ranking by
- * internal coverage put bladder and kidney above bowel and lung, which is not
- * what a newly diagnosed reader is scanning for — they arrive already knowing
- * the name of their own diagnosis. Labels come from the speciality data so they
- * cannot drift; only the order and the selection are set here.
+ * Five stable destinations plus a sixth slot that cycles through the remaining
+ * maintained specialities, starting with lymphoma. All labels and destinations
+ * come from the same data used by the full cancer directory.
  */
 const CARD_ORDER = ["breast", "prostate", "lung", "colorectal", "skin", "lymphoma"];
 
-const topCancers = CARD_ORDER.map((slug) => {
+const cancerCards = [...CARD_ORDER, ...specialities.map((s) => s.slug).filter((slug) => !CARD_ORDER.includes(slug))].map((slug) => {
   const s = specialities.find((x) => x.slug === slug);
   if (!s) return null;
 
@@ -87,6 +86,15 @@ const clinicalOncologists = consultants.filter(
 const medicalOncologists = consultants.filter(
   (c) => c.role === "Consultant Medical Oncologist",
 );
+
+/** The year the longest-serving partner became a consultant in Reading. */
+const establishedYear = Math.min(
+  ...consultants
+    .map((c) => c.consultantInReadingSince)
+    .filter((y): y is number => typeof y === "number"),
+);
+
+const withGmc = consultants.filter((c) => c.gmc).length;
 
 /**
  * Small counts read better spelled out in running prose — "Seven consultant
@@ -213,13 +221,75 @@ export default function Home() {
       {/* ── 01 · About the partnership ─────────────────────────────────────── */}
       <PartnershipIntro />
 
-      {/* ── Cancers we treat ────────────────────────────────────────────────
-          A full-bleed coloured band with its own sticky behaviour — the one
-          place on the page where the background changes. It carries its own
-          container and vertical rhythm, and sits outside the page container so
-          the colour reaches both edges without a 100vw trick. */}
+      {/* The bottom padding is what keeps the photograph above off the gold.
+          Sections are spaced by their own top margins (see Section), so the
+          last one before the band contributed nothing below itself and the
+          image's lower edge landed within a few pixels of the colour — it read
+          as sitting on the band rather than above it. This mirrors the same
+          rhythm on the other side. */}
+      <div className="container-wide pb-24 md:pb-36">
+        {/* ── 02 · Our approach to care ─────────────────────────────────────── */}
+        <Section>
+          {/* Heading inside the left column, as in section 03, so the
+              photograph starts level with it rather than a grid gap below. */}
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16 xl:gap-24">
+            <div>
+              <SectionHeading
+                id="approach"
+                title="What you can expect from your care"
+                copyKey="approach.heading"
+                showRule={false}
+              />
+              <Lede copyKey="approach.lede">
+                At your first appointment, your consultant will review the
+                information available and talk to you about your symptoms,
+                diagnosis or referral. They will explain what is known, what may
+                still need to be investigated and what the next steps may be.
+              </Lede>
+              <Body copyKey="approach.body">
+                Where there are treatment options to consider, your consultant
+                will explain their potential benefits, possible side effects
+                and practical differences, and the reasons for their
+                recommendation. You can always ask questions before deciding
+                what happens next. Cases are often reviewed by multiple
+                specialists so they can consider the diagnosis and treatment
+                options together.
+              </Body>
+              <Reveal>
+                <div className="mt-9 flex flex-wrap gap-3">
+                  <Button href="/about/our-approach" variant="ghost">
+                    <span data-copy-key="approach.action.care">
+                      How we care for patients
+                    </span>
+                  </Button>
+                  <Button href="/patients" variant="ghost">
+                    <span data-copy-key="approach.action.patients">
+                      Information for patients and families
+                    </span>
+                  </Button>
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal delay={1}>
+              <ProofImage
+                src="/home/approach.jpg"
+                alt="A consultant writing up notes at a desk"
+                cardTitle="Every consultant is on the GMC Specialist Register"
+                cardBody={`All ${words(withGmc)} consultants hold full registration with a licence to practise. Their GMC numbers are published in their profiles so you can check the register.`}
+                statValue={`Since ${establishedYear}`}
+                statLabel="our longest-serving consultant has worked in Reading"
+              />
+            </Reveal>
+          </div>
+        </Section>
+
+      </div>
+
+      {/* A compact directory with section-local colour, without sticky columns
+          or a viewport-wide tint. Cancer destinations remain unchanged. */}
       <CancerCards
-          cards={topCancers}
+          cards={cancerCards}
           intro={
             <>
               <Reveal delay={1}>
@@ -416,6 +486,59 @@ export default function Home() {
         </div>
 
       </div>
+
+      <TestimonialCards
+        intro={
+          <>
+            <Reveal delay={1}>
+              <h2
+                id="feedback"
+                data-copy-key="feedback.heading"
+                tabIndex={-1}
+                className="home-section-title text-ink"
+              >
+                Patient reviews and feedback
+              </h2>
+            </Reveal>
+            <Reveal delay={2}>
+              <p
+                data-copy-key="feedback.reviews"
+                className="section-subtitle mt-7 text-ink/80"
+              >
+                Where available, you can read independently published patient
+                feedback about our consultants on the hospital and healthcare
+                platforms where they practise.
+              </p>
+            </Reveal>
+            <Reveal delay={2}>
+              <p
+                data-copy-key="feedback.direct"
+                className="mt-5 text-[17px] leading-relaxed text-ink/80"
+              >
+                If you have experience of care with one of our consultants, we
+                would also like to hear from you. Contact our practice team to
+                share feedback or raise a concern.
+              </p>
+            </Reveal>
+            <Reveal delay={3}>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Button
+                  href="https://www.phin.org.uk/search/consultants"
+                  variant="ghost"
+                  external
+                >
+                  <span data-copy-key="feedback.action">
+                    Search independent profiles
+                  </span>
+                </Button>
+                <Button href="/contact" variant="ghost">
+                  Share feedback or raise a concern
+                </Button>
+              </div>
+            </Reveal>
+          </>
+        }
+      />
 
       {/* ── 07 · Referrals, careers and professional enquiries ─────────────
           Was two sections, back to back, in the same shape: "Referring

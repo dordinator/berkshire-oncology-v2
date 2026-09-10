@@ -138,9 +138,9 @@ viewports; the next section should prove, explain or advance it.
 
 ## Accessibility
 
-The site targets WCAG 2.2 Level AA, and `/accessibility` publishes that claim
-publicly. Treat the claim as a commitment: work that breaks it makes a published
-statement untrue, which matters more than the individual defect.
+The site targets WCAG 2.2 Level AA. `/accessibility` currently explains that
+assessment is incomplete and does not claim full conformance. Keep the public
+statement aligned with actual evidence; an automated pass is not certification.
 
 - Run `npm run a11y` before calling a change done. It sweeps every route at five
   widths, with and without reduced motion, and writes a dated report to
@@ -150,9 +150,10 @@ statement untrue, which matters more than the individual defect.
   what was tested, when and by whom in `docs/accessibility-audit-2026-09.md`.
 - Every control must show where keyboard focus is. There is no global focus
   ring, so a control that adds none has no indicator at all.
-- Anything that moves, updates or auto-advances for longer than five seconds
-  needs a way to stop it, and honouring `prefers-reduced-motion` alone does not
-  satisfy that — the criterion applies in the default configuration.
+- Automatically moving content lasting more than five seconds needs a way to
+  stop it. Auto-updating information has no five-second exception. Honour
+  `prefers-reduced-motion`, but do not treat it or temporary hover/focus pausing
+  as a replacement for a persistent stop mechanism in the default configuration.
 - Never take over keys the browser owns. Arrow, Page and Space scroll the page;
   a component that preventDefaults them removes line-by-line scrolling for
   keyboard users.

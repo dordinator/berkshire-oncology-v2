@@ -22,6 +22,7 @@ const { therapies } = require(path.join(repo, 'src/content/therapies.ts'));
 const { locationSlugsForConsultant } = require(path.join(repo, 'src/content/consultantSites.ts'));
 const { chromium } = require(path.join(repo, 'node_modules/playwright'));
 const links = new Map();
+for (const id of ['partnership','approach','cancers','consultants','feedback','referrals']) links.set(`/#${id}`, id);
 for (const section of navSections) for (const group of section.groups) for (const link of group.links) if (link.href.includes('#')) links.set(link.href, link.label);
 for (const entry of searchIndex) if (entry.href.includes('#')) links.set(entry.href, entry.title);
 for (const c of getAllConsultants()) for (const id of ['overview','about','cancer-expertise','treatments','locations','fees','professional-work','reviews','patient-reviews','peer-reviews','contact',...locationSlugsForConsultant(c.slug).map(slug=>'location-'+slug)]) links.set(`/consultants/${c.slug}#${id}`, `${c.name}: ${id}`);

@@ -1,5 +1,16 @@
 # Accessibility audit and remediation record
 
+> Current-version update, 10 September: the user selected Main's homepage
+> directory, care expectations and feedback sections, and WCAG's consultant
+> profiles, cancer locations, canonical navigation, anchor behaviour and policy
+> wording. See [the approved merge record](./approved-merge-2026-09-10.md).
+
+> Current-version update, 9 September: the WCAG branch has been reconciled with
+> the newer design work. The historical findings below are not a conformance
+> assessment of that combined version. See [the merge validation record](./accessibility-merge-2026-09-09.md)
+> for current checks and outstanding limitations. The public statement now
+> describes a target rather than claiming full conformance.
+
 **Site:** Berkshire Oncology Partnership
 **Standard:** WCAG 2.2 Level AA
 **Period:** September 2026
