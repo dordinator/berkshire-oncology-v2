@@ -12,6 +12,7 @@ export type ConsultantTreatmentExperienceItem = {
 
 type ConsultantTreatmentExperienceProps = {
   consultantName: string;
+  consultantRole: string;
   items: ConsultantTreatmentExperienceItem[];
 };
 
@@ -33,6 +34,7 @@ function Arrow() {
 
 export default function ConsultantTreatmentExperience({
   consultantName,
+  consultantRole,
   items,
 }: ConsultantTreatmentExperienceProps) {
   const [openItem, setOpenItem] = useState(0);
@@ -55,9 +57,9 @@ export default function ConsultantTreatmentExperience({
               Treatment experience.
             </h2>
             <p className="type-section-lede mt-6 max-w-md text-ink-muted">
-              These are the treatment approaches listed in {consultantName}&rsquo;s
-              profile. The right approach depends on your diagnosis and a
-              clinical review.
+              {consultantName} is a {consultantRole.toLowerCase()}. These are the
+              treatment approaches listed in their profile. The right approach
+              depends on your diagnosis and a clinical review.
             </p>
             <p className="type-supporting mt-6 max-w-sm text-ink-muted">
               You do not need to decide between them before arranging a

@@ -485,3 +485,31 @@ consultant portrait and navigation alignment, balanced contact-box padding,
 centred reviews and About-first order are preserved. Manual VoiceOver/Safari
 testing remains outstanding. Implementation scope is documented in
 `main-navigation-styling-2026-09-10.md`.
+
+
+### Oncologist role in Treatment experience — 10 September 2026
+
+Codex added each consultant’s maintained role to the opening paragraph directly
+under “Treatment experience”. The paragraph previously listed treatment
+approaches without stating whether the consultant is a medical or clinical
+oncologist. It now opens, for example, “Dr Davis is a consultant clinical
+oncologist.” The shared component receives the role from `Consultant.role`;
+the role is not inferred from treatment lists. Built HTML was checked for all
+ten profiles against that source data.
+
+Browser checks covered Dr Davis at 1440 × 900, Dr Eslamian at 320 × 780 and
+Dr Bhattacharyya at 720 × 450. The paragraph reflows without horizontal
+overflow. The latter viewport is the CSS equivalent of 200% zoom from
+1440 × 900; this was not a manual browser-zoom session. Keyboard Enter on
+the Treatments section link still focuses the treatment section with its
+heading below the fixed header. Accessibility-tree inspection confirms that
+the medical oncologist role appears directly after the section heading.
+No controls or interaction behaviours were changed. Manual VoiceOver/Safari
+testing remains outstanding.
+
+Build, lint and TypeScript pass. The required accessibility sweep completed all
+310 configurations with no reported violations; see
+`a11y/2026-09-10-treatment-oncologist-role.md` and its JSON. As in the preceding
+report, the audit excludes default-motion colour-contrast findings and includes
+contrast only for reduced-motion checks. These results do not establish full
+WCAG conformance.

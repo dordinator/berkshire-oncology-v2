@@ -339,6 +339,7 @@ export default function ConsultantProfile({
       {treatmentExperienceItems.length > 0 && (
         <ConsultantTreatmentExperience
           consultantName={name}
+          consultantRole={c.role}
           items={treatmentExperienceItems}
         />
       )}
