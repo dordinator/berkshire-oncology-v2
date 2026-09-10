@@ -593,3 +593,47 @@ colour contrast in both modes and await the finite opening text animations
 before measuring. All passed; results are in
 `a11y/2026-09-10-profile-short-height-a11y.json`. This is scoped automated
 evidence, not a claim of full WCAG conformance.
+
+
+### Patient and peer review section — 10 September 2026
+
+Codex added a bottom-of-profile Reviews section with separate patient and peer
+views, a sage patient-rating summary and the practice’s Call to book link.
+The overview’s two review links now target this section, which has the only
+`reviews` ID. The compact overview summary uses `review-summary` and retains
+its existing layout. Review data is currently empty; there are no invented
+quotes, scores, counts or provider endorsements.
+
+The segmented selector uses native grouped radio inputs with visible focus
+styling. Native arrow keys select the other review type, and Tab leaves the
+group for the telephone link. No custom key interception is added. Both panels
+remain in the DOM and the inactive one is hidden. A persistent polite status
+region announces the selected view’s published count or empty state. Decorative
+stars and unscored placeholders are hidden from the accessibility tree.
+
+A production-browser check covered both views for all ten consultants at
+1440 × 900, 720 × 450 and 320 × 780, with default and reduced motion: 120 scoped
+accessibility checks, all passing, including colour contrast in both modes.
+The same checks verify native keyboard switching, focus visibility, the
+telephone destination, one visible review panel, the correct page order,
+unique section IDs and both overview links. The 1440px overview still fits one
+viewport. There was no horizontal overflow at any checked size, and panel and
+button corners match the site tokens. Results are in
+`a11y/2026-09-10-consultant-review-interactions.json`.
+
+In-app checks on Dr Bhattacharyya’s profile confirmed the desktop and stacked
+mobile layout, native keyboard selection, and that Enter on Reviews focuses
+the new section below the fixed header. The accessibility tree exposes both
+named options, the selected state, the active panel’s text and the named call
+link without a fictitious rating. The 720 × 450 check is a CSS viewport
+equivalent to 200% zoom, not a manual browser-zoom session. Manual VoiceOver and
+Safari testing remains outstanding. Provider integration and actual review
+content are outside these empty-state checks; see
+`consultant-reviews-2026-09-10.md`.
+
+Build, lint and TypeScript pass. The required full-site sweep completed 310
+configurations with zero reported violations; see
+`a11y/2026-09-10-consultant-patient-peer-reviews.md` and its JSON. The standard
+sweep filters default-motion colour-contrast findings; the additional scoped
+review checks include contrast in both motion settings. These automated
+results do not establish full WCAG conformance.

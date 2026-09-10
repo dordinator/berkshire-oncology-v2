@@ -21,6 +21,8 @@ import { consultantAppointmentHref } from "@/content/routes";
 import ConsultantAboutJourney from "@/components/consultants/ConsultantAboutJourney";
 import ConsultantTreatmentExperience from "@/components/consultants/ConsultantTreatmentExperience";
 import ConsultantLocationsJourney from "@/components/consultants/ConsultantLocationsJourney";
+import ConsultantReviews from "@/components/consultants/ConsultantReviews";
+import { getConsultantReviews } from "@/content/consultantReviews";
 
 export function generateStaticParams() {
   return getProfiledConsultantSlugs().map((slug) => ({ slug }));
@@ -427,6 +429,8 @@ export default function ConsultantProfile({
           </div>
         </section>
       )}
+
+      <ConsultantReviews key={c.slug} consultantName={c.name} reviews={getConsultantReviews(c.slug)} />
 
       <section
         id="contact"

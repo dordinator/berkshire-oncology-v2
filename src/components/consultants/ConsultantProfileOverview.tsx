@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Consultant, Speciality } from "@/content/types";
 import { cancerTypeHref, consultantAppointmentHref } from "@/content/routes";
 import { site } from "@/content/site";
+import { getConsultantReviews, patientReviewSummary } from "@/content/consultantReviews";
+import ReviewStars from "./ReviewStars";
 import ProfileSectionNav, { type ProfileSectionNavItem } from "./ProfileSectionNav";
 import styles from "./ConsultantProfileOverview.module.css";
 
@@ -46,6 +48,7 @@ export default function ConsultantProfileOverview({ consultant: c, intro, specia
     { id: "fees", label: "Fees" },
     { id: "reviews", label: "Reviews" },
   ];
+  const reviewSummary = patientReviewSummary(getConsultantReviews(c.slug).patient);
   return (
     <section id="overview" data-anchor-align="viewport" className={styles.overview} aria-label={`${c.name} at a glance`}>
       <div className={styles.container}>
@@ -76,13 +79,13 @@ export default function ConsultantProfileOverview({ consultant: c, intro, specia
                 <span>Call to book</span>
               </a>
             </div>
-            <div id="reviews" className={styles.reviews} aria-labelledby="profile-reviews-heading">
-              <h3 id="profile-reviews-heading">Patient reviews</h3>
-              <div className={styles.rating} aria-hidden="true">
-                <span className={styles.stars}>{Array.from({ length: 5 }, (_, i) => <svg key={i} viewBox="0 0 24 24" fill="none"><path d="m12 2 3 6.3 7 .9-5.1 4.9 1.3 6.9-6.2-3.3L5.8 21l1.3-6.9L2 9.2l7-.9L12 2Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /></svg>)}</span>
-                <span>— / 5</span>
+            <div id="review-summary" className={styles.reviews} aria-labelledby="profile-reviews-heading">
+              <h3 id="profile-reviews-heading"><a href="#reviews">Patient reviews</a></h3>
+              <div className={styles.rating} aria-hidden={reviewSummary.average === undefined ? true : undefined}>
+                <span className={styles.stars} aria-hidden="true"><ReviewStars rating={reviewSummary.average} /></span>
+                <span>{reviewSummary.average?.toFixed(2) ?? "—"} / 5</span>
               </div>
-              <p>Awaiting verified reviews</p>
+              <p>{reviewSummary.count > 0 ? `${reviewSummary.count} published patient ${reviewSummary.count === 1 ? "review" : "reviews"}` : "Awaiting verified reviews"}</p>
             </div>
           </aside>
           <ProfileSectionNav items={navItems} />
