@@ -637,3 +637,24 @@ configurations with zero reported violations; see
 sweep filters default-motion colour-contrast findings; the additional scoped
 review checks include contrast in both motion settings. These automated
 results do not establish full WCAG conformance.
+
+### Review selectors lead the section — 10 September 2026
+
+Codex removed the visible Reviews heading and its following layout margin so
+Patient reviews and Peer reviews begin the section. A screen-reader-only h2,
+Patient and peer reviews, preserves the section's accessible name and heading
+hierarchy. The existing reviews anchor and native radio selector remain intact.
+
+In-app checks on Dr Bhattacharyya's profile covered 1440 × 900, 320 × 780 and
+720 × 450. The selector clears the fixed header, with no horizontal overflow.
+Keyboard Enter on the profile's Reviews link focuses the section; native arrow
+keys switch the selected review type and Tab reaches Call to book. The
+accessibility tree exposes the h2, group name, selected option and active panel.
+The 720 × 450 check is a CSS viewport equivalent of 200% zoom, not manual browser
+zoom. Manual VoiceOver/Safari testing remains outstanding.
+
+Build, lint and TypeScript pass. The full required sweep completed all 310
+configurations with zero reported violations; see
+`a11y/2026-09-10-consultant-reviews-heading.md` and its JSON. As above, the
+standard sweep filters default-motion colour-contrast findings. This is scoped
+automated evidence, not a full WCAG conformance assessment.

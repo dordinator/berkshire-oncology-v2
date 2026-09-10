@@ -31,7 +31,7 @@ export default function ConsultantReviews({ consultantName, reviews }: {
   return (
     <section id="reviews" data-anchor-align="viewport" aria-labelledby="consultant-reviews-heading" className={`consultant-section-rhythm ${styles.section}`}>
       <div className="container-wide">
-        <h2 id="consultant-reviews-heading" className="type-feature-title">Reviews.</h2>
+        <h2 id="consultant-reviews-heading" className="sr-only">Patient and peer reviews</h2>
         <div className={styles.layout}>
           <div className={styles.main}>
             <fieldset className={styles.switcher}>
