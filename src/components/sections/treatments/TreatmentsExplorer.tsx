@@ -486,7 +486,7 @@ function TreatmentPanel({
       }
       initial={reduce ? false : "hidden"}
       animate="show"
-      className={`overflow-hidden rounded-[1.75rem] border border-ink/10 ${
+      className={`overflow-hidden rounded-panel border border-ink/10 ${
         fillFrame ? "flex h-full flex-col" : ""
       }`}
       style={{ backgroundColor: SHEET }}
@@ -642,7 +642,7 @@ function ProtonPanel({ fillFrame }: { fillFrame: boolean }) {
       }
       initial={reduce ? false : "hidden"}
       animate="show"
-      className={`overflow-hidden rounded-[1.75rem] border border-ink/10 ${
+      className={`overflow-hidden rounded-panel border border-ink/10 ${
         fillFrame ? "flex h-full flex-col" : ""
       }`}
       style={{ backgroundColor: SHEET }}

@@ -94,7 +94,7 @@ function Caveat({
   label?: string;
 }) {
   return (
-    <aside className="mt-8 rounded-[1.5rem] border border-ink/[0.08] bg-sage-wash px-5 py-5 md:px-7 md:py-6">
+    <aside className="mt-8 rounded-panel border border-ink/[0.08] bg-sage-wash px-5 py-5 md:px-7 md:py-6">
       <p className="type-label font-semibold text-sage-ink">
         {label}
       </p>
@@ -111,7 +111,7 @@ function SupportingFigure({ therapy }: { therapy: Therapy }) {
       <div className="container-wide">
         <Reveal>
           <figure className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
-            <div className="relative aspect-[3/2] overflow-hidden rounded-[2rem] border border-ink/[0.08] bg-canvas-soft">
+            <div className="relative aspect-[3/2] overflow-hidden rounded-panel border border-ink/[0.08] bg-canvas-soft">
               <Image
                 src={therapy.image.src}
                 alt={therapy.image.alt}
@@ -188,7 +188,8 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
               href={therapy.sources[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full border border-ink/15 px-6 text-ink transition-colors hover:border-sage/70 hover:text-sage-ink"
+              data-cta-outline="sage-hover"
+              className="type-button mt-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full px-[calc(1.5rem-1px)] text-ink transition-colors hover:text-sage-ink"
             >
               Read more about {lowerTitle}
               <span className="sr-only"> (opens in a new tab)</span>
@@ -258,7 +259,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
           </Reveal>
 
           <Reveal delay={1} className="lg:order-1">
-            <ol className="divide-y divide-ink/10 rounded-[1.75rem] border border-ink/[0.08] bg-paper px-6 py-2 shadow-[0_24px_60px_-50px_rgba(6,28,70,0.42)] md:px-9 lg:px-10">
+            <ol className="divide-y divide-ink/10 rounded-panel border border-ink/[0.08] bg-paper px-6 py-2 shadow-[0_24px_60px_-50px_rgba(6,28,70,0.42)] md:px-9 lg:px-10">
               {therapy.whenConsidered.map((item, index) => (
                 <li key={item} className="grid grid-cols-[2.5rem_1fr] gap-5 py-5 md:py-6">
                   <span className="type-label pt-0.5 font-semibold text-ink/70">
@@ -378,7 +379,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                       <Link
                         href={"/consultants/" + consultant.slug}
                         className={
-                          "group block h-full rounded-[1.5rem] border border-black/[0.06] bg-paper p-3 shadow-[0_12px_40px_-25px_rgba(6,28,70,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_-25px_rgba(6,28,70,0.4)] " +
+                          "group block h-full rounded-panel border border-black/[0.06] bg-paper p-3 shadow-[0_12px_40px_-25px_rgba(6,28,70,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_-25px_rgba(6,28,70,0.4)] " +
                           (hasSingleFeaturedConsultant
                             ? "sm:grid sm:grid-cols-[12rem_1fr] sm:items-stretch"
                             : "")
@@ -386,7 +387,7 @@ export default function TreatmentDetailPage({ therapy }: { therapy: Therapy }) {
                       >
                         <div
                           className={
-                            "relative overflow-hidden rounded-[1.1rem] bg-canvas-soft " +
+                            "relative overflow-hidden rounded-panel bg-canvas-soft " +
                             (hasSingleFeaturedConsultant
                               ? "aspect-[4/4.4] sm:aspect-auto sm:min-h-[15rem]"
                               : "aspect-[4/4.4]")

@@ -66,7 +66,13 @@ const config: Config = {
         tightest: "-0.06em",
       },
       borderRadius: {
-        "4xl": "2rem",
+        lg: "var(--radius-button)",
+        xl: "var(--radius-panel)",
+        "2xl": "var(--radius-panel)",
+        "3xl": "var(--radius-panel)",
+        "4xl": "var(--radius-panel)",
+        panel: "var(--radius-panel)",
+        button: "var(--radius-button)",
       },
       backdropBlur: {
         xs: "2px",

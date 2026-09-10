@@ -162,7 +162,7 @@ function Finder({
   };
 
   return (
-    <div className="mt-8 rounded-[1.6rem] border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-[2rem]">
+    <div className="mt-8 rounded-panel border border-ink/10 bg-white p-4 shadow-[0_22px_60px_-34px_rgba(6,28,70,0.35)] sm:p-5 md:mt-10 md:rounded-panel">
       <div className="px-1">
         <label htmlFor="cancer-finder" className="block font-display text-lg font-semibold text-ink md:text-xl">
           What have you been told?
@@ -770,7 +770,7 @@ function CancerJourney({ item, onReset, general = false }: { item: CancerTypePro
             </div>
             <div>
               <p className="max-w-lg text-lg leading-relaxed text-ink-muted">The practice team can still help you find an appropriate specialist service.</p>
-              <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium">Choose another type</button></div>
+              <div className="mt-7 flex flex-wrap gap-3"><Button href="/contact#guidance">Talk to the team</Button><button type="button" onClick={onReset} data-cta-outline="ink" className="rounded-full px-[calc(1.5rem-1px)] py-[calc(.75rem-1px)] text-sm font-medium">Choose another type</button></div>
             </div>
           </div>
         </section>
@@ -1025,9 +1025,9 @@ export default function CancerTypesPrototype({ items, selectedType }: {
           </div>
 
           <div className="relative hidden min-h-[610px] lg:block">
-            <div className="absolute right-0 top-[2%] h-[74%] w-[55%] rounded-[2.75rem] bg-accent-mist" />
+            <div className="absolute right-0 top-[2%] h-[74%] w-[55%] rounded-panel bg-accent-mist" />
 
-            <div className="absolute left-0 top-[8%] h-[68%] w-[73%] overflow-hidden rounded-[2.4rem] border border-ink/10 bg-white shadow-[0_30px_76px_-42px_rgba(6,28,70,0.4)]">
+            <div className="absolute left-0 top-[8%] h-[68%] w-[73%] overflow-hidden rounded-panel border border-ink/10 bg-white shadow-[0_30px_76px_-42px_rgba(6,28,70,0.4)]">
               <div className="relative h-full w-full">
                 <Image
                   src="/home/hero.jpg"
@@ -1040,7 +1040,7 @@ export default function CancerTypesPrototype({ items, selectedType }: {
               </div>
             </div>
 
-            <div className="absolute bottom-0 right-0 w-[82%] rounded-[2rem] border border-ink/10 bg-paper p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
+            <div className="absolute bottom-0 right-0 w-[82%] rounded-panel border border-ink/10 bg-paper p-4 shadow-[0_30px_78px_-38px_rgba(6,28,70,0.42)]">
               <div className="flex items-center justify-between border-b border-ink/10 px-2 pb-3">
                 <p className="font-display text-lg font-semibold text-ink">Your cancer pathway</p>
                 <span className="type-label text-ink-muted">{journeySteps.length === 3 ? "Three steps" : "Four steps"}</span>
@@ -1077,7 +1077,7 @@ export default function CancerTypesPrototype({ items, selectedType }: {
                 <p className="text-base leading-relaxed text-ink/75">If you have a referral letter, scan report or consultant’s name, send us what you have. The practice team can help work out who you need to speak to.</p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Button href="/contact#guidance">Ask the practice team</Button>
-                  <button type="button" onClick={browseAll} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink hover:border-ink/40">Browse all cancer types</button>
+                  <button type="button" onClick={browseAll} data-cta-outline="ink" className="rounded-full px-[calc(1.5rem-1px)] py-[calc(.75rem-1px)] text-sm font-medium text-ink">Browse all cancer types</button>
                 </div>
               </div>
             </div>

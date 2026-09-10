@@ -455,3 +455,33 @@ site still reports 270 contrast instances across the same 71 distinct targets
 as the preceding panel-alignment report, with no new targets. The command exits
 non-zero for these inherited findings. See
 `a11y/2026-09-10-profile-about-first.md` and its JSON.
+
+
+### Main navigation and CTA styling on WCAG — 10 September 2026
+
+Codex integrated the approved shared navbar and button styles from main at
+`5d3fac5` into the current WCAG implementation. The navbar and panels use 20px
+corners, and buttons use 15px corners with main’s CTA borders, fills and focus
+styles. Current routes, consultant section order and contextual booking links
+were preserved.
+
+Build, lint, TypeScript and main’s button-fill source checks pass. The browser
+navigation audit passed eight dropdowns, ten mobile links, 103 redirects, 59
+documents/UI states and 295 destinations without issues or browser errors.
+The full sweep completed 310 distinct configurations with HTTP 200 responses,
+no load errors and zero reported violations. The audit-script update pulled
+from WCAG now filters colour-contrast findings from default-motion results;
+contrast is included only in reduced-motion checks. This coverage differs from
+the preceding reports, so the change in totals must not be claimed as proof
+that all preceding contrast findings were fixed or that full WCAG conformance
+has been established. See `a11y/2026-09-10-main-navigation-styling.md` and its JSON.
+
+Codex inspected the homepage at 320, 375, 720, 768 and 1440px without horizontal
+overflow; the 720 × 450 check is the CSS viewport equivalent of 200% zoom, not
+a manual browser-zoom session. Search exposes its named combobox and popular
+results, uses the matching panel corners and closes with Escape. The hero
+primary action shows a 3px white keyboard-focus outline. At 1600px the
+consultant portrait and navigation alignment, balanced contact-box padding,
+centred reviews and About-first order are preserved. Manual VoiceOver/Safari
+testing remains outstanding. Implementation scope is documented in
+`main-navigation-styling-2026-09-10.md`.

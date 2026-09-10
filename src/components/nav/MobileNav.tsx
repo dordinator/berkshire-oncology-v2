@@ -246,7 +246,8 @@ export default function MobileNav({
               </Link>
               <a
                 href={`tel:${site.contact.phone.replace(/\s+/g, "")}`}
-                className="mt-2 flex min-h-[48px] items-center justify-center rounded-full border border-black/[0.08] px-4 text-[15px] text-ink transition-colors hover:bg-ink/[0.03]"
+                data-cta-outline="ink"
+                className="mt-2 flex min-h-[48px] items-center justify-center rounded-full px-[calc(1rem-1px)] text-[15px] text-ink transition-colors hover:bg-ink/[0.03]"
               >
                 Call {site.contact.phone}
               </a>

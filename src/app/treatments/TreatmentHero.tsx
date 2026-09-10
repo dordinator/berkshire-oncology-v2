@@ -88,7 +88,7 @@ export default function TreatmentHero() {
           </div>
 
           <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:h-[360px] lg:h-[400px] xl:h-auto xl:min-h-[clamp(580px,70svh,720px)]">
-            <div className="absolute inset-y-0 -left-6 right-[calc(50%-50vw)] overflow-hidden rounded-l-[1.5rem] sm:rounded-l-[2.25rem] md:-left-10 xl:hidden">
+            <div className="absolute inset-y-0 -left-6 right-[calc(50%-50vw)] overflow-hidden rounded-l-panel sm:rounded-l-panel md:-left-10 xl:hidden">
               <Image
                 src="/home/hero.jpg"
                 alt="A consultant speaking with a patient during an appointment"

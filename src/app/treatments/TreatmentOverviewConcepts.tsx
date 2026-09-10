@@ -235,10 +235,10 @@ function MobileTreatmentOverview({
       <OverviewCopy />
 
       <div className="mt-12 grid gap-5 md:grid-cols-2 md:gap-6">
-        <article className="min-h-[285px] rounded-[2.5rem] bg-sage-mist">
+        <article className="min-h-[285px] rounded-panel bg-sage-mist">
           <FamilyCardContent group={medicine} isMedicine />
         </article>
-        <article className="min-h-[285px] rounded-[2.5rem] bg-accent-mist">
+        <article className="min-h-[285px] rounded-panel bg-accent-mist">
           <FamilyCardContent group={radiotherapy} isMedicine={false} />
         </article>
       </div>
@@ -249,7 +249,7 @@ function MobileTreatmentOverview({
         className="grid scroll-mt-24 gap-10 pt-24 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:items-start lg:gap-12"
       >
         <MedicineCopy />
-        <div className="rounded-[2rem] bg-sage-mist px-5 py-6 sm:rounded-[2.5rem] md:px-9 md:py-9">
+        <div className="rounded-panel bg-sage-mist px-5 py-6 sm:rounded-panel md:px-9 md:py-9">
           <MedicineRows
             treatments={medicine.treatments}
             activeIndex={activeIndex}
@@ -413,7 +413,7 @@ export default function TreatmentOverviewConcepts({
                     left: reduce ? "0%" : panelLeft,
                     right: reduce ? "0%" : panelRight,
                   }}
-                  className="absolute top-0 overflow-hidden rounded-[2.5rem] bg-sage-mist"
+                  className="absolute top-0 overflow-hidden rounded-panel bg-sage-mist"
                 >
                   <motion.div
                     style={{ opacity: reduce ? 1 : overviewPanelOpacity }}
@@ -466,7 +466,7 @@ export default function TreatmentOverviewConcepts({
                       ? ("" as unknown as boolean)
                       : undefined
                   }
-                  className={`absolute inset-x-0 bottom-0 top-[52%] overflow-hidden rounded-[2.5rem] bg-accent-mist ${
+                  className={`absolute inset-x-0 bottom-0 top-[52%] overflow-hidden rounded-panel bg-accent-mist ${
                     medicineRowsActive
                       ? "pointer-events-none"
                       : "pointer-events-auto"

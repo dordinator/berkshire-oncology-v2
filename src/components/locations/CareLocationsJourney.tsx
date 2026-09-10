@@ -202,8 +202,8 @@ export default function CareLocationsJourney({
         </div>
 
         <div>
-          <div className="relative min-h-[520px] rounded-[2.25rem] border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
-            <div className="absolute inset-0 overflow-hidden rounded-[calc(2.25rem-1px)] bg-canvas">
+          <div className="relative min-h-[520px] rounded-panel border border-ink/10 shadow-[0_28px_75px_-48px_rgba(6,28,70,0.38)] lg:min-h-[clamp(480px,62svh,620px)]">
+            <div className="absolute inset-0 overflow-hidden rounded-[calc(var(--radius-panel)-1px)] bg-canvas">
               <JourneyMapCanvas
                 stops={stops}
                 active={activeLocation}

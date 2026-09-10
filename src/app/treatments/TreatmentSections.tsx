@@ -232,7 +232,7 @@ function AccordionList({
     <div
       className={
         panel
-          ? "rounded-[2rem] border border-ink/10 bg-white px-6 shadow-[0_30px_80px_-38px_rgba(6,28,70,0.32)] md:px-9"
+          ? "rounded-panel border border-ink/10 bg-white px-6 shadow-[0_30px_80px_-38px_rgba(6,28,70,0.32)] md:px-9"
           : "border-t border-ink/15"
       }
     >
@@ -300,9 +300,9 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
         <figure className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[520px]">
           <div
             aria-hidden
-            className="absolute bottom-0 left-0 top-16 w-[58%] rounded-[2.5rem] bg-accent-glow/55"
+            className="absolute bottom-0 left-0 top-16 w-[58%] rounded-panel bg-accent-glow/55"
           />
-          <div className="absolute right-0 top-0 h-[92%] w-[92%] overflow-hidden rounded-[2.5rem] border border-white/50 bg-white shadow-[0_35px_90px_-42px_rgba(6,28,70,0.35)]">
+          <div className="absolute right-0 top-0 h-[92%] w-[92%] overflow-hidden rounded-panel border border-white/50 bg-white shadow-[0_35px_90px_-42px_rgba(6,28,70,0.35)]">
             <Image
               src="/treatments/radiotherapy-conversation.jpg"
               alt="A therapeutic radiographer speaking with a patient before radiotherapy"
@@ -332,7 +332,7 @@ function RadiotherapySection({ group }: { group: TreatmentGroupData }) {
 
       <div className="container-wide hidden min-h-screen items-center pb-8 pt-28 lg:flex">
         <div className="grid h-[min(620px,calc(100svh-10rem))] min-h-[420px] w-full items-center gap-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:gap-24">
-          <figure className="relative h-[min(560px,100%)] overflow-hidden rounded-[2.5rem] bg-accent-glow/55 shadow-[0_35px_90px_-42px_rgba(6,28,70,0.34)]">
+          <figure className="relative h-[min(560px,100%)] overflow-hidden rounded-panel bg-accent-glow/55 shadow-[0_35px_90px_-42px_rgba(6,28,70,0.34)]">
             <Image
               src="/treatments/radiotherapy-conversation.jpg"
               alt="A therapeutic radiographer speaking with a patient before radiotherapy"
@@ -434,7 +434,7 @@ export default function TreatmentSections({
           <div className="container-wide">
             <div
               data-treatment-route-bar
-              className="grid items-center gap-4 rounded-[1.5rem] border border-white/70 bg-accent-mist px-5 py-5 shadow-[0_24px_70px_-45px_rgba(6,28,70,0.45)] backdrop-blur-md sm:px-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-8 md:gap-y-3 md:px-8 lg:mx-4 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:gap-10 xl:px-12"
+              className="grid items-center gap-4 rounded-panel border border-white/70 bg-accent-mist px-5 py-5 shadow-[0_24px_70px_-45px_rgba(6,28,70,0.45)] backdrop-blur-md sm:px-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-8 md:gap-y-3 md:px-8 lg:mx-4 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:gap-10 xl:px-12"
             >
               <p className="type-compact-title text-ink md:text-2xl">
                 Find information by cancer type

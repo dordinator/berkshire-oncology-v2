@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { site } from "@/content/site";
+import styles from "./HomeHero.module.css";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The home hero: a full-height photograph, the practice's line, and two ways
@@ -92,12 +93,13 @@ export default function HomeHero() {
             <Button
               href="/contact#consultation"
               variant="onPhoto"
+              className={`${styles.button} ${styles.primary}`}
             >
               <span data-copy-key="hero.action.primary">
                 Book an appointment
               </span>
             </Button>
-            <Button href={`tel:${tel}`} variant="onPhotoGhost" arrow={false}>
+            <Button href={`tel:${tel}`} variant="onPhotoGhost" arrow={false} className={`${styles.button} ${styles.secondary}`}>
               {/* Button puts children in a single span, so the icon and label
                   need their own flex row to sit on the same baseline. */}
               <span className="inline-flex items-center gap-2.5">

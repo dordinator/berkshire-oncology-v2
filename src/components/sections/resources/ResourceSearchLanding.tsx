@@ -226,7 +226,7 @@ function FeatureResourceCard({
       href={result.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex min-h-[390px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-ink/[0.07] bg-canvas-warm p-5 text-ink shadow-[0_24px_70px_-35px_rgba(6,28,70,0.3)] transition-transform duration-500 hover:-translate-y-1 sm:min-h-[420px] sm:rounded-[2rem] sm:p-7 md:min-h-[430px] lg:p-8 xl:min-h-[450px]"
+      className="group relative flex min-h-[390px] w-full flex-col overflow-hidden rounded-panel border border-ink/[0.07] bg-canvas-warm p-5 text-ink shadow-[0_24px_70px_-35px_rgba(6,28,70,0.3)] transition-transform duration-500 hover:-translate-y-1 sm:min-h-[420px] sm:rounded-panel sm:p-7 md:min-h-[430px] lg:p-8 xl:min-h-[450px]"
     >
       <span className="flex items-start justify-between gap-5">
         <span className="type-label text-ink-muted">
@@ -337,7 +337,7 @@ function CompactResourceRow({
       href={result.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group grid min-h-[138px] w-full grid-cols-[7.5rem_minmax(0,1fr)_2.75rem] items-center gap-5 rounded-[1.5rem] border border-ink/[0.07] bg-canvas-warm p-5 text-ink shadow-[0_18px_55px_-36px_rgba(6,28,70,0.3)] transition duration-300 hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-[0_22px_60px_-34px_rgba(6,28,70,0.36)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      className="group grid min-h-[138px] w-full grid-cols-[7.5rem_minmax(0,1fr)_2.75rem] items-center gap-5 rounded-panel border border-ink/[0.07] bg-canvas-warm p-5 text-ink shadow-[0_18px_55px_-36px_rgba(6,28,70,0.3)] transition duration-300 hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-[0_22px_60px_-34px_rgba(6,28,70,0.36)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
     >
       <span className="relative flex h-20 w-full items-center justify-center overflow-hidden">
         <span className="type-label absolute left-0 top-0 text-ink-muted">
@@ -427,7 +427,7 @@ export default function ResourceSearchLanding() {
             support and the hospitals where our consultants provide care.
           </p>
 
-          <div className="mx-auto mt-8 w-full max-w-[860px] overflow-hidden rounded-[1.75rem] border border-ink/[0.08] bg-white text-left shadow-[0_2px_8px_rgba(6,28,70,0.05),0_28px_75px_-38px_rgba(6,28,70,0.36)] sm:mt-10 sm:rounded-[2rem]">
+          <div className="mx-auto mt-8 w-full max-w-[860px] overflow-hidden rounded-panel border border-ink/[0.08] bg-white text-left shadow-[0_2px_8px_rgba(6,28,70,0.05),0_28px_75px_-38px_rgba(6,28,70,0.36)] sm:mt-10 sm:rounded-panel">
             <form
               role="search"
               onSubmit={(event) => {
@@ -669,7 +669,7 @@ export default function ResourceSearchLanding() {
               </p>
             </div>
 
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-ink/[0.08] bg-white shadow-[0_22px_70px_-36px_rgba(6,28,70,0.32)] sm:rounded-[2rem]">
+            <div className="relative overflow-hidden rounded-panel border border-ink/[0.08] bg-white shadow-[0_22px_70px_-36px_rgba(6,28,70,0.32)] sm:rounded-panel">
               <RegionMap className="h-[270px] sm:h-[320px] lg:h-[350px]" />
               <div className="pointer-events-none absolute bottom-4 left-4 rounded-2xl bg-white/95 px-5 py-3.5 shadow-lg backdrop-blur">
                 <p className="font-display text-2xl leading-none text-ink">
@@ -713,7 +713,7 @@ export default function ResourceSearchLanding() {
               </p>
             </div>
 
-            <div className="overflow-hidden rounded-[1.75rem] border border-ink/[0.09] bg-white/80 px-5 shadow-[0_24px_80px_-48px_rgba(6,28,70,0.34)] backdrop-blur-sm sm:px-8 sm:rounded-[2rem]">
+            <div className="overflow-hidden rounded-panel border border-ink/[0.09] bg-white/80 px-5 shadow-[0_24px_80px_-48px_rgba(6,28,70,0.34)] backdrop-blur-sm sm:px-8 sm:rounded-panel">
               {resourceFaqs.map((faq) => (
                 <details
                   key={faq.question}

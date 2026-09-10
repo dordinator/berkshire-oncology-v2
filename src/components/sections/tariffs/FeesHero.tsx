@@ -13,6 +13,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { useCenterGap } from "./useCenterGap";
+import styles from "./FeesHero.module.css";
 
 /*
   The fees hero: the comp's composition set in the site's own type — display
@@ -229,9 +230,11 @@ export default function FeesHero() {
               </a>
               <Link
                 href="/contact#guidance"
-                className={`${pill} border border-ink/20 bg-white/60 text-ink backdrop-blur-sm focus-visible:border-ink/45 focus-visible:bg-white`}
+                data-cta-outline="ink"
+                className={`type-button group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full bg-white/60 px-[calc(1.5rem-1px)] py-[calc(.875rem-1px)] text-ink backdrop-blur-sm md:px-[calc(1rem-1px)] lg:px-[calc(1.75rem-1px)] ${styles.secondary}`}
               >
-                Request tariff details
+                <span aria-hidden className={styles.fill} />
+                <span className="relative">Request tariff details</span>
               </Link>
             </motion.div>
           </div>

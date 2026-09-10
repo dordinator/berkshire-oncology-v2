@@ -387,9 +387,9 @@ export default function ConsultantProfile({
             <div className="relative lg:py-5">
               <div
                 aria-hidden
-                className="absolute -right-4 top-0 hidden h-[42%] w-[36%] rounded-[2.5rem] bg-accent-mist lg:block"
+                className="absolute -right-4 top-0 hidden h-[42%] w-[36%] rounded-panel bg-accent-mist lg:block"
               />
-              <div className="relative rounded-[2.5rem] border border-ink/[0.08] bg-white/80 px-7 shadow-[0_34px_80px_-58px_rgba(6,28,70,0.4)] sm:px-9 md:px-11 lg:mr-5">
+              <div className="relative rounded-panel border border-ink/[0.08] bg-white/80 px-7 shadow-[0_34px_80px_-58px_rgba(6,28,70,0.4)] sm:px-9 md:px-11 lg:mr-5">
                 <div className="border-t border-ink/[0.14]">
                   {leadershipParagraphs.length > 0 && (
                     <InformationDisclosure
@@ -426,7 +426,7 @@ export default function ConsultantProfile({
       <section
         id="contact"
         data-anchor-align="viewport"
-        className="consultant-contact-section consultant-section-rhythm scroll-mt-24 rounded-t-[3rem] bg-ink text-white md:rounded-t-[4.5rem] lg:flex lg:items-center"
+        className="consultant-contact-section consultant-section-rhythm scroll-mt-24 rounded-t-panel bg-ink text-white md:rounded-t-panel lg:flex lg:items-center"
       >
         <div className="container-wide grid gap-12 lg:grid-cols-[0.54fr_0.46fr] lg:items-center lg:gap-20 xl:gap-28">
           <div>
@@ -440,7 +440,7 @@ export default function ConsultantProfile({
               If you have a referral letter or recent results, you can share them when you contact us.
             </p>
           </div>
-          <div className="rounded-[2.5rem] border border-white/10 bg-paper-soft p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
+          <div className="rounded-panel border border-white/10 bg-paper-soft p-7 text-ink shadow-[0_35px_90px_-50px_rgba(0,0,0,0.65)] sm:p-9 md:p-11">
             <p className="type-supporting text-ink-muted">What would help now?</p>
             <Link
               href={consultantAppointmentHref(c.slug)}

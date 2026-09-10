@@ -249,10 +249,11 @@ export default function ProfessionalRoutes() {
                       />
                       <Link
                         href={r.href}
-                        className={`group mt-6 inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-colors ${
+                        data-cta-outline={r.feature ? "white" : "ink"}
+                        className={`group mt-6 inline-flex items-center gap-2 rounded-full px-[calc(1.5rem-1px)] py-[calc(.75rem-1px)] text-sm font-medium transition-colors ${
                           r.feature
-                            ? "border-white/40 text-white hover:border-white hover:bg-white/10"
-                            : "border-ink/15 text-ink hover:border-ink/40 hover:bg-ink/[0.03]"
+                            ? "text-white hover:bg-white/10"
+                            : "text-ink hover:bg-ink/[0.03]"
                         }`}
                       >
                         <span data-copy-key={`professionals.${r.icon}.action`}>

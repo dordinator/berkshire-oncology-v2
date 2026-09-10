@@ -31,6 +31,17 @@
 }
 
 :root {
+  /* Shared shape defaults; the local preview adjusts these independently. */
+  --radius-button: 15px;
+  --radius-panel: 20px;
+  --cta-border-width: 2px;
+  /* Agreed palette, initially scoped to the redesigned homepage chapters. */
+  --home-ink: #0e2f55;
+  --home-blue: #164c88;
+  --home-white: #ffffff;
+  --home-ice: #eef5fa;
+  --home-sage: #cbd3ce;
+  --home-mulberry: #843d57;
   --bg: #fafbfc;
   --fg: #061c46;
   --brand-ink: #061c46;
@@ -157,7 +168,7 @@ html.lenis body {
 /* Pill-shaped controls (the buttons, the CTA) carry their own focus-visible
    styles, so they're excluded here — an underline inside a filled pill reads as
    a mistake rather than as focus. */
-a:not([class*="rounded-full"]):focus-visible {
+a:not([class*="rounded-full"]):not(.site-button):not(.ink-cta):focus-visible {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
@@ -182,7 +193,7 @@ summary:focus-visible {
    darken their own border instead.
    Pills are excluded for the same reason links are: an underline inside a
    filled pill reads as a mistake. They define their own focus state. */
-button:not([class*="rounded-full"]):focus-visible {
+button:not([class*="rounded-full"]):not(.site-button):not(.ink-cta):focus-visible {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
@@ -198,7 +209,7 @@ button:not([class*="rounded-full"]):focus-visible {
    `currentColor` so it works on every variant without a list — the label colour
    already has to contrast with the pill it sits on, so the line inherits that
    contrast and clears SC 1.4.11 by construction. */
-:is(a, button)[class*="rounded-full"]:focus-visible {
+:is(a, button)[class*="rounded-full"]:not(.site-button):not(.ink-cta):focus-visible {
   box-shadow: inset 0 0 0 2px currentColor;
 }
 
@@ -232,6 +243,42 @@ a:focus-visible [data-brand-wordmark] {
 ::selection {
   background-color: #1a4d8f;
   color: #ffffff;
+}
+
+/* Actual controls follow the button setting; portrait circles, badges, map
+   markers and decorative shapes keep their existing geometry. Utility-based
+   panels use the panel setting through Tailwind's shared radius tokens. */
+:is(a, button, span).type-button,
+.ink-cta,
+a.rounded-full:not([class*="h-full"]):not([class*="overflow-hidden"]),
+button[class*="rounded-"] {
+  border-radius: var(--radius-button);
+}
+
+/* The label colour contrasts with the button face, not necessarily the page.
+   Keep this indicator inside the control. Low specificity lets the approved
+   hero and chapter buttons retain their context-specific outer focus rings. */
+:where(.site-button, .ink-cta):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -4px;
+}
+
+/* Explicit CTA opt-in: do not turn text links, cards or navigation into buttons.
+   Each call site compensates its padding for the stronger physical border,
+   preserving the existing outer dimensions. Keep light paint out from under
+   the border's antialiased outer edge. This is not a keyboard-focus outline. */
+[data-cta-outline],
+[data-cta-outline]:is(:hover, :focus-visible) {
+  border: var(--cta-border-width) solid var(--cta-border-color, var(--brand-ink));
+  border-radius: var(--radius-button);
+  background-clip: padding-box;
+}
+[data-cta-outline="white"] { --cta-border-color: #ffffff; }
+[data-cta-outline="sage-hover"]:hover { --cta-border-color: var(--brand-sage); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-cta::before,
+  .ink-cta:focus-visible::before { transition: none; }
 }
 
 /* Custom thin scrollbar */
@@ -347,24 +394,25 @@ a:focus-visible [data-brand-wordmark] {
      full interaction: an accent-blue fill wipes in from the left while a real
      two-pixel navy border appears without changing the control's dimensions. */
   .ink-cta {
-    @apply relative isolate overflow-hidden border-2 border-transparent bg-ink text-white transition-colors duration-300 hover:border-ink focus-visible:border-ink;
+    @apply relative isolate overflow-hidden border-2 border-ink bg-ink text-white transition-colors duration-300 hover:border-ink focus-visible:border-ink;
   }
   .ink-cta::before {
     content: "";
     position: absolute;
-    inset: 0;
+    /* Same outer-box geometry as the shared Button fill: no inner crescents. */
+    inset: -2px;
     z-index: -1;
     background: #1a4d8f;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    border-radius: inherit;
+    transform: translateX(-101%);
+    transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
   }
   .ink-cta:hover::before,
   .ink-cta:focus-visible::before {
-    transform: scaleX(1);
+    transform: translateX(0);
   }
   .ink-cta:focus-visible::before {
-    transition-duration: 150ms;
+    transition-duration: 500ms;
   }
   /* One consultant-profile route uses a navy circular arrow rather than a
      filled pill. It gets the same colour movement while the circle itself

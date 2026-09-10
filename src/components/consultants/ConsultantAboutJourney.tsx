@@ -16,7 +16,7 @@ export default function ConsultantAboutJourney({ chapters, title }: {
         <div className="type-section-lede mt-8 max-w-[37rem] space-y-5 text-ink-muted">{summary?.paragraphs.map(p => <p key={p}>{p}</p>)}</div>
         <p className="type-supporting mt-6 text-ink-muted">Berkshire profile sources checked 30 August 2026.</p>
       </div>
-      <div className="rounded-[2rem] bg-accent-mist px-6 py-3 md:px-9">
+      <div className="rounded-panel bg-accent-mist px-6 py-3 md:px-9">
         {details.map((chapter, index) => <details key={chapter.label} open={index === 0} className="group border-b border-ink/20 last:border-b-0">
           <summary className="type-card-title flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 py-6 marker:content-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink">
             {chapter.heading}<span aria-hidden="true" className="text-2xl font-normal group-open:rotate-45">+</span>

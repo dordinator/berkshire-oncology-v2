@@ -56,7 +56,8 @@ export default function Footer() {
             </p>
             <Link
               href="/contact"
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-ink transition-transform hover:scale-[1.03]"
+              data-cta-outline="ink"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-[calc(1.5rem-2px)] py-[calc(.75rem-2px)] text-sm font-medium text-ink transition-transform hover:scale-[1.03]"
             >
               Contact the practice
               <span aria-hidden>→</span>

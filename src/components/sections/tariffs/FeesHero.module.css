@@ -1,0 +1,18 @@
+/* Preserve the fees secondary's translucent white rest state and dimensions.
+   Its existing white focus surface now enters with the approved side fill. */
+.fill {
+  position: absolute;
+  inset: calc(0px - var(--cta-border-width));
+  z-index: -1;
+  border-radius: inherit;
+  background: white;
+  transform: translateX(-101%);
+  transition: transform 500ms cubic-bezier(.65, 0, .25, 1);
+  pointer-events: none;
+}
+.secondary:hover .fill,
+.secondary:focus-visible .fill { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fill { transition: none; }
+}
