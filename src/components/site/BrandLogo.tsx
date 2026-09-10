@@ -14,7 +14,13 @@ export default function BrandLogo({
   context?: "full" | "nav";
 }) {
   const main = tone === "light" ? "text-white" : "text-ink";
-  const sub = tone === "light" ? "text-white/55" : "text-ink-muted";
+  // ink-soft, not ink-muted. The navbar pill is 70% white, so whatever sits
+  // behind it tints the ground this sits on. On the five legal pages that is the
+  // navy title band, which lifts the effective background to ~#b4bbc8 and drops
+  // ink-muted to 3.69:1 — under SC 1.4.3's 4.5:1 for text this size (9.6px).
+  // ink-soft measures 6.8:1 on that ground and better on every lighter one.
+  // The light tone is unchanged: white/55 on ink is 5.9:1 and already passes.
+  const sub = tone === "light" ? "text-white/55" : "text-ink-soft";
   // In the navbar the sub-wordmark shows only below xl, where the drawer is in
   // use and the row is otherwise empty. From xl up the eight sections need that
   // ~115px: the pill is capped at 1400px, so at 2xl the bar was filling its full

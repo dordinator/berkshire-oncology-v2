@@ -1,14 +1,25 @@
 import type { LegalDoc } from "../types";
 
-// Verbatim reproduction of the old /privacy-notice.htm (patient-facing GDPR
-// notice, last updated 18 May 2018). The data-controller roster below is the
-// May-2018 list and is retained as-is for faithfulness; it predates some current
-// consultants and includes former ones. Light fixes only: "we am" → "we are";
-// a stray bracket removed. FLAGGED FOR THE PRACTICE'S LEGAL REVIEW before go-live.
+// Body text is the old /privacy-notice.htm reproduced verbatim, with light
+// fixes only: "we am" → "we are"; a stray bracket removed.
+//
+// The data-controller roster is NOT verbatim. The May-2018 list named Dr Richard
+// Brown, Dr James Gildersleve and Dr Elias Pintus - none of whom appear in
+// consultants.ts - and omitted Dr Gelareh Eslamian and Dr Ayman Madi, who do. It
+// also read "Dr Jocelyn Adams" where the rest of the site reads "Dr Joss Adams"
+// (same GMC number, 4259509). Since this table tells a patient who controls
+// their data and who to address a subject access request to, a stale list is an
+// Art 13 accuracy problem, so it has been rebuilt from consultants.ts and sorted
+// to match.
+//
+// PROPOSED CORRECTION - NOT YET APPROVED. Both the roster and the new "last
+// updated" date need the practice's sign-off before this is published: only the
+// partnership can confirm who its current joint controllers are, and whether
+// Trish Evans is still Practice Manager. FLAGGED FOR THE PRACTICE'S LEGAL REVIEW.
 export const privacyNotice: LegalDoc = {
   slug: "privacy",
   title: "Privacy Notice",
-  updated: "18 May 2018",
+  updated: "9 September 2026",
   description:
     "How Berkshire Oncology Partnership collects, uses and protects patients' personal information.",
   html: `
@@ -19,17 +30,16 @@ export const privacyNotice: LegalDoc = {
 <table>
 <thead><tr><th>Clinician</th><th>Registration</th></tr></thead>
 <tbody>
-<tr><td>Dr Richard Brown</td><td>GMC Number 3424704</td></tr>
-<tr><td>Dr James Gildersleve</td><td>GMC Number 2584856</td></tr>
-<tr><td>Dr Alice Freebairn</td><td>GMC Number 3684771</td></tr>
-<tr><td>Dr Paul Rogers</td><td>GMC Number 3310731</td></tr>
-<tr><td>Dr Jocelyn Adams</td><td>GMC Number 4259509</td></tr>
-<tr><td>Dr Helen O'Donnell</td><td>GMC Number 4542566</td></tr>
+<tr><td>Dr Joss Adams</td><td>GMC Number 4259509</td></tr>
 <tr><td>Dr Madhumita Bhattacharyya</td><td>GMC Number 4521657</td></tr>
 <tr><td>Dr Nicola Dallas</td><td>GMC Number 4502331</td></tr>
 <tr><td>Dr Ruth Davis</td><td>GMC Number 4529136</td></tr>
-<tr><td>Dr Elias Pintus</td><td>GMC Number 7078735</td></tr>
+<tr><td>Dr Gelareh Eslamian</td><td>GMC Number 6043320</td></tr>
+<tr><td>Dr Alice Freebairn</td><td>GMC Number 3684771</td></tr>
 <tr><td>Dr Esme Hill</td><td>GMC Number 6025316</td></tr>
+<tr><td>Dr Ayman Madi</td><td>GMC Number 6034857</td></tr>
+<tr><td>Dr Helen O'Donnell</td><td>GMC Number 4542566</td></tr>
+<tr><td>Dr Paul Rogers</td><td>GMC Number 3310731</td></tr>
 <tr><td>Trish Evans</td><td>Practice Manager</td></tr>
 </tbody>
 </table>
