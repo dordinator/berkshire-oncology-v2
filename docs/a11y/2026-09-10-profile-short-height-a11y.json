@@ -1,0 +1,422 @@
+[
+  {
+    "slug": "joss-adams",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "joss-adams",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "joss-adams",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "madhumita-bhattacharyya",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "madhumita-bhattacharyya",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "madhumita-bhattacharyya",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "nicola-dallas",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "nicola-dallas",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "nicola-dallas",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "ruth-davis",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "ruth-davis",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "ruth-davis",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "gelareh-eslamian",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "gelareh-eslamian",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "gelareh-eslamian",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "alice-freebairn",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "alice-freebairn",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "alice-freebairn",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "esme-hill",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "esme-hill",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "esme-hill",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "ayman-madi",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "ayman-madi",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "ayman-madi",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "helen-odonnell",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "helen-odonnell",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "helen-odonnell",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "paul-rogers",
+    "width": 1100,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "paul-rogers",
+    "width": 1280,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "paul-rogers",
+    "width": 1440,
+    "height": 650,
+    "motion": "no-preference",
+    "violations": []
+  },
+  {
+    "slug": "joss-adams",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "joss-adams",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "joss-adams",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "madhumita-bhattacharyya",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "madhumita-bhattacharyya",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "madhumita-bhattacharyya",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "nicola-dallas",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "nicola-dallas",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "nicola-dallas",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "ruth-davis",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "ruth-davis",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "ruth-davis",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "gelareh-eslamian",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "gelareh-eslamian",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "gelareh-eslamian",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "alice-freebairn",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "alice-freebairn",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "alice-freebairn",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "esme-hill",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "esme-hill",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "esme-hill",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "ayman-madi",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "ayman-madi",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "ayman-madi",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "helen-odonnell",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "helen-odonnell",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "helen-odonnell",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "paul-rogers",
+    "width": 1100,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "paul-rogers",
+    "width": 1280,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  },
+  {
+    "slug": "paul-rogers",
+    "width": 1440,
+    "height": 650,
+    "motion": "reduce",
+    "violations": []
+  }
+]

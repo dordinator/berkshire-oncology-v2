@@ -541,3 +541,55 @@ Build, lint and TypeScript pass. The required full accessibility sweep completed
 method includes colour-contrast findings only in reduced-motion results;
 default-motion contrast is excluded. This is automated evidence within that
 scope, not proof of full WCAG conformance.
+
+
+### Consultant overview viewport fit — 10 September 2026
+
+Codex made the three-column consultant overview respond to available screen
+height as well as width. Previously, width-based typography and spacing,
+the portrait’s 36rem minimum height and the contact panel’s top margin could
+push the section navigation below the first viewport. Desktop spacing and
+type now have height-aware limits. The photo, identity and contact panel
+share a top edge; identity and contact share a bottom edge, and the portrait
+ends level with the navigation. The contact content retains equal space
+above and below, and reviews and button contents stay centred.
+
+The layout uses a viewport-based minimum height, not a fixed height or hidden
+overflow. At narrow widths, very short heights or enlarged text, content can
+grow and scroll. Text remains at least 1rem in the desktop body and controls.
+The short-window refinement reduces gaps when the viewport is at most 700px
+high rather than clipping the longer expertise lists.
+
+Geometry checks covered every consultant at 18 sizes: 180 configurations.
+All 120 desktop configurations fit within one viewport, with matching column
+edges, no header overlap and no horizontal overflow. Those desktop sizes are
+1100 × 650, 1100 × 700, 1280 × 650, 1280 × 720, 1366 × 768, 1440 × 650,
+1440 × 900, 1483 × 1009, 1536 × 864, 1920 × 1080, 2560 × 900 and 2560 × 1440.
+The additional checks at 320 × 780, 375 × 812, 720 × 450, 768 × 1024,
+1024 × 768 and 1100 × 600 allow vertical growth and found no horizontal
+overflow or clipped content. Measurements are recorded in
+`a11y/2026-09-10-profile-overview-geometry.json`.
+
+In-app visual checks included Dr Bhattacharyya at 1440 × 900 and 1366 × 768,
+Dr Dallas at 1100 × 700 and Dr Hill at 1440 × 650. Keyboard Enter on Treatments
+still focuses the correct section with its heading below the fixed header.
+At 320px the accessibility tree exposes the consultant, all expertise links,
+both booking controls, review status and every section link. A separate
+1440 × 900 check with 200% root text size and then the WCAG text-spacing
+overrides confirmed that the overview grows without horizontal overflow.
+The 720 × 450 geometry check is the CSS viewport equivalent of 200% browser
+zoom, not a manual browser-zoom session. Manual VoiceOver/Safari testing
+remains outstanding.
+
+Build, lint and TypeScript pass. The full 310-configuration sweep reports zero
+violations (`a11y/2026-09-10-profile-viewport-fit.md`). After the short-window
+spacing refinement, the final build also passed all 100 consultant
+configurations (`a11y/2026-09-10-profile-viewport-fit-final.md`). The standard
+sweep includes contrast findings only for reduced-motion checks.
+
+An additional 60 checks covered every final consultant overview at 1100, 1280
+and 1440px wide × 650px high in both motion settings. These checks include
+colour contrast in both modes and await the finite opening text animations
+before measuring. All passed; results are in
+`a11y/2026-09-10-profile-short-height-a11y.json`. This is scoped automated
+evidence, not a claim of full WCAG conformance.
