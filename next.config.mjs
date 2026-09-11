@@ -3,6 +3,7 @@
 // Slugs kept in sync with src/content. Used to 301-redirect every old .htm URL
 // to its new route so existing search rankings and inbound links are preserved.
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 const cancerRoutes = JSON.parse(readFileSync(new URL("./src/content/cancerRoutes.json", import.meta.url), "utf8"));
 
 const consultants = [
@@ -20,11 +21,17 @@ const consultants = [
 
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: fileURLToPath(new URL(".", import.meta.url)),
   // Two dev servers in the same checkout will otherwise both compile into .next
   // and tear each other's chunks out from underneath ("Cannot find module
   // ./vendor-chunks/..."). Setting NEXT_DIST_DIR gives a second server its own
   // build directory. Unset in normal use, so .next stays the default.
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
+  async headers() {
+    return process.env.SITE_NOINDEX === "true"
+      ? [{ source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] }]
+      : [];
+  },
   async redirects() {
     return [
       { source: "/index.htm", destination: "/", permanent: true },

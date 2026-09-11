@@ -133,9 +133,10 @@ function toItem(
   };
 }
 
-export default function SpecialitiesPage({ searchParams = {} }: {
-  searchParams?: { type?: string };
+export default async function SpecialitiesPage({ searchParams: pendingSearchParams }: {
+  searchParams?: Promise<{ type?: string }>;
 }) {
+  const searchParams = (await pendingSearchParams) ?? {};
   const items = [...cancerGroups.map((group) => toItem(group)), toItem(unlistedGroup, false)];
   const missingTreatmentGuides = items.filter(
     (item) => item.treatmentBasis !== "cancer-specific",

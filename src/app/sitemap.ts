@@ -38,6 +38,7 @@ function priorityFor(path: string): number {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (process.env.SITE_NOINDEX === "true") return [];
   const base = site.url;
 
   const consultantPaths = getProfiledConsultantSlugs().map(

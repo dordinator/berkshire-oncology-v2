@@ -11,12 +11,12 @@ export function generateStaticParams() {
   return therapies.map((therapy) => ({ slug: therapy.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const therapy = getTherapy(params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const therapy = getTherapy((await params).slug);
   if (!therapy) return {};
 
   return pageMeta({
@@ -26,12 +26,12 @@ export function generateMetadata({
   });
 }
 
-export default function TreatmentPage({
+export default async function TreatmentPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const therapy = getTherapy(params.slug);
+  const therapy = getTherapy((await params).slug);
   if (!therapy) notFound();
 
   return (

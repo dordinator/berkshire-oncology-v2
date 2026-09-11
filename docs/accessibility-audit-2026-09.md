@@ -834,3 +834,30 @@ This covers the sweep's standard 320–1440px widths; the wider desktop layout
 received the separate visual, geometry and keyboard checks above. The standard
 default-motion contrast filter still applies. This is automated evidence, not
 a claim of full WCAG conformance.
+
+## 2026-09-11 — Hosted proposal and patched framework
+
+Codex configured the BOP proposal on Vercel with noindex headers and matching
+metadata, an empty sitemap and `SITE_NOINDEX=true` in both hosted environments.
+The final framework is Next.js 15.5.24, with the matching lint configuration;
+four page templates were adapted to await route/search parameters. No approved
+visible copy or design was changed.
+
+The final production build, lint and type checks passed. The required full
+accessibility sweep passed 31 routes at five widths and both motion settings
+(310 configurations): `a11y/2026-09-11-proposal-final.md` and JSON. Explicit
+route enumeration preserved consultant and treatment coverage despite the demo's
+empty sitemap. The earlier `proposal-demo` report predates the framework update.
+
+The final navigation audit passed eight desktop menus, ten mobile links, 103
+redirects, 60 documents/states and 320 destinations without issues or runtime
+errors; see `a11y/2026-09-11-proposal-navigation/link-audit.json`. Public response
+checks confirmed noindex headers across 37 URLs and matching HTML metadata.
+The hosted homepage and 1728px Ruth Davis profile were visually inspected,
+including the portrait, appointment actions and section navigation. No horizontal
+overflow was observed on that profile. Temporary viewport overrides were reset.
+
+These are automated and browser-inspection checks, not a new manual screen-reader
+or browser zoom audit. The standard sweep still filters default-motion contrast
+findings. Existing autoplay-control limitations remain. Deployment instructions
+and detailed verification are in `proposal-deployment.md`.

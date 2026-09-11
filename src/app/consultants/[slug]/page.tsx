@@ -28,12 +28,12 @@ export function generateStaticParams() {
   return getProfiledConsultantSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const c = getConsultantBySlug(params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const c = getConsultantBySlug((await params).slug);
   if (!c) return {};
   const specs = getSpecialitiesForConsultant(c.slug).map((s) => s.speciality.name);
   const title = c.seoTitle ?? `${c.name} — ${c.role}, Reading`;
@@ -221,12 +221,12 @@ function InformationDisclosure({
   );
 }
 
-export default function ConsultantProfile({
+export default async function ConsultantProfile({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const c = getConsultantBySlug(params.slug);
+  const c = getConsultantBySlug((await params).slug);
   if (!c) notFound();
 
   const treats = getSpecialitiesForConsultant(c.slug);

@@ -1,0 +1,228 @@
+{
+  "base": "https://bopconceptdemo.vercel.app",
+  "checkedAt": "2026-09-11T09:45:07.925Z",
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/accessibility",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants?role=medical",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants?view=treatments",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/alice-freebairn",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/ayman-madi",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/esme-hill",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/gelareh-eslamian",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/helen-odonnell",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/joss-adams",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/madhumita-bhattacharyya",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/nicola-dallas",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/paul-rogers",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/ruth-davis",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/consultants/tall/ruth-davis.jpg",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": false
+    },
+    {
+      "route": "/contact",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/cookies",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/locations",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/patients",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/privacy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/resources",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/robots.txt",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": false
+    },
+    {
+      "route": "/sitemap.xml",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": false
+    },
+    {
+      "route": "/specialities",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/specialities?type=breast",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/tariffs",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/terms",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/brachytherapy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/chemotherapy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/hormone-therapy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/immunotherapy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/radioisotope-therapy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/radiotherapy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/treatments/targeted-therapies",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    },
+    {
+      "route": "/website-privacy",
+      "status": 200,
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "htmlMetadataChecked": true
+    }
+  ]
+}

@@ -21,9 +21,10 @@ export const metadata: Metadata = pageMeta({
   path: "/consultants",
 });
 
-export default function ConsultantsPage({ searchParams = {} }: {
-  searchParams?: { role?: string; view?: string; treatment?: string; sort?: string };
+export default async function ConsultantsPage({ searchParams: pendingSearchParams }: {
+  searchParams?: Promise<{ role?: string; view?: string; treatment?: string; sort?: string }>;
 }) {
+  const searchParams = (await pendingSearchParams) ?? {};
   const role = ["clinical", "medical"].includes(searchParams.role ?? "") ? searchParams.role : "";
   const treatment = therapies.find((therapy) => therapy.slug === searchParams.treatment);
   const showTreatments = searchParams.view === "treatments" || Boolean(treatment);

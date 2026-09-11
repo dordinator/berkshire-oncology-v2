@@ -61,7 +61,9 @@ export const metadata: Metadata = {
     title: `${site.name} — ${site.strapline}`,
     description: "Private cancer care in Reading, Berkshire.",
   },
-  robots: { index: true, follow: true },
+  robots: process.env.SITE_NOINDEX === "true"
+    ? { index: false, follow: false, noarchive: true }
+    : { index: true, follow: true },
 };
 
 export default function RootLayout({

@@ -28,3 +28,5 @@ next-env.d.ts
 # Alternate build dirs (NEXT_DIST_DIR) so concurrent dev servers in this one
 # checkout don't tear each other's chunks out from under them.
 .next-*
+.vercel
+.env*
